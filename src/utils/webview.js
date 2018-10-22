@@ -5,6 +5,9 @@ export function openWebview(config, style = {}, extras = {}) {
   if (plus === undefined) {
     return;
   }
+
+  extras.webviewPreload = true;
+
   let wv = plus.webview.create(
     config.url,
     config.id,
@@ -14,7 +17,7 @@ export function openWebview(config, style = {}, extras = {}) {
         titleText: config.title, // 导航栏标题
         titleColor: "#666", // 文字颜色
         // type: "transparent", // 透明渐变样式
-        autoBackButton: true, // 自动绘制返回箭头
+        autoBackButton: config.autoBackButton ? config.autoBackButton : true, // 自动绘制返回箭头
         splitLine: {
           // 底部分割线
           color: "#cccccc"

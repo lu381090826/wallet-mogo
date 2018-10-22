@@ -51,11 +51,6 @@
         document.addEventListener("plusready", plusReady, false);
       }
     },
-    watch:{
-      active(){
-        console.log("active:"+this.active)
-      }
-    }
   };
 </script>
 

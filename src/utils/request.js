@@ -53,6 +53,8 @@ export async function request(url, data) {
     } else if (res.status !== 200) {
       Toast('系统异常')
     }
-    return res.data.data
+    if (res.data!=null && res.data.data)
+      return res.data.data;
+    else return res;
   })
 }

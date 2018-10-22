@@ -18,6 +18,7 @@ const TGCApiUrl = {
   donationCreateOrder: '/donation/order/createOrder',
   totalTGBalance: '/wallet/api/totalTgBalance',
   getProgitInfo: '/profit/api/getProgitInfo',
+  getShareUrl: "/common/api/getShareUrl",
 };
 
 export default TGCApiUrl;

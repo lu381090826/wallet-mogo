@@ -69,8 +69,6 @@ function b() {
 
 // 解构
 let s = { ...b() };
-console.log("解构测试");
-
 export default {
   components: {
     Swiper,
