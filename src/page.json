@@ -1,10 +1,5 @@
 {
   "index|plusReady": "./src/main.js",
-  "goods.detail": "./src/page/goods/detail.js",
-  "goods.cart|plusReady": "./src/page/goods/cart.js",
-  "mui.index|mui|plusReady": "./src/page/mui/index.js",
-  "user.index": "./src/page/user/index.js",
-  "vux.index|plusReady": "./src/page/vux/index.js",
   "wallet.send": "./src/page/wallet/send.js",
   "wallet.scan": "./src/page/wallet/scan.js",
   "wallet.login": "./src/page/wallet/login.js",
