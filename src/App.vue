@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Palaces></Palaces>
+    <div v-show="active===0">
+      <Palaces></Palaces>
+    </div>
+    <div v-show="active===1">
+      <MyselfConfig></MyselfConfig>
+    </div>
     <van-tabbar v-model="active">
       <van-tabbar-item icon="home">首页</van-tabbar-item>
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
@@ -9,6 +14,7 @@
 </template>
 <script>
   import Palaces from './components/Palaces'
+  import MyselfConfig from './components/MyselfConfig'
   import {
     Tabbar,
     TabbarItem
@@ -26,25 +32,28 @@
       [Tabbar.name]: Tabbar,
       [TabbarItem.name]: TabbarItem,
       Palaces,
+      MyselfConfig,
     },
     data() {
       return {
         active: 0,
-        activeName: 1,
       };
     },
     created() {
       function plusReady() {
-
         //检查版本
         nativeFun.checkUpdate(false);
-
       }
 
       if (window.plus) {
         plusReady();
       } else {
         document.addEventListener("plusready", plusReady, false);
+      }
+    },
+    watch:{
+      active(){
+        console.log("active:"+this.active)
       }
     }
   };

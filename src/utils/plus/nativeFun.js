@@ -1,7 +1,10 @@
 import MathUtil from "../MathUtil";
+import Vue from "vue";
 import {request} from "../request";
 import TGCApiUrl from "../constants/TGCApiUrl";
+import { Toast } from 'vant';
 
+Vue.use(Toast);
 let NativeFun = {
   checkUpdate(showVersion) {
     let version = plus.runtime.version;
@@ -14,7 +17,7 @@ let NativeFun = {
         });
       } else {
         if (showVersion)
-          plus.nativeUI.toast('当前已经是最新版本' + version);
+          Toast('当前已经是最新版本' + version);
       }
     });
   },
