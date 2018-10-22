@@ -66,53 +66,16 @@
       return {}
     },
     created() {
-      //预加载窗口
-      preLoad([{
-        url: "./wallet.send.html",
-        id: "wallet.send",
-        title: "转账",
-        style: {
-          titleNView: {
-            backgroundColor: "#f7f7f7", // 导航栏背景色
-            titleText: "转账", // 导航栏标题
-            titleColor: "#666", // 文字颜色
-            // type: "transparent", // 透明渐变样式
-            autoBackButton: true, // 自动绘制返回箭头
-            splitLine: {
-              // 底部分割线
-              color: "#cccccc"
-            }
-          },
-          popGesture: "none"
-        }
-      }, {
-        url: "./wallet.scan.html",
-        id:
-          "wallet.scan",
-        title:
-          "扫一扫",
-        style:
-          {
-            titleNView: {
-              backgroundColor: "#f7f7f7", // 导航栏背景色
-              titleText:
-                "扫一扫", // 导航栏标题
-              titleColor:
-                "#666", // 文字颜色
-              // type: "transparent", // 透明渐变样式
-              autoBackButton:
-                true, // 自动绘制返回箭头
-              splitLine:
-                {
-                  // 底部分割线
-                  color: "#cccccc"
-                }
-            }
-            ,
-            popGesture: "none"
-          }
+      let t = this;
+      function plusReady() {
+        t.perLoad();
       }
-      ])
+
+      if (window.plus) {
+        plusReady();
+      } else {
+        document.addEventListener("plusready", plusReady, false);
+      }
     },
     methods: {
       send() {
@@ -120,6 +83,49 @@
       },
       scan() {
         showWebviewById("wallet.scan");
+      },
+      perLoad() {
+        //预加载窗口
+        preLoad([{
+          url: "./wallet.send.html",
+          id: "wallet.send",
+          title: "转账",
+          style: {
+            titleNView: {
+              backgroundColor: "#f7f7f7", // 导航栏背景色
+              titleText: "转账", // 导航栏标题
+              titleColor: "#666", // 文字颜色
+              // type: "transparent", // 透明渐变样式
+              autoBackButton: true, // 自动绘制返回箭头
+              splitLine: {
+                // 底部分割线
+                color: "#cccccc"
+              }
+            },
+            popGesture: "none"
+          }
+        }, {
+          url: "./wallet.scan.html",
+          id:
+            "wallet.scan",
+          title:
+            "扫一扫",
+          style: {
+            titleNView: {
+              backgroundColor: "#000000", // 导航栏背景色
+              titleText: "扫一扫", // 导航栏标题
+              titleColor: "#ffffff", // 文字颜色
+              // type: "transparent", // 透明渐变样式
+              autoBackButton: true, // 自动绘制返回箭头
+              splitLine: {
+                // 底部分割线
+                color: "#000000"
+              }
+            },
+            popGesture: "none"
+          }
+        }
+        ])
       }
     }
   }

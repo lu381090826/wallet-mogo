@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <div id="bcid">
-    </div>
+  <div class="body">
+    <div id="bcid" :style="{height:height}"></div>
   </div>
 </template>
 <script>
@@ -16,33 +15,44 @@
   export default {
     data() {
       return {
-        scan: null,
         bcidShow: true,
         sendAmount: "",
         walletAddress: "",
-      };
+        height: document.documentElement.clientHeight + "px"
+      }
+        ;
     },
     created() {
-      this.startRecognize();
+      let t = this;
+
+      function plusReady() {
+        t.createBarcode();
+      }
+
+      if (window.plus !== undefined && window.plus) {
+        plusReady();
+      } else {
+        document.addEventListener("plusready", plusReady, false);
+      }
+
     },
     methods: {
+      // 扫码成功回调
       onmarked(type, result) {
-        let text = '未知: ';
-        switch (type) {
-          case plus.barcode.QR:
-            text = 'QR: ';
-            break;
-          case plus.barcode.EAN13:
-            text = 'EAN13: ';
-            break;
-          case plus.barcode.EAN8:
-            text = 'EAN8: ';
-            break;
-        }
+        console.log(result);
         scan.close();
-        print(result);
-        //跳转转账页面
-        this.gotoSend(result);
+      },
+      // 创建Barcode扫码控件
+      createBarcode() {
+        setTimeout(() => {
+          scan = new plus.barcode.Barcode('bcid', [plus.barcode.QR], {
+            top: "100px",
+            scanbarColor: "#069bff",
+            frameColor: "#0083ff",
+          });
+          scan.onmarked = this.onmarked;
+          scan.start()
+        }, 200)
       },
       gotoSend(walletAddress) {
         let t = this;
@@ -56,7 +66,7 @@
               backgroundColor: "#f7f7f7", // 导航栏背景色
               titleText: "转账", // 导航栏标题
               titleColor: "#666", // 文字颜色
-              // type: "transparent", // 透明渐变样式
+              type: "transparent", // 透明渐变样式
               autoBackButton: true, // 自动绘制返回箭头
               splitLine: {
                 // 底部分割线
@@ -73,19 +83,8 @@
         }]);
 
         showWebviewById("wallet.send");
-      },
-      startRecognize() {
-        setTimeout(() => {
-          scan = new plus.barcode.Barcode('bcid', [plus.barcode.QR]);
-          scan.onmarked = this.onmarked;
-          this.startScan()
-        }, 200)
-      },
-      startScan() {
-        scan.start();
-      },
+      }
     },
-    components: {},
     destroyed: function () {
       if (scan)
         scan.close()
@@ -94,11 +93,14 @@
 </script>
 
 <style scoped>
+  * {
+    -webkit-user-select: none;
+  }
+
   #bcid {
-    width: 96%;
-    height: 92%;
-    position: absolute;
     background: #000000;
-    margin-left: 2%;
+    width: 100%;
+    top: 0;
+    left: 0;
   }
 </style>

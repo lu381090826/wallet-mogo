@@ -10,7 +10,7 @@
     <x-button @click.native="demo01_index = 2">go to 2</x-button>
     <br/>
     <br/>
-   
+
   </div>
 </template>
 
@@ -70,7 +70,6 @@ function b() {
 // 解构
 let s = { ...b() };
 console.log("解构测试");
-console.log(s);
 
 export default {
   components: {
@@ -85,7 +84,6 @@ export default {
   },
   methods: {
     onSwiperItemIndexChange(index) {
-      console.log("demo item change", index);
     },
     demo01_onIndexChange(index) {
       this.demo01_index = index;

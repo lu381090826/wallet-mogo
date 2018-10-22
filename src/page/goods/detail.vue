@@ -61,7 +61,7 @@ import {
   SwipeItem,
   GoodsAction,
   GoodsActionBigBtn,
-  GoodsActionMiniBtn 
+  GoodsActionMiniBtn
 } from "vant";
 
 import { fire } from "../../utils/envent.js";
@@ -100,7 +100,6 @@ export default {
       plus.nativeUI.toast(
         `我收到的信息是:{"id":"${ws.id}","name":"${ws.name}"}`
       );
-      console.log(ws);
     }
     if (window.plus) {
       plusReady();

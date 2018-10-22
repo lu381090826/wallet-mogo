@@ -42,7 +42,10 @@
     },
     "Storage": {
       "description": "本地存储，访问应用本地存储数据"
-    }
+    },
+		"Barcode": {
+			"description": "二维码"
+		}
   },
   "plus": {
     "statusbar": {

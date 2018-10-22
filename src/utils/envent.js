@@ -5,7 +5,6 @@
  * @param {*} data
  */
 export const fire = function(webview, eventType, data) {
-  console.log(data);
   webview &&
     webview.evalJS(`
   document.dispatchEvent(new CustomEvent("${eventType}", {

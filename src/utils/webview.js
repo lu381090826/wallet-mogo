@@ -2,7 +2,10 @@
  * 打开一个webview窗口
  */
 export function openWebview(config, style = {}, extras = {}) {
-  var wv = plus.webview.create(
+  if (plus === undefined) {
+    return;
+  }
+  let wv = plus.webview.create(
     config.url,
     config.id,
     {
@@ -43,6 +46,9 @@ export function openWebview(config, style = {}, extras = {}) {
 
 // webview.open  打开得很快 但是不能传参
 export function openWebviewFast(url, id, title) {
+  if (plus === undefined) {
+    return;
+  }
   plus.nativeUI.showWaiting("加载中");
   plus.webview.open(
     url,
@@ -67,8 +73,12 @@ export function openWebviewFast(url, id, title) {
     }
   );
 }
+
 // 预加载页面 速度很快,但是不要加载超过10个
 export function preLoad(webviews = []) {
+  if (plus === undefined) {
+    return;
+  }
   webviews.map(webview => {
     const fullExtras = {
       webviewPreload: true,
@@ -104,5 +114,8 @@ export function preLoad(webviews = []) {
 }
 
 export function showWebviewById(id) {
+  if (plus === undefined) {
+    return;
+  }
   plus.webview.show(id, "slide-in-right", 200);
 }

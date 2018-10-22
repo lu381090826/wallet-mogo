@@ -74,7 +74,6 @@ var print = function (json, options) {
     json = json.replace(reg, ":");
   }
   json.split("\r\n").forEach(function (node, index) {
-    //console.log(node);
     var i = 0,
       indent = 0,
       padding = "";
@@ -96,5 +95,4 @@ var print = function (json, options) {
     formatted += padding + node + "\r\n";
     pad += indent;
   });
-  console.log(formatted);
 };

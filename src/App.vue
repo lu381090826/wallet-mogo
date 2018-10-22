@@ -32,6 +32,16 @@
         activeName: 1,
       };
     },
+    created() {
+      function plusReady() {
+      }
+
+      if (window.plus) {
+        plusReady();
+      } else {
+        document.addEventListener("plusready", plusReady, false);
+      }
+    }
   };
 </script>
 

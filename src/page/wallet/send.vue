@@ -38,15 +38,27 @@
       }
     },
     created() {
-      let ws = plus.webview.currentWebview();
-      if (ws.receiveAddress !== undefined) {
-        this.receiveAddress = ws.receiveAddress;
+      let t = this;
+      function plusReady() {
+        t.construct();
+      }
+
+      if (window.plus) {
+        plusReady();
+      } else {
+        document.addEventListener("plusready", plusReady, false);
       }
     },
     methods: {
       doNext() {
         this.popupVisible = !this.popupVisible;
-      }
+      },
+      construct() {
+        let ws = plus.webview.currentWebview();
+        if (ws.receiveAddress !== undefined) {
+          this.receiveAddress = ws.receiveAddress;
+        }
+      },
     },
     computed: {
       gasValue: {

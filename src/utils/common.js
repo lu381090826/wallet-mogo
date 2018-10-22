@@ -24,7 +24,7 @@ function plusReady() {
   plus.key.addEventListener(
     "backbutton",
     function () {
-      var ws = plus.webview.currentWebview();
+      let ws = plus.webview.currentWebview();
       if (ws.webviewPreload === true) {
         plus.webview.hide(ws, 'auto');
       } else {

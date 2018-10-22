@@ -37,7 +37,6 @@ export default {
   },
   created() {
     plus.key.removeEventListener("backbutton", function() {
-      console.log(5555);
     });
     plus.key.addEventListener(
       "backbutton",
@@ -64,7 +63,6 @@ export default {
       });
       goods.num++;
       plus.nativeUI.toast(`我是购物车页面,当前苹果数量为${goods.num}`);
-      console.log(event.detail);
     });
   },
   data() {
