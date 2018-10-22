@@ -28,14 +28,14 @@ export function openWebview(config, style = {}, extras = {}) {
     },
     extras
   );
-  var w = plus.nativeUI.showWaiting();
+  // var w = plus.nativeUI.showWaiting();
   // 监听窗口加载成功
   wv.addEventListener(
     "loaded",
     function () {
       wv.show("slide-in-right"); // 显示窗口
-      w.close();
-      w = null;
+      // w.close();
+      // w = null;
     },
     false
   );

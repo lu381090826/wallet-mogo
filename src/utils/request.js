@@ -9,6 +9,6 @@ export async function request (data) {
       // Authorization: "token"
     },
     ...data
-  }
+  };
   return await axios(conf)
 }
