@@ -19,6 +19,7 @@
     preLoad,
     showWebviewById
   } from "@/utils/webview";
+  import nativeFun from "./utils/plus/nativeFun";
 
   export default {
     components: {
@@ -34,6 +35,10 @@
     },
     created() {
       function plusReady() {
+
+        //检查版本
+        nativeFun.checkUpdate(false);
+
       }
 
       if (window.plus) {

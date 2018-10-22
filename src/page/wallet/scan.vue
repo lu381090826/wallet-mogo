@@ -29,7 +29,7 @@
         t.createBarcode();
       }
 
-      if (window.plus !== undefined && window.plus) {
+      if (window.plus) {
         plusReady();
       } else {
         document.addEventListener("plusready", plusReady, false);

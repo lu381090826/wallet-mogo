@@ -6,5 +6,6 @@
   "user.index": "./src/page/user/index.js",
   "vux.index|plusReady": "./src/page/vux/index.js",
   "wallet.send": "./src/page/wallet/send.js",
-  "wallet.scan": "./src/page/wallet/scan.js"
+  "wallet.scan": "./src/page/wallet/scan.js",
+  "wallet.login": "./src/page/wallet/login.js"
 }

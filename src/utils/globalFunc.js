@@ -38,8 +38,8 @@ import Vue from 'vue'
 
 
 // 页面调试工具
-var print = function (json, options) {
-  var reg = null,
+let print = function (json, options) {
+  let reg = null,
     formatted = "",
     pad = 0,
     PADDING = "    ";
@@ -74,7 +74,7 @@ var print = function (json, options) {
     json = json.replace(reg, ":");
   }
   json.split("\r\n").forEach(function (node, index) {
-    var i = 0,
+    let i = 0,
       indent = 0,
       padding = "";
 

@@ -9,26 +9,20 @@ export function openWebview(config, style = {}, extras = {}) {
     config.url,
     config.id,
     {
-      top: 0, // 新页面顶部位置
-      bottom: 0, // 新页面底部位置
-      render: "always",
-      popGesture: "hide",
-      bounce: "vertical",
-      bounceBackground: "#efeff4",
       titleNView: {
-        // 详情页原生导航配置
         backgroundColor: "#f7f7f7", // 导航栏背景色
         titleText: config.title, // 导航栏标题
-        titleColor: "#000000", // 文字颜色
-        type: "transparent", // 透明渐变样式
+        titleColor: "#666", // 文字颜色
+        // type: "transparent", // 透明渐变样式
         autoBackButton: true, // 自动绘制返回箭头
         splitLine: {
           // 底部分割线
           color: "#cccccc"
         }
       },
-      ...style
-    },
+      popGesture: "none"
+    }
+    ,
     extras
   );
   // var w = plus.nativeUI.showWaiting();
