@@ -9,7 +9,7 @@
         <img src="../assets/转账白.png" width="38"/>
         <div>转账</div>
       </div>
-      <div class="palaces-head">
+      <div class="palaces-head" v-intervalclick="{func:receive}">
         <img src="../assets/收款白.png" width="38"/>
         <div>收款</div>
       </div>
@@ -59,25 +59,20 @@
     openWebviewFast,
     preLoad,
     showWebviewById
-  } from "@/utils/webview";
+  } from "../utils/webview";
 
   export default {
     data() {
       return {}
     },
-    created() {
+    mounted() {
       let t = this;
-      function plusReady() {
-        t.perLoad();
-      }
-
-      if (window.plus) {
-        plusReady();
-      } else {
-        document.addEventListener("plusready", plusReady, false);
-      }
+      t.perLoad();
     },
     methods: {
+      receive() {
+        showWebviewById("wallet.receive");
+      },
       send() {
         showWebviewById("wallet.send");
       },
@@ -87,23 +82,13 @@
       perLoad() {
         //预加载窗口
         preLoad([{
+          url: "./wallet.receive.html",
+          id: "wallet.receive",
+          title: "收款"
+        }, {
           url: "./wallet.send.html",
           id: "wallet.send",
-          title: "转账",
-          style: {
-            titleNView: {
-              backgroundColor: "#f7f7f7", // 导航栏背景色
-              titleText: "转账", // 导航栏标题
-              titleColor: "#666", // 文字颜色
-              // type: "transparent", // 透明渐变样式
-              autoBackButton: true, // 自动绘制返回箭头
-              splitLine: {
-                // 底部分割线
-                color: "#cccccc"
-              }
-            },
-            popGesture: "none"
-          }
+          title: "转账"
         }, {
           url: "./wallet.scan.html",
           id:

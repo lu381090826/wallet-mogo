@@ -19,12 +19,15 @@
   import {
     Button,
     Field,
+    Cell,
+    CellGroup,
     Slider
   } from 'vant';
 
   Vue.use(Button);
   Vue.use(Field);
   Vue.use(Slider);
+  Vue.use(Cell).use(CellGroup);
 
   export default {
     data() {

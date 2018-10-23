@@ -14,7 +14,7 @@ import {Toast, Dialog} from 'vant';
 Vue.use(Toast);
 Vue.use(Dialog);
 
-export async function request(url, data) {
+export async function request(url, data = {}) {
   const conf = {
     //请求的接口，在请求的时候，如axios.get(url,config);这里的url会覆盖掉config中的url
     url: url,
@@ -30,31 +30,45 @@ export async function request(url, data) {
       'uid': plus.storage.getItem('uid'),
       'token': plus.storage.getItem('token'),
     },
-    params: data ? JSON.stringify({}) : JSON.stringify(data),
+    data: data,
     //设置超时时间
-    timeout: 3000,
+    timeout: 5000,
     //返回数据类型
     responseType: 'json', // default
     validateStatus: function (status) {
       return status >= 200 && status < 550; // default
     },
   };
-  return await axios(conf).then(res => {
 
+  let w = plus.nativeUI.showWaiting();
+
+  return await axios(conf).then(res => {
     if (res.status === 401) {
-      // preLoad([{"wallet.login": {url: "./wallet.login.html", id: "wallet.login", title: "登录"}}]);
       Dialog.confirm({
         title: '提示',
         message: '您未登录，现在去登录？'
       }).then(() => {
-        openWebview({url: "./wallet.login.html", id: "wallet.login", title: "登录"}, {}, {webviewPreload: true})
-      }).catch(() => {
+        openWebview({url: "./wallet.login.html", id: "wallet.login", title: "登录"})
       });
     } else if (res.status !== 200) {
-      Toast('系统异常')
+      Toast('系统异常');
+      return Promise.reject("系统异常");
     }
-    if (res.data!=null && res.data.data)
-      return res.data.data;
-    else return res;
-  })
+    //处理服务器返回的错误
+    let data = res.data;
+    if (data.code !== 100) {
+      Toast("【" + data.code + "】" + data.msg);
+      Promise.reject(data.code + data.msg);
+    }
+    return data.data;
+  }).catch(error => {
+    console.log(error);
+    Toast('出错了(T＿T)');
+    Promise.reject(error);
+  }).finally(
+    function () {
+      w.close();
+      plus.nativeUI.closeWaiting();
+    }
+  );
 }

@@ -37,20 +37,13 @@
     data() {
       return {
         active: 0,
-      };
+      }
+        ;
     },
     created() {
-      function plusReady() {
-        //检查版本
-        nativeFun.checkUpdate(false);
-      }
-
-      if (window.plus) {
-        plusReady();
-      } else {
-        document.addEventListener("plusready", plusReady, false);
-      }
-    },
+      nativeFun.checkUpdate(false);
+      this.active = 0
+    }
   };
 </script>
 

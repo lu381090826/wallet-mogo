@@ -3,5 +3,7 @@
   "wallet.send": "./src/page/wallet/send.js",
   "wallet.scan": "./src/page/wallet/scan.js",
   "wallet.login": "./src/page/wallet/login.js",
-  "wallet.yaoqing": "./src/page/wallet/yaoqing.js"
+  "wallet.yaoqing": "./src/page/wallet/yaoqing.js",
+  "wallet.register": "./src/page/wallet/register.js",
+  "wallet.receive": "./src/page/wallet/receive.js"
 }

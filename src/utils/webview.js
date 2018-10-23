@@ -6,7 +6,9 @@ export function openWebview(config, style = {}, extras = {}) {
     return;
   }
 
-  extras.webviewPreload = true;
+  if (extras.webviewPreload === undefined || extras.webviewPreload === null) {
+    extras.webviewPreload = true;
+  }
 
   let wv = plus.webview.create(
     config.url,
@@ -17,7 +19,7 @@ export function openWebview(config, style = {}, extras = {}) {
         titleText: config.title, // 导航栏标题
         titleColor: "#666", // 文字颜色
         // type: "transparent", // 透明渐变样式
-        autoBackButton: config.autoBackButton ? config.autoBackButton : true, // 自动绘制返回箭头
+        autoBackButton: config.autoBackButton === undefined ? true : config.autoBackButton, // 自动绘制返回箭头
         splitLine: {
           // 底部分割线
           color: "#cccccc"
@@ -28,13 +30,13 @@ export function openWebview(config, style = {}, extras = {}) {
     ,
     extras
   );
-  // var w = plus.nativeUI.showWaiting();
+  let w = plus.nativeUI.showWaiting();
   // 监听窗口加载成功
   wv.addEventListener(
     "loaded",
     function () {
       wv.show("slide-in-right"); // 显示窗口
-      // w.close();
+      w.close();
       // w = null;
     },
     false
@@ -42,11 +44,11 @@ export function openWebview(config, style = {}, extras = {}) {
 }
 
 // webview.open  打开得很快 但是不能传参
-export function openWebviewFast(url, id, title) {
+export function openWebviewFast(url, id, title,) {
   if (plus === undefined) {
     return;
   }
-  plus.nativeUI.showWaiting("加载中");
+  plus.nativeUI.showWaiting();
   plus.webview.open(
     url,
     id,
@@ -76,33 +78,32 @@ export function preLoad(webviews = []) {
   if (plus === undefined) {
     return;
   }
+
   webviews.map(webview => {
+
+    let autoBackButton = webview.autoBackButton === undefined ? true : webview.autoBackButton;
+
     const fullExtras = {
       webviewPreload: true,
-      ...webview.extras
+      ...webview.extras,
     };
+
     plus.webview.create(
       webview.url,
       webview.id,
       {
-        top: 0, // 新页面顶部位置
-        bottom: 0, // 新页面底部位置
-        render: "always",
-        popGesture: "hide",
-        bounce: "vertical",
-        bounceBackground: "#efeff4",
         titleNView: {
-          // 详情页原生导航配置
           backgroundColor: "#f7f7f7", // 导航栏背景色
           titleText: webview.title, // 导航栏标题
-          titleColor: "#000000", // 文字颜色
-          type: "transparent", // 透明渐变样式
-          autoBackButton: true, // 自动绘制返回箭头
+          titleColor: "#666", // 文字颜色
+          // type: "transparent", // 透明渐变样式
+          autoBackButton: autoBackButton, // 自动绘制返回箭头
           splitLine: {
             // 底部分割线
             color: "#cccccc"
           }
         },
+        popGesture: "none",
         ...webview.style
       },
       fullExtras
@@ -114,5 +115,7 @@ export function showWebviewById(id) {
   if (plus === undefined) {
     return;
   }
+  plus.nativeUI.showWaiting();
   plus.webview.show(id, "slide-in-right", 200);
+  plus.nativeUI.closeWaiting();
 }

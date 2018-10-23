@@ -11,15 +11,17 @@
       </van-cell>
     </van-cell-group>
 
-    <van-button type="danger" @click="logout()" size="large">退出登录</van-button>
+    <div style="margin: 3%">
+      <van-button type="danger" v-intervalclick="{func:logout}" size="large" style="margin-top: 100px">退出登录</van-button>
+    </div>
 
   </div>
 </template>
 <script>
   import Vue from 'vue';
-  import {NavBar, Cell, CellGroup,Button} from 'vant';
   import NativeFun from "../utils/plus/nativeFun";
-  import {openWebview} from "../utils/webview";
+  import {openWebview, preLoad, showWebviewById} from "../utils/webview";
+  import {NavBar, Cell, CellGroup, Button} from 'vant';
 
   Vue.use(NavBar);
   Vue.use(Button);
@@ -29,24 +31,28 @@
     data() {
       return {};
     },
-    created() {
-      function plusReady() {
-
-      }
-
-      if (window.plus) {
-        plusReady();
-      } else {
-        document.addEventListener("plusready", plusReady, false);
-      }
-
+    mounted() {
+      preLoad([
+        {
+          url: "./wallet.yaoqing.html",
+          id: "wallet.yaoqing",
+          title: "邀请好友"
+        },
+        {
+          url: "./wallet.login.html",
+          id: "wallet.login",
+          title: "登录",
+          autoBackButton: false,
+          extras: {webviewLast: true}
+        }
+      ]);
     },
     methods: {
       checkUpdate() {
         NativeFun.checkUpdate(true)
       },
       yaoqing() {
-        openWebview({url: "./wallet.yaoqing.html", id: "wallet.yaoqing", title: "邀请好友"});
+        showWebviewById('wallet.yaoqing');
       },
       logout() {
         let todayStep = plus.storage.getItem("todayStep");
@@ -61,7 +67,7 @@
         plus.storage.setItem("stepCountTime", stepCountTime);
         plus.storage.setItem("hasChange", hasChange);
 
-        openWebview({url: "./wallet.login.html", id: "wallet.login", title: "登录"});
+        showWebviewById('wallet.login');
       }
     },
   }

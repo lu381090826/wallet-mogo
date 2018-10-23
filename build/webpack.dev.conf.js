@@ -10,7 +10,8 @@ const baseWebpackConfig = require("./webpack.base.conf");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 const portfinder = require("portfinder");
 
-const HOST = process.env.HOST;
+// const HOST = process.env.HOST;
+const HOST = '192.168.8.125';
 const PORT = process.env.PORT && Number(process.env.PORT);
 
 const devWebpackConfig = merge(baseWebpackConfig, {

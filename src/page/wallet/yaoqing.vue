@@ -9,7 +9,7 @@
     <van-popup
       v-model="popupVisible"
       position="bottom">
-      <div class="shareBox" v-intervalclick="shareWeixinMessage">
+      <div class="shareBox" v-intervalclick="{func:shareWeixinMessage}">
         <div>
           <van-icon name="we-chat"/>
         </div>

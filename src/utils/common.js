@@ -19,7 +19,7 @@ export function appPlusInit() {
       "backbutton",
       function () {
         let ws = plus.webview.currentWebview();
-        if (ws.webviewPreload === true) {
+        if (ws.webviewPreload && !ws.webviewLast) {
           plus.webview.hide(ws, 'auto');
         } else {
           if (!firstExitApp) {
@@ -30,6 +30,11 @@ export function appPlusInit() {
             }, 3000);
           } else {
             if (new Date().getTime() - firstExitApp < 3000) {
+              //最后一个窗口，直接退出
+              if (ws.webviewLast) {
+                let main = plus.android.runtimeMainActivity();
+                main.finish();
+              }
               plus.webview.close(ws, 'auto');
             }
           }
