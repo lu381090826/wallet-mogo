@@ -24,8 +24,10 @@
     openWebviewFast,
     preLoad,
     showWebviewById
-  } from "@/utils/webview";
+  } from "./utils/webview";
   import nativeFun from "./utils/plus/nativeFun";
+  import {request} from "./utils/request";
+  import TGCApiUrl from "./utils/constants/TGCApiUrl";
 
   export default {
     components: {
@@ -37,12 +39,11 @@
     data() {
       return {
         active: 0,
-      }
-        ;
+      };
     },
-    created() {
-      nativeFun.checkUpdate(false);
-      this.active = 0
+    mounted() {
+      request(TGCApiUrl.checkLogin);
+      // nativeFun.checkUpdate(false);
     }
   };
 </script>

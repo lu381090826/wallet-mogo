@@ -7,7 +7,7 @@ import {
   openWebview,
   preLoad,
   showWebviewById
-} from "@/utils/webview";
+} from "../utils/webview";
 
 import {Toast, Dialog} from 'vant';
 
@@ -27,8 +27,8 @@ export async function request(url, data = {}) {
     // 请求头信息
     headers: {
       'Content-Type': 'application/json',
-      'uid': plus.storage.getItem('uid'),
-      'token': plus.storage.getItem('token'),
+      'uid': typeof (plus) === "undefined" ? "" : plus.storage.getItem('uid'),
+      'token': typeof (plus) === "undefined" ? "" : plus.storage.getItem('token'),
     },
     data: data,
     //设置超时时间
@@ -40,31 +40,32 @@ export async function request(url, data = {}) {
     },
   };
 
+  if (typeof (plus) === "undefined") {
+    return false;
+  }
   let w = plus.nativeUI.showWaiting();
 
   return await axios(conf).then(res => {
+
     if (res.status === 401) {
-      Dialog.confirm({
-        title: '提示',
-        message: '您未登录，现在去登录？'
-      }).then(() => {
-        openWebview({url: "./wallet.login.html", id: "wallet.login", title: "登录"})
-      });
+      openWebview(
+        {url: "./wallet.login.html", id: "wallet.login", noTitle: true},
+        {},
+        {webviewLast: true});
+      return Promise.reject('登录已失效，正在跳转登录...');
     } else if (res.status !== 200) {
-      Toast('系统异常');
-      return Promise.reject("系统异常");
+      return Promise.reject("出错了！(T＿T)");
     }
     //处理服务器返回的错误
     let data = res.data;
     if (data.code !== 100) {
       Toast("【" + data.code + "】" + data.msg);
-      Promise.reject(data.code + data.msg);
+      return Promise.reject(data.code + data.msg);
     }
     return data.data;
   }).catch(error => {
     console.log(error);
-    Toast('出错了(T＿T)');
-    Promise.reject(error);
+    Toast(error);
   }).finally(
     function () {
       w.close();

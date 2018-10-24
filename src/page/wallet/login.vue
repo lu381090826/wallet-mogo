@@ -3,10 +3,13 @@
 
   <div class="login">
     <van-row type="flex" justify="center" class="gotoreg">
-      <img src="../../assets/logo.png">
+      <img src="../../assets/gongyi.png" width="100" height="100">
+    </van-row>
+    <van-row type="flex" justify="center">
+      <span style="font-size: 25px;font-weight: bold">感恩链</span>
     </van-row>
 
-    <van-cell-group style="margin-top: 8%">
+    <van-cell-group style="margin-top: 10%">
       <van-field
         v-model="username"
         clearable
@@ -26,13 +29,15 @@
         :error-message="passwordError"
       />
     </van-cell-group>
-    <div style="margin: 3%;">
-      <van-button type="default" size="large" class="button" v-intervalclick="{func:login}">登录</van-button>
+    <van-row type="flex" justify="center">
+      <van-col span="14">
+        <van-button type="danger" size="large" class="button" round v-intervalclick="{func:login}">登录</van-button>
+      </van-col>
+    </van-row>
+    <van-row type="flex" justify="center" class="gotoreg">
+      <van-col><span v-intervalclick="{func:gotoRegister}" class="gotozhuce">去注册</span></van-col>
+    </van-row>
 
-      <van-row type="flex" justify="center" class="gotoreg">
-        <van-col><span v-intervalclick="{func:gotoRegister}">去注册</span></van-col>
-      </van-row>
-    </div>
   </div>
 </template>
 <script>
@@ -106,11 +111,11 @@
   .button {
     margin-top: 30%;
     color: white;
-    background-color: #007aff;
+    background-color: #F24E41;
   }
 
   .gotoreg {
-    color: #007aff;
+    color: #069bff;
     margin-top: 8%;
   }
 </style>

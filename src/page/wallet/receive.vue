@@ -32,14 +32,15 @@
     data() {
       return {
         tokenAddress: "",
-        walletAddress: ""
+        walletAddress: plus.storage.getItem("walletAddress")
       }
     },
     created() {
-      this.walletAddress = plus.storage.getItem("walletAddress")
+      console.log("::::::::::" + this.walletAddress);
+      this.checkUpdate();
     },
     methods: {
-      doCopy: function () {
+      doCopy() {
         let _this = this;
         _this.$copyText(_this.walletAddress).then(function (e) {
           Toast({
@@ -48,12 +49,22 @@
           })
         }, function (e) {
         })
+      },
+      checkUpdate() {
+        let _t = this;
+        let cacheWalletAddress = plus.storage.getItem("walletAddress");
+        if (_t.walletAddress === null || _t.walletAddress !== cacheWalletAddress) {
+          _t.walletAddress = cacheWalletAddress;
+          setTimeout(() => {
+            _t.checkUpdate();
+          }, 1000)
+        }
       }
     },
-    watch: {},
     components: {
       QrcodeVue
-    },
+    }
+    ,
   }
 
 

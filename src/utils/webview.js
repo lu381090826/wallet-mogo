@@ -2,29 +2,45 @@
  * 打开一个webview窗口
  */
 export function openWebview(config, style = {}, extras = {}) {
-  if (plus === undefined) {
+  if (typeof(plus) === "undefined") {
     return;
   }
 
-  if (extras.webviewPreload === undefined || extras.webviewPreload === null) {
+  if (typeof (extras.webviewPreload) === undefined || extras.webviewPreload === null) {
     extras.webviewPreload = true;
   }
 
+  let titelStyle = {};
+  if (config.noTitle !== undefined && config.noTitle) {
+    titelStyle = {
+      backgroundColor: "#ffffff", // 导航栏背景色
+      titleText: "", // 导航栏标题
+      titleColor: "#ffffff", // 文字颜色
+      // type: "transparent", // 透明渐变样式
+      autoBackButton: false, // 自动绘制返回箭头
+      splitLine: {
+        // 底部分割线
+        color: "#ffffff"
+      }
+    };
+  } else {
+    titelStyle = {
+      backgroundColor: "#f7f7f7", // 导航栏背景色
+      titleText: config.title, // 导航栏标题
+      titleColor: "#666", // 文字颜色
+      // type: "transparent", // 透明渐变样式
+      autoBackButton: config.autoBackButton === undefined ? true : config.autoBackButton, // 自动绘制返回箭头
+      splitLine: {
+        // 底部分割线
+        color: "#cccccc"
+      }
+    };
+  }
   let wv = plus.webview.create(
     config.url,
     config.id,
     {
-      titleNView: {
-        backgroundColor: "#f7f7f7", // 导航栏背景色
-        titleText: config.title, // 导航栏标题
-        titleColor: "#666", // 文字颜色
-        // type: "transparent", // 透明渐变样式
-        autoBackButton: config.autoBackButton === undefined ? true : config.autoBackButton, // 自动绘制返回箭头
-        splitLine: {
-          // 底部分割线
-          color: "#cccccc"
-        }
-      },
+      titleNView: titelStyle,
       popGesture: "none"
     }
     ,
@@ -45,10 +61,9 @@ export function openWebview(config, style = {}, extras = {}) {
 
 // webview.open  打开得很快 但是不能传参
 export function openWebviewFast(url, id, title,) {
-  if (plus === undefined) {
+  if (typeof(plus) === "undefined") {
     return;
   }
-  plus.nativeUI.showWaiting();
   plus.webview.open(
     url,
     id,
@@ -66,16 +81,15 @@ export function openWebviewFast(url, id, title,) {
       },
     },
     "slide-in-right",
-    420,
+    200,
     function () {
-      plus.nativeUI.closeWaiting();
     }
   );
 }
 
 // 预加载页面 速度很快,但是不要加载超过10个
 export function preLoad(webviews = []) {
-  if (plus === undefined) {
+  if (typeof(plus) === "undefined") {
     return;
   }
 
@@ -87,7 +101,7 @@ export function preLoad(webviews = []) {
       webviewPreload: true,
       ...webview.extras,
     };
-
+    plus.nativeUI.showWaiting();
     plus.webview.create(
       webview.url,
       webview.id,
@@ -108,14 +122,13 @@ export function preLoad(webviews = []) {
       },
       fullExtras
     );
+    plus.nativeUI.closeWaiting();
   });
 }
 
 export function showWebviewById(id) {
-  if (plus === undefined) {
+  if (typeof(plus) === "undefined") {
     return;
   }
-  plus.nativeUI.showWaiting();
-  plus.webview.show(id, "slide-in-right", 200);
-  plus.nativeUI.closeWaiting();
+  plus.webview.show(id, "slide-in-right", 100);
 }

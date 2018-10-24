@@ -74,7 +74,11 @@
         showWebviewById("wallet.receive");
       },
       send() {
-        showWebviewById("wallet.send");
+        openWebviewFast(
+          "./wallet.send.html",
+          "wallet.send",
+          "转账"
+        );
       },
       scan() {
         showWebviewById("wallet.scan");
@@ -86,10 +90,6 @@
           id: "wallet.receive",
           title: "收款"
         }, {
-          url: "./wallet.send.html",
-          id: "wallet.send",
-          title: "转账"
-        }, {
           url: "./wallet.scan.html",
           id:
             "wallet.scan",
@@ -100,7 +100,6 @@
               backgroundColor: "#000000", // 导航栏背景色
               titleText: "扫一扫", // 导航栏标题
               titleColor: "#ffffff", // 文字颜色
-              // type: "transparent", // 透明渐变样式
               autoBackButton: true, // 自动绘制返回箭头
               splitLine: {
                 // 底部分割线
@@ -126,7 +125,7 @@
   }
 
   .palaces-header {
-    background-color: #417fcc;
+    background-color: orange;
     min-height: 90px;
     background-size: 100% 100%;
     -moz-background-size: 100% 100%;

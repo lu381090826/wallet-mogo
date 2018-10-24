@@ -8,6 +8,7 @@ const TGCApiUrl = {
   addToken: "/walletToken/api/addToken",
   getLastVersion: "/common/api/getLastVersion",
   checkPassword: "/user/api/checkPassword",
+  checkLogin: "/user/api/checkLogin",
   walletAdd: "/wallet/api/walletAdd",
   sendTransaction: "/wallet/api/sendTransaction",
   donationGetList: "/donation/order/getList",

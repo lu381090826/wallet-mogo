@@ -10,52 +10,59 @@ import {Toast} from 'vant';
  */
 Vue.use(Toast);
 
-let firstExitApp = null;
+let firstExitApp = false;
 
-export function appPlusInit() {
-  function plusReady() {
-    // 自动关闭窗口 可根据具体逻辑自定义
-    plus.key.addEventListener(
-      "backbutton",
-      function () {
-        let ws = plus.webview.currentWebview();
-        if (ws.webviewPreload && !ws.webviewLast) {
-          plus.webview.hide(ws, 'auto');
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+    FastClick.attach(document.body);
+  },
+  false
+);
+
+function plusReady() {
+  // 自动关闭窗口 可根据具体逻辑自定义
+  plus.key.addEventListener(
+    "backbutton",
+    function () {
+      let ws = plus.webview.currentWebview();
+      if (ws.webviewLast === undefined) {
+        ws.webviewLast = false;
+      }
+      if (ws.webviewPreload === undefined) {
+        ws.webviewPreload = true;
+      }
+      if (ws.webviewPreload && !ws.webviewLast) {
+        plus.webview.hide(ws, 'auto');
+      } else {
+        if (!firstExitApp) {
+          firstExitApp = new Date().getTime();
+          Toast({message: '再按一次退出应用', position: 'bottom'});
+          setTimeout(function () {
+            firstExitApp = null;
+          }, 3000);
         } else {
-          if (!firstExitApp) {
-            firstExitApp = new Date().getTime();
-            Toast({message: '再按一次退出应用', position: 'bottom'});
-            setTimeout(function () {
-              firstExitApp = null;
-            }, 3000);
-          } else {
-            if (new Date().getTime() - firstExitApp < 3000) {
-              //最后一个窗口，直接退出
-              if (ws.webviewLast) {
-                let main = plus.android.runtimeMainActivity();
-                main.finish();
-              }
-              plus.webview.close(ws, 'auto');
+          if (new Date().getTime() - firstExitApp < 3000) {
+            //最后一个窗口，直接退出
+            if (ws.webviewLast) {
+              let main = plus.android.runtimeMainActivity();
+              main.finish();
             }
+            plus.webview.close(ws, 'auto');
           }
         }
-      },
-      false
-    );
-
-    //仅支持竖屏显示
-    plus.screen.lockOrientation("portrait-primary");
-
-  }
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-      FastClick.attach(document.body);
+      }
     },
     false
   );
 
-  document.addEventListener("plusready", plusReady, false);
-
+  //仅支持竖屏显示
+  plus.screen.lockOrientation("portrait-primary");
 }
+
+if (window.plus) {
+  plusReady();
+} else {
+  document.addEventListener("plusready", plusReady, false);
+}
+
