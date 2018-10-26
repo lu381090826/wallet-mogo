@@ -3,18 +3,27 @@
     <van-nav-bar title="我的" class="navbar">
     </van-nav-bar>
     <div class="myself">
-      <img src="../assets/chushitouxiang.jpg" class="header-img" width="70"/>
+      <van-row gutter="20">
+        <van-col span="8">
+          <img src="../assets/chushitouxiang.jpg" class="header-img" width="70"/>
+        </van-col>
+        <van-col class="username">
+          {{userNameShow}}
+        </van-col>
+      </van-row>
     </div>
-
     <van-cell-group>
       <van-cell title="邀请好友" is-link icon="point-gift" v-intervalclick="{func:yaoqing}">
+      </van-cell>
+
+      <van-cell title="我的捐赠" is-link icon="like-o">
       </van-cell>
 
       <van-cell title="检查更新" is-link icon="upgrade" v-intervalclick="{func:checkUpdate}">
       </van-cell>
     </van-cell-group>
 
-    <div style="margin: 3%;margin-top: 40%">
+    <div class="bottom">
       <van-button v-intervalclick="{func:logout}" size="large" class="logout" style="margin-top: 100px">
         退出登录
       </van-button>
@@ -26,17 +35,22 @@
   import Vue from 'vue';
   import NativeFun from "../utils/plus/nativeFun";
   import {openWebview, preLoad, showWebviewById} from "../utils/webview";
-  import {NavBar, Cell, CellGroup, Button} from 'vant';
+  import {NavBar, Cell, CellGroup, Button, Row, Col} from 'vant';
   import {Icon} from 'vant';
 
   Vue.use(Icon);
   Vue.use(NavBar);
   Vue.use(Button);
+  Vue.use(Row);
+  Vue.use(Col);
   Vue.use(Cell).use(CellGroup);
 
   export default {
     data() {
-      return {};
+      return {
+        userNameShow: plus.storage.getItem('uid').substring(0, 10) + "...",
+        uid: "",
+      };
     },
     mounted() {
       preLoad([
@@ -49,7 +63,7 @@
     },
     methods: {
       checkUpdate() {
-        NativeFun.checkUpdate(true)
+        NativeFun.checkUpdate(true);
       },
       yaoqing() {
         showWebviewById('wallet.yaoqing');
@@ -67,11 +81,8 @@
         plus.storage.setItem("stepCountTime", stepCountTime);
         plus.storage.setItem("hasChange", hasChange);
 
-        openWebview(
-          {url: "./wallet.login.html", id: "wallet.login", noTitle: true},
-          {},
-          {webviewLast: true}
-        );
+
+        showWebviewById("common.login");
       }
     },
   }
@@ -81,16 +92,12 @@
     color: white;
     font-weight: bold;
     font-size: 20px;
-    background-color: orange;
+    background-color: #ff8530;
+    padding-top: 20px;
   }
 
   .van-hairline--bottom::after {
     border-bottom-width: 0;
-  }
-
-  .myselfbody {
-    text-align: left;
-    padding-top: 22px;
   }
 
   a:-webkit-any-link {
@@ -101,7 +108,7 @@
   .myself {
     width: 100%;
     height: 150px;
-    background-image: -webkit-linear-gradient(top, orange, orangered);
+    background-image: -webkit-linear-gradient(top, #ff8530, #ff5c0a);
   }
 
   .logout {
@@ -111,11 +118,26 @@
 
   .header-img {
     flex-shrink: 0;
-    margin: 20px;
+    margin-top: 20px;
+    margin-left: 15%;
     border: calc(1px + 0.2vw) solid #32d25400;
     background-origin: border-box;
     background-clip: content-box, border-box;
     background-size: cover;
     box-shadow: 0 0 1px 1px rgb(255, 69, 0);
+  }
+
+  .username {
+    color: white;
+    margin-left: 10px;
+  }
+
+  .bottom {
+    padding: 3%;
+    margin-top: 17%
+  }
+
+  .myselfbody {
+    overflow: hidden;
   }
 </style>

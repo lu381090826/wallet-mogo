@@ -13,7 +13,7 @@
         <img src="../assets/收款白.png" width="38"/>
         <div>收款</div>
       </div>
-      <div class="palaces-head">
+      <div class="palaces-head" v-intervalclick="{func:asset}">
         <img src="../assets/qianbao.png" width="38"/>
         <div>钱包</div>
       </div>
@@ -73,42 +73,55 @@
       receive() {
         showWebviewById("wallet.receive");
       },
+      asset() {
+        showWebviewById("wallet.asset");
+      },
       send() {
-        openWebviewFast(
-          "./wallet.send.html",
-          "wallet.send",
-          "转账"
-        );
+        showWebviewById("wallet.send");
       },
       scan() {
         showWebviewById("wallet.scan");
       },
       perLoad() {
         //预加载窗口
-        preLoad([{
-          url: "./wallet.receive.html",
-          id: "wallet.receive",
-          title: "收款"
-        }, {
-          url: "./wallet.scan.html",
-          id:
-            "wallet.scan",
-          title:
-            "扫一扫",
-          style: {
-            titleNView: {
-              backgroundColor: "#000000", // 导航栏背景色
-              titleText: "扫一扫", // 导航栏标题
-              titleColor: "#ffffff", // 文字颜色
-              autoBackButton: true, // 自动绘制返回箭头
-              splitLine: {
-                // 底部分割线
-                color: "#000000"
-              }
-            },
-            popGesture: "none"
+        preLoad([
+          {
+            url: "./wallet.receive.html",
+            id: "wallet.receive",
+            title: "收款"
+          },
+          {
+            url: "./wallet.send.html",
+            id: "wallet.send",
+            title: "转账"
+          },
+          {
+            url: "./wallet.asset.html",
+            id: "wallet.asset",
+            title: "我的钱包",
+            titleColor:"#ffffff",
+            backgroundColor:"#ffa500",
+            splitLine:"#ffa500",
+          }, {
+            url: "./wallet.scan.html",
+            id:
+              "wallet.scan",
+            title:
+              "扫一扫",
+            style: {
+              titleNView: {
+                backgroundColor: "#000000", // 导航栏背景色
+                titleText: "扫一扫", // 导航栏标题
+                titleColor: "#ffffff", // 文字颜色
+                autoBackButton: true, // 自动绘制返回箭头
+                splitLine: {
+                  // 底部分割线
+                  color: "#000000"
+                }
+              },
+              popGesture: "none"
+            }
           }
-        }
         ])
       }
     }

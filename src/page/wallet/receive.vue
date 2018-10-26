@@ -32,12 +32,13 @@
     data() {
       return {
         tokenAddress: "",
-        walletAddress: plus.storage.getItem("walletAddress")
+        walletAddress: ""
       }
     },
     created() {
-      console.log("::::::::::" + this.walletAddress);
-      this.checkUpdate();
+      if (!plus.storage.getItem("walletAddress")) {
+        this.walletAddress = plus.storage.getItem("walletAddress");
+      }
     },
     methods: {
       doCopy() {
@@ -52,13 +53,6 @@
       },
       checkUpdate() {
         let _t = this;
-        let cacheWalletAddress = plus.storage.getItem("walletAddress");
-        if (_t.walletAddress === null || _t.walletAddress !== cacheWalletAddress) {
-          _t.walletAddress = cacheWalletAddress;
-          setTimeout(() => {
-            _t.checkUpdate();
-          }, 1000)
-        }
       }
     },
     components: {

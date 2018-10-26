@@ -3,6 +3,7 @@ import Vue from 'vue';
 import FastClick from "fastclick";
 import "./globalFunc";
 import {Toast} from 'vant';
+import cons from './constants/Cons';
 
 /**
  * 该js为所有页面都必须加载的js
@@ -26,16 +27,25 @@ function plusReady() {
     "backbutton",
     function () {
       let ws = plus.webview.currentWebview();
+      if (cons.inLastWebViewIds(ws.id)) {
+        //首页返回键
+        ws.webviewLast = true;
+      }
+
       if (ws.webviewLast === undefined) {
         ws.webviewLast = false;
       }
+
       if (ws.webviewPreload === undefined) {
         ws.webviewPreload = true;
       }
+
       if (ws.webviewPreload && !ws.webviewLast) {
         plus.webview.hide(ws, 'auto');
       } else {
         if (!firstExitApp) {
+          console.log("firstExitApp::::::::::" + firstExitApp);
+
           firstExitApp = new Date().getTime();
           Toast({message: '再按一次退出应用', position: 'bottom'});
           setTimeout(function () {

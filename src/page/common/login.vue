@@ -1,6 +1,4 @@
 <template>
-
-
   <div class="login">
     <van-row type="flex" justify="center" class="gotoreg">
       <img src="../../assets/gongyi.png" width="100" height="100">
@@ -84,9 +82,9 @@
             plus.storage.setItem('walletAddress', res.walletAddress);
             plus.storage.setItem('walletName', res.walletName);
             plus.storage.setItem('walletKeyStroe', res.keyStore);
+            plus.storage.setItem('isLogin', true);
 
-            showWebviewById(cons.baseWebViewId);
-
+            openWebviewFast(cons.homeViewUrl, cons.homeViewId, false)
           });
       }
     },

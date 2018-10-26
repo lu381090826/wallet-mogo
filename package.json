@@ -19,11 +19,13 @@
     "fastclick": "git+https://github.com/mogoclub/fastclick.git",
     "h5plus-hotfix": "^1.0.2",
     "qrcode.vue": "^1.6.1",
-    "vue-clipboard2": "^0.2.1",
     "vant": "^1.3.8",
     "vconsole": "^3.2.0",
     "vue": "^2.5.17",
-    "vux": "^2.9.2"
+    "vue-clipboard2": "^0.2.1",
+    "vue-router": "^3.0.1",
+    "vux": "^2.9.2",
+    "web3": "^0.20.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

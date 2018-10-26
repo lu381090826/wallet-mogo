@@ -4,12 +4,13 @@
 import Vue from 'vue'
 import axios from 'axios'
 import {
-  openWebview,
+  openWebview, openWebviewFast,
   preLoad,
   showWebviewById
 } from "../utils/webview";
 
 import {Toast, Dialog} from 'vant';
+import Cons from "./constants/Cons";
 
 Vue.use(Toast);
 Vue.use(Dialog);
@@ -43,18 +44,15 @@ export async function request(url, data = {}) {
   if (typeof (plus) === "undefined") {
     return false;
   }
-  let w = plus.nativeUI.showWaiting();
 
+  Toast.loading();
   return await axios(conf).then(res => {
-
     if (res.status === 401) {
-      openWebview(
-        {url: "./wallet.login.html", id: "wallet.login", noTitle: true},
-        {},
-        {webviewLast: true});
-      return Promise.reject('登录已失效，正在跳转登录...');
+      Toast('登录已失效，请重新登录');
+      return false;
     } else if (res.status !== 200) {
-      return Promise.reject("出错了！(T＿T)");
+      Toast("出错了！(T＿T)");
+      return false;
     }
     //处理服务器返回的错误
     let data = res.data;
@@ -68,8 +66,7 @@ export async function request(url, data = {}) {
     Toast(error);
   }).finally(
     function () {
-      w.close();
-      plus.nativeUI.closeWaiting();
+      Toast.clear();
     }
   );
 }

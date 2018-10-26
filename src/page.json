@@ -1,9 +1,12 @@
 {
   "index|plusReady": "./src/main.js",
+  "common.login|plusReady": "./src/page/common/login.js",
+  "common.index|plusReady": "./src/page/common/index.js",
   "wallet.send|plusReady": "./src/page/wallet/send.js",
   "wallet.scan|plusReady": "./src/page/wallet/scan.js",
-  "wallet.login|plusReady": "./src/page/wallet/login.js",
   "wallet.yaoqing|plusReady": "./src/page/wallet/yaoqing.js",
   "wallet.register|plusReady": "./src/page/wallet/register.js",
-  "wallet.receive|plusReady": "./src/page/wallet/receive.js"
+  "wallet.receive|plusReady": "./src/page/wallet/receive.js",
+  "wallet.asset|plusReady": "./src/page/wallet/asset.js",
+  "wallet.walletConfig|plusReady": "./src/page/wallet/walletConfig.js"
 }
