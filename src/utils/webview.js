@@ -45,14 +45,20 @@ export function openWebview(config, style = {}, extras = {}) {
     extras.webviewPreload = true;
   }
 
-  let titelStyle = getTitleStyle(config);
+  let titelStyle;
+  if (config.titleStyle) {
+    titelStyle = config.titleStyle
+  } else {
+    titelStyle = getTitleStyle(config);
+  }
 
   let wv = plus.webview.create(
     config.url,
     config.id,
     {
       titleNView: titelStyle,
-      popGesture: "none"
+      popGesture: "none",
+      ...style
     }
     ,
     extras
@@ -71,35 +77,45 @@ export function openWebview(config, style = {}, extras = {}) {
 }
 
 // webview.open  打开得很快 但是不能传参
-export function openWebviewFast(url, id, title) {
+export function openWebviewFast(config) {
   if (typeof(plus) === "undefined") {
     return;
   }
-  let navStyle = {
-    backgroundColor: "#f7f7f7", // 导航栏背景色
-    titleText: title, // 导航栏标题
-    titleColor: "#666", // 文字颜色
-    // type: "transparent", // 透明渐变样式
-    autoBackButton: true, // 自动绘制返回箭头
-    splitLine: {
-      // 底部分割线
-      color: "#cccccc"
-    }
-  };
-  if (!title) {
+  let navStyle;
+  if (config.noTitle) {
     navStyle = null;
+  } else if (config.titleStyle) {
+    navStyle = config.titleStyle;
+  } else {
+    navStyle = {
+      backgroundColor: "#f7f7f7", // 导航栏背景色
+      titleText: config.title, // 导航栏标题
+      titleColor: "#666", // 文字颜色
+      // type: "transparent", // 透明渐变样式
+      autoBackButton: true, // 自动绘制返回箭头
+      splitLine: {
+        // 底部分割线
+        color: "#cccccc"
+      },
+    };
   }
-  let w = plus.nativeUI.showWaiting();
+
+  let w;
+  if (config.showWaiting) {
+    w = plus.nativeUI.showWaiting();
+  }
   plus.webview.open(
-    url,
-    id,
+    config.url,
+    config.id,
     {
       titleNView: navStyle,
     },
     "slide-in-right",
     200,
     function () {
-      w.close();
+      if (w) {
+        w.close();
+      }
     }
   );
 }

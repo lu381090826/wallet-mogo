@@ -45,7 +45,6 @@ export async function request(url, data = {}) {
     return false;
   }
 
-  Toast.loading();
   return await axios(conf).then(res => {
     if (res.status === 401) {
       Toast('登录已失效，请重新登录');
@@ -66,7 +65,6 @@ export async function request(url, data = {}) {
     Toast(error);
   }).finally(
     function () {
-      Toast.clear();
     }
   );
 }

@@ -29,18 +29,17 @@
           title: "",
           noTitle: true,
         }]);
+        let w = plus.nativeUI.showWaiting();
         request(TGCApiUrl.checkLogin).then(res => {
           console.log(res.state);
           if (res.state !== 100) {
             showWebviewById(Cons.loginViewId);
           } else {
-            openWebviewFast(Cons.homeViewUrl, Cons.homeViewId, false);
+            openWebviewFast({url: Cons.homeViewUrl, id: Cons.homeViewId, noTitle: true, showWaiting: true});
           }
+        }).finally(e => {
+          w.close();
         });
-      }
-    }, methods: {
-      checkLogin() {
-
       }
     }
   }

@@ -52,16 +52,20 @@
         uid: "",
       };
     },
-    mounted() {
-      preLoad([
-        {
-          url: "./wallet.yaoqing.html",
-          id: "wallet.yaoqing",
-          title: "邀请好友"
-        },
-      ]);
+    beforeCreate() {
+      let t = this;
+      t.preLoad();
     },
     methods: {
+      preLoad() {
+        preLoad([
+          {
+            url: "./wallet.yaoqing.html",
+            id: "wallet.yaoqing",
+            title: "邀请好友"
+          },
+        ]);
+      },
       checkUpdate() {
         NativeFun.checkUpdate(true);
       },

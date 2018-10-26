@@ -84,7 +84,8 @@
             plus.storage.setItem('walletKeyStroe', res.keyStore);
             plus.storage.setItem('isLogin', true);
 
-            openWebviewFast(cons.homeViewUrl, cons.homeViewId, false)
+            openWebviewFast({url: Cons.homeViewUrl, id: Cons.homeViewId, noTitle: true});
+
           });
       }
     },

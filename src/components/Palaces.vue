@@ -65,7 +65,7 @@
     data() {
       return {}
     },
-    mounted() {
+    beforeCreate() {
       let t = this;
       t.perLoad();
     },
@@ -74,7 +74,21 @@
         showWebviewById("wallet.receive");
       },
       asset() {
-        showWebviewById("wallet.asset");
+        openWebviewFast({
+          url: "./wallet.asset.html",
+          id: "wallet.asset",
+          title: "我的钱包",
+          titleStyle: {
+            url: "./wallet.asset.html",
+            id: "wallet.asset",
+            titleText: "我的钱包",
+            titleColor: "#ffffff",
+            backgroundColor: "#ffa500",
+            splitLine: {color: "#ffa500"},
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"}
+          }
+        })
       },
       send() {
         showWebviewById("wallet.send");
@@ -94,15 +108,8 @@
             url: "./wallet.send.html",
             id: "wallet.send",
             title: "转账"
-          },
-          {
-            url: "./wallet.asset.html",
-            id: "wallet.asset",
-            title: "我的钱包",
-            titleColor:"#ffffff",
-            backgroundColor:"#ffa500",
-            splitLine:"#ffa500",
-          }, {
+          }
+          , {
             url: "./wallet.scan.html",
             id:
               "wallet.scan",
