@@ -32,13 +32,10 @@
     data() {
       return {
         tokenAddress: "",
-        walletAddress: ""
+        walletAddress: plus.storage.getItem("walletAddress")
       }
     },
     created() {
-      if (!plus.storage.getItem("walletAddress")) {
-        this.walletAddress = plus.storage.getItem("walletAddress");
-      }
     },
     methods: {
       doCopy() {
@@ -50,9 +47,6 @@
           })
         }, function (e) {
         })
-      },
-      checkUpdate() {
-        let _t = this;
       }
     },
     components: {

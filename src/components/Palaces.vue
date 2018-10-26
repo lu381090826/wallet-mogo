@@ -65,9 +65,9 @@
     data() {
       return {}
     },
-    beforeCreate() {
+    created() {
       let t = this;
-      t.perLoad();
+      t.preLoad();
     },
     methods: {
       receive() {
@@ -96,7 +96,7 @@
       scan() {
         showWebviewById("wallet.scan");
       },
-      perLoad() {
+      preLoad() {
         //预加载窗口
         preLoad([
           {

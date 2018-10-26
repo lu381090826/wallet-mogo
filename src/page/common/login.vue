@@ -63,7 +63,7 @@
     },
     methods: {
       gotoRegister() {
-        openWebview({url: './wallet.register.html', id: 'wallet.register', title: "注册"});
+        openWebviewFast({url: './wallet.register.html', id: 'wallet.register', title: "注册"});
       },
       login() {
         if (!RegexRoules.phone.test(this.username)) {
@@ -84,7 +84,7 @@
             plus.storage.setItem('walletKeyStroe', res.keyStore);
             plus.storage.setItem('isLogin', true);
 
-            openWebviewFast({url: Cons.homeViewUrl, id: Cons.homeViewId, noTitle: true});
+            openWebviewFast({url: cons.homeViewUrl, id: cons.homeViewId, noTitle: true});
 
           });
       }

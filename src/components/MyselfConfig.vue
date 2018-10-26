@@ -52,7 +52,7 @@
         uid: "",
       };
     },
-    beforeCreate() {
+    created() {
       let t = this;
       t.preLoad();
     },

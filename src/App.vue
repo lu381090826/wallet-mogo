@@ -14,21 +14,11 @@
         url: Cons.loginViewUrl,
         id: Cons.loginViewId,
         title: "",
-        backgroundColor: "#FFFFFF",
-        titleColor: "#FFFFFF",
-        autoBackButton: false,
-        splitLine: "#FFFFFF",
+        noTitle: true,
       }]);
-
       if (plus.storage.getItem('uid') === null) {
         showWebviewById(Cons.loginViewId)
       } else {
-        preLoad([{
-          url: Cons.loginViewUrl,
-          id: Cons.loginViewId,
-          title: "",
-          noTitle: true,
-        }]);
         let w = plus.nativeUI.showWaiting();
         request(TGCApiUrl.checkLogin).then(res => {
           console.log(res.state);
