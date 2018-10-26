@@ -33,7 +33,7 @@ export async function request(url, data = {}) {
     },
     data: data,
     //设置超时时间
-    timeout: 5000,
+    timeout: 15000,
     //返回数据类型
     responseType: 'json', // default
     validateStatus: function (status) {
@@ -62,7 +62,7 @@ export async function request(url, data = {}) {
     return data.data;
   }).catch(error => {
     console.log(error);
-    Toast(error);
+    Toast('出错了T_T');
   }).finally(
     function () {
     }

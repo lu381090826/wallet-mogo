@@ -37,6 +37,7 @@
   import {openWebview, preLoad, showWebviewById} from "../utils/webview";
   import {NavBar, Cell, CellGroup, Button, Row, Col} from 'vant';
   import {Icon} from 'vant';
+  import cons from "../utils/constants/Cons";
 
   Vue.use(Icon);
   Vue.use(NavBar);
@@ -81,8 +82,7 @@
         plus.storage.setItem("stepCountTime", stepCountTime);
         plus.storage.setItem("hasChange", hasChange);
 
-
-        showWebviewById("common.login");
+        showWebviewById(cons.loginViewId);
       }
     },
   }

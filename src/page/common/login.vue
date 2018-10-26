@@ -84,8 +84,28 @@
             plus.storage.setItem('walletKeyStroe', res.keyStore);
             plus.storage.setItem('isLogin', true);
 
-            openWebviewFast({url: cons.homeViewUrl, id: cons.homeViewId, noTitle: true});
+            // openWebviewFast({url: cons.homeViewUrl, id: cons.homeViewId, noTitle: true});
 
+
+            let window = plus.nativeUI.showWaiting();
+            plus.webview.open(
+              cons.homeViewUrl,
+              cons.homeViewId,
+              {
+                titleNView: null,
+              },
+              "fade-in",
+              200,
+              function () {
+                let ws = plus.webview.all();
+                for (let i = 0; i < ws.length; i++) {
+                  if (!cons.inLastWebViewIds(ws[i].id)) {
+                    ws[i].reload();
+                  }
+                }
+                window.close();
+              }
+            )
           });
       }
     },

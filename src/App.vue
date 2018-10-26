@@ -10,6 +10,7 @@
 
   export default {
     beforeCreate() {
+      plus.nativeUI.showWaiting();
       preLoad([{
         url: Cons.loginViewUrl,
         id: Cons.loginViewId,
@@ -19,7 +20,6 @@
       if (plus.storage.getItem('uid') === null) {
         showWebviewById(Cons.loginViewId)
       } else {
-        let w = plus.nativeUI.showWaiting();
         request(TGCApiUrl.checkLogin).then(res => {
           console.log(res.state);
           if (res.state !== 100) {
@@ -28,9 +28,11 @@
             openWebviewFast({url: Cons.homeViewUrl, id: Cons.homeViewId, noTitle: true, showWaiting: true});
           }
         }).finally(e => {
-          w.close();
         });
       }
+    },
+    mounted() {
+      plus.nativeUI.closeWaiting();
     }
   }
 </script>
