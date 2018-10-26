@@ -130,6 +130,8 @@ export function preLoad(webviews = []) {
     let titleStyle;
     if (webview.noTitle) {
       titleStyle = null;
+    } else if (webview.titleStyle) {
+      titleStyle = webview.titleStyle;
     } else {
       let autoBackButton = webview.autoBackButton === undefined ? true : webview.autoBackButton;
       let backgroundColor = webview.backgroundColor === undefined ? "#f7f7f7" : webview.backgroundColor;

@@ -65,16 +65,40 @@
     data() {
       return {}
     },
-    created() {
-      let t = this;
-      t.preLoad();
-    },
-    methods: {
-      receive() {
-        showWebviewById("wallet.receive");
-      },
-      asset() {
-        openWebviewFast({
+    beforeCreate() {
+      //预加载窗口
+      preLoad([
+        {
+          url: "./wallet.receive.html",
+          id: "wallet.receive",
+          title: "收款"
+        },
+        {
+          url: "./wallet.send.html",
+          id: "wallet.send",
+          title: "转账"
+        }
+        , {
+          url: "./wallet.scan.html",
+          id:
+            "wallet.scan",
+          title:
+            "扫一扫",
+          style: {
+            titleNView: {
+              backgroundColor: "#000000", // 导航栏背景色
+              titleText: "扫一扫", // 导航栏标题
+              titleColor: "#ffffff", // 文字颜色
+              autoBackButton: true, // 自动绘制返回箭头
+              splitLine: {
+                // 底部分割线
+                color: "#000000"
+              }
+            },
+            popGesture: "none"
+          },
+        },
+        {
           url: "./wallet.asset.html",
           id: "wallet.asset",
           title: "我的钱包",
@@ -88,7 +112,30 @@
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"}
           }
-        })
+        }
+      ])
+    },
+    methods: {
+      receive() {
+        showWebviewById("wallet.receive");
+      },
+      asset() {
+        // openWebviewFast({
+        //   url: "./wallet.asset.html",
+        //   id: "wallet.asset",
+        //   title: "我的钱包",
+        //   titleStyle: {
+        //     url: "./wallet.asset.html",
+        //     id: "wallet.asset",
+        //     titleText: "我的钱包",
+        //     titleColor: "#ffffff",
+        //     backgroundColor: "#ffa500",
+        //     splitLine: {color: "#ffa500"},
+        //     autoBackButton: true,
+        //     progress: {color: '#ff5c0a', height: "1%"}
+        //   }
+        // })
+        showWebviewById("wallet.asset");
       },
       send() {
         showWebviewById("wallet.send");
@@ -96,41 +143,6 @@
       scan() {
         showWebviewById("wallet.scan");
       },
-      preLoad() {
-        //预加载窗口
-        preLoad([
-          {
-            url: "./wallet.receive.html",
-            id: "wallet.receive",
-            title: "收款"
-          },
-          {
-            url: "./wallet.send.html",
-            id: "wallet.send",
-            title: "转账"
-          }
-          , {
-            url: "./wallet.scan.html",
-            id:
-              "wallet.scan",
-            title:
-              "扫一扫",
-            style: {
-              titleNView: {
-                backgroundColor: "#000000", // 导航栏背景色
-                titleText: "扫一扫", // 导航栏标题
-                titleColor: "#ffffff", // 文字颜色
-                autoBackButton: true, // 自动绘制返回箭头
-                splitLine: {
-                  // 底部分割线
-                  color: "#000000"
-                }
-              },
-              popGesture: "none"
-            }
-          }
-        ])
-      }
     }
   }
 </script>

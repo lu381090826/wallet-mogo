@@ -19,34 +19,26 @@ let Web3Util = {
       resolve(Number(web3.fromWei(balance, 'ether')));
     });
   },
-  getTokenContact: function (tokenAddress) {
-    return new Promise(function (resolve) {
-      let res = web3.eth.contract(abi).at(tokenAddress);
-      resolve(res);
-    });
+  getContact: function (contractAddress) {
+    return web3.eth.contract(abi).at(contractAddress);
   },
-  getTokenBalance: function (tokenAddress, walletAddress) {
-    let contract = null;
+  getContractBalance: function (contractAddress, walletAddress) {
     let instance = this.instance;
     let t = this;
 
-    return new Promise(function (resolve) {
-      t.getTokenContact(tokenAddress).then((res) => {
-        contract = res;
-        if (walletAddress === null || walletAddress === "" || walletAddress === undefined) {
-          walletAddress = localStorage.getItem('walletAddress');
-        }
-        let s = instance.eth.call({
-          to: tokenAddress,
-          data: contract.balanceOf.getData(walletAddress)
-        });
-        if (!isNaN(parseInt(s, 16))) {
-          resolve(parseInt(s, 16) / Math.pow(10, 4))
-        } else {
-          resolve(0)
-        }
-      });
+    let contract = t.getContact(contractAddress);
+    if (walletAddress === null || walletAddress === "" || walletAddress === undefined) {
+      walletAddress = plus.storage.getItem('walletAddress');
+    }
+    let s = instance.eth.call({
+      to: contractAddress,
+      data: contract.balanceOf.getData(walletAddress)
     });
+    if (!isNaN(parseInt(s, 16))) {
+      return (parseInt(s, 16) / Math.pow(10, 4))
+    } else {
+      return (0)
+    }
   }
 };
 export default Web3Util;

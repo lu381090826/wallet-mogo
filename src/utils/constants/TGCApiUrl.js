@@ -1,6 +1,6 @@
 //api地址
 const TGCApiUrl = {
-  WalletTokenList: "/walletToken/api/WalletTokenList",
+  walletTokenList: "/walletToken/api/WalletTokenList",
   walletList: "/wallet/api/walletList",
   login: "/user/api/login",
   register: "/user/api/register",

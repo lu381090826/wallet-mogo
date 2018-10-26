@@ -3,8 +3,10 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div class="pull-refresh">
         <div class="asset-header">
-          <van-row type="flex" justify="center">
-            <div>{{walletName}}</div>
+          <van-row type="flex" justify="center" style="padding-top: 3%">
+            <div style="font-size: 20px">{{walletName}}</div>
+          </van-row>
+          <van-row type="flex" justify="center" style="margin-top: 3%">
             <div style="font-size: 10px">{{walletAddress}}</div>
           </van-row>
           <van-row gutter="20" type="flex" justify="center">
@@ -20,14 +22,14 @@
               <div class="asset-header-titile">
                 <div class="titile-name">昨日收益(TGC)</div>
                 <div>
-                  {{walletBalance}}
+                  {{walletProfit}}
                 </div>
               </div>
             </van-col>
           </van-row>
           <van-cell-group class="cell-group">
-            <van-cell v-for="(i,item) in wallet" :key="item" :title="item.tokenName"
-                      :label="item.address" is-link/>
+            <van-cell v-for="(item,i) in tokenList" :key="item" :title="item.tokenName" :value="item.tokenBalance"
+                      :label="item.tokenAddressShow" is-link/>
           </van-cell-group>
         </div>
       </div>
@@ -58,10 +60,11 @@
     data() {
       return {
         walletAddress: plus.storage.getItem("walletAddress"),
-        walletName: plus.storage.getItem("walletAddress"),
-        wallet: [],
+        walletName: plus.storage.getItem("walletName"),
+        tokenList: [],
         walletBalance: "---",
         isLoading: false,
+        walletProfit: "---"
       }
     },
     created() {
@@ -95,6 +98,15 @@
         Web3Util.getBalance().then(res => {
           _this.walletBalance = res;
         });
+        request(TGCApiUrl.walletTokenList).then(res => {
+          if (res.length != null) {
+            for (let i = 0; i < res.length; i++) {
+              res[i].tokenBalance = Web3Util.getContractBalance(res[i].tokenAddress);
+              res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "..."
+            }
+          }
+          _this.tokenList = res;
+        })
       },
     }
   }
