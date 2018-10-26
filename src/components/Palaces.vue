@@ -110,8 +110,10 @@
             backgroundColor: "#ffa500",
             splitLine: {color: "#ffa500"},
             autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"}
-          }
+            progress: {color: '#ff5c0a', height: "1%"},
+          },
+          style: {render: true}
+
         }
       ])
     },
@@ -120,21 +122,6 @@
         showWebviewById("wallet.receive");
       },
       asset() {
-        // openWebviewFast({
-        //   url: "./wallet.asset.html",
-        //   id: "wallet.asset",
-        //   title: "我的钱包",
-        //   titleStyle: {
-        //     url: "./wallet.asset.html",
-        //     id: "wallet.asset",
-        //     titleText: "我的钱包",
-        //     titleColor: "#ffffff",
-        //     backgroundColor: "#ffa500",
-        //     splitLine: {color: "#ffa500"},
-        //     autoBackButton: true,
-        //     progress: {color: '#ff5c0a', height: "1%"}
-        //   }
-        // })
         showWebviewById("wallet.asset");
       },
       send() {

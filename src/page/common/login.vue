@@ -84,15 +84,12 @@
             plus.storage.setItem('walletKeyStroe', res.keyStore);
             plus.storage.setItem('isLogin', true);
 
-            // openWebviewFast({url: cons.homeViewUrl, id: cons.homeViewId, noTitle: true});
-
-
-            let window = plus.nativeUI.showWaiting();
             plus.webview.open(
               cons.homeViewUrl,
               cons.homeViewId,
               {
                 titleNView: null,
+                render: "always"
               },
               "fade-in",
               200,
@@ -103,7 +100,6 @@
                     ws[i].reload();
                   }
                 }
-                window.close();
               }
             )
           });

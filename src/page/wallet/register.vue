@@ -39,7 +39,7 @@
     <van-row class="submit" type="flex" justify="center">
       <van-col span="20">
         <van-button type="default" v-intervalclick="{func:register}" class="button" size="large">
-          下一步
+          立即注册
         </van-button>
       </van-col>
     </van-row>
@@ -120,13 +120,30 @@
 
           if (res.uid) {
             Toast("创建成功");
-            localStorage.clear();
-            localStorage.setItem('uid', res.uid);
-            localStorage.setItem('token', res.token);
-            localStorage.setItem("walletAddress", res.walletAddress);
-            localStorage.setItem("walletName", res.walletName);
+            plus.storage.clear();
+            plus.storage.setItem('uid', res.uid);
+            plus.storage.setItem('token', res.token);
+            plus.storage.setItem("walletAddress", res.walletAddress);
+            plus.storage.setItem("walletName", res.walletName);
 
-            showWebviewById(cons.baseWebViewId)
+            plus.webview.open(
+              cons.homeViewUrl,
+              cons.homeViewId,
+              {
+                titleNView: null,
+                render: "always"
+              },
+              "fade-in",
+              200,
+              function () {
+                let ws = plus.webview.all();
+                for (let i = 0; i < ws.length; i++) {
+                  if (!cons.inLastWebViewIds(ws[i].id)) {
+                    ws[i].reload();
+                  }
+                }
+              }
+            )
           }
         });
 
