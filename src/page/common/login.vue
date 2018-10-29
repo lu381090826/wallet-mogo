@@ -82,7 +82,6 @@
             plus.storage.setItem('walletAddress', res.walletAddress);
             plus.storage.setItem('walletName', res.walletName);
             plus.storage.setItem('walletKeyStroe', res.keyStore);
-            plus.storage.setItem('isLogin', true);
 
             plus.webview.open(
               cons.homeViewUrl,

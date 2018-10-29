@@ -27,10 +27,18 @@
               </div>
             </van-col>
           </van-row>
-          <van-cell-group class="cell-group">
-            <van-cell v-for="(item,i) in tokenList" :key="item" :title="item.tokenName" :value="item.tokenBalance"
-                      :label="item.tokenAddressShow" is-link/>
-          </van-cell-group>
+          <div class="cell-group">
+            <van-cell-group>
+              <van-cell v-for="(item,i) in tokenList" :key="item" :title="item.tokenName" :value="item.tokenBalance"
+                        :label="item.tokenAddressShow" is-link/>
+            </van-cell-group>
+
+            <van-cell-group>
+              <van-cell title="添加资产">
+                <van-icon slot="right-icon" name="add-o" v-intervalclick="{func:addToken}"/>
+              </van-cell>
+            </van-cell-group>
+          </div>
         </div>
       </div>
     </van-pull-refresh>
@@ -45,7 +53,7 @@
   import Vue from 'vue'
   import Web3Util from "../../utils/web3Util/Web3Util";
   import {request} from "../../utils/request";
-  import {Cell, CellGroup, PullRefresh, Row, Col, Toast} from 'vant';
+  import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon} from 'vant';
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {preLoad, showWebviewById} from "../../utils/webview";
@@ -55,6 +63,7 @@
     .use(PullRefresh)
     .use(Cell)
     .use(Toast)
+    .use(Icon)
     .use(CellGroup);
   export default {
     data() {
@@ -76,6 +85,9 @@
       this.init();
     },
     methods: {
+      addToken() {
+        showWebviewById("wallet.tokenAdd")
+      },
       send() {
         showWebviewById("wallet.send");
       },
@@ -95,6 +107,11 @@
       },
       init() {
         let _this = this;
+        preLoad([{
+          url: "./wallet.tokenAdd.html",
+          id: "wallet.tokenAdd",
+          title: "添加资产",
+        }]);
         Web3Util.getBalance().then(res => {
           _this.walletBalance = res;
         });
@@ -106,7 +123,7 @@
             }
           }
           _this.tokenList = res;
-        })
+        });
       },
     }
   }

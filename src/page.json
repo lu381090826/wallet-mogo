@@ -8,5 +8,6 @@
   "wallet.register|plusReady": "./src/page/wallet/register.js",
   "wallet.receive|plusReady": "./src/page/wallet/receive.js",
   "wallet.asset|plusReady": "./src/page/wallet/asset.js",
-  "wallet.walletConfig|plusReady": "./src/page/wallet/walletConfig.js"
+  "wallet.walletConfig|plusReady": "./src/page/wallet/walletConfig.js",
+  "wallet.tokenAdd|plusReady": "./src/page/wallet/tokenAdd.js"
 }

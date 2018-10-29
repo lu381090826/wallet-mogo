@@ -4,7 +4,7 @@
     <van-radio-group v-model="radio">
       <van-cell-group>
         <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
-                  @click="radio = item.walletAddress">
+                  @click="set(item.walletAddress,item.walletName)">
           <van-radio :name="item.walletAddress" :value="item.walletAddress"></van-radio>
         </van-cell>
       </van-cell-group>
@@ -16,6 +16,7 @@
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {RadioGroup, Radio, Cell, CellGroup} from 'vant';
+  import cons from "../../utils/constants/Cons";
 
   Vue.use(RadioGroup);
   Vue.use(Radio);
@@ -26,7 +27,9 @@
       return {
         walletList: [],
         walletAddress: plus.storage.getItem("walletAddress"),
-        radio: plus.storage.getItem("walletAddress")
+        walletName: plus.storage.getItem("walletName"),
+        radio: plus.storage.getItem("walletAddress"),
+        originWalletAddress: plus.storage.getItem("walletAddress"),
       }
     },
     created() {
@@ -38,7 +41,35 @@
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
+
+        let nw = plus.webview.currentWebview();
+        nw.addEventListener('hide', function (e) {
+          if (_this.walletAddress !== _this.originWalletAddress) {
+            _this.reloadWebview();
+          }
+        }, false);
       },
+      set(walletAddress, walletName) {
+        this.radio = walletAddress;
+        this.walletAddress = walletAddress;
+        this.walletName = walletName;
+      },
+      reloadWebview() {
+        let ws = plus.webview.all();
+        for (let i = 0; i < ws.length; i++) {
+          if (!cons.inLastWebViewIds(ws[i].id)) {
+            ws[i].reload();
+          }
+        }
+      }
+    },
+    watch: {
+      radio() {
+        if (this.radio !== plus.storage.getItem("walletAddress")) {
+          plus.storage.setItem('walletAddress', this.walletAddress);
+          plus.storage.setItem('walletName', this.walletName);
+        }
+      }
     }
   }
 

@@ -41,7 +41,7 @@
       doCopy() {
         let _this = this;
         _this.$copyText(_this.walletAddress).then(function (e) {
-          Toast({
+          Toast.success({
             message: '复制成功',
             position: 'bottom',
           })
