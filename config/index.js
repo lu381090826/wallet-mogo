@@ -12,8 +12,8 @@ module.exports = {
     assetsPublicPath: "/",
     proxyTable: {
       "/api": {
-        name: "DOUBANAPI",
-        target: "https://api.douban.com",
+        name: "RINKEBY",
+        target: "https://rinkeby.infura.io",
         pathRewrite: { "^/api": "" },
         changeOrigin: true,
         secure: false

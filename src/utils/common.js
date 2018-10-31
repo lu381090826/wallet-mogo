@@ -10,6 +10,7 @@ import cons from './constants/Cons';
  * 可以用于全局添加某功能
  */
 Vue.use(Toast);
+Vue.prototype.HOST = '/api';
 
 let firstExitApp = false;
 

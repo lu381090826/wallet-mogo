@@ -29,7 +29,7 @@
           </van-row>
           <div class="cell-group">
             <van-cell-group>
-              <van-cell v-for="(item,i) in tokenList" :key="item" :title="item.tokenName" :value="item.tokenBalance"
+              <van-cell v-for="(item,k) in tokenList" :key="k" :title="item.tokenName" :value="item.tokenBalance"
                         :label="item.tokenAddressShow" is-link/>
             </van-cell-group>
 
@@ -116,13 +116,17 @@
           _this.walletBalance = res;
         });
         request(TGCApiUrl.walletTokenList).then(res => {
+          _this.tokenList = [];
           if (res.length != null) {
+            let arr = [];
             for (let i = 0; i < res.length; i++) {
-              res[i].tokenBalance = Web3Util.getContractBalance(res[i].tokenAddress);
-              res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "..."
+              Web3Util.getContractBalance(res[i].tokenAddress).then(contractBalance => {
+                res[i].tokenBalance = contractBalance;
+                res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "...";
+                _this.tokenList.push(res[i])
+              });
             }
           }
-          _this.tokenList = res;
         });
       },
     }

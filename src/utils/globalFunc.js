@@ -9,7 +9,9 @@ import Vue from 'vue'
   let openDelay = false;
   Vue.directive('intervalclick', function (el, binding) {
     el.onclick = function (e) {
-      if (openDelay) return;
+      if (openDelay) {
+        return;
+      }
       openDelay = !openDelay;
       if (!binding.value) {
         // plus.nativeUI.toast("未传入Value数据！");
@@ -24,7 +26,9 @@ import Vue from 'vue'
       let args = [];
       for (const key in binding.value) {
         if (binding.value.hasOwnProperty(key)) {
-          if (key === 'func' || key === 'time') continue;
+          if (key === 'func' || key === 'time') {
+            continue;
+          }
           args.push(binding.value[key])
         }
       }
@@ -36,9 +40,12 @@ import Vue from 'vue'
   })
 })();
 
+export function isEmpty(obj) {
+  return typeof obj === "undefined" || obj === undefined || obj === null || obj === "";
+}
 
 // 页面调试工具
-let print = function (json, options) {
+export function print(json, options) {
   let reg = null,
     formatted = "",
     pad = 0,

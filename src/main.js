@@ -6,6 +6,7 @@ import "@/utils/common";
 import App from "./App";
 
 Vue.config.productionTip = false;
+
 new Vue({
   el: "#app",
   components: {App},

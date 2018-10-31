@@ -6,6 +6,16 @@
                  :error-message="sendAmountError"
                  @input="sendAmountError = ''">
       </van-field>
+      <van-field label="交易合约"
+                 v-model="tokenAddress"
+                 v-show="tokenAddress"
+      >
+      </van-field>
+      <van-field label="合约名称"
+                 v-model="tokenName"
+                 v-show="tokenAddress"
+      >
+      </van-field>
       <van-field label="收款方"
                  v-model="receiveAddress"
                  placeholder="收款钱包地址"
@@ -25,7 +35,9 @@
       </van-field>
       <van-field label="钱包" v-model="walletName" is-link :readonly="true" @click="selectWallet">
       </van-field>
-      <van-field label="钱包余额" v-model="walletBalance" :readonly="true">
+      <van-field label="ETH余额" v-model="walletBalance" :readonly="true">
+      </van-field>
+      <van-field label="合约余额" v-model="tokenBalance" :readonly="true" v-show="tokenAddress">
       </van-field>
       <van-field label="交易密码" v-model="walletPassword" type="password">
       </van-field>
@@ -33,10 +45,11 @@
     </van-popup>
 
     <van-actionsheet
+      cancel-text="取消"
       v-model="showWalletList"
       :actions="walletListActions"
-      @select="walletOnSelect"
-      cancel-text="取消"
+      @select="onSelect"
+      @cancel="onCancel"
     />
 
     <van-button class="doNext" type="primary" size="large" v-intervalclick="{func:doNext}">确认转账</van-button>
@@ -51,9 +64,17 @@
     CellGroup,
     Slider,
     Actionsheet,
-    Popup
+    Popup,
+    Dialog,
+    Toast
   } from 'vant';
+  import web3Util from "../../utils/web3Util/Web3Util";
+  import tgcApiUrl from "../../utils/constants/TGCApiUrl";
+  import {request} from "../../utils/request";
+  import MathUtil from "../../utils/MathUtil";
+  import {isEmpty} from "../../utils/globalFunc";
 
+  Vue.use(Dialog);
   Vue.use(Actionsheet);
   Vue.use(Popup);
   Vue.use(Button);
@@ -64,8 +85,8 @@
   export default {
     data() {
       return {
-        sendAmount: "1",
-        receiveAddress: "11",
+        sendAmount: "0.0001",
+        receiveAddress: "0x66c5DFfb2Ab7F3149D8Fd1d78f3f525f8DeBe130",
         rangeMin: 3,
         rangeMax: 300,
         rangeValue: 3,
@@ -73,11 +94,16 @@
         selected: "",
         showConfirm: false,
         walletName: plus.storage.getItem('walletName'),
+        walletAddress: plus.storage.getItem('walletAddress'),
         sendAmountError: "",
         receiveAddressError: "",
         walletPassword: "",
         showWalletList: false,
         walletBalance: "",
+        tokenBalance: "",
+        tokenName: "",
+        tokenAddress: "0xCc79Cb5023A4896547F4b00a2289d1ed4098Ce13",
+        orderId: "",
         walletListActions: [
           {
             name: 'test1',
@@ -93,22 +119,106 @@
     },
     created() {
       let t = this;
+      let ws = plus.webview.currentWebview();
 
-      function plusReady() {
-        t.construct();
+      if (ws.receiveAddress !== undefined) {
+        this.receiveAddress = ws.receiveAddress;
+      }
+      if (ws.tokenAddress !== undefined) {
+        this.tokenAddress = ws.tokenAddress;
       }
 
-      if (window.plus) {
-        plusReady();
-      } else {
-        document.addEventListener("plusready", plusReady, false);
+      if (ws.orderId !== undefined) {
+        this.orderId = ws.orderId;
       }
+
+      this.initSend();
     },
     methods: {
-      walletOnSelect() {
-        console.log(this.walletOnSelect)
+      onCancel() {
+        this.showWalletList = false;
+      },
+      onSelect(item) {
+        let _this = this;
+        this.showWalletList = false;
+
+        if (!item) {
+          return;
+        }
+        _this.walletName = item.walletName;
+        _this.walletAddress = item.walletAddress;
+        Toast.loading("查询中...");
+
+        setTimeout(() => {
+          web3Util.getBalance(_this.walletAddress).then(res => {
+            this.walletBalance = res;
+          });
+
+          if (!isEmpty(_this.tokenAddress)) {
+            web3Util.getBalance(_this.walletAddress, _this.tokenAddress).then(res => {
+              _this.tokenBalance = res;
+            });
+          }
+        }, 70)
+
       },
       send() {
+        let _this = this;
+        let tokenBalance;
+        if (isEmpty(this.tokenAddress)) {
+          tokenBalance = Number(this.walletBalance);
+        } else {
+          tokenBalance = Number(this.tokenBalance);
+        }
+
+        let sendAmount = Number(this.sendAmount);
+
+        if (isEmpty(this.receiveAddress)) {
+          Toast('请输入收款地址');
+          return;
+        }
+        if (isEmpty(this.walletPassword)) {
+          Toast('请输入钱包密码');
+          return;
+        }
+        if (isEmpty(sendAmount) || sendAmount === 0) {
+          Toast('请输入金额');
+          return;
+        }
+
+        if (sendAmount > tokenBalance) {
+          Toast('余额不足');
+          return;
+        }
+
+        Dialog.confirm({
+          title: '提示',
+          message: '确认转账吗？（提交后不可撤回）'
+        }).then(() => {
+          let password = _this.walletPassword;
+
+          let gasPriceForm = web3Util.instance.fromWei(parseInt(_this.gasPrice.replace("0x", ""), 16), 'gwei');
+
+          let params = {
+            password: password,
+            tokenAddress: _this.tokenAddress,
+            walletAddress: _this.walletAddress,
+            receiveAddress: _this.receiveAddress,
+            sendAmount: sendAmount,
+            gasLimit: MathUtil.accMul(_this.gasValue / gasPriceForm, 1000000000),
+            gasPrice: parseInt(_this.gasPrice.replace("0x", ""), 16),
+            orderId: _this.orderId,
+          };
+
+          request(tgcApiUrl.sendTransaction, params).then((res) => {
+            // _this.$router.push({path: "/PaySuccess", query: {blAddress: res, donationType: _this.donationType}});
+            console.log("paysuccess:" + res);
+          });
+
+        }).catch(() => {
+          // on cancel
+        });
+
       },
       selectWallet() {
         this.showWalletList = !this.showWalletList;
@@ -124,11 +234,42 @@
         }
         this.showConfirm = !this.showConfirm;
       },
-      construct() {
-        let ws = plus.webview.currentWebview();
-        if (ws.receiveAddress !== undefined) {
-          this.receiveAddress = ws.receiveAddress;
+      initSend() {
+        let _this = this;
+
+        web3Util.getBalance(_this.walletAddress).then(res => {
+          this.walletBalance = res;
+        });
+
+        if (!isEmpty(_this.tokenAddress)) {
+          web3Util.getBalance(_this.walletAddress, _this.tokenAddress).then(res => {
+            _this.tokenBalance = res;
+          });
         }
+
+        web3Util.getGasPrice().then(res => {
+          _this.gasPrice = res;
+        });
+
+        web3Util.getContractName(_this.tokenAddress).then(res => {
+          _this.tokenName = res;
+        })
+
+
+        request(tgcApiUrl.walletList).then(res => {
+          if (res.length === undefined) {
+            Toast('出错了T_T');
+            return false;
+          }
+
+          for (let i = 0; i < res.length; i++) {
+            res[i].name = res[i].walletName;
+            res[i].subname = res[i].walletAddress.substring(0, 10) + '...';
+          }
+          _this.walletListActions = res;
+        });
+
+
       },
     },
     computed: {
@@ -167,7 +308,7 @@
   }
 
   .sendButton {
-    margin-top: 22%;
+    margin-top: 10%;
   }
 
   .confirm {

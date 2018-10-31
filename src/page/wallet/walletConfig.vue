@@ -9,19 +9,24 @@
         </van-cell>
       </van-cell-group>
     </van-radio-group>
+
+    <van-button class="gotoImport" type="primary" size="large" v-intervalclick="{func:gotoImport}">导入钱包</van-button>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
-  import {RadioGroup, Radio, Cell, CellGroup} from 'vant';
+  import {RadioGroup, Radio, Cell, CellGroup, Button, Toast} from 'vant';
   import cons from "../../utils/constants/Cons";
 
   Vue.use(RadioGroup);
+  Vue.use(Button);
   Vue.use(Radio);
   Vue.use(Cell);
+  Vue.use(Toast);
   Vue.use(CellGroup);
+
   export default {
     data() {
       return {
@@ -44,9 +49,13 @@
 
         let nw = plus.webview.currentWebview();
         nw.addEventListener('hide', function (e) {
-          if (_this.walletAddress !== _this.originWalletAddress) {
-            _this.reloadWebview();
-          }
+          let wait = plus.nativeUI.showWaiting("钱包切换中，请等待...");
+          setTimeout(() => {
+            if (_this.walletAddress !== _this.originWalletAddress) {
+              _this.reloadWebview();
+            }
+            wait.close();
+          }, 50);
         }, false);
       },
       set(walletAddress, walletName) {
@@ -61,6 +70,9 @@
             ws[i].reload();
           }
         }
+      },
+      gotoImport() {
+
       }
     },
     watch: {
@@ -105,5 +117,11 @@
   .cell-group {
     min-height: 500px;
     background-color: white;
+  }
+
+  .gotoImport {
+    margin-top: 30%;
+    width: 94%;
+    margin-left: 3%;
   }
 </style>

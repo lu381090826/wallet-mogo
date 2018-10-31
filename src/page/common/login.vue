@@ -83,6 +83,7 @@
             plus.storage.setItem('walletName', res.walletName);
             plus.storage.setItem('walletKeyStroe', res.keyStore);
 
+            plus.nativeUI.showWaiting("登录中，请等待...");
             plus.webview.open(
               cons.homeViewUrl,
               cons.homeViewId,
@@ -90,15 +91,18 @@
                 titleNView: null,
                 render: "always"
               },
-              "fade-in",
-              200,
+              "slide-in-left",
+              100,
               function () {
-                let ws = plus.webview.all();
-                for (let i = 0; i < ws.length; i++) {
-                  if (!cons.inLastWebViewIds(ws[i].id)) {
-                    ws[i].reload();
+                setTimeout(() => {
+                  let ws = plus.webview.all();
+                  for (let i = 0; i < ws.length; i++) {
+                    if (!cons.inLastWebViewIds(ws[i].id)) {
+                      ws[i].reload();
+                    }
                   }
-                }
+                  plus.nativeUI.closeWaiting();
+                }, 1500);
               }
             )
           });
