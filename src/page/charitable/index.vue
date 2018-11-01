@@ -8,7 +8,7 @@
       </van-swipe>
     </div>
     <div id="charitable-middle">
-      <div class="charitable-box charitable-box-1">
+      <div class="charitable-box charitable-box-1" v-intervalclick="{func:one2one}">
         <div class="charitable-box-inner">
           <img src="../../assets/zan.png" width="33"/>
           <div>
@@ -58,6 +58,7 @@
   import {Swipe, SwipeItem, Toast, Cell, CellGroup} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import {openWebviewFast} from "../../utils/webview";
 
   Vue.use(Swipe).use(SwipeItem).use(Cell).use(CellGroup);
 
@@ -67,7 +68,7 @@
       return {
         itemList: []
       }
-    }, created: function () {
+    }, created() {
       let _this = this;
       request(TGCApiUrl.donationGetList, {donationType: 1, status: 200}).then(function (res) {
         _this.itemList = res;
@@ -78,6 +79,20 @@
     methods: {
       disOpen() {
         Toast("暂未开放")
+      },
+      one2one() {
+        openWebviewFast({
+          url: './charitable.one2one.html',
+          id: 'charitable.one2one',
+          titleStyle: {
+            titleText: "一帮一",
+            titleColor: "#ffffff",
+            backgroundColor: "#ffa500",
+            splitLine: {color: "#ffa500"},
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"},
+          }
+        });
       }
     },
   }
@@ -120,7 +135,7 @@
     width: 78px;
     height: 70px;
     display: inline-block;
-    margin-left: 5px;
+    margin-left: 2%;
     margin-top: 5%;
     background-color: #c9c9c9;
     border-radius: 4px;
@@ -157,7 +172,8 @@
 
   #donation {
     text-align: left;
-    margin-top: 3%;
+    margin-top: 5%;
+    margin-left: 3%;
     color: #808080;
   }
 
@@ -167,7 +183,7 @@
   }
 
   #donation-cell {
-    margin-top: 3%;
+    /*margin-top: 1%;*/
     height: 366px;
     overflow-y: scroll;
     color: #767676;

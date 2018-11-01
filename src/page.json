@@ -3,6 +3,8 @@
   "common.login|plusReady": "./src/page/common/login.js",
   "common.index|plusReady": "./src/page/common/index.js",
   "charitable.index|plusReady": "./src/page/charitable/index.js",
+  "charitable.one2one|plusReady": "./src/page/charitable/one2one.js",
+  "charitable.one2oneDonation|plusReady": "./src/page/charitable/one2oneDonation.js",
   "wallet.send|plusReady": "./src/page/wallet/send.js",
   "wallet.scan|plusReady": "./src/page/wallet/scan.js",
   "wallet.yaoqing|plusReady": "./src/page/wallet/yaoqing.js",
