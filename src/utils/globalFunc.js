@@ -44,6 +44,10 @@ export function isEmpty(obj) {
   return typeof obj === "undefined" || obj === undefined || obj === null || obj === "";
 }
 
+export function isNotEmpty(obj) {
+  return !isEmpty(obj);
+}
+
 // 页面调试工具
 export function print(json, options) {
   let reg = null,

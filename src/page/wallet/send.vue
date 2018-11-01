@@ -73,7 +73,7 @@
   import {request} from "../../utils/request";
   import MathUtil from "../../utils/MathUtil";
   import {isEmpty} from "../../utils/globalFunc";
-  import etherscanHttpUtils from "../../utils/web3Util/etherscanHttpUtils";
+  import {openWebview, openWebviewFast} from "../../utils/webview";
 
   Vue.use(Dialog);
   Vue.use(Actionsheet);
@@ -86,8 +86,8 @@
   export default {
     data() {
       return {
-        sendAmount: "0.0001",
-        receiveAddress: "0x66c5DFfb2Ab7F3149D8Fd1d78f3f525f8DeBe130",
+        sendAmount: "",
+        receiveAddress: "",
         rangeMin: 3,
         rangeMax: 300,
         rangeValue: 3,
@@ -105,16 +105,7 @@
         tokenName: "",
         tokenAddress: "0xCc79Cb5023A4896547F4b00a2289d1ed4098Ce13",
         orderId: "",
-        walletListActions: [
-          {
-            name: 'test1',
-            value: '1',
-          },
-          {
-            name: 'test2',
-            value: '2',
-          },
-        ],
+        walletListActions: [],
         walletOnSelect: "",
       }
     },
@@ -148,29 +139,9 @@
         }
         _this.walletName = item.walletName;
         _this.walletAddress = item.walletAddress;
-        // Toast.loading("查询中...");
-        //
-        // setTimeout(() => {
-        //   web3Util.getBalance(_this.walletAddress).then(res => {
-        //     this.walletBalance = res;
-        //   });
-        //
-        //   if (!isEmpty(_this.tokenAddress)) {
-        //     web3Util.getContractBalance(_this.tokenAddress, _this.walletAddress).then(res => {
-        //       _this.tokenBalance = res;
-        //     });
-        //   }
-        // }, 70)
-
       },
       send() {
         let _this = this;
-        // let tokenBalance;
-        // if (isEmpty(this.tokenAddress)) {
-        //   tokenBalance = Number(this.walletBalance);
-        // } else {
-        //   tokenBalance = Number(this.tokenBalance);
-        // }
 
         let sendAmount = Number(this.sendAmount);
 
@@ -187,17 +158,16 @@
           return;
         }
 
-        // if (sendAmount > tokenBalance) {
-        //   Toast('余额不足');
-        //   return;
-        // }
-
         Dialog.confirm({
           title: '提示',
           message: '确认转账吗？（提交后不可撤回）'
         }).then(() => {
-          console.log(11111);
-          Toast.loading('处理中...');
+          Toast.loading({
+            duration: 0,       // 持续展示 toast
+            forbidClick: true, // 禁用背景点击
+            loadingType: 'spinner',
+            message: '处理中...'
+          });
 
           setTimeout(() => {
             let password = _this.walletPassword;
@@ -213,11 +183,18 @@
             };
             console.log(params);
             request(tgcApiUrl.sendTransaction, params).then((res) => {
-              // _this.$router.push({path: "/PaySuccess", query: {blAddress: res, donationType: _this.donationType}});
-              console.log("paysuccess:" + res);
               if (!isEmpty(res)) {
-                Toast.success('交易成功');
+                openWebview({
+                  url: './wallet.transInfo.html',
+                  id: 'wallet.transInfo',
+                  title: '交易详情',
+                }, {}, {
+                  tx: res
+                });
               }
+              setTimeout(() => {
+                Toast.clear();
+              }, 2000);
             });
           }, 1000);
 
@@ -243,31 +220,12 @@
       initSend() {
         let _this = this;
 
-        // web3Util.getBalance(_this.walletAddress).then(res => {
-        //   this.walletBalance = res;
-        // });
-
-        // if (!isEmpty(_this.tokenAddress)) {
-        //   web3Util.getContractBalance(_this.tokenAddress, _this.walletAddress).then(res => {
-        //     _this.tokenBalance = res;
-        //     console.log(_this.tokenBalance);
-        //   });
-        // }
-
         web3Util.getGasPrice().then(res => {
           _this.gasPrice = res;
         });
 
         web3Util.getContractName(_this.tokenAddress).then(res => {
           _this.tokenName = res;
-        });
-        etherscanHttpUtils.get({
-          module: 'proxy',
-          action: 'eth_getTransactionByHash',
-          txhash: '0x4746f9a13b15faa8004e34283b905332839170b086871017c698519e10cf3026'
-        }).then(res => {
-          console.log(1111)
-          console.log(res);
         });
 
         request(tgcApiUrl.walletList).then(res => {

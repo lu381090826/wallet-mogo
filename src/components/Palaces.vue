@@ -24,7 +24,7 @@
         <li>
           <a>
             <b>
-              <img src="../assets/cishan.png" width="38"/>
+              <img src="../assets/cishan.png" width="38" v-intervalclick="{func:charitable}"/>
             </b><span>公益慈善</span>
           </a>
         </li>
@@ -72,7 +72,7 @@
           url: "./wallet.receive.html",
           id: "wallet.receive",
           title: "收款"
-        },
+    },
         {
           url: "./wallet.send.html",
           id: "wallet.send",
@@ -103,8 +103,6 @@
           id: "wallet.asset",
           title: "我的钱包",
           titleStyle: {
-            url: "./wallet.asset.html",
-            id: "wallet.asset",
             titleText: "我的钱包",
             titleColor: "#ffffff",
             backgroundColor: "#ffa500",
@@ -113,11 +111,27 @@
             progress: {color: '#ff5c0a', height: "1%"},
           },
           style: {render: true}
-
+        },
+        {
+          url: "./charitable.index.html",
+          id: "charitable.index",
+          title: "公益慈善",
+          titleStyle: {
+            titleText: "公益慈善",
+            titleColor: "#ffffff",
+            backgroundColor: "#ffa500",
+            splitLine: {color: "#ffa500"},
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"},
+          },
+          style: {render: true}
         }
       ])
     },
     methods: {
+      charitable() {
+        showWebviewById("charitable.index");
+      },
       receive() {
         showWebviewById("wallet.receive");
       },

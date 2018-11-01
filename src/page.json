@@ -2,6 +2,7 @@
   "index|plusReady": "./src/main.js",
   "common.login|plusReady": "./src/page/common/login.js",
   "common.index|plusReady": "./src/page/common/index.js",
+  "charitable.index|plusReady": "./src/page/charitable/index.js",
   "wallet.send|plusReady": "./src/page/wallet/send.js",
   "wallet.scan|plusReady": "./src/page/wallet/scan.js",
   "wallet.yaoqing|plusReady": "./src/page/wallet/yaoqing.js",
@@ -10,5 +11,6 @@
   "wallet.asset|plusReady": "./src/page/wallet/asset.js",
   "wallet.walletConfig|plusReady": "./src/page/wallet/walletConfig.js",
   "wallet.tokenAdd|plusReady": "./src/page/wallet/tokenAdd.js",
-  "wallet.import|plusReady": "./src/page/wallet/import.js"
+  "wallet.import|plusReady": "./src/page/wallet/import.js",
+  "wallet.transInfo|plusReady": "./src/page/wallet/transInfo.js"
 }
