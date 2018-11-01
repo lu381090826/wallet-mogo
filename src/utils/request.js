@@ -3,14 +3,7 @@
  */
 import Vue from 'vue'
 import axios from 'axios'
-import {
-  openWebview, openWebviewFast,
-  preLoad,
-  showWebviewById
-} from "../utils/webview";
-
 import {Toast, Dialog} from 'vant';
-import Cons from "./constants/Cons";
 
 Vue.use(Toast);
 Vue.use(Dialog);
@@ -62,9 +55,6 @@ export async function request(url, data = {}) {
     return data.data;
   }).catch(error => {
     console.log(error);
-    Toast('出错了T_T');
-  }).finally(
-    function () {
-    }
-  );
+    Toast(error);
+  });
 }

@@ -102,7 +102,7 @@
                     }
                   }
                   plus.nativeUI.closeWaiting();
-                }, 1500);
+                }, 1000);
               }
             )
           });

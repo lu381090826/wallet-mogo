@@ -53,7 +53,7 @@ let Web3Util = {
   },
   async getGasPrice() {
     let gasPrice = web3.eth.gasPrice;
-    return await web3.fromWei(gasPrice, 'gwei');
+    return await gasPrice;
   },
   async getContractName(contractAddress) {
     let t = this;

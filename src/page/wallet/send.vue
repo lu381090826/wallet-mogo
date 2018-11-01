@@ -35,10 +35,10 @@
       </van-field>
       <van-field label="钱包" v-model="walletName" is-link :readonly="true" @click="selectWallet">
       </van-field>
-      <van-field label="ETH余额" v-model="walletBalance" :readonly="true">
-      </van-field>
-      <van-field label="合约余额" v-model="tokenBalance" :readonly="true" v-show="tokenAddress">
-      </van-field>
+      <!--<van-field label="ETH余额" v-model="walletBalance" :readonly="true">-->
+      <!--</van-field>-->
+      <!--<van-field label="合约余额" v-model="tokenBalance" :readonly="true" v-show="tokenAddress">-->
+      <!--</van-field>-->
       <van-field label="交易密码" v-model="walletPassword" type="password">
       </van-field>
       <van-button class="sendButton" type="primary" size="large" v-intervalclick="{func:send}">立即转账</van-button>
@@ -73,6 +73,7 @@
   import {request} from "../../utils/request";
   import MathUtil from "../../utils/MathUtil";
   import {isEmpty} from "../../utils/globalFunc";
+  import etherscanHttpUtils from "../../utils/web3Util/etherscanHttpUtils";
 
   Vue.use(Dialog);
   Vue.use(Actionsheet);
@@ -99,8 +100,8 @@
         receiveAddressError: "",
         walletPassword: "",
         showWalletList: false,
-        walletBalance: "",
-        tokenBalance: "",
+        // walletBalance: "",
+        // tokenBalance: "",
         tokenName: "",
         tokenAddress: "0xCc79Cb5023A4896547F4b00a2289d1ed4098Ce13",
         orderId: "",
@@ -147,29 +148,29 @@
         }
         _this.walletName = item.walletName;
         _this.walletAddress = item.walletAddress;
-        Toast.loading("查询中...");
-
-        setTimeout(() => {
-          web3Util.getBalance(_this.walletAddress).then(res => {
-            this.walletBalance = res;
-          });
-
-          if (!isEmpty(_this.tokenAddress)) {
-            web3Util.getBalance(_this.walletAddress, _this.tokenAddress).then(res => {
-              _this.tokenBalance = res;
-            });
-          }
-        }, 70)
+        // Toast.loading("查询中...");
+        //
+        // setTimeout(() => {
+        //   web3Util.getBalance(_this.walletAddress).then(res => {
+        //     this.walletBalance = res;
+        //   });
+        //
+        //   if (!isEmpty(_this.tokenAddress)) {
+        //     web3Util.getContractBalance(_this.tokenAddress, _this.walletAddress).then(res => {
+        //       _this.tokenBalance = res;
+        //     });
+        //   }
+        // }, 70)
 
       },
       send() {
         let _this = this;
-        let tokenBalance;
-        if (isEmpty(this.tokenAddress)) {
-          tokenBalance = Number(this.walletBalance);
-        } else {
-          tokenBalance = Number(this.tokenBalance);
-        }
+        // let tokenBalance;
+        // if (isEmpty(this.tokenAddress)) {
+        //   tokenBalance = Number(this.walletBalance);
+        // } else {
+        //   tokenBalance = Number(this.tokenBalance);
+        // }
 
         let sendAmount = Number(this.sendAmount);
 
@@ -186,34 +187,39 @@
           return;
         }
 
-        if (sendAmount > tokenBalance) {
-          Toast('余额不足');
-          return;
-        }
+        // if (sendAmount > tokenBalance) {
+        //   Toast('余额不足');
+        //   return;
+        // }
 
         Dialog.confirm({
           title: '提示',
           message: '确认转账吗？（提交后不可撤回）'
         }).then(() => {
-          let password = _this.walletPassword;
+          console.log(11111);
+          Toast.loading('处理中...');
 
-          let gasPriceForm = web3Util.instance.fromWei(parseInt(_this.gasPrice.replace("0x", ""), 16), 'gwei');
-
-          let params = {
-            password: password,
-            tokenAddress: _this.tokenAddress,
-            walletAddress: _this.walletAddress,
-            receiveAddress: _this.receiveAddress,
-            sendAmount: sendAmount,
-            gasLimit: MathUtil.accMul(_this.gasValue / gasPriceForm, 1000000000),
-            gasPrice: parseInt(_this.gasPrice.replace("0x", ""), 16),
-            orderId: _this.orderId,
-          };
-
-          request(tgcApiUrl.sendTransaction, params).then((res) => {
-            // _this.$router.push({path: "/PaySuccess", query: {blAddress: res, donationType: _this.donationType}});
-            console.log("paysuccess:" + res);
-          });
+          setTimeout(() => {
+            let password = _this.walletPassword;
+            let params = {
+              password: password,
+              tokenAddress: _this.tokenAddress,
+              walletAddress: _this.walletAddress,
+              receiveAddress: _this.receiveAddress,
+              sendAmount: sendAmount,
+              gasLimit: MathUtil.accMul((Number(this.rangeValue) / 100000).toFixed(7), 1000000000),
+              gasPrice: _this.gasPrice,
+              orderId: _this.orderId,
+            };
+            console.log(params);
+            request(tgcApiUrl.sendTransaction, params).then((res) => {
+              // _this.$router.push({path: "/PaySuccess", query: {blAddress: res, donationType: _this.donationType}});
+              console.log("paysuccess:" + res);
+              if (!isEmpty(res)) {
+                Toast.success('交易成功');
+              }
+            });
+          }, 1000);
 
         }).catch(() => {
           // on cancel
@@ -237,15 +243,16 @@
       initSend() {
         let _this = this;
 
-        web3Util.getBalance(_this.walletAddress).then(res => {
-          this.walletBalance = res;
-        });
+        // web3Util.getBalance(_this.walletAddress).then(res => {
+        //   this.walletBalance = res;
+        // });
 
-        if (!isEmpty(_this.tokenAddress)) {
-          web3Util.getBalance(_this.walletAddress, _this.tokenAddress).then(res => {
-            _this.tokenBalance = res;
-          });
-        }
+        // if (!isEmpty(_this.tokenAddress)) {
+        //   web3Util.getContractBalance(_this.tokenAddress, _this.walletAddress).then(res => {
+        //     _this.tokenBalance = res;
+        //     console.log(_this.tokenBalance);
+        //   });
+        // }
 
         web3Util.getGasPrice().then(res => {
           _this.gasPrice = res;
@@ -253,8 +260,15 @@
 
         web3Util.getContractName(_this.tokenAddress).then(res => {
           _this.tokenName = res;
-        })
-
+        });
+        etherscanHttpUtils.get({
+          module: 'proxy',
+          action: 'eth_getTransactionByHash',
+          txhash: '0x4746f9a13b15faa8004e34283b905332839170b086871017c698519e10cf3026'
+        }).then(res => {
+          console.log(1111)
+          console.log(res);
+        });
 
         request(tgcApiUrl.walletList).then(res => {
           if (res.length === undefined) {
@@ -314,7 +328,7 @@
   .confirm {
     width: 80%;
     padding: 3%;
-    height: 300px;
+    height: 220px;
     margin-bottom: 0;
   }
 </style>

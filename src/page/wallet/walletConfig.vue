@@ -15,10 +15,11 @@
 </template>
 <script>
   import Vue from 'vue'
-  import {request} from "../../utils/request";
-  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import {request} from "@/utils/request";
+  import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {RadioGroup, Radio, Cell, CellGroup, Button, Toast} from 'vant';
-  import cons from "../../utils/constants/Cons";
+  import cons from "@/utils/constants/Cons";
+  import {preLoad, showWebviewById} from "@/utils/webview";
 
   Vue.use(RadioGroup);
   Vue.use(Button);
@@ -57,6 +58,14 @@
             wait.close();
           }, 50);
         }, false);
+
+        preLoad([
+          {
+            url: "./wallet.import.html",
+            id: "wallet.import",
+            title: "钱包导入"
+          }
+        ])
       },
       set(walletAddress, walletName) {
         this.radio = walletAddress;
@@ -72,7 +81,7 @@
         }
       },
       gotoImport() {
-
+        showWebviewById('wallet.import');
       }
     },
     watch: {
