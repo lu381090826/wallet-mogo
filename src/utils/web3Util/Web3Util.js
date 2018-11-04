@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import abi from "./abi";
 import Vue from "vue";
-import {isEmpty} from "../globalFunc";
+import {isEmpty, isNotEmpty} from "../globalFunc";
 
 let web3 = new Web3();
 web3.setProvider(new web3.providers.HttpProvider(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
@@ -57,14 +57,12 @@ let Web3Util = {
   },
   async getContractName(contractAddress) {
     let t = this;
-
     return await t.getContract(contractAddress).then(contract => {
       return web3.toAscii(web3.eth.call({
         to: contractAddress,
         data: contract.name.getData()
       }));
     });
-
   }
 };
 export default Web3Util;

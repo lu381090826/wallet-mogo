@@ -103,6 +103,7 @@
   import TGCConfig from "../../utils/constants/tgcConfig";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
+  import {openWebview} from "../../utils/webview";
 
   Vue.use(Popup).use(Sku).use(Tabbar).use(TabbarItem).use(Button).use(Field);
   export default {
@@ -142,6 +143,7 @@
           Toast('请填写捐款金额');
           return false;
         }
+
         let _this = this;
         let receiveAddress = this.info.blAddress;
         //创建订单
@@ -156,15 +158,23 @@
           amount: _this.sendAmount,
         };
         request(TGCApiUrl.donationCreateOrder, params).then(function (res) {
-          // _this.$router.push({
-          //   path: '/Send',
-          //   query: {
-          //     receiveAddress: receiveAddress,
-          //     tokenAddress: TGCConfig.tokenAddress,
-          //     orderId: res,
-          //     donationType: params.donationType
-          //   }
-          // })
+          openWebview({
+            url: './wallet.send.html',
+            id: 'wallet.send',
+            title: '捐款收银台',
+            titleStyle: {
+              titleText: "捐款收银台",
+              autoBackButton: true,
+              progress: {color: '#ff5c0a', height: "1%"},
+            }
+
+          }, {}, {
+            receiveAddress: params.blAddress,
+            sendAmount: params.amount,
+            tokenAddress: TGCConfig.tokenAddress,
+            callbackWebViewId: 'charitable.one2oneDonation',
+            donationId: params.donationId,
+          });
         })
 
       }

@@ -11,7 +11,7 @@
           </van-row>
           <van-row gutter="20" type="flex" justify="center">
             <van-col span="10">
-              <div class="asset-header-titile">
+              <div class="asset-header-titile" v-intervalclick="{func:trans}">
                 <div class="titile-name">Eth资产</div>
                 <div>
                   {{walletBalance}}
@@ -29,8 +29,10 @@
           </van-row>
           <div class="cell-group">
             <van-cell-group>
-              <van-cell v-for="(item,k) in tokenList" :key="k" :title="item.tokenName" :value="item.tokenBalance"
-                        :label="item.tokenAddressShow" is-link/>
+              <van-cell v-for="(item,k) in tokenList" :key="k"
+                        :title="item.tokenName"
+                        :value="item.tokenBalance"
+                        :label="item.tokenAddressShow" is-link @click="trans(item.tokenAddress)"/>
             </van-cell-group>
 
             <van-cell-group>
@@ -56,7 +58,7 @@
   import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon} from 'vant';
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
-  import {preLoad, showWebviewById} from "../../utils/webview";
+  import {openWebview, preLoad, showWebviewById} from "../../utils/webview";
 
   Vue.use(Tabbar).use(TabbarItem)
     .use(Row).use(Col)
@@ -85,6 +87,17 @@
       this.init();
     },
     methods: {
+      trans(tokenAddress) {
+        let _this = this;
+        openWebview({
+          url: './wallet.trans.html',
+          id: "wallet.trans",
+          title: "交易详情",
+        }, {}, {
+          walletAddress: _this.walletAddress,
+          tokenAddress: tokenAddress,
+        })
+      },
       addToken() {
         showWebviewById("wallet.tokenAdd")
       },

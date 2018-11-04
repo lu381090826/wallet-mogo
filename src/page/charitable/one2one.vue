@@ -52,6 +52,7 @@
             splitLine: {color: "#ffa500"},
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"},
+            buttons: [{type: 'share', float: 'right'}]
           }
         }, {}, {
           donationId: donationId

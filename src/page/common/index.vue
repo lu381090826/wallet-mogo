@@ -1,19 +1,19 @@
 <template>
   <div>
     <div v-show="active===0">
-    <Palaces></Palaces>
+      <Palaces></Palaces>
     </div>
-    <div v-show="active===1">
-      <div>
-        暂未开放
-      </div>
-    </div>
+    <!--<div v-show="active===1">-->
+      <!--<div>-->
+        <!--暂未开放-->
+      <!--</div>-->
+    <!--</div>-->
     <div v-show="active===2">
-    <MyselfConfig></MyselfConfig>
+      <MyselfConfig></MyselfConfig>
     </div>
     <van-tabbar v-model="active">
       <van-tabbar-item icon="home">首页</van-tabbar-item>
-      <van-tabbar-item icon="exchange">TG认购</van-tabbar-item>
+      <!--<van-tabbar-item icon="exchange">TG认购</van-tabbar-item>-->
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
     </van-tabbar>
   </div>

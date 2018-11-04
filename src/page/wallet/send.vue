@@ -4,7 +4,10 @@
       <van-field label="金额" placeholder="" type='number'
                  v-model="sendAmount"
                  :error-message="sendAmountError"
-                 @input="sendAmountError = ''">
+                 @input="sendAmountError = ''"
+                 :readonly="sendAmountReadOnly"
+                 :disabled="sendAmountReadOnly"
+      >
       </van-field>
       <van-field label="交易合约"
                  v-model="tokenAddress"
@@ -24,7 +27,9 @@
       >
         <img slot="icon" src="../../assets/tx1.png" width="24"/>
       </van-field>
-      <van-field label="矿工费用" :readonly="true" disableClear v-model="gasValue"></van-field>
+      <van-field label="燃料费(ETH)" :readonly="true" disableClear v-model="gasValue">
+        <van-icon name="question" slot="icon" @click="gasQuestion"/>
+      </van-field>
       <van-slider v-model="rangeValue" :min="rangeMin" :max="rangeMax" :step="0.00001">
       </van-slider>
     </van-cell-group>
@@ -66,13 +71,14 @@
     Actionsheet,
     Popup,
     Dialog,
+    Icon,
     Toast
   } from 'vant';
   import web3Util from "../../utils/web3Util/Web3Util";
   import tgcApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
   import MathUtil from "../../utils/MathUtil";
-  import {isEmpty} from "../../utils/globalFunc";
+  import {isEmpty, isNotEmpty} from "../../utils/globalFunc";
   import {openWebview, openWebviewFast} from "../../utils/webview";
 
   Vue.use(Dialog);
@@ -81,12 +87,13 @@
   Vue.use(Button);
   Vue.use(Field);
   Vue.use(Slider);
-  Vue.use(Cell).use(CellGroup);
+  Vue.use(Cell).use(CellGroup).use(Icon);
 
   export default {
     data() {
       return {
         sendAmount: "",
+        sendAmountReadOnly: false,
         receiveAddress: "",
         rangeMin: 3,
         rangeMax: 300,
@@ -103,7 +110,7 @@
         // walletBalance: "",
         // tokenBalance: "",
         tokenName: "",
-        tokenAddress: "0xCc79Cb5023A4896547F4b00a2289d1ed4098Ce13",
+        tokenAddress: "",
         orderId: "",
         walletListActions: [],
         walletOnSelect: "",
@@ -113,20 +120,34 @@
       let t = this;
       let ws = plus.webview.currentWebview();
 
-      if (ws.receiveAddress !== undefined) {
+      if (isNotEmpty(ws.receiveAddress)) {
         this.receiveAddress = ws.receiveAddress;
       }
-      if (ws.tokenAddress !== undefined) {
+      if (isNotEmpty(ws.tokenAddress)) {
         this.tokenAddress = ws.tokenAddress;
       }
 
-      if (ws.orderId !== undefined) {
+      if (isNotEmpty(ws.orderId)) {
         this.orderId = ws.orderId;
+      }
+
+      if (isNotEmpty(ws.sendAmount)) {
+        this.sendAmount = ws.sendAmount;
+        this.sendAmountReadOnly = true;
       }
 
       this.initSend();
     },
     methods: {
+      gasQuestion() {
+        Dialog.alert({
+          title: '什么是燃料费？',
+          message: '燃料费（Gas）是给矿工的佣金，并以 ETH 支付，无论是交易、执行智能合约并启动 DApps，还是支付数据存储费用，都需要用到燃料费。燃料费价格高低会影响交易的确认速度。',
+          confirmButtonText: '好的'
+        }).then(() => {
+          // on close
+        });
+      },
       onCancel() {
         this.showWalletList = false;
       },
@@ -177,7 +198,7 @@
               walletAddress: _this.walletAddress,
               receiveAddress: _this.receiveAddress,
               sendAmount: sendAmount,
-              gasLimit: MathUtil.accMul((Number(this.rangeValue) / 100000).toFixed(7), 1000000000),
+              gasLimit: MathUtil.accMul(_this.gasValue, 10000000000),
               gasPrice: _this.gasPrice,
               orderId: _this.orderId,
             };
@@ -224,9 +245,11 @@
           _this.gasPrice = res;
         });
 
-        web3Util.getContractName(_this.tokenAddress).then(res => {
-          _this.tokenName = res;
-        });
+        if (isNotEmpty(_this.tokenAddress)) {
+          web3Util.getContractName(_this.tokenAddress).then(res => {
+            _this.tokenName = res;
+          });
+        }
 
         request(tgcApiUrl.walletList).then(res => {
           if (res.length === undefined) {
@@ -247,7 +270,7 @@
     computed: {
       gasValue: {
         get: function () {
-          return (Number(this.rangeValue) / 100000).toFixed(7) + "  ETH";
+          return (Number(this.rangeValue) / 100000).toFixed(7);
         },
         set: function () {
         }
@@ -277,10 +300,14 @@
 
   .doNext {
     margin-top: 40%;
+    background-color: orange;
+    border-color: #e59400;
   }
 
   .sendButton {
     margin-top: 10%;
+    background-color: orange;
+    border-color: #e59400;
   }
 
   .confirm {

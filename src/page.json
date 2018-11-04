@@ -14,5 +14,6 @@
   "wallet.walletConfig|plusReady": "./src/page/wallet/walletConfig.js",
   "wallet.tokenAdd|plusReady": "./src/page/wallet/tokenAdd.js",
   "wallet.import|plusReady": "./src/page/wallet/import.js",
+  "wallet.trans|plusReady": "./src/page/wallet/trans.js",
   "wallet.transInfo|plusReady": "./src/page/wallet/transInfo.js"
 }
