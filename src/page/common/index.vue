@@ -4,11 +4,11 @@
       <Palaces></Palaces>
     </div>
     <!--<div v-show="active===1">-->
-      <!--<div>-->
-        <!--暂未开放-->
-      <!--</div>-->
+    <!--<div>-->
+    <!--暂未开放-->
     <!--</div>-->
-    <div v-show="active===2">
+    <!--</div>-->
+    <div v-show="active===1">
       <MyselfConfig></MyselfConfig>
     </div>
     <van-tabbar v-model="active">
@@ -43,6 +43,10 @@
     },
     mounted() {
       nativeFun.checkUpdate(false);
+
+
+      //监听步数
+      nativeFun.initSensorEventListener();
     },
   };
 </script>

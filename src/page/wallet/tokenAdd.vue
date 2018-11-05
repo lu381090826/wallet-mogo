@@ -45,8 +45,6 @@
     methods: {
       addToken() {
         let t = this;
-        console.log(t.tokenAddress)
-        console.log(t.tokenName)
         request(TGCApiUrl.addToken, {
           tokenAddress: t.tokenAddress,
           tokenName: t.tokenName

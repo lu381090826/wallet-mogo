@@ -39,7 +39,6 @@
     methods: {
       // 扫码成功回调
       onmarked(type, result) {
-        console.log(result);
         scan.close();
       },
       // 创建Barcode扫码控件

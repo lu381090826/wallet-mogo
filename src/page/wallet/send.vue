@@ -202,7 +202,6 @@
               gasPrice: _this.gasPrice,
               orderId: _this.orderId,
             };
-            console.log(params);
             request(tgcApiUrl.sendTransaction, params).then((res) => {
               if (!isEmpty(res)) {
                 openWebview({
@@ -252,7 +251,7 @@
         }
 
         request(tgcApiUrl.walletList).then(res => {
-          if (res.length === undefined) {
+          if (isEmpty(res.length)) {
             Toast('出错了T_T');
             return false;
           }

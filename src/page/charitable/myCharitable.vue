@@ -62,7 +62,7 @@
         _this.totalNum = res;
       });
       request(TGCApiUrl.donationGetList, {
-        uid: localStorage.getItem("uid"),
+        uid: plus.storage.getItem("uid"),
       }).then(function (res) {
         _this.orderList = res;
         if (_this.orderList.length > 0) {

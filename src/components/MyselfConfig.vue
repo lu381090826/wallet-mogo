@@ -70,18 +70,7 @@
         showWebviewById('wallet.yaoqing');
       },
       logout() {
-        let todayStep = plus.storage.getItem("todayStep");
-        let totalStep = plus.storage.getItem("totalStep");
-        let stepCountTime = plus.storage.getItem("stepCountTime");
-        let hasChange = plus.storage.getItem("hasChange");
-
         plus.storage.clear();
-
-        plus.storage.setItem("todayStep", parseInt(todayStep));
-        plus.storage.setItem("totalStep", parseInt(totalStep));
-        plus.storage.setItem("stepCountTime", stepCountTime);
-        plus.storage.setItem("hasChange", hasChange);
-
         showWebviewById(cons.loginViewId);
       }
     },

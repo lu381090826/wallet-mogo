@@ -31,15 +31,8 @@
         <li>
           <a>
             <b>
-              <img src="../assets/walk.png" width="38"/>
+              <img src="../assets/walk.png" width="38" v-intervalclick="{func:step}"/>
             </b><span>感恩行</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            <b>
-              <img src="../assets/shouyi.png" width="38"/>
-            </b><span>持币矿</span>
           </a>
         </li>
         <li>
@@ -74,11 +67,16 @@
           title: "收款"
         },
         {
+          url: "./charitable.step.html",
+          id: "charitable.step",
+          title: "感恩行"
+        },
+        {
           url: "./wallet.send.html",
           id: "wallet.send",
           title: "转账"
-        }
-        , {
+        },
+        {
           url: "./wallet.scan.html",
           id:
             "wallet.scan",
@@ -146,6 +144,9 @@
             },
             style: {render: true}
           });
+      },
+      step() {
+        showWebviewById("charitable.step");
       },
       receive() {
         showWebviewById("wallet.receive");

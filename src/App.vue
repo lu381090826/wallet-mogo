@@ -21,7 +21,6 @@
         showWebviewById(Cons.loginViewId)
       } else {
         request(TGCApiUrl.checkLogin).then(res => {
-          console.log(res.state);
           if (res.state !== 100) {
             showWebviewById(Cons.loginViewId);
           } else {

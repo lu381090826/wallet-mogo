@@ -47,8 +47,6 @@ function plusReady() {
         plus.webview.hide(ws, 'auto');
       } else {
         if (!firstExitApp) {
-          console.log("firstExitApp::::::::::" + firstExitApp);
-
           firstExitApp = new Date().getTime();
           Toast({message: '再按一次退出应用', position: 'bottom'});
           setTimeout(function () {

@@ -153,7 +153,7 @@
           donationId: donationInfo.donationId,
           donationTitle: "捐助" + donationInfo.name,
           blAddress: donationInfo.blAddress,
-          uid: localStorage.getItem('uid'),
+          uid: plus.storage.getItem('uid'),
           userName: "",
           amount: _this.sendAmount,
         };
