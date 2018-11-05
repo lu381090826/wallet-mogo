@@ -69,10 +69,7 @@
         itemList: []
       }
     },
-    created() {
-
-    },
-    mounted() {
+    beforeMount() {
       let _this = this;
       request(TGCApiUrl.donationGetList, {donationType: 1, status: 200}).then(function (res) {
         _this.itemList = res;

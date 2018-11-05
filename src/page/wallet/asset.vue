@@ -20,9 +20,9 @@
             </van-col>
             <van-col span="10">
               <div class="asset-header-titile">
-                <div class="titile-name">昨日收益(TGC)</div>
+                <div class="titile-name">累计收益(TGC)</div>
                 <div>
-                  {{walletProfit}}
+                  {{totalProfit}}
                 </div>
               </div>
             </van-col>
@@ -75,15 +75,17 @@
         tokenList: [],
         walletBalance: "---",
         isLoading: false,
-        walletProfit: "---"
+        totalProfit: "---",
       }
     },
-    created() {
+    mounted() {
       preLoad([{
         url: "./wallet.walletConfig.html",
         id: "wallet.walletConfig",
         title: "钱包设置",
       }]);
+    },
+    beforeMount() {
       this.init();
     },
     methods: {
@@ -141,6 +143,9 @@
             }
           }
         });
+        request(TGCApiUrl.getProgitInfo, {walletAddress: plus.storage.getItem("walletAddress")}).then(function (res) {
+          _this.totalProfit = res.totalProfit;
+        })
       },
     }
   }

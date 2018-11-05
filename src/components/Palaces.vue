@@ -38,7 +38,7 @@
         <li>
           <a>
             <b>
-              <img src="../assets/shouyi.png" width="38"/>
+              <img src="../assets/shouyi.png" width="38" v-intervalclick="{func:profit}"/>
             </b><span>持币矿</span>
           </a>
         </li>
@@ -147,6 +147,23 @@
       },
       step() {
         showWebviewById("charitable.step");
+      },
+      profit() {
+        openWebviewFast(
+          {
+            url: "./profit.index.html",
+            id: "profit.index",
+            showWaiting: true,
+            titleStyle: {
+              titleText: "持币矿",
+              titleColor: "#ffffff",
+              backgroundColor: "#ffd81d",
+              splitLine: {color: "#ffd81d"},
+              autoBackButton: true,
+              progress: {color: '#ff5c0a', height: "1%"},
+            },
+            style: {render: true}
+          })
       },
       receive() {
         showWebviewById("wallet.receive");
