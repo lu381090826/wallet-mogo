@@ -68,14 +68,16 @@
       return {
         itemList: []
       }
-    }, created() {
+    },
+    created() {
+
+    },
+    mounted() {
       let _this = this;
       request(TGCApiUrl.donationGetList, {donationType: 1, status: 200}).then(function (res) {
         _this.itemList = res;
       })
     },
-    components: {},
-    computed: {},
     methods: {
       disOpen() {
         Toast("暂未开放")
@@ -94,7 +96,8 @@
           }
         });
       }
-    },
+    }
+    ,
   }
 </script>
 <style scoped>

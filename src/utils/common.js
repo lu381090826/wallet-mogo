@@ -3,13 +3,15 @@ import Vue from 'vue';
 import FastClick from "fastclick";
 import "./globalFunc";
 import {Toast} from 'vant';
-import cons from './constants/Cons';
+import cons from './constants/Cons'
+import webViews from './webviews'
 
 /**
  * 该js为所有页面都必须加载的js
  * 可以用于全局添加某功能
  */
 Vue.use(Toast);
+Vue.use(webViews);
 Vue.prototype.HOST = '/api';
 
 let firstExitApp = false;

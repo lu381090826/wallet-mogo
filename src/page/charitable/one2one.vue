@@ -46,12 +46,12 @@
           id: 'charitable.one2oneDonation',
           title: '一帮一捐助',
           titleStyle: {
+            type: "transparent",
             titleText: "一帮一捐助",
             titleColor: "#ffffff",
             backgroundColor: "#ffa500",
             splitLine: {color: "#ffa500"},
             autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"},
             buttons: [{type: 'share', float: 'right'}]
           }
         }, {}, {

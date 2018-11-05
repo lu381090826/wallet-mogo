@@ -72,7 +72,7 @@
           url: "./wallet.receive.html",
           id: "wallet.receive",
           title: "收款"
-    },
+        },
         {
           url: "./wallet.send.html",
           id: "wallet.send",
@@ -101,7 +101,6 @@
         {
           url: "./wallet.asset.html",
           id: "wallet.asset",
-          title: "我的钱包",
           titleStyle: {
             titleText: "我的钱包",
             titleColor: "#ffffff",
@@ -113,11 +112,10 @@
           style: {render: true}
         },
         {
-          url: "./charitable.index.html",
-          id: "charitable.index",
-          title: "公益慈善",
+          url: "./charitable.myCharitable.html",
+          id: "charitable.myCharitable",
           titleStyle: {
-            titleText: "公益慈善",
+            titleText: "我的捐助",
             titleColor: "#ffffff",
             backgroundColor: "#ffa500",
             splitLine: {color: "#ffa500"},
@@ -125,12 +123,29 @@
             progress: {color: '#ff5c0a', height: "1%"},
           },
           style: {render: true}
-        }
+        },
       ])
     },
     methods: {
       charitable() {
-        showWebviewById("charitable.index");
+        openWebviewFast(
+          {
+            url: "./charitable.index.html",
+            id: "charitable.index",
+            showWaiting: true,
+            titleStyle: {
+              titleText: "公益慈善",
+              titleColor: "#ffffff",
+              backgroundColor: "#ffa500",
+              splitLine: {color: "#ffa500"},
+              autoBackButton: true,
+              progress: {color: '#ff5c0a', height: "1%"},
+              buttons: [{
+                type: 'menu', onclick: this.myCharitableWebView
+              }],
+            },
+            style: {render: true}
+          });
       },
       receive() {
         showWebviewById("wallet.receive");
