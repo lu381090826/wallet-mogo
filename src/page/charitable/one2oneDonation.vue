@@ -10,7 +10,7 @@
     <div id="primarySchool-sum">
       <div class="item">
         {{info.receiveAmount}}
-        <div class="unit">捐赠总额 (TGCOIN)</div>
+        <div class="unit">捐赠总额 (TG)</div>
       </div>
       <div class="item">
         {{info.donationPeopleNum}}

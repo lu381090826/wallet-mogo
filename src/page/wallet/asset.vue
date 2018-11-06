@@ -20,7 +20,7 @@
             </van-col>
             <van-col span="10">
               <div class="asset-header-titile">
-                <div class="titile-name">累计收益(TGC)</div>
+                <div class="titile-name">累计收益(TG)</div>
                 <div>
                   {{totalProfit}}
                 </div>

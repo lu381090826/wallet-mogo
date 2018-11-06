@@ -6,11 +6,11 @@
         <div>扫一扫</div>
       </div>
       <div class="palaces-head" v-intervalclick="{func:send}">
-        <img src="../assets/转账白.png" width="38"/>
+        <img src="../assets/zhuanzhangbai.png" width="38"/>
         <div>转账</div>
       </div>
       <div class="palaces-head" v-intervalclick="{func:receive}">
-        <img src="../assets/收款白.png" width="38"/>
+        <img src="../assets/shoukuanbai.png" width="38"/>
         <div>收款</div>
       </div>
       <div class="palaces-head" v-intervalclick="{func:asset}">

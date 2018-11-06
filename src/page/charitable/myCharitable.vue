@@ -7,7 +7,7 @@
       </div>
       <div>
         <div class="sum-box">
-          捐助总额（TGC）
+          捐助总额（TG）
           <div class="sum-box-num">{{totalAmount}}</div>
         </div>
 
