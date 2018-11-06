@@ -12,7 +12,10 @@ import webViews from './webviews'
  */
 Vue.use(Toast);
 Vue.use(webViews);
+
+//测试环境代理
 Vue.prototype.HOST = '/api';
+// Vue.prototype.HOST = null;
 
 let firstExitApp = false;
 

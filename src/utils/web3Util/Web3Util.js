@@ -4,8 +4,11 @@ import Vue from "vue";
 import {isEmpty, isNotEmpty} from "../globalFunc";
 
 let web3 = new Web3();
-web3.setProvider(new web3.providers.HttpProvider(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
-// web3.setProvider(new web3.providers.HttpProvider(RINKEBYAPI));
+if (isNotEmpty(Vue.prototype.HOST)) {
+  web3.setProvider(new web3.providers.HttpProvider(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
+} else {
+  web3.setProvider(new web3.providers.HttpProvider('https://rinkeby.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
+}
 
 
 let Web3Util = {

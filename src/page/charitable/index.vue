@@ -46,7 +46,10 @@
       <div id="donation-title">捐赠记录</div>
       <div id="donation-cell">
         <van-cell-group>
-          <van-cell class="bl" v-for="(item,idx) in itemList" :key="idx" :title="item.orderTitle" is-link>
+          <van-cell class="bl" v-for="(item,idx) in itemList"
+                    :key="idx" :title="item.orderTitle"
+                    is-link
+                    @click="transInfo(item.blcokAddress)">
           </van-cell>
         </van-cell-group>
       </div>
@@ -58,7 +61,7 @@
   import {Swipe, SwipeItem, Toast, Cell, CellGroup} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
-  import {openWebviewFast} from "../../utils/webview";
+  import {openWebview, openWebviewFast} from "../../utils/webview";
 
   Vue.use(Swipe).use(SwipeItem).use(Cell).use(CellGroup);
 
@@ -92,6 +95,15 @@
             progress: {color: '#ff5c0a', height: "1%"},
           }
         });
+      },
+      transInfo(address) {
+        openWebview({
+          url: './wallet.transInfo.html',
+          id: 'wallet.transInfo',
+          title: '交易详情',
+        }, {}, {
+          tx: address
+        })
       }
     }
     ,

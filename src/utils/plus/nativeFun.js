@@ -33,10 +33,8 @@ let NativeFun = {
     if (isEmpty(localStorage.getItem("todayStep"))) {
       localStorage.setItem("todayStep", Number(0));
     }
-    console.log("::::::::::lastStepTime:::::::::" + localStorage.getItem("lastStepTime"));
     if (isEmpty(localStorage.getItem("lastStepTime"))) {
       let time = new Date().getTime();
-      console.log("::::::::::lastStepTime:  is null::::::::" + time);
       localStorage.setItem("lastStepTime", time);
     }
 

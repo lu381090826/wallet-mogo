@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="overflow-x: hidden">
     <div class="sum">
       <div class="toux">
         <div style="font-size: 10px;color: white">
@@ -30,14 +30,18 @@
       </div>
     </div>
 
-    <div>
+    <div style="margin-left: 5%;margin-right: 5%">
       <h3 v-if="profitList.length>0">收益记录</h3>
-      <div style="padding-left: 3%;padding-right: 3%">
-        <van-progress class="progress" v-for="(i,k) in profitList" :key="k" :value="getProgressValue(i.profitValue)"
-                      :bar-height="23" :pivot-text="i.profitValue" color="#ff7c0c">
-        </van-progress>
-      </div>
       <h3 v-if="profitList.length===0">暂无收益记录</h3>
+
+      <Progress class="progress"
+                v-for=" (i , k) in profitList"
+                :key="k"
+                :date="i.finishTime"
+                :percent="getProgressValue(i.profitValue)"
+                :profit="i.profitValue">
+
+      </Progress>
     </div>
 
   </div>
@@ -45,17 +49,17 @@
 
 <script>
   import Vue from "vue";
-  import {Progress, Toast} from 'vant';
+  import {Toast} from 'vant';
   import MathUtil from "../../utils/MathUtil";
   import Web3Util from "../../utils/web3Util/Web3Util";
   import TGCConfig from "../../utils/constants/tgcConfig";
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import Progress from "../../components/Progress";
 
-  Vue.use(Progress).use(Toast);
+  Vue.use(Toast);
 
   export default {
-    name: "myProfit",
     data() {
       return {
         userName: plus.storage.getItem("userName"),
@@ -71,7 +75,7 @@
     },
     methods: {
       getProgressValue(value) {
-        return MathUtil.accMul((Number(value) / Number(this.maxProfit)), 100);
+        return MathUtil.accMul((Number(value) / Number(MathUtil.accMul(this.maxProfit, 1.3))), 100);
       }
     },
     beforeMount() {
@@ -88,6 +92,9 @@
         t.minProfit = res.minProfit;
         t.maxProfit = res.maxProfit;
       });
+    },
+    components: {
+      Progress
     }
   }
 </script>
@@ -163,19 +170,9 @@
     color: dodgerblue;
   }
 
-  .progress-start {
-    margin-right: -25%;
-    color: white;
-    z-index: 1;
-    margin-left: 2%;
+  .progress {
+    margin-top: 5%;
   }
 
-  .progress-end {
-    color: #ff7c0c;
-    margin-left: 3%;
-  }
 
-  .progress >>> .mt-progress-progress {
-    background-color: #ff7c5a;
-  }
 </style>
