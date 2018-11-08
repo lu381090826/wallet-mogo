@@ -1,29 +1,34 @@
 <template>
   <div style="padding-top: 30%">
     <van-row type="flex" justify="center">
-      收款地址
+      钱包地址
     </van-row>
-    <van-row type="flex" justify="center">
+    <van-row type="flex" justify="center" class='address'>
       <span style="font-size: 10px">{{walletAddress}}</span>
-    </van-row>
-    <van-row type="flex" justify="center">
-      <van-button type="default" @click="doCopy">复制</van-button>
     </van-row>
     <van-row type="flex" justify="center">
       <van-col>
         <qrcode-vue :value="walletAddress" :size="150" style="margin-top: 10%" level="H"></qrcode-vue>
       </van-col>
     </van-row>
+    <van-row type="flex" justify="center" class="button">
+      <van-button type="default" @click="doCopy">
+        <van-icon name="pending-orders" size="20px"/>
+        复制地址
+      </van-button>
+    </van-row>
   </div>
 
 </template>
 <script>
   import Vue from 'vue'
+
   import QrcodeVue from 'qrcode.vue'
   import {Button, Toast} from 'vant'
-  import {Row, Col} from 'vant';
+  import {Row, Col, Icon} from 'vant';
   import VueClipboard from 'vue-clipboard2'
 
+  Vue.use(Icon);
   Vue.use(Row).use(Col);
   Vue.use(Button);
   Vue.use(Toast);
@@ -56,5 +61,12 @@
 
 </script>
 <style>
+  .button {
+    margin-top: 10%;
+  }
 
+  .address {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
 </style>
