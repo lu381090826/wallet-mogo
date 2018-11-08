@@ -2,19 +2,19 @@
   <div class="palace-body">
     <div class="palaces-header" title="感恩链">
       <div class="palaces-head" v-intervalclick="{func:scan}">
-        <img src="../assets/sao.png" width="33"/>
+        <van-icon name="qr" size="33px"></van-icon>
         <div>扫一扫</div>
       </div>
       <div class="palaces-head" v-intervalclick="{func:send}">
-        <img src="../assets/zhuanzhangbai.png" width="38"/>
+        <van-icon name="exchange-record" size="35px"></van-icon>
         <div>转账</div>
       </div>
       <div class="palaces-head" v-intervalclick="{func:receive}">
-        <img src="../assets/shoukuanbai.png" width="38"/>
+        <van-icon name="cash-back-record" size="35px"></van-icon>
         <div>收款</div>
       </div>
       <div class="palaces-head" v-intervalclick="{func:asset}">
-        <img src="../assets/qianbao.png" width="38"/>
+        <van-icon name="pending-payment" size="35px"></van-icon>
         <div>钱包</div>
       </div>
     </div>
@@ -53,7 +53,10 @@
     preLoad,
     showWebviewById
   } from "../utils/webview";
+  import {Icon} from 'vant';
+  import Vue from "vue";
 
+  Vue.use(Icon);
   export default {
     data() {
       return {}
