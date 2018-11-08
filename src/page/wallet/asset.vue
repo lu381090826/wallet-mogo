@@ -70,8 +70,8 @@
   export default {
     data() {
       return {
-        walletAddress: plus.storage.getItem("walletAddress"),
-        walletName: plus.storage.getItem("walletName"),
+        walletAddress: "",
+        walletName: "",
         tokenList: [],
         walletBalance: "---",
         isLoading: false,
@@ -83,9 +83,13 @@
         url: "./wallet.walletConfig.html",
         id: "wallet.walletConfig",
         title: "钱包设置",
+      }, {
+        url: "./wallet.tokenAdd.html",
+        id: "wallet.tokenAdd",
+        title: "添加资产",
       }]);
     },
-    beforeMount() {
+    created() {
       this.init();
     },
     methods: {
@@ -122,11 +126,9 @@
       },
       init() {
         let _this = this;
-        preLoad([{
-          url: "./wallet.tokenAdd.html",
-          id: "wallet.tokenAdd",
-          title: "添加资产",
-        }]);
+        _this.walletAddress = plus.storage.getItem("walletAddress");
+        _this.walletName = plus.storage.getItem("walletName");
+
         Web3Util.getBalance().then(res => {
           _this.walletBalance = res;
         });

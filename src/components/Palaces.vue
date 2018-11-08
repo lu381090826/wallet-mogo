@@ -58,75 +58,9 @@
     data() {
       return {}
     },
-    beforeCreate() {
-      //预加载窗口
-      preLoad([
-        {
-          url: "./wallet.receive.html",
-          id: "wallet.receive",
-          title: "收款"
-        },
-        {
-          url: "./charitable.step.html",
-          id: "charitable.step",
-          title: "感恩行"
-        },
-        {
-          url: "./wallet.send.html",
-          id: "wallet.send",
-          title: "转账"
-        },
-        {
-          url: "./wallet.scan.html",
-          id:
-            "wallet.scan",
-          title:
-            "扫一扫",
-          style: {
-            titleNView: {
-              backgroundColor: "#000000", // 导航栏背景色
-              titleText: "扫一扫", // 导航栏标题
-              titleColor: "#ffffff", // 文字颜色
-              autoBackButton: true, // 自动绘制返回箭头
-              splitLine: {
-                // 底部分割线
-                color: "#000000"
-              }
-            },
-            popGesture: "none"
-          },
-        },
-        {
-          url: "./wallet.asset.html",
-          id: "wallet.asset",
-          titleStyle: {
-            titleText: "我的钱包",
-            titleColor: "#ffffff",
-            backgroundColor: "#ffa500",
-            splitLine: {color: "#ffa500"},
-            autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"},
-          },
-          style: {render: true}
-        },
-        {
-          url: "./charitable.myCharitable.html",
-          id: "charitable.myCharitable",
-          titleStyle: {
-            titleText: "我的捐助",
-            titleColor: "#ffffff",
-            backgroundColor: "#ffa500",
-            splitLine: {color: "#ffa500"},
-            autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"},
-          },
-          style: {render: true}
-        },
-      ])
-    },
     methods: {
       charitable() {
-        openWebviewFast(
+        openWebview(
           {
             url: "./charitable.index.html",
             id: "charitable.index",
@@ -146,10 +80,14 @@
           });
       },
       step() {
-        showWebviewById("charitable.step");
+        openWebview({
+          url: "./charitable.step.html",
+          id: "charitable.step",
+          title: "感恩行"
+        });
       },
       profit() {
-        openWebviewFast(
+        openWebview(
           {
             url: "./profit.index.html",
             id: "profit.index",
@@ -166,16 +104,60 @@
           })
       },
       receive() {
-        showWebviewById("wallet.receive");
+        openWebview({
+          url: "./wallet.receive.html",
+          id: "wallet.receive",
+          title: "收款"
+        });
       },
       asset() {
-        showWebviewById("wallet.asset");
+        openWebview({
+          url: "./wallet.asset.html",
+          id: "wallet.asset",
+          titleStyle: {
+            titleText: "我的钱包",
+            titleColor: "#ffffff",
+            backgroundColor: "#ffa500",
+            splitLine: {color: "#ffa500"},
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"},
+          },
+          style: {render: true}
+        },);
       },
       send() {
-        showWebviewById("wallet.send");
+        openWebview({
+            url: "./wallet.send.html",
+            id: "wallet.send",
+            titleStyle: {
+              titleText: "转账",
+              autoBackButton: true,
+              progress: {color: '#ff5c0a', height: "1%"},
+            }
+          }
+        );
       },
       scan() {
-        showWebviewById("wallet.scan");
+        openWebview({
+          url: "./wallet.scan.html",
+          id:
+            "wallet.scan",
+          title:
+            "扫一扫",
+          style: {
+            titleNView: {
+              backgroundColor: "#000000", // 导航栏背景色
+              titleText: "扫一扫", // 导航栏标题
+              titleColor: "#ffffff", // 文字颜色
+              autoBackButton: true, // 自动绘制返回箭头
+              splitLine: {
+                // 底部分割线
+                color: "#000000"
+              }
+            },
+            popGesture: "none"
+          },
+        });
       },
     }
   }
@@ -236,6 +218,7 @@
   .palaces-pl {
     text-align: center;
     margin-top: 15%;
+    min-height: 400px;
   }
 
   #mainmenu:after {

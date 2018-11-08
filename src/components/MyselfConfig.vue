@@ -60,6 +60,12 @@
           id: "wallet.yaoqing",
           title: "邀请好友"
         },
+        {
+          url: cons.loginViewUrl,
+          id: cons.loginViewId,
+          title: "",
+          noTitle: true,
+        }
       ])
     },
     methods: {

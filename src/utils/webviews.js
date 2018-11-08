@@ -3,7 +3,7 @@ import {openWebviewFast} from "./webview";
 
 export default function (Vue, options) {
   Vue.prototype.myCharitableWebView = function () {
-    openWebviewFast({
+    openWebview({
       url: './charitable.myCharitable.html',
       id: 'charitable.myCharitable',
       title: '我的捐助',

@@ -35,8 +35,6 @@
         walletAddress: plus.storage.getItem("walletAddress")
       }
     },
-    created() {
-    },
     methods: {
       doCopy() {
         let _this = this;

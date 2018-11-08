@@ -1,37 +1,46 @@
 <template>
-  <div>
+  <div id="app">
   </div>
 </template>
 <script>
+  import Vue from "vue";
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {request} from "@/utils/request";
   import {openWebviewFast, preLoad, showWebviewById} from "@/utils/webview";
-  import Cons from "@/utils/constants/Cons";
+  import {isNotEmpty} from "@/utils/globalFunc";
+  import Login from "@/components/Login";
+  import Index from "@/components/Index";
+  import {isEmpty} from "./utils/globalFunc";
 
   export default {
+    data() {
+      return {
+        logined: false
+      }
+    },
     beforeCreate() {
-      plus.nativeUI.showWaiting();
-      preLoad([{
-        url: Cons.loginViewUrl,
-        id: Cons.loginViewId,
-        title: "",
-        noTitle: true,
-      }]);
-      if (plus.storage.getItem('uid') === null) {
-        showWebviewById(Cons.loginViewId)
+      let _this = this;
+      if (isEmpty(plus.storage.getItem('uid')) || isEmpty(plus.storage.getItem('token'))) {
+        const component = Vue.extend(Login);
+        const instance = new component();
+        instance.$mount("#app");
       } else {
         request(TGCApiUrl.checkLogin).then(res => {
-          if (res.state !== 100) {
-            showWebviewById(Cons.loginViewId);
+          if (isNotEmpty(res.state) && res.state === 100) {
+            _this.logined = true;
+            const component = Vue.extend(Index);
+            const instance = new component();
+            instance.$mount("#app");
           } else {
-            openWebviewFast({url: Cons.homeViewUrl, id: Cons.homeViewId, noTitle: true, showWaiting: true});
+            const component = Vue.extend(Login);
+            const instance = new component();
+            instance.$mount("#app");
           }
-        }).finally(e => {
         });
       }
     },
-    mounted() {
-      plus.nativeUI.closeWaiting();
+    components: {
+      Login, Index
     }
   }
 </script>

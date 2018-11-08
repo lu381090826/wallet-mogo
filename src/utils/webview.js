@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import {Toast} from "vant";
+import {isEmpty, isNotEmpty} from "./globalFunc";
 
 Vue.use(Toast);
 
@@ -41,39 +42,47 @@ export function openWebview(config, style = {}, extras = {}) {
     return;
   }
 
-  if (typeof (extras.webviewPreload) === undefined || extras.webviewPreload === null) {
-    extras.webviewPreload = true;
-  }
-
-  let titelStyle;
-  if (config.titleStyle) {
-    titelStyle = config.titleStyle
-  } else {
-    titelStyle = getTitleStyle(config);
-  }
-
-  let wv = plus.webview.create(
-    config.url,
-    config.id,
-    {
-      titleNView: titelStyle,
-      popGesture: "none",
-      ...style
+  let webView = plus.webview.getWebviewById(config.id);
+  if (isEmpty(webView)) {
+    if (typeof (extras.webviewPreload) === undefined || extras.webviewPreload === null) {
+      extras.webviewPreload = true;
     }
-    ,
-    extras
-  );
-  let w = plus.nativeUI.showWaiting();
-  // 监听窗口加载成功
-  wv.addEventListener(
-    "loaded",
-    function () {
-      wv.show("slide-in-right"); // 显示窗口
-      w.close();
-      // w = null;
-    },
-    false
-  );
+
+    let titelStyle;
+    if (config.titleStyle) {
+      titelStyle = config.titleStyle
+    } else {
+      titelStyle = getTitleStyle(config);
+    }
+
+    let wload = plus.webview.create(
+      config.url,
+      config.id,
+      {
+        titleNView: titelStyle,
+        popGesture: "none",
+        ...style
+      }
+      ,
+      extras
+    );
+    // let w = plus.nativeUI.showWaiting();
+    // 监听窗口加载成功
+    // wload.addEventListener(
+    //   "loaded",
+    //   function () {
+    //     wload.show("slide-in-right"); // 显示窗口
+    //     w.close();
+    //     // w = null;
+    //   },
+    //   false
+    // );
+    wload.show("slide-in-right");
+  } else {
+    webView.show();
+  }
+
+
 }
 
 // webview.open  打开得很快 但是不能传参

@@ -116,7 +116,7 @@
         walletOnSelect: "",
       }
     },
-    created() {
+    beforeMount() {
       let t = this;
       let ws = plus.webview.currentWebview();
 
