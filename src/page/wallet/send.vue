@@ -8,11 +8,13 @@
                  :readonly="sendAmountReadOnly"
                  :disabled="sendAmountReadOnly"
       >
+        <van-icon slot="icon" name="more-o" @click="selectToken"/>
       </van-field>
       <van-field label="交易合约"
                  v-model="tokenAddress"
                  v-show="tokenAddress"
       >
+        <van-icon slot="icon" name="close" @click="closeToken"/>
       </van-field>
       <van-field label="合约名称"
                  v-model="tokenName"
@@ -25,7 +27,7 @@
                  :error-message="receiveAddressError"
                  @input="receiveAddressError = ''"
       >
-        <img slot="icon" src="../../assets/tx1.png" width="24"/>
+        <van-icon slot="icon" name="contact" @click="contact"/>
       </van-field>
       <van-field label="燃料费(ETH)" :readonly="true" disableClear v-model="gasValue">
         <van-icon name="question" slot="icon" @click="gasQuestion"/>
@@ -40,10 +42,6 @@
       </van-field>
       <van-field label="钱包" v-model="walletName" is-link :readonly="true" @click="selectWallet">
       </van-field>
-      <!--<van-field label="ETH余额" v-model="walletBalance" :readonly="true">-->
-      <!--</van-field>-->
-      <!--<van-field label="合约余额" v-model="tokenBalance" :readonly="true" v-show="tokenAddress">-->
-      <!--</van-field>-->
       <van-field label="交易密码" v-model="walletPassword" type="password">
       </van-field>
       <van-button class="sendButton" type="primary" size="large" v-intervalclick="{func:send}">立即转账</van-button>
@@ -53,6 +51,13 @@
       cancel-text="取消"
       v-model="showWalletList"
       :actions="walletListActions"
+      @select="onSelect"
+      @cancel="onCancel"
+    />
+    <van-actionsheet
+      cancel-text="取消"
+      v-model="showTokenList"
+      :actions="tokenListActions"
       @select="onSelect"
       @cancel="onCancel"
     />
@@ -107,12 +112,12 @@
         receiveAddressError: "",
         walletPassword: "",
         showWalletList: false,
-        // walletBalance: "",
-        // tokenBalance: "",
+        showTokenList: false,
         tokenName: "",
         tokenAddress: "",
         orderId: "",
         walletListActions: [],
+        tokenListActions: [],
         walletOnSelect: "",
       }
     },
@@ -153,13 +158,18 @@
       },
       onSelect(item) {
         let _this = this;
-        this.showWalletList = false;
-
-        if (!item) {
+        if (isEmpty(item)) {
           return;
         }
-        _this.walletName = item.walletName;
-        _this.walletAddress = item.walletAddress;
+        if (item.type === 'wallet') {
+          this.showWalletList = false;
+          _this.walletName = item.walletName;
+          _this.walletAddress = item.walletAddress;
+        } else {
+          this.showTokenList = false;
+          _this.tokenName = item.tokenName;
+          _this.tokenAddress = item.tokenAddress;
+        }
       },
       send() {
         let _this = this;
@@ -223,7 +233,52 @@
         });
 
       },
+      closeToken() {
+        this.tokenAddress = "";
+        this.tokenName = "";
+      },
+      contact() {
+      },
+      selectToken() {
+        let _this = this;
+        if (_this.tokenListActions.length === 0) {
+          Toast.loading();
+          request(tgcApiUrl.walletTokenList).then(res => {
+            if (isEmpty(res.length)) {
+              Toast('出错了T_T');
+              return false;
+            }
+
+            for (let i = 0; i < res.length; i++) {
+              res[i].name = res[i].tokenName;
+              res[i].subname = res[i].tokenAddress.substring(0, 10) + '...';
+              res[i].type = 'token'
+            }
+            _this.tokenListActions = res;
+            Toast.clear();
+          });
+        }
+        this.showTokenList = !this.showTokenList;
+      },
       selectWallet() {
+        let _this = this;
+        if (_this.walletListActions.length === 0) {
+          Toast.loading();
+          request(tgcApiUrl.walletList).then(res => {
+            if (isEmpty(res.length)) {
+              Toast('出错了T_T');
+              return false;
+            }
+
+            for (let i = 0; i < res.length; i++) {
+              res[i].name = res[i].walletName;
+              res[i].subname = res[i].walletAddress.substring(0, 10) + '...';
+              res[i].type = 'wallet'
+            }
+            _this.walletListActions = res;
+            Toast.clear();
+          });
+        }
         this.showWalletList = !this.showWalletList;
       },
       doNext() {
@@ -249,21 +304,6 @@
             _this.tokenName = res;
           });
         }
-
-        request(tgcApiUrl.walletList).then(res => {
-          if (isEmpty(res.length)) {
-            Toast('出错了T_T');
-            return false;
-          }
-
-          for (let i = 0; i < res.length; i++) {
-            res[i].name = res[i].walletName;
-            res[i].subname = res[i].walletAddress.substring(0, 10) + '...';
-          }
-          _this.walletListActions = res;
-        });
-
-
       },
     },
     computed: {

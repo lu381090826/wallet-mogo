@@ -16,7 +16,7 @@
           </div>
         </div>
       </div>
-      <div class="charitable-box charitable-box-1">
+      <div class="charitable-box charitable-box-1" v-intervalclick="{func:step}">
         <div class="charitable-box-inner">
           <img src="../../assets/walk.png" width="33"/>
           <div>
@@ -81,6 +81,13 @@
     methods: {
       disOpen() {
         Toast("暂未开放")
+      },
+      step() {
+        openWebview({
+          url: "./charitable.step.html",
+          id: "charitable.step",
+          title: "感恩行"
+        });
       },
       one2one() {
         openWebviewFast({
