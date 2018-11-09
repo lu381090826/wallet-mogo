@@ -1,6 +1,5 @@
-import Vue from "vue";
-import {openWebviewFast} from "./webview";
-
+import {openWebview, openWebviewFast} from "./webview";
+//全局窗口控制
 export default function (Vue, options) {
   Vue.prototype.myCharitableWebView = function () {
     openWebview({

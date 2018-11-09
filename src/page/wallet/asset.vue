@@ -108,10 +108,22 @@
         showWebviewById("wallet.tokenAdd")
       },
       send() {
-        showWebviewById("wallet.send");
+        openWebview({
+          url: "./wallet.send.html",
+          id: "wallet.send",
+          titleStyle: {
+            titleText: "转账",
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"},
+          }
+        });
       },
       receive() {
-        showWebviewById("wallet.receive");
+        openWebview({
+          url: "./wallet.receive.html",
+          id: "wallet.receive",
+          title: "收款"
+        });
       },
       config() {
         showWebviewById("wallet.walletConfig");

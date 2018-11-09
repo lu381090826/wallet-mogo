@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {Toast} from "vant";
-import {isEmpty, isNotEmpty} from "./globalFunc";
+import {isEmpty, isNotEmptyObject} from "./globalFunc";
 
 Vue.use(Toast);
 
@@ -41,10 +41,11 @@ export function openWebview(config, style = {}, extras = {}) {
   if (typeof(plus) === "undefined") {
     return;
   }
-
+  console.log(extras)
   let webView = plus.webview.getWebviewById(config.id);
   //有参数传入都以新窗口打开
-  if (isEmpty(webView) || extras !== {}) {
+  if (isEmpty(webView) || isNotEmptyObject(extras)) {
+    console.log(extras);
     if (typeof (extras.webviewPreload) === undefined || extras.webviewPreload === null) {
       extras.webviewPreload = true;
     }

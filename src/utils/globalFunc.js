@@ -41,6 +41,14 @@ import {saveStepData} from "./globalTools";
   })
 })();
 
+export function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0 || typeof obj === "undefined" || obj === undefined || obj === null || obj === "" || obj === "null";
+}
+
+export function isNotEmptyObject(obj) {
+  return !isEmptyObject(obj);
+}
+
 export function isEmpty(obj) {
   return typeof obj === "undefined" || obj === undefined || obj === null || obj === "" || obj === "null";
 }
