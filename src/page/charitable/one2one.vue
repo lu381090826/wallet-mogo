@@ -9,7 +9,7 @@
         :title="item.name"
         :thumb="item.smallImg"
         currency="已筹（TG）"
-        v-intervalclick="{func:toDonation}"
+        v-intervalclick="{func:toDonation,donationId:item.donationId}"
       >
         <div slot="footer">
           <van-button size="mini" class="juan-button">捐一笔</van-button>

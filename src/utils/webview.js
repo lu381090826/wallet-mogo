@@ -43,7 +43,8 @@ export function openWebview(config, style = {}, extras = {}) {
   }
 
   let webView = plus.webview.getWebviewById(config.id);
-  if (isEmpty(webView)) {
+  //有参数传入都以新窗口打开
+  if (isEmpty(webView) || extras !== {}) {
     if (typeof (extras.webviewPreload) === undefined || extras.webviewPreload === null) {
       extras.webviewPreload = true;
     }
