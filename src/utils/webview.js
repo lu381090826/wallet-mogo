@@ -41,11 +41,10 @@ export function openWebview(config, style = {}, extras = {}) {
   if (typeof(plus) === "undefined") {
     return;
   }
-  console.log(extras)
+
   let webView = plus.webview.getWebviewById(config.id);
   //有参数传入都以新窗口打开
   if (isEmpty(webView) || isNotEmptyObject(extras)) {
-    console.log(extras);
     if (typeof (extras.webviewPreload) === undefined || extras.webviewPreload === null) {
       extras.webviewPreload = true;
     }

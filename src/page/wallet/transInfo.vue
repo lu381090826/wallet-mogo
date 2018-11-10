@@ -6,13 +6,13 @@
           <van-cell title="交易状态" :label="stateDesc"/>
           <van-cell title="交易失败原因" :label="errDescription" v-if="state==='1'"/>
           <van-cell title="交易哈希值" :label="transInfo.blockHash"/>
-          <van-cell title="失败区块高度" :label="formatHexNumber(transInfo.blockNumber)"/>
+          <van-cell title="区块高度" :label="formatHexNumber(transInfo.blockNumber)"/>
           <van-cell title="发送方" :label="transInfo.from"/>
           <van-cell title="接收方" :label="transInfo.to"/>
-          <van-cell title="实际支付的矿工费(ETH)" :label="formatHexNumber(gasUsed)"/>
+          <van-cell title="实际支付的矿工费(ETH)" :label="formatETH(gasUsed)"/>
           <van-cell title="随机数" :label="formatHexNumber(transInfo.nonce)"/>
           <!--<van-cell title="燃料限制" :value="transInfo.gas"/>-->
-          <van-cell title="交易燃料费用(ETH)" :label="formatGas(transInfo.gasPrice)"/>
+          <van-cell title="交易燃料费用(ETH)" :label="formatETH(transInfo.gasPrice)"/>
           <!--<van-cell title="交易状态" :value="transInfo.blockNumber"/>-->
         </van-cell-group>
       </div>
@@ -69,9 +69,9 @@
         }
         return hex;
       },
-      formatGas(gas) {
-        if (isNotEmpty(gas)) {
-          return web3Util.instance.fromWei(this.formatHexNumber(gas), 'gwei') + ''
+      formatETH(eth) {
+        if (isNotEmpty(eth)) {
+          return web3Util.instance.fromWei(this.formatHexNumber(eth), 'gwei') + ''
         }
         return gas;
       },
