@@ -7,10 +7,10 @@
 
     <div class="progress">
       <div class="progress-title" v-show="!hasChange">
-        每天集满5000步可兑换一次<strong style="color: dodgerblue">1TG</strong>
+        &nbsp;&nbsp;每天集满5000步可兑换一次<strong style="color: dodgerblue">1TG</strong>
       </div>
       <div class="progress-title" v-show="hasChange">
-        今天已经兑换过了，明天再来吧。
+        &nbsp;&nbsp;今天已经兑换过了，明天再来吧。
       </div>
       <div style="text-align: center">
         <circle-progress :list='progressVal' :jindu='todayStep'></circle-progress>
@@ -19,8 +19,12 @@
     </div>
 
     <div>
-      <van-button size="large" v-show="!canChange" disabled type="primary">立即兑换</van-button>
-      <van-button size="large" v-show="canChange" type="primary" @click="changeStep">立即兑换</van-button>
+      <van-button class="changeButton" size="large" v-show="!canChange" disabled type="primary">
+        立即兑换
+      </van-button>
+      <van-button class="changeButton" size="large" v-show="canChange" type="primary" @click="changeStep">
+        立即兑换
+      </van-button>
     </div>
 
   </div>
@@ -43,26 +47,22 @@
       }
     },
     components: {
-      'circle-progress': circleProgress
+      'circle-progress': circleProgress,
     },
     created: function () {
       this.getStepNum();
+      console.log(this.todayStep)
     },
     computed: {
       canChange() {
         return this.progressVal >= 100;
       },
-      progressVal: {
-        get() {
-          let val = this.todayStep / 5000 * 100;
-          if (val >= 100) {
-            val = 100;
-          }
-          return val;
-        },
-        set() {
-
+      progressVal() {
+        let val = this.todayStep / 5000 * 100;
+        if (val >= 100) {
+          val = 100;
         }
+        return val;
       }
 
     },
@@ -91,8 +91,9 @@
     },
     mounted: function () {
       //定时更新步数
+      let _this = this;
       this.$nextTick(function () {
-        setInterval(this.getStepNum, 500);
+        setInterval(_this.getStepNum, 500);
       })
     },
   }
@@ -125,7 +126,15 @@
   }
 
   .progress-title {
+    margin-top: 8%;
     color: #414141;
-    margin-bottom: 2%;
+    margin-bottom: 8%;
+  }
+
+  .changeButton {
+    background-color: orange;
+    border-color: #ff9209;
+    width: 96%;
+    margin-left: 2%;
   }
 </style>

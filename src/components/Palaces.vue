@@ -83,10 +83,14 @@
           });
       },
       step() {
-        openWebview({
+        openWebviewFast({
           url: "./charitable.step.html",
           id: "charitable.step",
-          title: "感恩行"
+          titleStyle: {
+            titleText: "感恩行",
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"},
+          }
         });
       },
       profit() {

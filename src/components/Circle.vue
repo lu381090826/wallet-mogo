@@ -8,7 +8,13 @@
               :style="pathStyle"/>
       </svg>
       <div :class="innerClasses">
-        <slot><h3 class="">{{ jindu }}步</h3></slot>
+        <slot>
+          <h3 class="">
+            <numberGrow :value="jindu" :time="0.5" :fontSize="30"></numberGrow>
+            <span style="font-size: 15px">步</span>
+          </h3>
+
+        </slot>
       </div>
     </div>
 
@@ -17,8 +23,8 @@
 
 <script>
   import Cookies from 'js-cookie';
-  // import NProgress from 'nprogress'
-  // import 'nprogress/nprogress.css'
+  import numberGrow from './NumberGrow'
+
   const prefixCls = 'ivu-chart-circle';
 
   function oneOf(value, validList) {
@@ -103,9 +109,11 @@
     created() {
       setTimeout(() => {
         this.percent = this.list;
-      }, 1000);
+      }, 500);
     },
-    methods: {}
+    components: {
+      numberGrow
+    }
   }
 </script>
 
