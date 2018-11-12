@@ -2,7 +2,7 @@ import {openWebview, openWebviewFast} from "./webview";
 //全局窗口控制
 export default function (Vue, options) {
   Vue.prototype.myCharitableWebView = function () {
-    openWebview({
+    openWebviewFast({
       url: './charitable.myCharitable.html',
       id: 'charitable.myCharitable',
       title: '我的捐助',

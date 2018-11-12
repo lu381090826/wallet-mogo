@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="overflow-x: hidden">
 
     <div id="head-text">
       <span>步数换TG</span>
