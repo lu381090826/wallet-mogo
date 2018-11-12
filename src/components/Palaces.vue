@@ -48,7 +48,7 @@
 </template>
 <script>
   import {
-    openWebview,
+    openWebview, openWebviewFast,
   } from "../utils/webview";
   import {Icon} from 'vant';
   import Vue from "vue";
@@ -143,7 +143,7 @@
         );
       },
       scan() {
-        openWebview({
+        openWebviewFast({
           url: "./wallet.scan.html",
           id:
             "wallet.scan",

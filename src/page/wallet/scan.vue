@@ -24,22 +24,12 @@
     },
     created() {
       let t = this;
-
-      function plusReady() {
-        t.createBarcode();
-      }
-
-      if (window.plus) {
-        plusReady();
-      } else {
-        document.addEventListener("plusready", plusReady, false);
-      }
-
+      t.createBarcode();
     },
     methods: {
       // 扫码成功回调
       onmarked(type, result) {
-        scan.close();
+        this.gotoSend(result);
       },
       // 创建Barcode扫码控件
       createBarcode() {
@@ -54,34 +44,21 @@
         }, 200)
       },
       gotoSend(walletAddress) {
-        let t = this;
         //预加载窗口
-        preLoad([{
-          url: "./wallet.send.html",
-          id: "wallet.send",
-          title: "转账",
-          style: {
-            titleNView: {
-              backgroundColor: "#f7f7f7", // 导航栏背景色
-              titleText: "转账", // 导航栏标题
-              titleColor: "#666", // 文字颜色
-              type: "transparent", // 透明渐变样式
-              autoBackButton: true, // 自动绘制返回箭头
-              splitLine: {
-                // 底部分割线
-                color: "#cccccc"
-              }
-            },
-            popGesture: "none"
-          },
-          extras: {
+        openWebview({
+            url: "./wallet.send.html",
+            id: "wallet.send",
+            titleStyle: {
+              titleText: "转账",
+              autoBackButton: true,
+              progress: {color: '#ff5c0a', height: "1%"},
+            }
+          }
+          , {}, {
             receiveAddress: walletAddress,
             tokenAddress: "",
             sendAmount: ""
-          }
-        }]);
-
-        showWebviewById("wallet.send");
+          });
       }
     },
     destroyed: function () {

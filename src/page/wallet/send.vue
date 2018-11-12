@@ -1,12 +1,13 @@
 <template>
   <div style="margin: 3%">
     <van-cell-group>
-      <van-field label="金额" placeholder="" type='number'
+      <van-field label="金额" placeholder=""
                  v-model="sendAmount"
                  :error-message="sendAmountError"
                  @input="sendAmountError = ''"
                  :readonly="sendAmountReadOnly"
                  :disabled="sendAmountReadOnly"
+                 type="number"
       >
         <van-icon slot="icon" name="more-o" @click="selectToken"/>
       </van-field>
@@ -26,6 +27,7 @@
                  placeholder="收款钱包地址"
                  :error-message="receiveAddressError"
                  @input="receiveAddressError = ''"
+                 :clearable="true"
       >
         <van-icon slot="icon" name="contact" @click="contact"/>
       </van-field>
