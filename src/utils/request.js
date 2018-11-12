@@ -15,9 +15,7 @@ export async function request(url, data = {}) {
     // 请求方法同上
     method: 'post', // default
     // 基础url前缀
-    // baseURL: 'http://120.79.191.116:9022',
-    baseURL: 'http://192.168.8.125:9022',
-    // baseURL: 'http://127.0.0.1:9022',
+    baseURL: process.env.requestBaseURL,
     // 请求头信息
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +31,6 @@ export async function request(url, data = {}) {
       return status >= 200 && status < 550; // default
     },
   };
-
   if (typeof (plus) === "undefined") {
     return false;
   }

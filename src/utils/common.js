@@ -14,8 +14,7 @@ Vue.use(Toast);
 Vue.use(webViews);
 
 //测试环境代理
-Vue.prototype.HOST = '/api';
-// Vue.prototype.HOST = null;
+Vue.prototype.HOST = process.env.prototypeHOST;
 
 let firstExitApp = false;
 

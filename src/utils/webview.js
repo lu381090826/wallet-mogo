@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {Toast} from "vant";
-import {isEmpty, isNotEmptyObject} from "./globalFunc";
+import {isEmpty, isNotEmpty, isNotEmptyObject} from "./globalFunc";
 
 Vue.use(Toast);
 
@@ -67,18 +67,23 @@ export function openWebview(config, style = {}, extras = {}) {
       ,
       extras
     );
-    // let w = plus.nativeUI.showWaiting();
-    // 监听窗口加载成功
-    // wload.addEventListener(
-    //   "loaded",
-    //   function () {
-    //     wload.show("slide-in-right"); // 显示窗口
-    //     w.close();
-    //     // w = null;
-    //   },
-    //   false
-    // );
-    wload.show("slide-in-right");
+
+    //需要加载完再打开
+    if (isNotEmpty(config.needLoaded) && config.needLoaded) {
+      let w = plus.nativeUI.showWaiting();
+      // 监听窗口加载成功
+      wload.addEventListener(
+        "loaded",
+        function () {
+          wload.show("slide-in-right"); // 显示窗口
+          w.close();
+          // w = null;
+        },
+        false
+      );
+    } else {
+      wload.show("slide-in-right");
+    }
   } else {
     webView.show();
   }

@@ -44,7 +44,7 @@
         openWebview({
           url: './charitable.one2oneDonation.html',
           id: 'charitable.one2oneDonation',
-          title: '一帮一捐助',
+          needLoaded: true,
           titleStyle: {
             type: "transparent",
             titleText: "一帮一捐助",
