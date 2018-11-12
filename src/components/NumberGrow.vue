@@ -108,7 +108,7 @@
 
     font-family: Arial-BoldMT;
 
-    /*font-size: 64px;*/
+    font-size: 25px;
 
     color: #ffaf00;
 

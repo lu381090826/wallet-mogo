@@ -49,9 +49,6 @@
 <script>
   import {
     openWebview,
-    openWebviewFast,
-    preLoad,
-    showWebviewById
   } from "../utils/webview";
   import {Icon} from 'vant';
   import Vue from "vue";
@@ -83,15 +80,16 @@
           });
       },
       step() {
-        openWebviewFast({
+        openWebview({
           url: "./charitable.step.html",
           id: "charitable.step",
+          // needLoaded: true,
           titleStyle: {
             titleText: "感恩行",
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"},
           }
-        });
+        }, {}, {none: true});
       },
       profit() {
         openWebview(

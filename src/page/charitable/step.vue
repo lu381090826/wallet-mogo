@@ -32,26 +32,21 @@
 <script>
   import Vue from "vue";
   import {Toast, Button} from 'vant';
-  import {request} from "../../utils/request";
-  import {isNotEmpty} from "../../utils/globalFunc";
-  import circleProgress from '../../components/Circle'
+  import {request} from "@/utils/request";
+  import circleProgress from '@/components/Circle'
 
   Vue.use(Button);
   export default {
     name: 'step',
     data() {
       return {
-        todayStep: 0,
-        totalStep: 0,
-        hasChange: false,
+        todayStep: Number(localStorage.getItem("todayStep")),
+        totalStep: localStorage.getItem("totalStep"),
+        hasChange: localStorage.getItem("hasChange"),
       }
     },
     components: {
       'circle-progress': circleProgress,
-    },
-    created: function () {
-      this.getStepNum();
-      console.log(this.todayStep)
     },
     computed: {
       canChange() {
@@ -67,17 +62,6 @@
 
     },
     methods: {
-      getStepNum() {
-        if (isNotEmpty(localStorage.getItem("todayStep"))) {
-          this.todayStep = Number(localStorage.getItem("todayStep"));
-        }
-        if (isNotEmpty(localStorage.getItem("totalStep"))) {
-          this.totalStep = localStorage.getItem("totalStep")
-        }
-        if (isNotEmpty(localStorage.getItem("hasChange"))) {
-          this.hasChange = localStorage.getItem("hasChange")
-        }
-      },
       changeStep() {
         let _this = this;
         request("/donation/step/stepToTG", {receiveAddress: plus.storage.getItem("walletAddress")}).then(function (res) {
@@ -92,9 +76,9 @@
     mounted: function () {
       //定时更新步数
       let _this = this;
-      this.$nextTick(function () {
-        setInterval(_this.getStepNum, 500);
-      })
+      // this.$nextTick(function () {
+      //   setInterval(_this.getStepNum, 500);
+      // })
     },
   }
 </script>

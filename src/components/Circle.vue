@@ -10,8 +10,8 @@
       <div :class="innerClasses">
         <slot>
           <h3 class="">
+            <span style="font-size: 10px;color: gray">今日步数</span>
             <numberGrow :value="jindu" :time="0.5" :fontSize="30"></numberGrow>
-            <span style="font-size: 15px">步</span>
           </h3>
 
         </slot>
@@ -140,7 +140,7 @@
     text-align: center;
     position: absolute;
     left: 0;
-    top: 50%;
+    top: 40%;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     line-height: 1;

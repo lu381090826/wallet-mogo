@@ -16,7 +16,7 @@
       <van-cell title="邀请好友" is-link icon="point-gift" v-intervalclick="{func:yaoqing}">
       </van-cell>
 
-      <van-cell title="我的捐赠" is-link icon="like-o">
+      <van-cell title="我的捐助" is-link icon="like-o" v-intervalclick="{func:wodejuanzeng}">
       </van-cell>
 
       <van-cell title="检查更新" is-link icon="upgrade" v-intervalclick="{func:checkUpdate}">
@@ -34,7 +34,7 @@
 <script>
   import Vue from 'vue';
   import NativeFun from "../utils/plus/nativeFun";
-  import {openWebview, preLoad, showWebviewById} from "../utils/webview";
+  import {openWebview, openWebviewFast, preLoad, showWebviewById} from "../utils/webview";
   import {NavBar, Cell, CellGroup, Button, Row, Col} from 'vant';
   import {Icon} from 'vant';
   import cons from "../utils/constants/Cons";
@@ -72,8 +72,27 @@
       checkUpdate() {
         NativeFun.checkUpdate(true);
       },
+      wodejuanzeng() {
+        openWebviewFast({
+          url: './charitable.myCharitable.html',
+          id: 'charitable.myCharitable',
+          title: '我的捐助',
+          titleStyle: {
+            titleText: "我的捐助",
+            titleColor: "#ffffff",
+            backgroundColor: "#ffa500",
+            splitLine: {color: "#ffa500"},
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"}
+          }
+        })
+      },
       yaoqing() {
-        showWebviewById('wallet.yaoqing');
+        openWebview({
+          url: './wallet.yaoqing.html',
+          id: 'wallet.yaoqing',
+          title: '邀请好友',
+        });
       },
       logout() {
         plus.storage.clear();

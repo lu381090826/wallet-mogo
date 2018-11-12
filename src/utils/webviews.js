@@ -6,7 +6,6 @@ export default function (Vue, options) {
       url: './charitable.myCharitable.html',
       id: 'charitable.myCharitable',
       title: '我的捐助',
-      showWaiting: true,
       titleStyle: {
         titleText: "我的捐助",
         titleColor: "#ffffff",
