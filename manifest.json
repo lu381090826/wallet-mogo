@@ -5,7 +5,7 @@
     "name" : "感恩链",
     /*应用名称，程序桌面图标名称*/
     "version" : {
-        "name" : "2.0.2",
+        "name" : "2.0.3",
         /*应用版本名称*/
         "code" : "141"
     },
@@ -14,7 +14,7 @@
     "icons" : {
         "72" : "icon.png"
     },
-    "launch_path" : "dist/index.html",
+    "launch_path" : "http://192.168.8.125:8080/",
     /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
     "developer" : {
         "name" : "",

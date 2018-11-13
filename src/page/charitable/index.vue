@@ -12,39 +12,42 @@
           </van-swipe-item>
         </van-swipe>
       </div>
-      <div id="charitable-middle">
-        <div class="charitable-box charitable-box-1" v-intervalclick="{func:one2one}">
-          <div class="charitable-box-inner">
-            <img src="../../assets/zan.png" width="33"/>
-            <div>
-              一帮一
+
+      <div style="margin-top: 4%">
+        <van-row type="flex" justify="center">
+          <van-col span="6">
+            <div class="charitable-box-inner" v-intervalclick="{func:one2one}">
+              <img src="../../assets/zan.png" width="33"/>
+              <div>
+                一帮一
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="charitable-box charitable-box-1" v-intervalclick="{func:step}">
-          <div class="charitable-box-inner">
-            <img src="../../assets/walk.png" width="33"/>
-            <div>
-              感恩行
+          </van-col>
+          <van-col span="6">
+            <div class="charitable-box-inner" v-intervalclick="{func:step}">
+              <img src="../../assets/walk.png" width="33"/>
+              <div>
+                感恩行
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="charitable-box" @click="disOpen">
-          <div class="charitable-box-inner">
-            <img src="../../assets/task.png" width="33"/>
-            <div>
-              月捐
+          </van-col>
+          <van-col span="6">
+            <div class="charitable-box-inner" @click="disOpen">
+              <img src="../../assets/task.png" width="33"/>
+              <div>
+                月捐
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="charitable-box" @click="disOpen">
-          <div class="charitable-box-inner">
-            <img src="../../assets/time.png" width="33"/>
-            <div>
-              紧急捐助
+          </van-col>
+          <van-col span="6">
+            <div class="charitable-box-inner" @click="disOpen">
+              <img src="../../assets/time.png" width="33"/>
+              <div>
+                紧急捐助
+              </div>
             </div>
-          </div>
-        </div>
+          </van-col>
+        </van-row>
       </div>
 
       <div id="donation">
@@ -66,12 +69,14 @@
 </template>
 <script>
   import Vue from "vue";
-  import {Swipe, SwipeItem, Toast, Cell, CellGroup, PullRefresh} from 'vant';
+  import {Swipe, SwipeItem, Toast, Cell, CellGroup, PullRefresh, Row, Col} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {openWebview, openWebviewFast} from "../../utils/webview";
 
-  Vue.use(Swipe).use(SwipeItem).use(Cell).use(CellGroup).use(PullRefresh);
+  Vue.use(Swipe).use(SwipeItem).use(Cell)
+    .use(CellGroup).use(PullRefresh)
+    .use(Row).use(Col);
 
   export default {
     name: 'charitable',
@@ -182,60 +187,6 @@
     height: 250px;
   }
 
-  #charitable-middle {
-    width: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-  }
-
-  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-  ::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    background-color: #F5F5F5;
-  }
-
-  .charitable-box {
-    width: 78px;
-    height: 70px;
-    display: inline-block;
-    margin-left: 2%;
-    margin-top: 5%;
-    background-color: #c9c9c9;
-    border-radius: 4px;
-  }
-
-  .charitable-box-1 {
-    background-color: white;
-    border: orange 1px solid;
-  }
-
-  .charitable-box-inner {
-    margin-top: 8px;
-    display: inline;
-    float: left;
-    font-size: 14px;
-    color: black;
-    text-align: center;
-    width: 75px;
-  }
-
-  .charitable-box-inner > a:link {
-    color: #808080;
-    text-decoration: none;
-  }
-
-  .charitable-box-inner > a:visited {
-    color: #808080;
-    text-decoration: none;
-  }
-
-  .charitable-box-inner > a:hover {
-    color: #808080;
-    text-decoration: underline;
-  }
-
   #donation {
     text-align: left;
     margin-top: 5%;
@@ -259,4 +210,13 @@
     color: #1d9dd2;
   }
 
+  .charitable-box-inner {
+    text-align: center;
+    padding: 8px;
+  }
+
+  .charitable-box-inner:active {
+    border-radius: 5px;
+    background-color: #eeeeee;
+  }
 </style>

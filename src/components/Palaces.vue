@@ -235,6 +235,7 @@
     overflow: hidden;
   }
   #mainmenu li:active {
+    border-radius: 5px;
     background-color: #eeeeee;
   }
 
