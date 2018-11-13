@@ -48,7 +48,7 @@
 <style lang="less">
   :global {
     body {
-      background-color: #f8f8f8;
+      background-color: white;
       -webkit-font-smoothing: antialiased;
       font-family: PingFang SC, Helvetica Neue, Arial, sans-serif;
       overflow-x: hidden;

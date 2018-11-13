@@ -169,12 +169,7 @@
 </script>
 <style scoped>
   #body {
-    background-color: #fafafadb;
-    min-height: 812px;
-  }
-
-  #charitable-header {
-    background-color: orange;
+    background-color: white;
   }
 
   #charitable {
@@ -200,9 +195,6 @@
   }
 
   #donation-cell {
-    /*margin-top: 1%;*/
-    height: 366px;
-    /*overflow-y: scroll;*/
     color: #767676;
   }
 
@@ -213,6 +205,7 @@
   .charitable-box-inner {
     text-align: center;
     padding: 8px;
+    color: #6f6f6f;
   }
 
   .charitable-box-inner:active {
