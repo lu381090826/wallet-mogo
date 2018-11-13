@@ -22,7 +22,6 @@
 </template>
 
 <script>
-  import Cookies from 'js-cookie';
   import numberGrow from './NumberGrow'
 
   const prefixCls = 'ivu-chart-circle';
