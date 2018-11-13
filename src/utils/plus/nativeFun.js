@@ -26,6 +26,7 @@ let NativeFun = {
   },
   //监听步数
   initSensorEventListener() {
+    console.log("开始计算步数");
     //初始化步数
     if (isEmpty(localStorage.getItem("totalStep"))) {
       localStorage.setItem("totalStep", Number(0));

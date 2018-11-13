@@ -34,6 +34,7 @@
   import {Toast, Button} from 'vant';
   import {request} from "@/utils/request";
   import circleProgress from '@/components/Circle'
+  import {isToday} from "../../utils/globalTools";
 
   Vue.use(Button);
   export default {
@@ -47,6 +48,14 @@
     },
     components: {
       'circle-progress': circleProgress,
+    },
+    created() {
+      if (!isToday(localStorage.getItem("lastStepTime"))) {
+        this.todayStep = 0;
+        localStorage.setItem("todayStep", 0);
+        let time = new Date().getTime();
+        localStorage.setItem("lastStepTime", time);
+      }
     },
     computed: {
       canChange() {
