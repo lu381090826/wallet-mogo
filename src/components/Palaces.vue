@@ -21,24 +21,24 @@
 
     <div class="palaces-pl">
       <ul id="mainmenu">
-        <li>
+        <li v-intervalclick="{func:charitable}">
           <a>
             <b>
-              <img src="../assets/cishan.png" width="38" v-intervalclick="{func:charitable}"/>
+              <img src="../assets/cishan.png" width="38"/>
             </b><span>公益慈善</span>
           </a>
         </li>
-        <li>
+        <li v-intervalclick="{func:step}">
           <a>
             <b>
-              <img src="../assets/walk.png" width="38" v-intervalclick="{func:step}"/>
+              <img src="../assets/walk.png" width="38"/>
             </b><span>感恩行</span>
           </a>
         </li>
-        <li>
+        <li v-intervalclick="{func:profit}">
           <a>
             <b>
-              <img src="../assets/shouyi.png" width="38" v-intervalclick="{func:profit}"/>
+              <img src="../assets/shouyi.png" width="38"/>
             </b><span>持币矿</span>
           </a>
         </li>
@@ -87,7 +87,7 @@
           titleStyle: {
             titleText: "感恩行",
             autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"},
+            // progress: {color: '#ff5c0a', height: "1%"},
           }
         }, {}, {none: true});
       },
@@ -200,12 +200,6 @@
     color: white;
   }
 
-  .palaces-swipe {
-    margin-top: 8%;
-    position: inherit;
-    height: 80px;
-  }
-
   .palaces-swipe div {
     border: 22px black;
   }
@@ -239,6 +233,9 @@
     width: 22%;
     border-radius: 3px;
     overflow: hidden;
+  }
+  #mainmenu li:active {
+    background-color: #eeeeee;
   }
 
   #mainmenu li a {

@@ -19,7 +19,7 @@
               </div>
             </van-col>
             <van-col span="10">
-              <div class="asset-header-titile">
+              <div class="asset-header-titile" v-intervalclick="{func:profit}">
                 <div class="titile-name">累计收益(TG)</div>
                 <div>
                   {{totalProfit}}
@@ -93,6 +93,23 @@
       this.init();
     },
     methods: {
+      profit() {
+        openWebview(
+          {
+            url: "./profit.index.html",
+            id: "profit.index",
+            showWaiting: true,
+            titleStyle: {
+              titleText: "持币矿",
+              titleColor: "#ffffff",
+              backgroundColor: "#ffd81d",
+              splitLine: {color: "#ffd81d"},
+              autoBackButton: true,
+              progress: {color: '#ff5c0a', height: "1%"},
+            },
+            style: {render: true}
+          })
+      },
       trans(tokenAddress) {
         let _this = this;
         openWebview({

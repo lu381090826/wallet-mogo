@@ -91,21 +91,38 @@
     </van-tabbar>
 
     <van-popup v-model="showBase" position="bottom" class="pop-bottom">
-      <van-field label="捐款金额(tg)" v-model="sendAmount"></van-field>
-      <van-button size="large" class="pop-button" v-intervalclick="{func:donation}">下一步</van-button>
+      <h3>输入捐款金额</h3>
+      <div style="padding: 3%">
+        <van-button @click="sendAmount = '10'" plain>10TG</van-button>
+        <van-button @click="sendAmount = '50'" plain>50TG</van-button>
+        <van-button @click="sendAmount = '100'" plain>100TG</van-button>
+        <van-button @click="sendAmount = '150'" plain>150TG</van-button>
+      </div>
+      <van-field label="TG" v-model="sendAmount" placeholder="输入捐款金额"></van-field>
+      <van-button size="large" class="pop-button" v-intervalclick="{func:donation}">
+        下一步
+      </van-button>
     </van-popup>
 
   </div>
 </template>
 <script>
   import Vue from "vue";
-  import {Tabbar, TabbarItem, Sku, Popup, Button, Field, Toast} from 'vant';
+  import {Tabbar, TabbarItem, Sku, Popup, Button, Field, Toast, Radio, RadioGroup, Cell} from 'vant';
   import TGCConfig from "../../utils/constants/tgcConfig";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
   import {openWebview} from "../../utils/webview";
 
-  Vue.use(Popup).use(Sku).use(Tabbar).use(TabbarItem).use(Button).use(Field);
+  Vue.use(Popup)
+    .use(Sku)
+    .use(Tabbar)
+    .use(TabbarItem)
+    .use(Button)
+    .use(Field)
+    .use(Radio)
+    .use(Cell)
+    .use(RadioGroup);
   export default {
     name: 'charitable',
     data() {
@@ -173,7 +190,7 @@
             sendAmount: params.amount,
             tokenAddress: TGCConfig.tokenAddress,
             callbackWebViewId: 'charitable.one2oneDonation',
-            donationId: params.donationId,
+            orderId: res,
           });
         })
 
@@ -304,12 +321,12 @@
   .pop-bottom {
     width: 100%;
     padding: 3%;
-    height: 130px;
+    height: 35%;
     background-color: white;
   }
 
   .pop-button {
-    margin-top: 40px;
+    margin-top: 20px;
     width: 98%;
     margin-left: 1%;
     background-color: orangered;

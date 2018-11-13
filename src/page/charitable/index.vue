@@ -1,84 +1,130 @@
 <template>
   <div id="body">
-    <div id="charitable">
-      <van-swipe :autoplay="4000">
-        <van-swipe-item><img src="../../assets/img/xiwangxiaoxue.jpg"/></van-swipe-item>
-        <van-swipe-item><img src="../../assets/img/283f752e0292ed000fa654c4f9be774a.jpg"/></van-swipe-item>
-        <van-swipe-item><img src="../../assets/img/guer20180822172931.png"/></van-swipe-item>
-      </van-swipe>
-    </div>
-    <div id="charitable-middle">
-      <div class="charitable-box charitable-box-1" v-intervalclick="{func:one2one}">
-        <div class="charitable-box-inner">
-          <img src="../../assets/zan.png" width="33"/>
-          <div>
-            一帮一
-          </div>
-        </div>
-      </div>
-      <div class="charitable-box charitable-box-1" v-intervalclick="{func:step}">
-        <div class="charitable-box-inner">
-          <img src="../../assets/walk.png" width="33"/>
-          <div>
-            感恩行
-          </div>
-        </div>
-      </div>
-      <div class="charitable-box" @click="disOpen">
-        <div class="charitable-box-inner">
-          <img src="../../assets/task.png" width="33"/>
-          <div>
-            月捐
-          </div>
-        </div>
-      </div>
-      <div class="charitable-box" @click="disOpen">
-        <div class="charitable-box-inner">
-          <img src="../../assets/time.png" width="33"/>
-          <div>
-            紧急捐助
-          </div>
-        </div>
-      </div>
-    </div>
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <div id="charitable">
+        <van-swipe :autoplay="4000">
+          <van-swipe-item v-intervalclick="{func:toDonation,donationId:1}">
+            <img src="@/assets/img/guer20180822172931.png"/>
+          </van-swipe-item>
 
-    <div id="donation">
-      <div id="donation-title">捐赠记录</div>
-      <div id="donation-cell">
-        <van-cell-group>
-          <van-cell class="bl" v-for="(item,idx) in itemList"
-                    :key="idx" :title="item.orderTitle"
-                    is-link
-                    @click="transInfo(item.blcokAddress)">
-          </van-cell>
-        </van-cell-group>
+          <van-swipe-item v-intervalclick="{func:toDonation,donationId:2}">
+            <img src="@/assets/img/283f752e0292ed000fa654c4f9be774a.jpg"/>
+          </van-swipe-item>
+        </van-swipe>
       </div>
-    </div>
+      <div id="charitable-middle">
+        <div class="charitable-box charitable-box-1" v-intervalclick="{func:one2one}">
+          <div class="charitable-box-inner">
+            <img src="../../assets/zan.png" width="33"/>
+            <div>
+              一帮一
+            </div>
+          </div>
+        </div>
+        <div class="charitable-box charitable-box-1" v-intervalclick="{func:step}">
+          <div class="charitable-box-inner">
+            <img src="../../assets/walk.png" width="33"/>
+            <div>
+              感恩行
+            </div>
+          </div>
+        </div>
+        <div class="charitable-box" @click="disOpen">
+          <div class="charitable-box-inner">
+            <img src="../../assets/task.png" width="33"/>
+            <div>
+              月捐
+            </div>
+          </div>
+        </div>
+        <div class="charitable-box" @click="disOpen">
+          <div class="charitable-box-inner">
+            <img src="../../assets/time.png" width="33"/>
+            <div>
+              紧急捐助
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="donation">
+        <div id="donation-title">近期捐赠</div>
+        <div id="donation-cell" style="margin-top: 2%">
+          <van-cell-group>
+            <van-cell class="bl" v-for="(item,idx) in itemList"
+                      :key="idx" :title="item.orderTitle"
+                      is-link
+                      @click="transInfo(item.orderBladdress)"
+                      :label="item.label"
+            >
+            </van-cell>
+          </van-cell-group>
+        </div>
+      </div>
+    </van-pull-refresh>
   </div>
 </template>
 <script>
   import Vue from "vue";
-  import {Swipe, SwipeItem, Toast, Cell, CellGroup} from 'vant';
+  import {Swipe, SwipeItem, Toast, Cell, CellGroup, PullRefresh} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {openWebview, openWebviewFast} from "../../utils/webview";
 
-  Vue.use(Swipe).use(SwipeItem).use(Cell).use(CellGroup);
+  Vue.use(Swipe).use(SwipeItem).use(Cell).use(CellGroup).use(PullRefresh);
 
   export default {
     name: 'charitable',
     data() {
       return {
-        itemList: []
+        itemList: [],
+        isLoading: false,
       }
     },
-    beforeMount() {
+    created() {
       let _this = this;
-      request(TGCApiUrl.donationGetList, {donationType: 1, status: 200}).then(function (res) {
-        _this.itemList = res;
-      })
+      _this.getData();
     },
     methods: {
+      onRefresh() {
+        this.getData();
+        setTimeout(() => {
+          Toast('刷新成功');
+          this.isLoading = false;
+        }, 500);
+      },
+      getData() {
+        let _this = this;
+        request(TGCApiUrl.donationGetList, {donationType: 1, status: 200}).then(function (res) {
+          _this.itemList = res;
+          if (_this.itemList.length > 0) {
+            _this.itemList.forEach(function (row) {
+              row.orderTitle = row.orderTitle + row.amount + "TG";
+              row.label = row.createTime.substring(0, 10) + "   捐款区块：" + row.orderBladdress.substring(0, 10) + "..."
+            })
+          } else {
+            _this.showOrderList = false;
+          }
+        });
+      },
+      toDonation(donationId) {
+        openWebview({
+          url: './charitable.one2oneDonation.html',
+          id: 'charitable.one2oneDonation',
+          needLoaded: true,
+          titleStyle: {
+            type: "transparent",
+            titleText: "一帮一捐助",
+            titleColor: "#ffffff",
+            backgroundColor: "#ffa500",
+            splitLine: {color: "#ffa500"},
+            autoBackButton: true,
+            buttons: [{type: 'share', float: 'right'}]
+          }
+        }, {}, {
+          donationId: donationId
+        });
+      },
       disOpen() {
         Toast("暂未开放")
       },
@@ -161,7 +207,8 @@
   }
 
   .charitable-box-1 {
-    background-color: #ffb2c1;
+    background-color: white;
+    border: orange 1px solid;
   }
 
   .charitable-box-inner {
@@ -169,7 +216,7 @@
     display: inline;
     float: left;
     font-size: 14px;
-    color: white;
+    color: black;
     text-align: center;
     width: 75px;
   }
@@ -204,7 +251,7 @@
   #donation-cell {
     /*margin-top: 1%;*/
     height: 366px;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     color: #767676;
   }
 

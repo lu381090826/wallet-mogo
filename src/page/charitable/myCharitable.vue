@@ -67,7 +67,7 @@
         _this.orderList = res;
         if (_this.orderList.length > 0) {
           _this.orderList.forEach(function (row) {
-            row.orderTitle = row.orderTitle + row.amount + "TGC"
+            row.orderTitle = row.orderTitle + row.amount + "TG"
           })
         } else {
           _this.showOrderList = false;

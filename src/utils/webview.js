@@ -75,17 +75,17 @@ export function openWebview(config, style = {}, extras = {}) {
       wload.addEventListener(
         "loaded",
         function () {
-          wload.show("slide-in-right"); // 显示窗口
+          wload.show("pop-in"); // 显示窗口
           w.close();
           // w = null;
         },
         false
       );
     } else {
-      wload.show("slide-in-right");
+      wload.show("pop-in");
     }
   } else {
-    webView.show();
+    webView.show("pop-in");
   }
 
 
@@ -125,7 +125,7 @@ export function openWebviewFast(config) {
     {
       titleNView: navStyle,
     },
-    "slide-in-right",
+    "pop-in",
     200,
     function () {
       if (w) {
@@ -189,5 +189,5 @@ export function showWebviewById(id) {
   if (typeof(plus) === "undefined") {
     return;
   }
-  plus.webview.show(id, "slide-in-right", 100);
+  plus.webview.show(id, "pop-in");
 }

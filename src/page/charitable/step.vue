@@ -20,10 +20,10 @@
 
     <div>
       <van-button class="changeButton" size="large" v-show="!canChange" disabled type="primary">
-        立即兑换
+        立即捐步
       </van-button>
       <van-button class="changeButton" size="large" v-show="canChange" type="primary" @click="changeStep">
-        立即兑换
+        立即捐步
       </van-button>
     </div>
 
