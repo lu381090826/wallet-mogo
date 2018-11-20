@@ -14,7 +14,7 @@
     "icons" : {
         "72" : "icon.png"
     },
-    "launch_path" : "dist/index.html",
+    "launch_path" : "http://192.168.8.125:8080/",
     /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
     "developer" : {
         "name" : "",
@@ -197,11 +197,11 @@
                     /*普通屏启动图片，分辨率：240x282*/
                     "ldpi" : "",
                     /*大屏启动图片，分辨率：320x442*/
-                    "hdpi" : "D:/图片/qidongtupian_480_762.png",
+                    "hdpi" : "D:/图片/启动图480762.png",
                     /*高分屏启动图片，分辨率：480x762*/
-                    "xhdpi" : "D:/图片/qidongtupian_720_1242.png",
+                    "xhdpi" : "D:/图片/启动图7201143.png",
                     /*720P高分屏启动图片，分辨率：720x1242*/
-                    "xxhdpi" : "D:/图片/公益.png"
+                    "xxhdpi" : "D:/图片/启动图10801715.png"
                 }
             }
         }

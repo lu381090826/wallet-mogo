@@ -1,21 +1,26 @@
 <template>
   <div>
     <div v-show="active===0">
-      <Palaces></Palaces>
+      <Home></Home>
     </div>
     <div v-show="active===1">
+      <Asset></Asset>
+    </div>
+    <div v-show="active===2">
       <MyselfConfig></MyselfConfig>
     </div>
     <van-tabbar v-model="active" fixed class="index-tabbar">
       <van-tabbar-item icon="home">首页</van-tabbar-item>
-      <!--<van-tabbar-item icon="exchange">TG认购</van-tabbar-item>-->
+      <van-tabbar-item icon="gold-coin">财富</van-tabbar-item>
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 <script>
-  import Palaces from '@/components/Palaces'
+  import Home from '@/components/Home'
   import MyselfConfig from '@/components/MyselfConfig'
+  import Profit from '@/components/Profit'
+  import Asset from '@/components/Asset'
   import {
     Tabbar,
     TabbarItem
@@ -28,8 +33,10 @@
     components: {
       [Tabbar.name]: Tabbar,
       [TabbarItem.name]: TabbarItem,
-      Palaces,
+      Home,
       MyselfConfig,
+      Profit,
+      Asset,
     },
     data() {
       return {
@@ -56,7 +63,8 @@
       overflow-x: hidden;
     }
   }
-  .index-tabbar{
-    bottom:0;
+
+  .index-tabbar {
+    bottom: 0;
   }
 </style>

@@ -4,6 +4,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 import {Toast, Dialog} from 'vant';
+import {openWebview} from "./webview";
+import cons from "./constants/Cons";
 
 Vue.use(Toast);
 Vue.use(Dialog);
@@ -38,6 +40,12 @@ export async function request(url, data = {}) {
   return await axios(conf).then(res => {
     if (res.status === 401) {
       Toast('登录已失效，请重新登录');
+      openWebview({
+        url: cons.loginViewUrl,
+        id: cons.loginViewId,
+        title: "",
+        noTitle: true,
+      });
       return false;
     } else if (res.status !== 200) {
       Toast("出错了！(T＿T)");

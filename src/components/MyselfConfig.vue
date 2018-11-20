@@ -53,30 +53,14 @@
         uid: "",
       };
     },
-    beforeCreate() {
-      preLoad([
-        {
-          url: "./wallet.yaoqing.html",
-          id: "wallet.yaoqing",
-          title: "邀请好友"
-        },
-        {
-          url: cons.loginViewUrl,
-          id: cons.loginViewId,
-          title: "",
-          noTitle: true,
-        }
-      ])
-    },
     methods: {
       checkUpdate() {
         NativeFun.checkUpdate(true);
       },
       wodejuanzeng() {
-        openWebviewFast({
+        openWebview({
           url: './charitable.myCharitable.html',
           id: 'charitable.myCharitable',
-          title: '我的捐助',
           titleStyle: {
             titleText: "我的捐助",
             titleColor: "#ffffff",
@@ -96,7 +80,12 @@
       },
       logout() {
         plus.storage.clear();
-        showWebviewById(cons.loginViewId);
+        openWebview({
+          url: cons.loginViewUrl,
+          id: cons.loginViewId,
+          title: "",
+          noTitle: true,
+        });
       }
     },
   }

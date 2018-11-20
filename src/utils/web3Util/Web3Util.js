@@ -2,6 +2,8 @@ import Web3 from "web3";
 import abi from "./abi";
 import Vue from "vue";
 import {isEmpty, isNotEmpty} from "../globalFunc";
+const abiDecoder = require('abi-decoder');
+abiDecoder.addABI(abi);
 
 let web3 = new Web3();
 if (isNotEmpty(Vue.prototype.HOST)) {
@@ -13,6 +15,9 @@ if (isNotEmpty(Vue.prototype.HOST)) {
 
 let Web3Util = {
   instance: web3,
+  abiDecoder: function () {
+    return abiDecoder;
+  },
   async getBalance(walletAddress, contractAddress) {
     if (isEmpty(contractAddress)) {
 

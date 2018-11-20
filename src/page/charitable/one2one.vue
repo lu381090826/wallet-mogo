@@ -21,9 +21,9 @@
 <script>
   import Vue from "vue";
   import {Card, Button} from 'vant';
-  import {request} from "../../utils/request";
-  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
-  import {openWebview, openWebviewFast} from "../../utils/webview";
+  import {request} from "@/utils/request";
+  import TGCApiUrl from "@/utils/constants/TGCApiUrl";
+  import {openWebview} from "@/utils/webview";
 
   Vue.use(Card).use(Button);
 
