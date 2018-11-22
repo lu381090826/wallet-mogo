@@ -1,34 +1,27 @@
 <template>
   <div style="overflow-x: hidden">
-    <div class="sum">
-      <div class="toux">
-        <div class="yes-profit">
-          昨日收益（TG）
-        </div>
-        <div class="yes-profit-num">
-          {{yestadayProfit}}
-        </div>
-        <div class="total-balance">
-          总TG
-          {{totalTGBalance}}
-        </div>
-      </div>
-      <div class="sum-box-coll">
-        <div class="sum-box">
-          累计收益（TG）
-          <div class="sum-box-num">{{totalProfit}}</div>
-        </div>
-
-        <div class="sum-box">
-          万份收益（TG）
-          <div class="sum-box-num">{{tenthousandProfit}}</div>
-        </div>
-
-        <div class="sum-box">
-          七日年化（%）
-          <div class="sum-box-num">{{sevenDayProfit}}</div>
-        </div>
-      </div>
+    <div class="profit-head">
+      <van-row type="flex" justify="center" class="profit-head-row">
+        <van-col>
+          <div><span style="font-size: 14px;color: #fea879">昨日收益(TG)</span></div>
+          <div><span style="font-size: 35px;color: #fbfbfc">{{yestadayProfit}}</span></div>
+          <div><span style="font-size: 15px;color: #f1c7ae">总TG{{totalTGBalance}}</span></div>
+        </van-col>
+      </van-row>
+      <van-row type="flex" justify="center" class="profit-head-row">
+        <van-col span="8">
+          <div class="profit-head-title">累计收益（TG）</div>
+          <div>{{totalProfit}}</div>
+        </van-col>
+        <van-col span="8">
+          <div class="profit-head-title">万份收益（TG）</div>
+          <div>{{tenthousandProfit}}</div>
+        </van-col>
+        <van-col span="8">
+          <div class="profit-head-title">七日年化（%）</div>
+          <div>{{sevenDayProfit}}</div>
+        </van-col>
+      </van-row>
     </div>
 
     <div style="margin-left: 5%;margin-right: 5%">
@@ -50,7 +43,7 @@
 
 <script>
   import Vue from "vue";
-  import {Toast} from 'vant';
+  import {Toast, Row, Col} from 'vant';
   import MathUtil from "@/utils/MathUtil";
   import Web3Util from "@/utils/web3Util/Web3Util";
   import TGCConfig from "@/utils/constants/tgcConfig";
@@ -58,7 +51,9 @@
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import Progress from "@/components/Progress";
 
-  Vue.use(Toast);
+  Vue.use(Row)
+    .use(Col)
+    .use(Toast);
 
   export default {
     data() {
@@ -100,45 +95,11 @@
   }
 </script>
 <style scoped>
-  .toux {
-    text-align: center;
-    margin-left: -16%;
-    margin-bottom: 5%;
+  .profit-head {
+    width: 100%;
+    background-image: -webkit-linear-gradient(top, #fa5b21, #fa5b21);
     color: white;
-  }
-
-  .sum {
-    width: 110%;
-    margin-left: -5%;
-    height: 120px;
-    background-image: -webkit-linear-gradient(top, #ffd81d, #ff5404);
-    /*margin-top: -10%;*/
     text-align: center;
-    padding: 10%;
-  }
-
-  .sum-box-coll {
-    margin-top: 7%;
-    margin-left: -7%;
-    left: 0;
-    right: 0;
-    width: 111%;
-  }
-
-  .sum-box {
-    width: 26%;
-    background-color: #ff7c0c;
-    float: left;
-    padding: 2%;
-    font-size: 12px;
-    color: #f5f5f5;
-  }
-
-  .sum-box-num {
-    color: white;
-    font-size: 19px;
-    margin-top: 5%;
-    margin-bottom: -3%;
   }
 
   .never_donation > a:-webkit-any-link {
@@ -149,11 +110,6 @@
   a:-webkit-any-link {
     cursor: pointer;
     text-decoration: none;
-  }
-
-  .tabbar {
-    height: 50px;
-    border-top: 0.5px solid #eeeeee;
   }
 
   .tabbar >>> .mint-tab-item-label {
@@ -170,18 +126,13 @@
     margin-top: 5%;
   }
 
-  .yes-profit {
-    font-size: 10px;
-    color: #f4f4f4;
-  }
-
-  .yes-profit-num {
-    font-size: 35px;
-    color: white;
-    font-weight: bold;
-  }
-
-  .total-balance {
+  .profit-head-title {
     font-size: 12px;
+    color: #f79e61;
+  }
+
+  .profit-head-row {
+    padding-top: 3%;
+    padding-bottom: 3%;
   }
 </style>

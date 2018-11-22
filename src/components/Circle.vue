@@ -10,7 +10,7 @@
       <div :class="innerClasses">
         <slot>
           <h3 class="">
-            <span style="font-size: 10px;color: gray">今日步数</span>
+            <span style="font-size: 10px;color: gray;">今日步数</span>
             <numberGrow :value="jindu" :time="0.5" :fontSize="30"></numberGrow>
           </h3>
 
@@ -142,7 +142,7 @@
     top: 40%;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
-    line-height: 1;
+    line-height: 0.5;
   }
 
   .ivu-chart-circle {

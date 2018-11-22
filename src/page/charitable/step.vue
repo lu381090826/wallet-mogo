@@ -1,53 +1,69 @@
 <template>
-  <div style="overflow-x: hidden">
+  <div class="step-body">
+    <div class="box">
+      <div class="banner" :style="{backgroundImage:'url(' + backgroundImg + ')'}">
+        <div class="banner-title">捐助困境中的病人</div>
+        <div class="banner-button">直接捐赠</div>
+      </div>
 
-    <div id="head-text">
-      <span>步数换TG</span>
-    </div>
+      <div class="circle_contain">
+        <circle-progress :list='progressVal' :jindu='todayStep' :size="150"></circle-progress>
+      </div>
 
-    <div class="progress">
+      <div>
+        <van-button round class="changeButton" size="normal" v-show="!canChange" disabled type="primary">
+          立即捐步
+        </van-button>
+        <van-button round class="changeButton" size="normal" v-show="canChange" type="primary" @click="changeStep">
+          立即捐步
+        </van-button>
+      </div>
+
       <div class="progress-title" v-show="!hasChange">
         &nbsp;&nbsp;每天集满5000步可兑换一次<strong style="color: dodgerblue">1TG</strong>
       </div>
       <div class="progress-title" v-show="hasChange">
         &nbsp;&nbsp;今天已经兑换过了，明天再来吧。
       </div>
-      <div style="text-align: center">
-        <circle-progress :list='progressVal' :jindu='todayStep'></circle-progress>
-      </div>
-
     </div>
 
-    <div>
-      <van-button class="changeButton" size="large" v-show="!canChange" disabled type="primary">
-        立即捐步
-      </van-button>
-      <van-button class="changeButton" size="large" v-show="canChange" type="primary" @click="changeStep">
-        立即捐步
-      </van-button>
+    <div class="box">
+      <van-row type="flex">
+        <van-col span="6">
+          <img src="@/assets/gongyixianxue.png" width="60">
+        </van-col>
+        <van-col span="12">
+          <div style="text-align: left;margin-top: 3%">
+            <div style="font-weight: bold;">查看<span style="color: #33ccef">我的公益</span></div>
+            <div><span style="color:#9c9c9c;">每个公益行为都很珍贵</span></div>
+          </div>
+        </van-col>
+        <van-col span="6">
+          <div style="margin-top: 15%">
+            <van-button size="small" round class="chakanwodegongyi">立即查看</van-button>
+          </div>
+        </van-col>
+      </van-row>
     </div>
-
+    <div class="step-footer"></div>
   </div>
 </template>
 <script>
   import Vue from "vue";
-  import {Toast, Button} from 'vant';
+  import {Toast, Button, Circle, Row, Col} from 'vant';
   import {request} from "@/utils/request";
-  import circleProgress from '@/components/Circle'
   import {isToday} from "../../utils/globalTools";
+  import circleProgress from '@/components/Circle'
 
-  Vue.use(Button);
+  Vue.use(Button).use(Circle).use(Row).use(Col);
   export default {
-    name: 'step',
     data() {
       return {
         todayStep: Number(localStorage.getItem("todayStep")),
         totalStep: localStorage.getItem("totalStep"),
         hasChange: localStorage.getItem("hasChange"),
+        backgroundImg: require("@/assets/img/shuangshou.png"),
       }
-    },
-    components: {
-      'circle-progress': circleProgress,
     },
     created() {
       if (!isToday(localStorage.getItem("lastStepTime"))) {
@@ -61,12 +77,17 @@
       canChange() {
         return this.progressVal >= 100;
       },
-      progressVal() {
-        let val = this.todayStep / 5000 * 100;
-        if (val >= 100) {
-          val = 100;
+      progressVal: {
+        get() {
+          let val = this.todayStep / 5000 * 100;
+          if (val >= 100) {
+            val = 100;
+          }
+          return val;
+        },
+        set() {
+
         }
-        return val;
       }
 
     },
@@ -82,52 +103,105 @@
         })
       },
     },
-    mounted: function () {
-      //定时更新步数
-      let _this = this;
-      // this.$nextTick(function () {
-      //   setInterval(_this.getStepNum, 500);
-      // })
+    components: {
+      'circle-progress': circleProgress,
     },
   }
 </script>
 <style scoped>
-  .rate {
-    margin-top: 10%;
-    margin-bottom: 10%;
+  .step-body {
+    overflow-x: hidden;
+    text-align: center;
+    background-color: #f9f9f9;
   }
 
-  .rate >>> svg {
-    /*padding-right: 20px;*/
-    /*padding-bottom: 20px;*/
-  }
-
-  #head-text {
-    width: 100%;
-    border: #f1f1f1 1px solid;
-    background-color: #f1f1f1;
-    color: #606060;
-    text-align: left;
-    padding: 8px;
-    margin-left: -8px;
-  }
-
-  .progress {
-    margin-top: 10%;
-    margin-bottom: 10%;
+  .box {
+    margin: 0 auto;
+    margin-top: 3%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-bottom: 3%;
     font-size: 16px;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    width: 94%;
+    box-shadow: #dcdcdc 0.1px 0.1px 0.1px 0.1px;
+    background-color: white;
   }
 
   .progress-title {
-    margin-top: 8%;
-    color: #414141;
-    margin-bottom: 8%;
+    margin-top: 5%;
+    color: #797979;
+    text-align: center;
+    font-size: 13px;
   }
 
   .changeButton {
     background-color: orange;
     border-color: #ff9209;
+    width: 50%;
+    margin-top: 8%;
+    font-size: 16px;
+  }
+
+  .circle_contain {
+    margin: 0 auto;
+    text-align: center;
+    width: 150px;
+    height: 150px;
+    font-size: 20px;
+    margin-top: 8%;
+  }
+
+  .circle >>> .circle-progress:after {
+    font-size: 12px;
+  }
+
+  .banner {
+    margin: 0 auto;
+    height: 150px;
     width: 96%;
-    margin-left: 2%;
+    /*border: 1px solid #dcdcdc;*/
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    text-align: left;
+  }
+
+  .banner-title {
+    text-align: left;
+    padding: 4%;
+    font-size: 20px;
+    color: #363636;
+    font-weight: bold;
+  }
+
+  .banner-button {
+    margin-left: 3%;
+    border: 1px solid #f2f2f2;
+    width: 14%;
+    font-size: 11px;
+    background: white;
+    border-radius: 20px;
+    padding: 2%;
+    line-height: 1;
+    text-align: center;
+    color: #363636;
+  }
+
+  .bottom-contain {
+    text-align: left;
+    margin-left: 6%;
+  }
+
+  .chakanwodegongyi {
+    background-color: orange;
+    color: white;
+  }
+
+  .step-footer {
+    height: 30px;
   }
 </style>

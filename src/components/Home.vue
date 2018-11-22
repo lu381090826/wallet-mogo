@@ -121,7 +121,7 @@
                 <span>让山区孩子温暖过冬</span>
               </div>
               <div class="button-box">
-                <van-button class="juanzhu-button" size="mini">捐助Ta</van-button>
+                <van-button class="juanzhu-button" size="mini" round>去捐助</van-button>
               </div>
             </div>
           </van-col>
@@ -132,13 +132,23 @@
                 <span>让山区孩子温暖过冬</span>
               </div>
               <div class="button-box">
-                <van-button class="juanzhu-button" size="mini">捐助Ta</van-button>
+                <van-button class="juanzhu-button" size="mini" round>去捐助</van-button>
               </div>
             </div>
           </van-col>
         </van-row>
-        <div class="seemore-charitable">查看更多>></div>
+        <div class="seemore-charitable">
+          <div class="seemore-inner">
+            <van-row type="flex" justify="space-between">
+              <van-col>查看更多公益活动</van-col>
+              <van-col>
+                <van-icon name="arrow"></van-icon>
+              </van-col>
+            </van-row>
+          </div>
+        </div>
       </div>
+      <div class="asset-span"></div>
       <div class="asset-footer"></div>
     </van-pull-refresh>
   </div>
@@ -147,7 +157,7 @@
   import Vue from 'vue'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
-  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button,} from 'vant';
+  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById, openWebviewFast} from "@/utils/webview";
@@ -192,12 +202,11 @@
           {
             url: "./profit.index.html",
             id: "profit.index",
-            showWaiting: true,
+            needLoaded: true,
             titleStyle: {
               titleText: "持币矿",
               titleColor: "#ffffff",
-              backgroundColor: "#ffd81d",
-              splitLine: {color: "#ffd81d"},
+              backgroundColor: "#fa5b21",
               autoBackButton: true,
               progress: {color: '#ff5c0a', height: "1%"},
             },
@@ -346,7 +355,7 @@
   .asset-span {
     width: 100%;
     background-color: #f3f3f3;
-    height: 6px;
+    height: 8px;
     color: gray;
   }
 
@@ -370,18 +379,20 @@
 
   .gongyi-box {
     background-color: white;
-    border: 1px solid #ededed;
-    padding: 3px;
+    padding: 5%;
+    /*border: 1px solid #ededed;*/
   }
 
   .gongyi-box > img {
-    width: 100%;
+    width: 80%;
+    border-radius: 3px;
   }
 
   .gongyi-box-title {
     text-align: left;
     color: gray;
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: bold;
     color: black;
   }
 
@@ -399,12 +410,14 @@
 
   .asset-footer {
     background-color: #f3f3f3;
-    height: 50px;
+    height: 30px;
+    text-align: center;
+    color: #dddddd;
   }
 
   .area-title {
     background-color: white;
-    border-bottom: 1px solid #f3f3f3;
+    border-bottom: 1px solid #f1f1f1;
     color: black;
     font-size: 13px;
     padding-left: 15px;
@@ -424,6 +437,7 @@
 
   .zhuant-title {
     font-weight: bold;
+    margin-top: 5%;
   }
 
   .zhuant-desc {
@@ -434,6 +448,12 @@
   .seemore-charitable {
     font-size: 13px;
     color: gray;
-    margin-top: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+
+  .seemore-inner {
+    border-top: 1px solid #f1f1f1;
+    padding-top: 3%;
   }
 </style>

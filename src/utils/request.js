@@ -39,7 +39,6 @@ export async function request(url, data = {}) {
 
   return await axios(conf).then(res => {
     if (res.status === 401) {
-      Toast('登录已失效，请重新登录');
       openWebview({
         url: cons.loginViewUrl,
         id: cons.loginViewId,
