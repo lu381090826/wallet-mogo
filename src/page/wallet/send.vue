@@ -327,21 +327,6 @@
   }
 </script>
 <style scoped>
-  .body {
-    width: 100%;
-  }
-
-  .header {
-    background-color: white;
-    color: black;
-    box-shadow: #d4d4d4 0 0 1px 1px;
-  }
-
-  .header >>> .mint-header-title {
-    font-weight: bold;
-    line-height: 2;
-    overflow: auto;
-  }
 
   .doNext {
     margin-top: 40%;

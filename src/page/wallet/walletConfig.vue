@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <h2>已添加的钱包</h2>
-    <van-radio-group v-model="radio">
-      <van-cell-group>
-        <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
-                  @click="set(item.walletAddress,item.walletName)">
-          <van-radio :name="item.walletAddress" :value="item.walletAddress"></van-radio>
-        </van-cell>
-      </van-cell-group>
-    </van-radio-group>
+  <div class="body">
+    <div class="box text-left">
+      <h2>选择当前钱包</h2>
+      <van-radio-group v-model="radio">
+        <van-cell-group>
+          <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
+                    @click="set(item.walletAddress,item.walletName)">
+            <van-radio :name="item.walletAddress" :value="item.walletAddress"></van-radio>
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
 
-    <van-button class="gotoImport" type="primary" size="large" v-intervalclick="{func:gotoImport}">导入钱包</van-button>
+      <van-button class="gotoImport" type="primary" size="large" v-intervalclick="{func:gotoImport}">导入钱包</van-button>
+    </div>
   </div>
 </template>
 <script>
@@ -20,6 +22,7 @@
   import {RadioGroup, Radio, Cell, CellGroup, Button, Toast} from 'vant';
   import cons from "@/utils/constants/Cons";
   import {preLoad, showWebviewById} from "@/utils/webview";
+  import {openWebview} from "../../utils/webview";
 
   Vue.use(RadioGroup);
   Vue.use(Button);
@@ -50,22 +53,14 @@
 
         let nw = plus.webview.currentWebview();
         nw.addEventListener('hide', function (e) {
-          let wait = plus.nativeUI.showWaiting("钱包切换中，请等待...");
           setTimeout(() => {
             if (_this.walletAddress !== _this.originWalletAddress) {
+              let wait = plus.nativeUI.showWaiting("钱包切换中，请等待...");
               _this.reloadWebview();
+              wait.close();
             }
-            wait.close();
-          }, 50);
-        }, false);
-
-        preLoad([
-          {
-            url: "./wallet.import.html",
-            id: "wallet.import",
-            title: "钱包导入"
-          }
-        ])
+          }, false);
+        }, 100)
       },
       set(walletAddress, walletName) {
         this.radio = walletAddress;
@@ -81,7 +76,11 @@
         }
       },
       gotoImport() {
-        showWebviewById('wallet.import');
+        openWebview({
+          url: "./wallet.import.html",
+          id: "wallet.import",
+          title: "钱包导入"
+        });
       }
     },
     watch: {
@@ -97,40 +96,13 @@
 
 </script>
 <style scoped>
-  .pull-refresh {
-    background-color: orange;
-    color: white;
-    height: 100%;
-  }
-
-  .asset-header {
-    width: 100%;
-    background-color: #fafafa;
-    height: 10%;
-    min-height: 100px;
-    background-image: -webkit-linear-gradient(top, orange, orange);
-  }
-
-  .asset-header-titile {
-    font-weight: bold;
-    font-size: 18px;
-    color: white;
-    margin-top: 15%;
-    margin-bottom: 10%;
-  }
-
-  .titile-name {
-    font-size: 13px;
-  }
-
-  .cell-group {
-    min-height: 500px;
-    background-color: white;
-  }
-
   .gotoImport {
     margin-top: 30%;
     width: 94%;
     margin-left: 3%;
+    margin-bottom: 5%;
+    background-color: orange;
+    border: orangered;
   }
+
 </style>

@@ -71,7 +71,7 @@
         </div>
 
       </div>
-      <div class="asset-span"></div>
+      <div class="blank-space"></div>
       <div class="area-title">
         <div class="area-tag"></div>
         赚TG
@@ -106,7 +106,7 @@
           </van-col>
         </van-row>
       </div>
-      <div class="asset-span"></div>
+      <div class="blank-space"></div>
       <div class="area-title">
         <div class="area-tag"></div>
         公益捐助，传递爱心
@@ -115,24 +115,24 @@
       <div class="area">
         <van-row type="flex" justify="center" gutter="10">
           <van-col span="11">
-            <div class="gongyi-box">
+            <div class="gongyi-box" @click="toDonation('1')">
               <img src="//120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.55e6834.jpeg">
               <div class="gongyi-box-title">
                 <span>让山区孩子温暖过冬</span>
               </div>
-              <div class="button-box">
-                <van-button class="juanzhu-button" size="mini" round>去捐助</van-button>
+              <div class="box-de">
+                已有<span class="box-de-num">1000</span>人捐助
               </div>
             </div>
           </van-col>
           <van-col span="11">
-            <div class="gongyi-box">
+            <div class="gongyi-box" @click="toDonation('2')">
               <img src="//120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.55e6834.jpeg">
               <div class="gongyi-box-title">
                 <span>让山区孩子温暖过冬</span>
               </div>
-              <div class="button-box">
-                <van-button class="juanzhu-button" size="mini" round>去捐助</van-button>
+              <div class="box-de">
+                已有<span class="box-de-num">1000</span>人捐助
               </div>
             </div>
           </van-col>
@@ -148,7 +148,7 @@
           </div>
         </div>
       </div>
-      <div class="asset-span"></div>
+      <div class="blank-space"></div>
       <div class="asset-footer"></div>
     </van-pull-refresh>
   </div>
@@ -185,6 +185,24 @@
       this.init();
     },
     methods: {
+      toDonation(donationId) {
+        openWebview({
+          url: './charitable.one2oneDonation.html',
+          id: 'charitable.one2oneDonation',
+          needLoaded: true,
+          titleStyle: {
+            type: "transparent",
+            titleText: "一帮一捐助",
+            titleColor: "#ffffff",
+            backgroundColor: "#ffa500",
+            splitLine: {color: "#ffa500"},
+            autoBackButton: true,
+            buttons: [{type: 'share', float: 'right'}]
+          }
+        }, {}, {
+          donationId: donationId
+        });
+      },
       step() {
         openWebview({
           url: "./charitable.step.html",
@@ -193,7 +211,6 @@
           titleStyle: {
             titleText: "感恩行",
             autoBackButton: true,
-            // progress: {color: '#ff5c0a', height: "1%"},
           }
         }, {}, {none: true});
       },
@@ -276,7 +293,7 @@
         });
       },
       config() {
-        openWebview({
+        openWebviewFast({
           url: "./wallet.walletConfig.html",
           id: "wallet.walletConfig",
           title: "钱包设置",
@@ -352,13 +369,6 @@
     text-align: center;
   }
 
-  .asset-span {
-    width: 100%;
-    background-color: #f3f3f3;
-    height: 8px;
-    color: gray;
-  }
-
   .asset-header-botton {
     color: #6d6d6d;
   }
@@ -380,12 +390,12 @@
   .gongyi-box {
     background-color: white;
     padding: 5%;
-    /*border: 1px solid #ededed;*/
   }
 
   .gongyi-box > img {
-    width: 80%;
     border-radius: 3px;
+    width: 100%;
+    height: 115px;
   }
 
   .gongyi-box-title {
@@ -396,21 +406,16 @@
     color: black;
   }
 
-  .button-box {
-    text-align: right;
-  }
-
-  .juanzhu-button {
-    background-color: orange;
-    margin-top: 5%;
-    margin-bottom: 3%;
-    margin-right: 3%;
-    color: white;
+  .box-de {
+    text-align: left;
+    font-size: 13px;
+    color: #c8c8c8;
+    margin-bottom: 5%;
   }
 
   .asset-footer {
     background-color: #f3f3f3;
-    height: 30px;
+    height: 50px;
     text-align: center;
     color: #dddddd;
   }
@@ -455,5 +460,9 @@
   .seemore-inner {
     border-top: 1px solid #f1f1f1;
     padding-top: 3%;
+  }
+
+  .box-de-num {
+    color: orange;
   }
 </style>

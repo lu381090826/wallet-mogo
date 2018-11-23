@@ -39,11 +39,16 @@ export async function request(url, data = {}) {
 
   return await axios(conf).then(res => {
     if (res.status === 401) {
-      openWebview({
-        url: cons.loginViewUrl,
-        id: cons.loginViewId,
-        title: "",
-        noTitle: true,
+      Dialog.alert({
+        title: '提示',
+        message: '登录已失效，即将重新登录'
+      }).then(() => {
+        openWebview({
+          url: cons.loginViewUrl,
+          id: cons.loginViewId,
+          title: "",
+          noTitle: true,
+        });
       });
       return false;
     } else if (res.status !== 200) {

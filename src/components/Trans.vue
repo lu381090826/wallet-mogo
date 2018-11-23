@@ -1,11 +1,11 @@
 <template>
-  <div class="tran-body">
-    <div class="asset-span"></div>
+  <div class="body">
+    <div class="blank-space"></div>
     <div class="trans-cell" v-show="transList !==null && transList.length === 0">
       暂无交易记录
     </div>
 
-    <div class="trans-cell" v-show="transList !== null && transList.length > 0">
+    <div class="box" v-show="transList !== null && transList.length > 0">
       <div class="trans-cell-row" v-for="(item,i) in transList" :key="i">
         <van-row type="flex" justify="space-between" gutter="20">
           <van-col span="2">
@@ -42,11 +42,7 @@
       </div>
 
     </div>
-
-    <!--<van-tabbar v-model="active">-->
-    <!--<van-tabbar-item icon="shop">账单</van-tabbar-item>-->
-    <!--<van-tabbar-item icon="chat" dot>概览</van-tabbar-item>-->
-    <!--</van-tabbar>-->
+    <div class="blank-space"></div>
   </div>
 </template>
 <script>
@@ -74,7 +70,7 @@
         selected: 0,
         transList: null,
         page: 1,
-        offset: 6,
+        offset: 5,
         active: 1,
       }
     },
@@ -193,13 +189,6 @@
 </script>
 <style scoped>
 
-  .tran-body {
-    background-color: #f3f3f3;
-    width: 100%;
-    min-height: 600px;
-    text-align: center;
-  }
-
   .trans-cell {
     position: relative;
     margin: 0 auto;
@@ -226,17 +215,10 @@
     text-align: left;
   }
 
-  .asset-span {
-    width: 100%;
-    background-color: #f3f3f3;
-    height: 8px;
-    color: gray;
-  }
-
   .trans-cell-bottom {
     width: 100%;
-    position: absolute;
     left: 0;
     bottom: 0;
+    margin-top: 3%;
   }
 </style>

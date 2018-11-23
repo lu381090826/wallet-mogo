@@ -1,51 +1,54 @@
 <template>
-  <div>
-    <van-tabs v-model="selected">
-      <van-tab id="keyStore" title="KeyStore导入">
-        <div class="cotainer">
-          <label>
-            <div style="margin-left: 5%">请填写KeyStore</div>
-            <textarea class="text" v-model="keyStore"></textarea>
-          </label>
-        </div>
-        <van-field label="钱包名" v-model="walletName"></van-field>
-        <van-button type="default" size="large" class="button" @click="importWalletFromKeyStore">下一步</van-button>
-
-      </van-tab>
-      <van-tab id="privateKey" title="私钥导入">
-        <div class="cotainer">
-          <van-field label="私钥" v-model="privateKey"></van-field>
+  <div class="body">
+    <div class="box text-left">
+      <van-tabs v-model="selected">
+        <van-tab id="keyStore" title="KeyStore导入">
+          <div class="cotainer">
+            <label>
+              <div style="margin-left: 5%">请填写KeyStore</div>
+              <textarea class="text" v-model="keyStore"></textarea>
+            </label>
+          </div>
           <van-field label="钱包名" v-model="walletName"></van-field>
-          <van-button type="default" size="large" class="button" @click="importWalletFromPrivateKey">下一步</van-button>
-        </div>
-      </van-tab>
-    </van-tabs>
+          <van-button type="default" size="large" class="button" @click="importWalletFromKeyStore">下一步</van-button>
 
-    <van-dialog
-      v-model="showKeyStorePassword"
-      show-cancel-button
-      :before-close="beforeKeyStoreClose"
-    >
-      <van-field
-        v-model="password"
-        type="password"
-        label="密码"
-        placeholder="请输入密码"
-      />
-    </van-dialog>
+        </van-tab>
+        <van-tab id="privateKey" title="私钥导入">
+          <div class="cotainer">
+            <van-field label="私钥" v-model="privateKey"></van-field>
+            <van-field label="钱包名" v-model="walletName"></van-field>
+            <van-button type="default" size="large" class="button" @click="importWalletFromPrivateKey">下一步</van-button>
+          </div>
+        </van-tab>
+      </van-tabs>
 
-    <van-dialog
-      v-model="showPrivatePassword"
-      show-cancel-button
-      :before-close="beforePrivateClose"
-    >
-      <van-field
-        v-model="password"
-        type="password"
-        label="密码"
-        placeholder="请输入密码"
-      />
-    </van-dialog>
+      <van-dialog
+        v-model="showKeyStorePassword"
+        show-cancel-button
+        :before-close="beforeKeyStoreClose"
+      >
+        <van-field
+          v-model="password"
+          type="password"
+          label="密码"
+          placeholder="请输入密码"
+        />
+      </van-dialog>
+
+      <van-dialog
+        v-model="showPrivatePassword"
+        show-cancel-button
+        :before-close="beforePrivateClose"
+      >
+        <van-field
+          v-model="password"
+          type="password"
+          label="密码"
+          placeholder="请输入密码"
+        />
+      </van-dialog>
+    </div>
+
   </div>
 </template>
 <script>
@@ -166,6 +169,7 @@
 </script>
 
 <style scoped>
+
   .button {
     margin-top: 10%;
   }

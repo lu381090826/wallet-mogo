@@ -1,5 +1,5 @@
 <template>
-  <div class="step-body">
+  <div class="body">
     <div class="box">
       <div class="banner" :style="{backgroundImage:'url(' + backgroundImg + ')'}">
         <div class="banner-title">捐助困境中的病人</div>
@@ -54,6 +54,7 @@
   import {request} from "@/utils/request";
   import {isToday} from "../../utils/globalTools";
   import circleProgress from '@/components/Circle'
+  import "@/utils/css/CommonStyle.less";
 
   Vue.use(Button).use(Circle).use(Row).use(Col);
   export default {
@@ -109,26 +110,6 @@
   }
 </script>
 <style scoped>
-  .step-body {
-    overflow-x: hidden;
-    text-align: center;
-    background-color: #f9f9f9;
-  }
-
-  .box {
-    margin: 0 auto;
-    margin-top: 3%;
-    padding-top: 3%;
-    padding-bottom: 3%;
-    margin-bottom: 3%;
-    font-size: 16px;
-    text-align: center;
-    border: 1px solid #dcdcdc;
-    border-radius: 4px;
-    width: 94%;
-    box-shadow: #dcdcdc 0.1px 0.1px 0.1px 0.1px;
-    background-color: white;
-  }
 
   .progress-title {
     margin-top: 5%;
@@ -152,10 +133,6 @@
     height: 150px;
     font-size: 20px;
     margin-top: 8%;
-  }
-
-  .circle >>> .circle-progress:after {
-    font-size: 12px;
   }
 
   .banner {
@@ -189,11 +166,6 @@
     line-height: 1;
     text-align: center;
     color: #363636;
-  }
-
-  .bottom-contain {
-    text-align: left;
-    margin-left: 6%;
   }
 
   .chakanwodegongyi {

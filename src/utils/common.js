@@ -5,6 +5,7 @@ import "./globalFunc";
 import {Toast} from 'vant';
 import cons from './constants/Cons'
 import webViews from './webviews'
+import "@/utils/css/CommonStyle.less";
 
 /**
  * 该js为所有页面都必须加载的js

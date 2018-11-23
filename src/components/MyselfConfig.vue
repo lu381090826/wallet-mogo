@@ -2,16 +2,10 @@
   <div class="myselfbody">
     <van-nav-bar title="我的" class="navbar">
     </van-nav-bar>
-    <div class="myself">
-      <van-row gutter="20">
-        <van-col span="8">
-          <img src="../assets/chushitouxiang.jpg" class="header-img" width="70"/>
-        </van-col>
-        <van-col class="username">
-          {{userNameShow}}
-        </van-col>
-      </van-row>
-    </div>
+
+    <div class="blank-space"></div>
+    <div class="blank-space"></div>
+
     <van-cell-group>
       <van-cell title="邀请好友" is-link icon="point-gift" v-intervalclick="{func:yaoqing}">
       </van-cell>
@@ -49,7 +43,6 @@
   export default {
     data() {
       return {
-        userNameShow: plus.storage.getItem('uid').substring(0, 10) + "...",
         uid: "",
       };
     },
@@ -99,19 +92,9 @@
     padding-top: 20px;
   }
 
-  .van-hairline--bottom::after {
-    border-bottom-width: 0;
-  }
-
   a:-webkit-any-link {
     color: gray;
     text-decoration: none;
-  }
-
-  .myself {
-    width: 100%;
-    height: 150px;
-    background-image: -webkit-linear-gradient(top, #ff8530, #ff5c0a);
   }
 
   .logout {
@@ -119,28 +102,13 @@
     color: white;
   }
 
-  .header-img {
-    flex-shrink: 0;
-    margin-top: 20px;
-    margin-left: 15%;
-    border: calc(1px + 0.2vw) solid #32d25400;
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    background-size: cover;
-    box-shadow: 0 0 1px 1px rgb(255, 69, 0);
-  }
-
-  .username {
-    color: white;
-    margin-left: 10px;
-  }
-
   .bottom {
     padding: 3%;
-    margin-top: 17%
+    margin-top: 40%
   }
 
   .myselfbody {
     overflow: hidden;
   }
+
 </style>

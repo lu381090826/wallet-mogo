@@ -32,6 +32,7 @@
             const instance = new component();
             instance.$mount("#app");
           } else {
+            plus.storage.clear();
             const component = Vue.extend(Login);
             const instance = new component();
             instance.$mount("#app");
