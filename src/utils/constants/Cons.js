@@ -6,7 +6,7 @@ const cons = {
   loginViewId: 'common.login',
   loginViewUrl: './common.login.html',
   inLastWebViewIds: function contains(val) {
-    let arr = ['common.index', 'common.login'];
+    let arr = ['common.index', 'common.login', 'HBuilder'];
     let i = arr.length;
     while (i--) {
       if (arr[i] === val) {

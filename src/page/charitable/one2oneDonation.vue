@@ -1,113 +1,118 @@
 <template>
   <div id="primarySchool-body">
-    <div id="primarySchool-banner">
-      <img :src="info.smallImg"/>
-    </div>
-    <div class="primarySchool-text">
-      <div class="primarySchool-text-title">捐助项目</div>
-      <div class="primarySchool-text-desc">{{info.donationBrief}}</div>
-    </div>
-    <div id="primarySchool-sum">
-      <div class="item">
-        {{info.receiveAmount}}
-        <div class="unit">捐赠总额 (TG)</div>
-      </div>
-      <div class="item">
-        {{info.donationPeopleNum}}
-        <div class="unit">捐赠人数</div>
-      </div>
-    </div>
-    <div class="primarySchool-text">
-      <div class="primarySchool-text-title">区块链钱包地址</div>
-      <div class="primarySchool-text-desc">
-        <!--<router-link :to="{path:'/Wallet/Trans',query:{address:tokenAddress,walletAddress:info.blAddress}}">-->
-        <!---->
-        <!--</router-link>-->
-        {{info.blAddress}}
-      </div>
-    </div>
+    <div v-if="info===null">
 
-
-    <div v-if="info.one2oneType === 1">
+    </div>
+    <div v-else>
+      <div id="primarySchool-banner" >
+        <img :src="info.smallImg"/>
+      </div>
       <div class="primarySchool-text">
-        <div class="primarySchool-text-title">捐助对象</div>
+        <div class="primarySchool-text-title">捐助项目</div>
+        <div class="primarySchool-text-desc">{{info.donationBrief}}</div>
+      </div>
+      <div id="primarySchool-sum">
+        <div class="item">
+          {{info.receiveAmount}}
+          <div class="unit">捐赠总额 (TG)</div>
+        </div>
+        <div class="item">
+          {{info.donationPeopleNum}}
+          <div class="unit">捐赠人数</div>
+        </div>
+      </div>
+      <div class="primarySchool-text">
+        <div class="primarySchool-text-title">区块链钱包地址</div>
         <div class="primarySchool-text-desc">
-          <div class="cell-item">
-            <div class="cell-i cell-i-title">
-              {{info.name}}
-              <div class="cell-i-sync">
+          <!--<router-link :to="{path:'/Wallet/Trans',query:{address:tokenAddress,walletAddress:info.blAddress}}">-->
+          <!---->
+          <!--</router-link>-->
+          {{info.blAddress}}
+        </div>
+      </div>
+
+
+      <div v-if="info.one2oneType === 1">
+        <div class="primarySchool-text">
+          <div class="primarySchool-text-title">捐助对象</div>
+          <div class="primarySchool-text-desc">
+            <div class="cell-item">
+              <div class="cell-i cell-i-title">
+                {{info.name}}
+                <div class="cell-i-sync">
+                </div>
+              </div>
+              <div class="cell-i">
+                {{info.age}}岁 {{info.sex}}
+              </div>
+              <div class="cell-i">
+                {{info.province}} {{info.city}}
               </div>
             </div>
-            <div class="cell-i">
-              {{info.age}}岁 {{info.sex}}
+            <div class="cell-item">
+              <div class="cell-i cell-i-title">
+                家庭情况
+              </div>
+              <div class="cell-i">
+                {{info.home_info}}
+              </div>
             </div>
-            <div class="cell-i">
-              {{info.province}} {{info.city}}
+            <div class="cell-item">
+              <div class="cell-i cell-i-title">
+                心愿
+              </div>
+              <div class="cell-i">
+                {{info.dream}}
+              </div>
             </div>
-          </div>
-          <div class="cell-item">
-            <div class="cell-i cell-i-title">
-              家庭情况
-            </div>
-            <div class="cell-i">
-              {{info.home_info}}
-            </div>
-          </div>
-          <div class="cell-item">
-            <div class="cell-i cell-i-title">
-              心愿
-            </div>
-            <div class="cell-i">
-              {{info.dream}}
-            </div>
-          </div>
-          <div class="cell-item">
-            <div class="cell-i cell-i-title">
-              兴趣爱好
-            </div>
-            <div class="cell-i">
-              {{info.interest}}
+            <div class="cell-item">
+              <div class="cell-i cell-i-title">
+                兴趣爱好
+              </div>
+              <div class="cell-i">
+                {{info.interest}}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div v-if="info.one2oneType === 2 ">
-      <div class="primarySchool-text">
-        <div class="primarySchool-text-title">病人情况</div>
-        <div class="primarySchool-text-desc">
-          <div class="cell-item">
-            {{info.donationInfo}}
+      <div v-if="info.one2oneType === 2 ">
+        <div class="primarySchool-text">
+          <div class="primarySchool-text-title">病人情况</div>
+          <div class="primarySchool-text-desc">
+            <div class="cell-item">
+              {{info.donationInfo}}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div style="margin-bottom: 20%">
-    </div>
-    <van-tabbar id="doDonation" v-model="selected">
-      <van-tabbar-item class="danbibutton" v-intervalclick="{func:pop}">单笔捐</van-tabbar-item>
-    </van-tabbar>
-
-    <van-popup v-model="showBase" position="bottom" class="pop-bottom">
-      <h3>输入捐款金额</h3>
-      <div style="padding: 3%">
-        <van-button @click="sendAmount = '10'" plain>10TG</van-button>
-        <van-button @click="sendAmount = '50'" plain>50TG</van-button>
-        <van-button @click="sendAmount = '100'" plain>100TG</van-button>
-        <van-button @click="sendAmount = '150'" plain>150TG</van-button>
+      <div style="margin-bottom: 20%">
       </div>
-      <van-field label="TG" v-model="sendAmount" placeholder="输入捐款金额"></van-field>
-      <van-button size="large" class="pop-button" v-intervalclick="{func:donation}">
-        下一步
-      </van-button>
-    </van-popup>
+      <van-tabbar id="doDonation" v-model="selected">
+        <van-tabbar-item class="danbibutton" v-intervalclick="{func:pop}">单笔捐</van-tabbar-item>
+      </van-tabbar>
 
+      <van-popup v-model="showBase" position="bottom" class="pop-bottom">
+        <h3>输入捐款金额</h3>
+        <div style="padding: 3%">
+          <van-button @click="sendAmount = '10'" plain>10TG</van-button>
+          <van-button @click="sendAmount = '50'" plain>50TG</van-button>
+          <van-button @click="sendAmount = '100'" plain>100TG</van-button>
+          <van-button @click="sendAmount = '150'" plain>150TG</van-button>
+        </div>
+        <van-field label="TG" v-model="sendAmount" placeholder="输入捐款金额"></van-field>
+        <van-button size="large" class="pop-button" v-intervalclick="{func:donation}">
+          下一步
+        </van-button>
+      </van-popup>
+    </div>
   </div>
 </template>
 <script>
   import Vue from "vue";
+  import {isEmptyObject} from "@/utils/globalFunc";
   import {Tabbar, TabbarItem, Sku, Popup, Button, Field, Toast, Radio, RadioGroup, Cell} from 'vant';
   import TGCConfig from "../../utils/constants/tgcConfig";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
@@ -129,7 +134,7 @@
       return {
         selected: 0,
         anonymous: "",
-        info: {},
+        info: null,
         tokenAddress: TGCConfig.tokenAddress,
         showBase: false,
         sendAmount: "",

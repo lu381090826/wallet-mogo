@@ -1,22 +1,24 @@
 <template>
-  <div style="padding-top: 30%">
-    <van-row type="flex" justify="center">
-      钱包地址
-    </van-row>
-    <van-row type="flex" justify="center" class='address'>
-      <span style="font-size: 10px">{{walletAddress}}</span>
-    </van-row>
-    <van-row type="flex" justify="center">
-      <van-col>
-        <qrcode-vue :value="walletAddress" :size="150" style="margin-top: 10%" level="H"></qrcode-vue>
-      </van-col>
-    </van-row>
-    <van-row type="flex" justify="center" class="button">
-      <van-button type="default" @click="doCopy">
-        <van-icon name="pending-orders" size="20px"/>
-        复制地址
-      </van-button>
-    </van-row>
+  <div class="body">
+    <div class="box">
+      <van-row type="flex" justify="center">
+        钱包地址
+      </van-row>
+      <van-row type="flex" justify="center" class='address'>
+        <span style="font-size: 10px">{{walletAddress}}</span>
+      </van-row>
+      <van-row type="flex" justify="center">
+        <van-col>
+          <qrcode-vue :value="walletAddress" :size="150" style="margin-top: 10%" level="H"></qrcode-vue>
+        </van-col>
+      </van-row>
+      <van-row type="flex" justify="center" class="button">
+        <van-button type="default" @click="doCopy">
+          <van-icon name="pending-orders" size="20px"/>
+          复制地址
+        </van-button>
+      </van-row>
+    </div>
   </div>
 
 </template>

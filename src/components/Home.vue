@@ -111,7 +111,6 @@
         <div class="area-tag"></div>
         公益捐助，传递爱心
       </div>
-      <!--<div class="asset-span"></div>-->
       <div class="area">
         <van-row type="flex" justify="center" gutter="10">
           <van-col span="11">
@@ -121,23 +120,23 @@
                 <span>让山区孩子温暖过冬</span>
               </div>
               <div class="box-de">
-                已有<span class="box-de-num">1000</span>人捐助
+                已有<span class="box-de-num">1,003</span>人捐助
               </div>
             </div>
           </van-col>
           <van-col span="11">
             <div class="gongyi-box" @click="toDonation('2')">
-              <img src="//120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.55e6834.jpeg">
+              <img src="//120.79.191.116/static/img/wuzhubingren.png">
               <div class="gongyi-box-title">
-                <span>让山区孩子温暖过冬</span>
+                <span>给无助病人带来希望</span>
               </div>
               <div class="box-de">
-                已有<span class="box-de-num">1000</span>人捐助
+                已有<span class="box-de-num">2,326</span>人捐助
               </div>
             </div>
           </van-col>
         </van-row>
-        <div class="seemore-charitable">
+        <div class="seemore-charitable" v-intervalclick="{func:one2one}">
           <div class="seemore-inner">
             <van-row type="flex" justify="space-between">
               <van-col>查看更多公益活动</van-col>
@@ -182,35 +181,29 @@
       }
     },
     created() {
+      console.log(plus.webview.currentWebview().id);
       this.init();
     },
     methods: {
-      toDonation(donationId) {
-        openWebview({
-          url: './charitable.one2oneDonation.html',
-          id: 'charitable.one2oneDonation',
-          needLoaded: true,
+      one2one() {
+        openWebviewFast({
+          url: './charitable.one2one.html',
+          id: 'charitable.one2one',
           titleStyle: {
-            type: "transparent",
-            titleText: "一帮一捐助",
+            titleText: "一帮一",
             titleColor: "#ffffff",
             backgroundColor: "#ffa500",
             splitLine: {color: "#ffa500"},
-            autoBackButton: true,
-            buttons: [{type: 'share', float: 'right'}]
+            progress: {color: '#ff5c0a', height: "1%"},
           }
-        }, {}, {
-          donationId: donationId
         });
       },
       step() {
-        openWebview({
+        openWebviewFast({
           url: "./charitable.step.html",
           id: "charitable.step",
-          // needLoaded: true,
           titleStyle: {
             titleText: "感恩行",
-            autoBackButton: true,
           }
         }, {}, {none: true});
       },
@@ -293,7 +286,7 @@
         });
       },
       config() {
-        openWebviewFast({
+        openWebview({
           url: "./wallet.walletConfig.html",
           id: "wallet.walletConfig",
           title: "钱包设置",

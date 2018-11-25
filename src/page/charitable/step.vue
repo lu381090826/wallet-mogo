@@ -74,6 +74,12 @@
         localStorage.setItem("lastStepTime", time);
       }
     },
+    mounted() {
+      let nw = plus.webview.currentWebview();
+      nw.addEventListener('hide', function (e) {
+        nw.close();
+      }, false);
+    },
     computed: {
       canChange() {
         return this.progressVal >= 100;
@@ -138,7 +144,7 @@
   .banner {
     margin: 0 auto;
     height: 150px;
-    width: 96%;
+    width: 98%;
     /*border: 1px solid #dcdcdc;*/
     border-radius: 10px;
     background-repeat: no-repeat;
@@ -158,7 +164,7 @@
   .banner-button {
     margin-left: 3%;
     border: 1px solid #f2f2f2;
-    width: 14%;
+    width: 18%;
     font-size: 11px;
     background: white;
     border-radius: 20px;

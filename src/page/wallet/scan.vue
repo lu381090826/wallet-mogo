@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body scan-body">
     <div id="bcid" :style="{height:height}"></div>
   </div>
 </template>
@@ -62,8 +62,9 @@
       }
     },
     destroyed: function () {
-      if (scan)
+      if (scan) {
         scan.close()
+      }
     },
   }
 </script>
@@ -71,6 +72,10 @@
 <style scoped>
   * {
     -webkit-user-select: none;
+  }
+
+  .scan-body {
+    background-color: black;
   }
 
   #bcid {

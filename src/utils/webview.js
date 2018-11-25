@@ -114,6 +114,14 @@ export function openWebviewFast(config) {
       },
     };
   }
+  navStyle.buttons = [{
+    type: 'back', float: 'left', onclick: () => {
+      let ns = plus.webview.getWebviewById(config.id);
+      ns.close();
+    }
+  }];
+  navStyle.autoBackButton = false;
+
 
   let w;
   if (config.showWaiting) {

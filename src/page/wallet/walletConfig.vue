@@ -53,14 +53,14 @@
 
         let nw = plus.webview.currentWebview();
         nw.addEventListener('hide', function (e) {
+          console.log(111111111111111111)
           setTimeout(() => {
             if (_this.walletAddress !== _this.originWalletAddress) {
-              let wait = plus.nativeUI.showWaiting("钱包切换中，请等待...");
               _this.reloadWebview();
-              wait.close();
             }
-          }, false);
-        }, 100)
+          }, 50);
+        }, false);
+
       },
       set(walletAddress, walletName) {
         this.radio = walletAddress;
@@ -68,12 +68,12 @@
         this.walletName = walletName;
       },
       reloadWebview() {
-        let ws = plus.webview.all();
-        for (let i = 0; i < ws.length; i++) {
-          if (!cons.inLastWebViewIds(ws[i].id)) {
-            ws[i].reload();
-          }
-        }
+        let wa = plus.nativeUI.showWaiting();
+        setTimeout(() => {
+          let ws = plus.webview.getWebviewById(cons.baseWebViewId);
+          ws.reload();
+          wa.close();
+        });
       },
       gotoImport() {
         openWebview({
