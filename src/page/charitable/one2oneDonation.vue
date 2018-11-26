@@ -210,13 +210,8 @@
     overflow: hidden;
   }
 
-  #primarySchool-header {
-    background-color: orange;
-  }
-
   #primarySchool-banner > img {
     width: 100%;
-    /*height: 250px;*/
   }
 
   .primarySchool-text {

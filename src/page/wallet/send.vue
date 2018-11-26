@@ -52,7 +52,7 @@
       </van-field>
       <van-field label="交易密码" v-model="walletPassword" type="password">
       </van-field>
-      <van-button class="sendButton" type="primary" size="large" v-intervalclick="{func:send}">
+      <van-button class="sendButton button-blue" type="primary" size="large" v-intervalclick="{func:send}">
         立即转账
       </van-button>
     </van-popup>
@@ -72,7 +72,7 @@
       @cancel="onCancel"
     />
 
-    <van-button class="doNext" type="primary" size="large" v-intervalclick="{func:doNext}">
+    <van-button class="doNext button-blue" type="primary" size="large" v-intervalclick="{func:doNext}">
       确认转账
     </van-button>
   </div>
@@ -341,14 +341,10 @@
 
   .doNext {
     margin-top: 40%;
-    background-color: orange;
-    border-color: #e59400;
   }
 
   .sendButton {
     margin-top: 10%;
-    background-color: orange;
-    border-color: #e59400;
   }
 
   .confirm {

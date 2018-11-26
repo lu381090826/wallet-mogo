@@ -12,7 +12,7 @@
         v-intervalclick="{func:toDonation,donationId:item.donationId}"
       >
         <div slot="footer">
-          <van-button size="mini" class="juan-button">捐一笔</van-button>
+          <van-button size="mini" class="button-orange">捐一笔</van-button>
         </div>
       </van-card>
     </div>
@@ -64,10 +64,5 @@
 <style scoped>
   .car-list {
     margin-top: 3%;
-  }
-
-  .juan-button {
-    background-color: orangered;
-    color: white;
   }
 </style>

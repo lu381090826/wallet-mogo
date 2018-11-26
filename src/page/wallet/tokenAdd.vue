@@ -13,7 +13,8 @@
         </van-cell-group>
       </van-radio-group>
     </div>
-    <van-button type="default" size="large" class="button" v-intervalclick="{func:addToken}">立即添加</van-button>
+    <van-button type="default" size="large" class="button button-blue" v-intervalclick="{func:addToken}">立即添加
+    </van-button>
   </div>
 </template>
 <script>
@@ -66,8 +67,6 @@
 </script>
 <style scoped>
   .button {
-    background-color: orange;
-    color: white;
     margin-top: 20%;
     width: 90%;
     margin-left: 5%;

@@ -39,7 +39,7 @@
     </van-cell-group>
 
     <div class="bottom">
-      <van-button v-intervalclick="{func:logout}" size="large" type="default" style="margin-top: 100px">
+      <van-button v-intervalclick="{func:logout}" size="large" type="default">
         退出登录
       </van-button>
     </div>
@@ -145,7 +145,7 @@
 
   .bottom {
     padding: 3%;
-    margin-top: 60%
+    margin-top: 50%
   }
 
   .myselfbody {

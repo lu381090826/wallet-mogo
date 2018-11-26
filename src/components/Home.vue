@@ -206,7 +206,7 @@
             </van-cell-group>
           </van-radio-group>
           <van-cell-group>
-            <van-button class="gotoImport" type="default" size="normal" v-intervalclick="{func:gotoImport}">导入钱包
+            <van-button class="gotoImport button-blue" type="default" size="normal" v-intervalclick="{func:gotoImport}">导入钱包
             </van-button>
           </van-cell-group>
         </div>
@@ -554,9 +554,6 @@
     width: 94%;
     margin-left: 3%;
     margin-bottom: 5%;
-    background-color: orange;
-    border: orangered;
-    color: white;
   }
 
 </style>

@@ -11,10 +11,10 @@
       </div>
 
       <div>
-        <van-button round class="changeButton" size="normal" v-show="!canChange" disabled type="primary">
+        <van-button round class="changeButton button-orange" size="normal" v-show="!canChange" disabled type="primary">
           立即捐步
         </van-button>
-        <van-button round class="changeButton" size="normal" v-show="canChange" type="primary" @click="changeStep">
+        <van-button round class="changeButton button-orange" size="normal" v-show="canChange" type="primary" @click="changeStep">
           立即捐步
         </van-button>
       </div>
@@ -40,7 +40,7 @@
         </van-col>
         <van-col span="6">
           <div style="margin-top: 15%">
-            <van-button size="small" round class="chakanwodegongyi">立即查看</van-button>
+            <van-button size="small" round class="button-orange">立即查看</van-button>
           </div>
         </van-col>
       </van-row>
@@ -125,8 +125,6 @@
   }
 
   .changeButton {
-    background-color: orange;
-    border-color: #ff9209;
     width: 50%;
     margin-top: 8%;
     font-size: 16px;
@@ -172,11 +170,6 @@
     line-height: 1;
     text-align: center;
     color: #363636;
-  }
-
-  .chakanwodegongyi {
-    background-color: orange;
-    color: white;
   }
 
   .step-footer {
