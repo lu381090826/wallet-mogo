@@ -148,7 +148,7 @@
         <van-row type="flex" justify="center" gutter="10">
           <van-col span="11">
             <div class="gongyi-box" @click="toDonation('1')">
-              <img src="//120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.55e6834.jpeg">
+              <img :src="img1">
               <div class="gongyi-box-title">
                 <span>让山区孩子温暖过冬</span>
               </div>
@@ -159,7 +159,7 @@
           </van-col>
           <van-col span="11">
             <div class="gongyi-box" @click="toDonation('2')">
-              <img src="//120.79.191.116/static/img/wuzhubingren.png">
+              <img :src="img2">
               <div class="gongyi-box-title">
                 <span>给无助病人带来希望</span>
               </div>
@@ -237,6 +237,8 @@
         tokenBalance: "---",
         showWalletConfig: false,
         walletList: null,
+        img1: "http://120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.55e6834.jpeg",
+        img2: "http://120.79.191.116/static/img/wuzhubingren.png",
       }
     },
     created() {
