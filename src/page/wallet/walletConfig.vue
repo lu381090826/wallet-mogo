@@ -2,14 +2,10 @@
   <div class="body">
     <div class="box text-left">
       <h2>选择当前钱包</h2>
-      <van-radio-group v-model="radio">
-        <van-cell-group>
-          <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
-                    @click="set(item.walletAddress,item.walletName)">
-            <van-radio :name="item.walletAddress" :value="item.walletAddress"></van-radio>
-          </van-cell>
-        </van-cell-group>
-      </van-radio-group>
+      <van-cell-group>
+        <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName">
+        </van-cell>
+      </van-cell-group>
 
       <van-button class="gotoImport" type="primary" size="large" v-intervalclick="{func:gotoImport}">导入钱包</van-button>
     </div>
@@ -50,22 +46,6 @@
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
-
-        let nw = plus.webview.currentWebview();
-        nw.addEventListener('hide', function (e) {
-          console.log(111111111111111111)
-          setTimeout(() => {
-            if (_this.walletAddress !== _this.originWalletAddress) {
-              _this.reloadWebview();
-            }
-          }, 50);
-        }, false);
-
-      },
-      set(walletAddress, walletName) {
-        this.radio = walletAddress;
-        this.walletAddress = walletAddress;
-        this.walletName = walletName;
       },
       reloadWebview() {
         let wa = plus.nativeUI.showWaiting();
@@ -103,6 +83,7 @@
     margin-bottom: 5%;
     background-color: orange;
     border: orangered;
+    color: white;
   }
 
 </style>

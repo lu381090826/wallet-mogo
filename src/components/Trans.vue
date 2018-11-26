@@ -2,7 +2,10 @@
   <div class="body">
     <div class="blank-space"></div>
     <div class="trans-cell" v-show="transList !==null && transList.length === 0">
-      暂无交易记录
+      <div class="no-trans">
+      <div><van-icon name="info-o" size="50px"></van-icon></div>
+        暂无交易记录
+      </div>
     </div>
 
     <div class="box" v-show="transList !== null && transList.length > 0">
@@ -220,5 +223,11 @@
     left: 0;
     bottom: 0;
     margin-top: 3%;
+  }
+
+  .no-trans {
+    margin-top: 50%;
+    font-size: 20px;
+    color: #979797;
   }
 </style>

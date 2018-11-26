@@ -1,7 +1,28 @@
 <template>
   <div class="myselfbody">
-    <van-nav-bar title="我的" class="navbar">
-    </van-nav-bar>
+
+    <div class="navbar">我的</div>
+    <div class="navpanel">
+      <van-row type="flex" justify="center">
+        <van-col span="12">
+          <div v-intervalclick="{func:config}">
+            <van-icon name="pending-payment" size="35px"></van-icon>
+          </div>
+          <div>
+            钱包管理
+          </div>
+        </van-col>
+        <van-col span="12">
+          <div v-intervalclick="{func:trans}">
+            <van-icon name="cash-back-record" size="35px"></van-icon>
+          </div>
+          <div>
+            交易记录
+          </div>
+        </van-col>
+      </van-row>
+    </div>
+
 
     <div class="blank-space"></div>
     <div class="blank-space"></div>
@@ -18,7 +39,7 @@
     </van-cell-group>
 
     <div class="bottom">
-      <van-button v-intervalclick="{func:logout}" size="large" class="logout" style="margin-top: 100px">
+      <van-button v-intervalclick="{func:logout}" size="large" type="default" style="margin-top: 100px">
         退出登录
       </van-button>
     </div>
@@ -27,8 +48,8 @@
 </template>
 <script>
   import Vue from 'vue';
-  import NativeFun from "../utils/plus/nativeFun";
-  import {openWebview, openWebviewFast, preLoad, showWebviewById} from "../utils/webview";
+  import NativeFun from "@/utils/plus/nativeFun";
+  import {openWebview, openWebviewFast, preLoad, showWebviewById} from "@/utils/webview";
   import {NavBar, Cell, CellGroup, Button, Row, Col} from 'vant';
   import {Icon} from 'vant';
   import cons from "../utils/constants/Cons";
@@ -47,6 +68,22 @@
       };
     },
     methods: {
+      trans() {
+        let _this = this;
+        openWebview({
+          url: './wallet.trans.html',
+          id: "wallet.trans",
+          title: "交易记录",
+          needLoaded: true,
+        })
+      },
+      config() {
+        openWebview({
+          url: "./wallet.walletConfig.html",
+          id: "wallet.walletConfig",
+          title: "钱包设置",
+        });
+      },
       checkUpdate() {
         NativeFun.checkUpdate(true);
       },
@@ -86,10 +123,19 @@
 <style scoped>
   .navbar {
     color: white;
-    font-weight: bold;
-    font-size: 20px;
-    background-color: #ff8530;
-    padding-top: 20px;
+    font-size: 16px;
+    background-color: #53cbd9;
+    padding-top: 10%;
+    text-align: center;
+  }
+
+  .navpanel {
+    color: white;
+    width: 100%;
+    background-image: -webkit-linear-gradient(top, #53cbd9, #54bac8);
+    text-align: center;
+    height: 100px;
+    padding-top: 10%;
   }
 
   a:-webkit-any-link {
@@ -97,14 +143,9 @@
     text-decoration: none;
   }
 
-  .logout {
-    background-color: orangered;
-    color: white;
-  }
-
   .bottom {
     padding: 3%;
-    margin-top: 40%
+    margin-top: 60%
   }
 
   .myselfbody {

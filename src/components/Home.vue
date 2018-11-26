@@ -27,12 +27,18 @@
               </div>
             </van-col>
           </van-row>
+          <van-row type="flex" justify="center">
+            <van-col>{{walletName}}</van-col>
+          </van-row>
+          <van-row type="flex" justify="center">
+            <van-col><span style="font-size: 10px">{{walletAddress}}</span></van-col>
+          </van-row>
           <van-row gutter="20" type="flex" justify="center">
             <van-col span="10">
               <div class="asset-header-titile" v-intervalclick="{func:trans}">
                 <div class="titile-name">Eth</div>
                 <div>
-                  {{formatAmount(walletBalance)}}
+                  {{subString(walletBalance)}}
                 </div>
               </div>
             </van-col>
@@ -40,7 +46,7 @@
               <div class="asset-header-titile" v-intervalclick="{func:tgTrans}">
                 <div class="titile-name">TG</div>
                 <div>
-                  {{formatAmount(tokenBalance)}}
+                  {{subString(tokenBalance)}}
                 </div>
               </div>
             </van-col>
@@ -72,6 +78,7 @@
 
       </div>
       <div class="blank-space"></div>
+
       <div class="area-title">
         <div class="area-tag"></div>
         赚TG
@@ -81,11 +88,11 @@
           <van-col span="12" v-intervalclick="{func:profit}">
             <div class="zhuantg">
               <van-row>
-                <van-col span="12">
+                <van-col span="14">
                   <div class="zhuant-title">持币矿</div>
                   <div class="zhuant-desc">持有TG涨收益</div>
                 </van-col>
-                <van-col span="12">
+                <van-col span="10">
                   <img src="../assets/shouyi.png" width="48"/>
                 </van-col>
               </van-row>
@@ -94,11 +101,11 @@
           <van-col span="12" v-intervalclick="{func:step}">
             <div class="zhuantg">
               <van-row>
-                <van-col span="12">
+                <van-col span="14">
                   <div class="zhuant-title">感恩行</div>
                   <div class="zhuant-desc">行走步数换TG</div>
                 </van-col>
-                <van-col span="12">
+                <van-col span="10">
                   <img src="../assets/walk.png" width="48"/>
                 </van-col>
               </van-row>
@@ -106,7 +113,39 @@
           </van-col>
         </van-row>
       </div>
+
       <div class="blank-space"></div>
+
+      <div class="area-title">
+        <div class="area-tag"></div>
+        精选
+      </div>
+      <div class="area" style="padding-top: 5%;" v-intervalclick="{func:buyTg}">
+        <van-row type="flex" justify="center">
+          <van-col span="6">
+            <img src="../assets/gushi.png" width="60">
+          </van-col>
+          <van-col span="14">
+            <div style="border: 0 solid gray;text-align: left;padding-top: 3%">
+              <div style="font-size: 16px;font-weight: bold">稳健理财</div>
+              <div style="font-size: 14px;color: #626262">认购TG，高收益，年化稳定<span style="color: orange">13%</span></div>
+            </div>
+          </van-col>
+        </van-row>
+        <div class="seemore" style="padding-top: 5%">
+          <div class="seemore-inner">
+            <van-row type="flex" justify="space-between">
+              <van-col>立即认购</van-col>
+              <van-col>
+                <van-icon name="arrow"></van-icon>
+              </van-col>
+            </van-row>
+          </div>
+        </div>
+      </div>
+
+      <div class="blank-space"></div>
+
       <div class="area-title">
         <div class="area-tag"></div>
         公益捐助，传递爱心
@@ -136,7 +175,7 @@
             </div>
           </van-col>
         </van-row>
-        <div class="seemore-charitable" v-intervalclick="{func:one2one}">
+        <div class="seemore" v-intervalclick="{func:one2one}">
           <div class="seemore-inner">
             <van-row type="flex" justify="space-between">
               <van-col>查看更多公益活动</van-col>
@@ -147,16 +186,39 @@
           </div>
         </div>
       </div>
+
+
       <div class="blank-space"></div>
+
       <div class="asset-footer"></div>
     </van-pull-refresh>
+
+    <van-popup v-model="showWalletConfig" position="right" @click-overlay="onRefresh()">
+      <div style="width: 200px;height: 1000px;padding: 5%">
+        <div style="margin-top: 10%;font-weight: bold;">选择钱包</div>
+        <div style="margin-top: 20%">
+          <van-radio-group v-model="radio">
+            <van-cell-group>
+              <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
+                        @click="set(item.walletAddress,item.walletName)" :label="subString(item.walletAddress)">
+                <van-radio :name="item.walletAddress" :value="item.walletAddress"></van-radio>
+              </van-cell>
+            </van-cell-group>
+          </van-radio-group>
+          <van-cell-group>
+            <van-button class="gotoImport" type="default" size="normal" v-intervalclick="{func:gotoImport}">导入钱包
+            </van-button>
+          </van-cell-group>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
-  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button} from 'vant';
+  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button, Popup, RadioGroup, Radio} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById, openWebviewFast} from "@/utils/webview";
@@ -164,7 +226,9 @@
 
   Vue.use(Tabbar).use(TabbarItem)
     .use(Row).use(Col)
+    .use(RadioGroup).use(Radio)
     .use(PullRefresh)
+    .use(Popup)
     .use(Button)
     .use(Toast)
     .use(Icon)
@@ -178,13 +242,35 @@
         walletBalance: "---",
         isLoading: false,
         tokenBalance: "---",
+        showWalletConfig: false,
+        walletList: null,
+        radio: plus.storage.getItem("walletAddress"),
       }
     },
     created() {
-      console.log(plus.webview.currentWebview().id);
       this.init();
     },
     methods: {
+      gotoImport() {
+        openWebview({
+          url: "./wallet.import.html",
+          id: "wallet.import",
+          title: "钱包导入"
+        });
+      },
+      set(walletAddress, walletName) {
+        plus.storage.setItem("walletAddress", walletAddress);
+        this.radio = walletAddress;
+        this.walletAddress = walletAddress;
+        this.walletName = walletName;
+      },
+      buyTg() {
+        openWebview({
+          url: './wallet.buyTg.html',
+          id: 'wallet.buyTg',
+          title: '认购TG'
+        });
+      },
       one2one() {
         openWebviewFast({
           url: './charitable.one2one.html',
@@ -286,14 +372,12 @@
         });
       },
       config() {
-        openWebview({
-          url: "./wallet.walletConfig.html",
-          id: "wallet.walletConfig",
-          title: "钱包设置",
-        });
+        this.showWalletConfig = true;
       },
       onRefresh() {
         let _t = this;
+        _t.isLoading = true;
+        this.showWalletConfig = false;
         setTimeout(() => {
           _t.isLoading = false;
           _t.$toast('刷新成功');
@@ -311,8 +395,12 @@
         Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
           _this.tokenBalance = res;
         });
+
+        request(TGCApiUrl.walletList).then(res => {
+          _this.walletList = res;
+        });
       },
-      formatAmount(value) {
+      subString(value) {
         if (Number(value) === 0) {
           return value;
         }
@@ -436,14 +524,16 @@
   .zhuant-title {
     font-weight: bold;
     margin-top: 5%;
+    margin-left: 28%;
   }
 
   .zhuant-desc {
     color: #c8c8c8;
     font-size: 12px;
+    margin-left: 28%;
   }
 
-  .seemore-charitable {
+  .seemore {
     font-size: 13px;
     color: gray;
     padding-left: 3%;
@@ -458,4 +548,15 @@
   .box-de-num {
     color: orange;
   }
+
+  .gotoImport {
+    margin-top: 30%;
+    width: 94%;
+    margin-left: 3%;
+    margin-bottom: 5%;
+    background-color: orange;
+    border: orangered;
+    color: white;
+  }
+
 </style>

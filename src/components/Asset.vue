@@ -4,8 +4,17 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div class="pull-refresh">
         <div class="asset-header">
-          <van-row type="flex" justify="center" style="padding-top: 3%">
-            <div style="font-size: 20px">钱包-{{walletName}}</div>
+          <van-row type="flex" justify="end" style="padding-top: 3%;margin-right: 5%">
+            <van-col span="20">
+              <div style="font-size: 20px;text-align: center">钱包-{{walletName}}</div>
+            </van-col>
+            <van-col>
+              <van-col span="4" v-intervalclick="{func:config}">
+                <div>
+                  <van-icon name="wap-nav" size="20px"></van-icon>
+                </div>
+              </van-col>
+            </van-col>
           </van-row>
           <van-row type="flex" justify="center" style="margin-top: 3%">
             <div style="font-size: 10px">地址-{{walletAddress}}</div>
@@ -45,6 +54,21 @@
         </div>
       </div>
     </van-pull-refresh>
+
+    <van-popup v-model="showWalletConfig" position="right">
+      <div style="width: 200px;height: 1000px;padding: 5%">
+        <div style="margin-top: 10%;font-weight: bold;">选择钱包</div>
+        <div style="margin-top: 20%">
+          <van-cell-group>
+            <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
+                      @click="set(item.walletAddress,item.walletName)" :label="subString(item.walletAddress)"
+                      :style="{backgroundColor: getColor(item.walletAddress)}"
+            >
+            </van-cell>
+          </van-cell-group>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -59,25 +83,45 @@
   Vue.use(Tabbar).use(TabbarItem)
     .use(Row).use(Col)
     .use(PullRefresh)
-    .use(Cell)
     .use(Toast)
     .use(Icon)
+    .use(Cell)
     .use(CellGroup);
   export default {
     data() {
       return {
-        walletAddress: "",
-        walletName: "",
+        walletAddress: plus.storage.getItem("walletAddress"),
+        walletName: plus.storage.getItem("walletName"),
         tokenList: [],
         walletBalance: "---",
         isLoading: false,
         totalProfit: "---",
+        walletList: null,
+        showWalletConfig: false,
+
       }
     },
     created() {
+      let t = this;
+      request(TGCApiUrl.walletList).then(res => {
+        t.walletList = res;
+      });
+
       this.init();
     },
     methods: {
+      set(walletAddress, walletName) {
+        this.walletAddress = walletAddress;
+        this.walletName = walletName;
+        this.onRefresh();
+      },
+      getColor(walletAddress) {
+        if (walletAddress === this.walletAddress) {
+          return "#efefef";
+        } else {
+          return "white";
+        }
+      },
       profit() {
         openWebview(
           {
@@ -94,6 +138,12 @@
             },
             style: {render: true}
           })
+      },
+      subString(value) {
+        if (Number(value) === 0) {
+          return value;
+        }
+        return value.toString().substring(0, 8) + "..";
       },
       trans(tokenAddress) {
         let _this = this;
@@ -133,34 +183,32 @@
         });
       },
       config() {
-        showWebviewById({
-          url: "./wallet.walletConfig.html",
-          id: "wallet.walletConfig",
-          title: "钱包设置",
-        });
+        this.showWalletConfig = true;
       },
       onRefresh() {
         let _t = this;
+        this.showWalletConfig = false;
+        let ws = plus.nativeUI.showWaiting();
         setTimeout(() => {
           _t.isLoading = false;
           _t.$toast('刷新成功');
           _t.init();
+          ws.close();
         }, 500);
       },
       init() {
         let _this = this;
-        _this.walletAddress = plus.storage.getItem("walletAddress");
-        _this.walletName = plus.storage.getItem("walletName");
 
-        Web3Util.getBalance().then(res => {
+        Web3Util.getBalance(_this.walletAddress).then(res => {
           _this.walletBalance = res;
         });
+
         request(TGCApiUrl.walletTokenList).then(res => {
           _this.tokenList = [];
           if (res.length != null) {
             let arr = [];
             for (let i = 0; i < res.length; i++) {
-              Web3Util.getContractBalance(res[i].tokenAddress).then(contractBalance => {
+              Web3Util.getContractBalance(res[i].tokenAddress, _this.walletAddress).then(contractBalance => {
                 res[i].tokenBalance = contractBalance;
                 res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "...";
                 _this.tokenList.push(res[i])
@@ -168,7 +216,8 @@
             }
           }
         });
-        request(TGCApiUrl.getProgitInfo, {walletAddress: plus.storage.getItem("walletAddress")}).then(function (res) {
+
+        request(TGCApiUrl.getProgitInfo, {walletAddress: _this.walletAddress}).then(function (res) {
           _this.totalProfit = res.totalProfit;
         })
       },

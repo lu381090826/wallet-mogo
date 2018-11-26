@@ -14,12 +14,16 @@
       <van-field label="交易合约"
                  v-model="tokenAddress"
                  v-show="tokenAddress"
+                 :readonly="tokenAddressReadOnly"
+                 :disabled="tokenAddressReadOnly"
       >
-        <van-icon slot="icon" name="close" @click="closeToken"/>
+        <van-icon slot="icon" name="close" @click="closeToken" v-show="!tokenAddressReadOnly"/>
       </van-field>
       <van-field label="合约名称"
                  v-model="tokenName"
                  v-show="tokenAddress"
+                 :readonly="tokenAddressReadOnly"
+                 :disabled="tokenAddressReadOnly"
       >
       </van-field>
       <van-field label="收款方"
@@ -28,6 +32,8 @@
                  :error-message="receiveAddressError"
                  @input="receiveAddressError = ''"
                  :clearable="true"
+                 :readonly="receiveAddressReadOnly"
+                 :disabled="receiveAddressReadOnly"
       >
         <van-icon slot="icon" name="contact" @click="contact"/>
       </van-field>
@@ -116,11 +122,13 @@
         walletAddress: plus.storage.getItem('walletAddress'),
         sendAmountError: "",
         receiveAddressError: "",
+        receiveAddressReadOnly: false,
         walletPassword: "",
         showWalletList: false,
         showTokenList: false,
         tokenName: "",
         tokenAddress: "",
+        tokenAddressReadOnly: false,
         orderId: "",
         walletListActions: [],
         tokenListActions: [],
@@ -133,9 +141,12 @@
 
       if (isNotEmpty(ws.receiveAddress)) {
         this.receiveAddress = ws.receiveAddress;
+        this.receiveAddressReadOnly = true;
       }
+
       if (isNotEmpty(ws.tokenAddress)) {
         this.tokenAddress = ws.tokenAddress;
+        this.tokenAddressReadOnly = true;
       }
 
       if (isNotEmpty(ws.orderId)) {

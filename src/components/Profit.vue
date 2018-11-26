@@ -1,6 +1,16 @@
 <template>
   <div style="overflow-x: hidden">
     <div class="profit-head">
+      <van-row type="flex" justify="end">
+        <van-col span="20">
+          <span style="font-size: 10px;margin-left: 20%">{{walletAddress}}</span>
+        </van-col>
+        <van-col span="4" v-intervalclick="{func:config}">
+          <div>
+            <van-icon name="wap-nav" size="20px"></van-icon>
+          </div>
+        </van-col>
+      </van-row>
       <van-row type="flex" justify="center" class="profit-head-row">
         <van-col>
           <div><span style="font-size: 14px;color: #fea879">昨日收益(TG)</span></div>
@@ -24,7 +34,7 @@
       </van-row>
     </div>
 
-    <div style="margin-left: 5%;margin-right: 5%">
+    <div class="profit-list">
       <h3 v-if="profitList.length>0">收益记录</h3>
       <h3 v-if="profitList.length===0">暂无收益记录</h3>
 
@@ -38,12 +48,26 @@
       </Progress>
     </div>
 
+    <van-popup v-model="showWalletConfig" position="right">
+      <div style="width: 200px;height: 1000px;padding: 5%">
+        <div style="margin-top: 10%;font-weight: bold;">选择钱包</div>
+        <div style="margin-top: 20%">
+          <van-cell-group>
+            <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
+                      @click="set(item.walletAddress,item.walletName)" :label="subString(item.walletAddress)"
+                      :style="{backgroundColor: getColor(item.walletAddress)}"
+            >
+            </van-cell>
+          </van-cell-group>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
   import Vue from "vue";
-  import {Toast, Row, Col} from 'vant';
+  import {Toast, Row, Col, Popup, Button, CellGroup, Cell, Radio, Icon, RadioGroup} from 'vant';
   import MathUtil from "@/utils/MathUtil";
   import Web3Util from "@/utils/web3Util/Web3Util";
   import TGCConfig from "@/utils/constants/tgcConfig";
@@ -53,6 +77,13 @@
 
   Vue.use(Row)
     .use(Col)
+    .use(RadioGroup)
+    .use(Radio)
+    .use(Icon)
+    .use(CellGroup)
+    .use(Cell)
+    .use(Popup)
+    .use(Button)
     .use(Toast);
 
   export default {
@@ -67,27 +98,72 @@
         profitList: [],
         minProfit: "",
         maxProfit: "",
+        walletList: null,
+        showWalletConfig: false,
+        isLoading: false,
+        walletAddress: plus.storage.getItem("walletAddress"),
       }
     },
     methods: {
+      getColor(walletAddress) {
+        if (walletAddress === this.walletAddress) {
+          return "#efefef";
+        } else {
+          return "white";
+        }
+      },
+      set(walletAddress, walletName) {
+        this.walletAddress = walletAddress;
+        this.walletName = walletName;
+        this.onRefresh();
+      },
+      onRefresh() {
+        let _t = this;
+        _t.isLoading = true;
+        this.showWalletConfig = false;
+        let ws = plus.nativeUI.showWaiting();
+        setTimeout(() => {
+          _t.isLoading = false;
+          _t.$toast('刷新成功');
+          _t.init();
+          ws.close();
+        }, 500);
+      },
+      subString(value) {
+        if (Number(value) === 0) {
+          return value;
+        }
+        return value.toString().substring(0, 8) + "..";
+      },
+      config() {
+        this.showWalletConfig = true;
+      },
       getProgressValue(value) {
         return MathUtil.accMul((Number(value) / Number(MathUtil.accMul(this.maxProfit, 1.3))), 100);
+      },
+      init() {
+        let t = this;
+        Web3Util.getContractBalance(TGCConfig.tokenAddress).then(res => {
+          t.totalTGBalance = res;
+        });
+        request(TGCApiUrl.getProgitInfo, {walletAddress: t.walletAddress}).then(function (res) {
+          t.tenthousandProfit = res.tenthousandProfit;
+          t.sevenDayProfit = res.sevenDayProfit;
+          t.totalProfit = res.totalProfit;
+          t.yestadayProfit = res.yestadayProfit;
+          t.profitList = res.profitList;
+          t.minProfit = res.minProfit;
+          t.maxProfit = res.maxProfit;
+        });
       }
     },
-    beforeMount() {
+    created() {
       let t = this;
-      Web3Util.getContractBalance(TGCConfig.tokenAddress).then(res => {
-        t.totalTGBalance = res;
+      request(TGCApiUrl.walletList).then(res => {
+        t.walletList = res;
       });
-      request(TGCApiUrl.getProgitInfo, {walletAddress: plus.storage.getItem("walletAddress")}).then(function (res) {
-        t.tenthousandProfit = res.tenthousandProfit;
-        t.sevenDayProfit = res.sevenDayProfit;
-        t.totalProfit = res.totalProfit;
-        t.yestadayProfit = res.yestadayProfit;
-        t.profitList = res.profitList;
-        t.minProfit = res.minProfit;
-        t.maxProfit = res.maxProfit;
-      });
+
+      this.init();
     },
     components: {
       Progress
@@ -134,5 +210,17 @@
   .profit-head-row {
     padding-top: 3%;
     padding-bottom: 3%;
+  }
+
+  .pull {
+    background-color: #fa5b21;
+    color: white;
+  }
+
+  .profit-list {
+    padding: 5%;
+    background-color: white;
+    color: black;
+    min-height: 1200px;
   }
 </style>
