@@ -27,26 +27,20 @@
               </div>
             </van-col>
           </van-row>
-          <van-row type="flex" justify="center">
-            <van-col>{{walletName}}</van-col>
-          </van-row>
-          <van-row type="flex" justify="center">
-            <van-col><span style="font-size: 10px">{{walletAddress}}</span></van-col>
-          </van-row>
           <van-row gutter="20" type="flex" justify="center">
             <van-col span="10">
               <div class="asset-header-titile" v-intervalclick="{func:trans}">
                 <div class="titile-name">Eth</div>
-                <div>
-                  {{subString(walletBalance)}}
+                <div :style="{fontSize: '16px'}">
+                  {{walletBalance}}
                 </div>
               </div>
             </van-col>
             <van-col span="10">
               <div class="asset-header-titile" v-intervalclick="{func:tgTrans}">
                 <div class="titile-name">TG</div>
-                <div>
-                  {{subString(tokenBalance)}}
+                <div :style="{fontSize: '16px'}">
+                  {{tokenBalance}}
                 </div>
               </div>
             </van-col>
@@ -193,20 +187,20 @@
       <div class="asset-footer"></div>
     </van-pull-refresh>
 
-    <van-popup v-model="showWalletConfig" position="right" @click-overlay="onRefresh()">
+    <van-popup v-model="showWalletConfig" position="right">
       <div style="width: 200px;height: 1000px;padding: 5%">
         <div style="margin-top: 10%;font-weight: bold;">选择钱包</div>
         <div style="margin-top: 20%">
-          <van-radio-group v-model="radio">
-            <van-cell-group>
-              <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
-                        @click="set(item.walletAddress,item.walletName)" :label="subString(item.walletAddress)">
-                <van-radio :name="item.walletAddress" :value="item.walletAddress"></van-radio>
-              </van-cell>
-            </van-cell-group>
-          </van-radio-group>
           <van-cell-group>
-            <van-button class="gotoImport button-blue" type="default" size="normal" v-intervalclick="{func:gotoImport}">导入钱包
+            <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
+                      @click="set(item.walletAddress,item.walletName)" :label="subString(item.walletAddress)"
+                      :style="{backgroundColor: getColor(item.walletAddress)}"
+            >
+            </van-cell>
+          </van-cell-group>
+          <van-cell-group>
+            <van-button class="gotoImport button-blue" type="default" size="normal" v-intervalclick="{func:gotoImport}">
+              导入钱包
             </van-button>
           </van-cell-group>
         </div>
@@ -218,7 +212,7 @@
   import Vue from 'vue'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
-  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button, Popup, RadioGroup, Radio} from 'vant';
+  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button, Popup} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById, openWebviewFast} from "@/utils/webview";
@@ -226,7 +220,6 @@
 
   Vue.use(Tabbar).use(TabbarItem)
     .use(Row).use(Col)
-    .use(RadioGroup).use(Radio)
     .use(PullRefresh)
     .use(Popup)
     .use(Button)
@@ -236,21 +229,27 @@
   export default {
     data() {
       return {
-        walletAddress: "",
-        walletName: "",
+        walletAddress: plus.storage.getItem("walletAddress"),
+        walletName: plus.storage.getItem("walletName"),
         tokenList: [],
         walletBalance: "---",
         isLoading: false,
         tokenBalance: "---",
         showWalletConfig: false,
         walletList: null,
-        radio: plus.storage.getItem("walletAddress"),
       }
     },
     created() {
       this.init();
     },
     methods: {
+      getColor(walletAddress) {
+        if (walletAddress === this.walletAddress) {
+          return "#efefef";
+        } else {
+          return "white";
+        }
+      },
       gotoImport() {
         openWebview({
           url: "./wallet.import.html",
@@ -260,9 +259,10 @@
       },
       set(walletAddress, walletName) {
         plus.storage.setItem("walletAddress", walletAddress);
-        this.radio = walletAddress;
         this.walletAddress = walletAddress;
         this.walletName = walletName;
+
+        this.onRefresh();
       },
       buyTg() {
         openWebview({
@@ -386,19 +386,18 @@
       },
       init() {
         let _this = this;
-        _this.walletAddress = plus.storage.getItem("walletAddress");
-        _this.walletName = plus.storage.getItem("walletName");
 
-        Web3Util.getBalance().then(res => {
+        Web3Util.getBalance(_this.walletAddress).then(res => {
           _this.walletBalance = res;
         });
-        Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
+        Web3Util.getBalance(TGCConfig.tokenAddress, _this.walletAddress).then(res => {
           _this.tokenBalance = res;
         });
 
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
+
       },
       subString(value) {
         if (Number(value) === 0) {
