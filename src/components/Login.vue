@@ -7,7 +7,7 @@
         </div>
       </van-row>
 
-      <div class="tg-field" style="margin-top: 6%" :style="{borderBottomColor:borderBottomColor.username}">
+      <div class="tg-field" style="margin-top: 15%" :style="{borderBottomColor:borderBottomColor.username}">
         <van-row type="flex" justify="start">
           <van-col span="7" class="tg-field-title">账号</van-col>
           <van-col span="17" class="tg-field-label">
@@ -200,7 +200,7 @@
 
 <style scoped>
   .login-center {
-    margin-top: 30%;
+    margin-top: 10%;
     width: 100%;
   }
 
