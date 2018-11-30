@@ -58,14 +58,14 @@
       </van-button>
 
       <div class="login-bottom">
-        <van-row type="flex" justify="space-between">
-          <van-col>
-            短信验证码登录
-          </van-col>
-          <van-col>
-            忘记密码？
-          </van-col>
-        </van-row>
+        <!--<van-row type="flex" justify="space-between">-->
+          <!--<van-col>-->
+            <!--<div @click="tips">短信验证码登录</div>-->
+          <!--</van-col>-->
+          <!--<van-col>-->
+            <!--<div @click="tips">忘记密码？</div>-->
+          <!--</van-col>-->
+        <!--</van-row>-->
       </div>
     </div>
     <div class="login-to-register" @click="gotoRegister">
@@ -76,7 +76,7 @@
 <script>
   import Vue from 'vue';
   import "../utils/css/TgField.less"
-  import {Button, Col, Icon, Row} from 'vant';
+  import {Button, Col, Icon, Row,Toast} from 'vant';
   import RegexRoules from "@/utils/constants/RegexRoules";
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {request} from "@/utils/request";
@@ -85,6 +85,7 @@
 
   Vue.use(Row).use(Col);
   Vue.use(Icon);
+  Vue.use(Toast);
   Vue.use(Button);
 
   export default {
@@ -103,6 +104,9 @@
       };
     },
     methods: {
+      tips() {
+        Toast('暂不支持，请联系管理员修改')
+      },
       onFocus(type) {
         if (type === 'username') {
           this.borderBottomColor.username = "#1287ca";
@@ -132,7 +136,12 @@
             titleText: '   ',
             titleColor: '#1287ca',
             autoBackButton: false,
-            buttons: [{text: '返回', fontSize: '16px', float: 'left', onclick: this.webview.closeWebview.bind({webviewId:"wallet.register"})}]
+            buttons: [{
+              text: '返回',
+              fontSize: '16px',
+              float: 'left',
+              onclick: this.webview.closeWebview.bind({webviewId: "wallet.register"})
+            }]
           }
         });
       },

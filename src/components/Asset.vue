@@ -127,12 +127,11 @@
           {
             url: "./profit.index.html",
             id: "profit.index",
-            showWaiting: true,
+            needLoaded: true,
             titleStyle: {
               titleText: "持币矿",
               titleColor: "#ffffff",
-              backgroundColor: "#ffd81d",
-              splitLine: {color: "#ffd81d"},
+              backgroundColor: "#fa5b21",
               autoBackButton: true,
               progress: {color: '#ff5c0a', height: "1%"},
             },
@@ -191,7 +190,6 @@
         let ws = plus.nativeUI.showWaiting();
         setTimeout(() => {
           _t.isLoading = false;
-          _t.$toast('刷新成功');
           _t.init();
           ws.close();
         }, 500);

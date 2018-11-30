@@ -94,8 +94,8 @@
           titleStyle: {
             titleText: "我的捐助",
             titleColor: "#ffffff",
-            backgroundColor: "#ffa500",
-            splitLine: {color: "#ffa500"},
+            backgroundColor: "#ff6507",
+            splitLine: {color: "#ff6507"},
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"}
           }

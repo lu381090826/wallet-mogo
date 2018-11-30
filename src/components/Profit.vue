@@ -124,7 +124,6 @@
         let ws = plus.nativeUI.showWaiting();
         setTimeout(() => {
           _t.isLoading = false;
-          _t.$toast('刷新成功');
           _t.init();
           ws.close();
         }, 500);
@@ -143,7 +142,7 @@
       },
       init() {
         let t = this;
-        Web3Util.getContractBalance(TGCConfig.tokenAddress).then(res => {
+        Web3Util.getContractBalance(TGCConfig.tokenAddress, t.walletAddress).then(res => {
           t.totalTGBalance = res;
         });
         request(TGCApiUrl.getProgitInfo, {walletAddress: t.walletAddress}).then(function (res) {

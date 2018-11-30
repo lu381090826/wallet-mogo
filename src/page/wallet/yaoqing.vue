@@ -4,8 +4,11 @@
       <div class="bg">
       </div>
       <div class="button-area">
-        <van-button size="large" type="default" v-intervalclick="{func:showShare}">
-          分享朋友送0.1TG
+        <van-button size="large"
+                    type="default"
+                    class="button-blue"
+                    v-intervalclick="{func:showShare}">
+          立即分享
         </van-button>
       </div>
     </div>
@@ -14,7 +17,7 @@
       position="bottom">
       <div class="shareBox" v-intervalclick="{func:shareWeixinMessage}">
         <div>
-          <van-icon name="we-chat"/>
+          <van-icon name="wechat" color="#00cc24" size="30px"/>
         </div>
         分享给微信朋友
       </div>
@@ -39,14 +42,13 @@
         shareUrl: "",
         sharewx: "",
         popupVisible: false,
-        backgroundImg: "http://120.79.191.116/static/img/62.png",
+        backgroundImg: require('../../assets/img/a92ce141472ce15ead2a252713c1cb63.png'),
       };
     },
     methods: {
       showShare() {
         let _this = this;
         _this.popupVisible = true;
-        plus.nativeUI.toast('plus 已加载');
         plus.share.getServices(function (s) {
           for (let i in s) {
             if ('weixin' === s[i].id) {
@@ -84,22 +86,24 @@
   }
 
   .shareBox {
-    width: 500px;
+    width: 100%;
     padding-top: 5%;
     padding-bottom: 5%;
+    text-align: center;
   }
 
   .yaoqing-body {
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    -moz-background-size: 100% 100%;
-    background-color: pink;
-    min-height: 640px;
+    background-size: 545px 725px;
+    -moz-background-size: 545px 725px;
+    /*height: 765px;*/
+    /*width: 545px;*/
+    background-color: white;
   }
 
   .button-area {
-    position: fixed;
-    bottom: 10%;
+    margin-top: 450px;
+    border: 1px solid gray;
   }
 </style>
 

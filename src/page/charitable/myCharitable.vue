@@ -1,21 +1,18 @@
 <template>
   <div style="overflow-x: hidden">
     <div class="sum">
-      <div class="toux">
-        <img src="../../assets/User_performance.png" width="64">
-        {{userName}}
-      </div>
-      <div>
-        <div class="sum-box">
-          捐助总额（TG）
-          <div class="sum-box-num">{{totalAmount}}</div>
-        </div>
-
-        <div class="sum-box">
-          爱心次数（笔）
-          <div class="sum-box-num">{{totalNum}}</div>
-        </div>
-      </div>
+      <van-row type="flex" justify="center">
+        <van-col span="12">
+          <div class="sum-box sum-box-left">捐助总额（TG）
+            <div class="sum-box-num">{{totalAmount}}</div>
+          </div>
+        </van-col>
+        <van-col span="12">
+          <div class="sum-box sum-box-right">爱心次数（笔）
+            <div class="sum-box-num">{{totalNum}}</div>
+          </div>
+        </van-col>
+      </van-row>
     </div>
 
     <div class="order_list">
@@ -34,11 +31,11 @@
 
 <script>
   import Vue from "vue";
-  import {Cell} from 'vant'
+  import {Cell, Row, Col} from 'vant'
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
 
-  Vue.use(Cell);
+  Vue.use(Cell).use(Row).use(Col);
   export default {
     name: "myCharitable",
     data() {
@@ -79,38 +76,26 @@
 </script>
 
 <style scoped>
-  #header {
-    background-color: orange;
-  }
-
-  .toux {
-    text-align: center;
-    margin-left: -16%;
-    margin-bottom: 1%;
-  }
-
   .sum {
-    width: 110%;
-    margin-left: -5%;
-    height: 120px;
-    background-image: -webkit-linear-gradient(top, orange, red);
-    text-align: left;
-    padding: 10%;
+    height: 60px;
+    background-image: -webkit-linear-gradient(top, #ff6507, orange);
+    text-align: center;
+    padding: 10% 5%;
   }
 
   .sum-box {
-    width: 33.5%;
-    background-color: white;
+    width: 100%;
+    font-size: 16px;
     float: left;
-    margin-left: 2%;
-    padding: 2%;
-    font-size: 12px;
+    padding-top: 8%;
+    padding-bottom: 8%;
+    background-color: white;
   }
 
   .sum-box-num {
     font-weight: bold;
     color: red;
-    font-size: 21px;
+    font-size: 28px;
   }
 
   .order_list {
@@ -132,5 +117,15 @@
   .never_donation > a:-webkit-any-link {
     text-decoration: none;
     color: dodgerblue;
+  }
+
+  .sum-box-left {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  .sum-box-right {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
   }
 </style>
