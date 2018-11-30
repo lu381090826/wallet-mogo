@@ -6,7 +6,7 @@ Vue.use(Toast);
 
 function getTitleStyle(config) {
   let titelStyle = {};
-  if (config.noTitle !== undefined && config.noTitle) {
+  if (isNotEmpty(config.noTitle) && config.noTitle) {
     titelStyle = {
       backgroundColor: "#ffffff", // 导航栏背景色
       titleText: "", // 导航栏标题

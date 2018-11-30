@@ -4,7 +4,7 @@ import FastClick from "fastclick";
 import "./globalFunc";
 import {Toast} from 'vant';
 import cons from './constants/Cons'
-import webViews from './webviews'
+import './webviews'
 import "@/utils/css/CommonStyle.less";
 
 /**
@@ -12,7 +12,7 @@ import "@/utils/css/CommonStyle.less";
  * 可以用于全局添加某功能
  */
 Vue.use(Toast);
-Vue.use(webViews);
+// Vue.use(webViews);
 
 //测试环境代理
 Vue.prototype.HOST = process.env.prototypeHOST;

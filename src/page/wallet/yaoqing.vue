@@ -1,11 +1,14 @@
 <template>
-  <div style="text-align: center">
-    <div class="bg">
-      <img src="../../assets/logo.png">
+  <div class="body yaoqing-body" :style="{backgroundImage:'url(' + backgroundImg + ')'}">
+    <div>
+      <div class="bg">
+      </div>
+      <div class="button-area">
+        <van-button size="large" type="default" v-intervalclick="{func:showShare}">
+          分享朋友送0.1TG
+        </van-button>
+      </div>
     </div>
-    <van-button size="large" type="default" v-intervalclick="{func:showShare}">
-      分享朋友送0.1TG
-    </van-button>
     <van-popup
       v-model="popupVisible"
       position="bottom">
@@ -35,7 +38,8 @@
       return {
         shareUrl: "",
         sharewx: "",
-        popupVisible: false
+        popupVisible: false,
+        backgroundImg: "http://120.79.191.116/static/img/62.png",
       };
     },
     methods: {
@@ -83,6 +87,19 @@
     width: 500px;
     padding-top: 5%;
     padding-bottom: 5%;
+  }
+
+  .yaoqing-body {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    background-color: pink;
+    min-height: 640px;
+  }
+
+  .button-area {
+    position: fixed;
+    bottom: 10%;
   }
 </style>
 

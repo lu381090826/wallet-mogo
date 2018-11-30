@@ -115,6 +115,7 @@
           id: cons.loginViewId,
           title: "",
           noTitle: true,
+          needLoaded: true,
         });
       }
     },

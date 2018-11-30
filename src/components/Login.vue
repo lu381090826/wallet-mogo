@@ -1,69 +1,148 @@
 <template>
-  <div class="login">
-    <van-row type="flex" justify="center" class="gotoreg">
-      <img src="@/assets/gongyi.png" width="100" height="100">
-    </van-row>
-    <van-row type="flex" justify="center">
-      <span style="font-size: 25px;font-weight: bold">感恩链</span>
-    </van-row>
+  <div class="body" style="text-align: center;background-color: white;">
+    <div class="login-center">
+      <van-row type="flex" justify="center">
+        <div>
+          <img src="../assets/gongyilan.png" width="90">
+        </div>
+      </van-row>
 
-    <van-cell-group style="margin-top: 10%">
-      <van-field
-        v-model="username"
-        clearable
-        type="number"
-        label="手机号"
-        placeholder="请输入手机号"
-        @keyup.enter="login"
-        :error-message="usernameError"
-      />
+      <div class="tg-field" style="margin-top: 6%" :style="{borderBottomColor:borderBottomColor.username}">
+        <van-row type="flex" justify="start">
+          <van-col span="7" class="tg-field-title">账号</van-col>
+          <van-col span="17" class="tg-field-label">
+            <div>
+              <van-row type="flex" justify="start">
+                <van-col span="20">
+                  <input placeholder="请输入手机号" class="tg-field-input" v-model="username" @focus="onFocus('username')"/>
+                </van-col>
+                <van-col span="4">
+                  <van-icon name="cross" color="gray" size="20px" v-show="username"
+                            @click="clear('username')"></van-icon>
+                </van-col>
+              </van-row>
+            </div>
+          </van-col>
+        </van-row>
+      </div>
 
-      <van-field
-        v-model="password"
-        type="password"
-        label="密码"
-        placeholder="请输入密码"
-        @keyup.enter="login"
-        :error-message="passwordError"
-      />
-    </van-cell-group>
-    <van-row type="flex" justify="center">
-      <van-col span="14">
-        <van-button type="danger" size="large" class="button" round v-intervalclick="{func:login}">登录</van-button>
-      </van-col>
-    </van-row>
-    <van-row type="flex" justify="center" class="gotoreg">
-      <van-col><span v-intervalclick="{func:gotoRegister}" class="gotozhuce">去注册</span></van-col>
-    </van-row>
+      <div class="tg-field" :style="{borderBottomColor:borderBottomColor.password}">
+        <van-row type="flex" justify="start">
+          <van-col span="7" class="tg-field-title">密码</van-col>
+          <van-col span="17" class="tg-field-label">
+            <div>
+              <van-row type="flex" justify="start">
+                <van-col span="16">
+                  <input :type="passwordType" placeholder="请输入密码" class="tg-field-input"
+                         v-model="password" @focus="onFocus('password')"/>
+                </van-col>
+                <van-col span="4">
+                  <van-icon name="cross" color="gray" size="20px" v-show="password"
+                            @click="clear('password')"></van-icon>
+                </van-col>
+                <van-col span="4">
+                  <van-icon name="password-not-view" color="gray" size="20px"
+                            v-show="!passwordView" @click="changePasswordView">
+                  </van-icon>
+                  <van-icon name="password-view" color="#76c3e8" size="20px"
+                            v-show="passwordView" @click="changePasswordView">
+                  </van-icon>
+                </van-col>
+              </van-row>
+            </div>
+          </van-col>
+        </van-row>
+      </div>
 
+      <van-button size="large" class="button-blue" style="margin-top: 8%;" @click="login" :disabled="disabled">登录
+      </van-button>
+
+      <div class="login-bottom">
+        <van-row type="flex" justify="space-between">
+          <van-col>
+            短信验证码登录
+          </van-col>
+          <van-col>
+            忘记密码？
+          </van-col>
+        </van-row>
+      </div>
+    </div>
+    <div class="login-to-register" @click="gotoRegister">
+      注册
+    </div>
   </div>
 </template>
 <script>
   import Vue from 'vue';
-  import {Field, Button, Row, Col, Cell, CellGroup} from 'vant';
+  import "../utils/css/TgField.less"
+  import {Button, Col, Icon, Row} from 'vant';
   import RegexRoules from "@/utils/constants/RegexRoules";
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {request} from "@/utils/request";
-  import {showWebviewById, preLoad, openWebviewFast, openWebview} from "@/utils/webview";
+  import {openWebview} from "@/utils/webview";
   import cons from "@/utils/constants/Cons";
 
   Vue.use(Row).use(Col);
-  Vue.use(Field);
+  Vue.use(Icon);
   Vue.use(Button);
-  Vue.use(Cell).use(CellGroup);
 
   export default {
     data() {
       return {
         username: "",
         password: "",
-        usernameError: "",
-        passwordError: "",
+        passwordView: false,
+        passwordType: "password",
+        borderBottomColor: {
+          username: "lightgray",
+          password: "lightgray",
+        },
+        disabled: true,
+
       };
     },
     methods: {
+      onFocus(type) {
+        if (type === 'username') {
+          this.borderBottomColor.username = "#1287ca";
+          this.borderBottomColor.password = "lightgray";
+        }
+        if (type === 'password') {
+          this.borderBottomColor.password = "#1287ca";
+          this.borderBottomColor.username = "lightgray";
+        }
+      },
+      clear(type) {
+        if (type === 'username') {
+          this.username = "";
+        }
+        if (type === 'password') {
+          this.password = "";
+        }
+      },
       gotoRegister() {
-        openWebviewFast({url: './wallet.register.html', id: 'wallet.register', title: "注册"});
+        openWebview({
+          url: './wallet.register.html',
+          id: 'wallet.register',
+          needLoaded: true,
+          titleStyle: {
+            style: 'transparent',
+            backgroundColor: 'white',
+            titleText: '   ',
+            titleColor: '#1287ca',
+            autoBackButton: false,
+            buttons: [{text: '返回', fontSize: '16px', float: 'left', onclick: this.webview.closeWebview.bind({webviewId:"wallet.register"})}]
+          }
+        });
+      },
+      changePasswordView() {
+        this.passwordView = !this.passwordView;
+        if (this.passwordType === "password") {
+          this.passwordType = "text";
+        } else {
+          this.passwordType = "password";
+        }
       },
       login() {
         let _this = this;
@@ -113,30 +192,31 @@
     },
     watch: {
       username() {
-        this.usernameError = "";
-        this.passwordError = "";
-      },
-      password() {
-        this.usernameError = "";
-        this.passwordError = "";
+        this.disabled = !RegexRoules.phone.test(this.username);
       }
     }
   }
 </script>
 
 <style scoped>
-  .login {
-    padding-top: 10%;
-  }
-
-  .button {
+  .login-center {
     margin-top: 30%;
-    color: white;
-    background-color: #F24E41;
+    width: 100%;
   }
 
-  .gotoreg {
-    color: #069bff;
-    margin-top: 8%;
+  .login-bottom {
+    color: #1287ca;
+    margin-top: 3%;
+    font-size: 16px;
   }
+
+  .login-to-register {
+    margin-top: 40%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    color: #1287ca;
+  }
+
 </style>
