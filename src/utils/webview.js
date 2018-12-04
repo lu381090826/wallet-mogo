@@ -46,9 +46,6 @@ export function openWebview(config, style = {}, extras = {}) {
   let webView = plus.webview.getWebviewById(config.id);
   //有参数传入都以新窗口打开
   if (isEmpty(webView) || isNotEmptyObject(extras)) {
-    if (typeof (extras.webviewPreload) === undefined || extras.webviewPreload === null) {
-      extras.webviewPreload = true;
-    }
 
     let titelStyle;
     if (config.titleStyle) {
@@ -187,7 +184,6 @@ export function preLoad(webviews = []) {
     }
 
     const fullExtras = {
-      webviewPreload: true,
       ...webview.extras,
     };
 

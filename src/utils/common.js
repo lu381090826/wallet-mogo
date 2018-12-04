@@ -6,6 +6,7 @@ import {Toast} from 'vant';
 import cons from './constants/Cons'
 import './webviews'
 import "@/utils/css/CommonStyle.less";
+import {isNotEmptyObject} from "./globalFunc";
 
 /**
  * 该js为所有页面都必须加载的js
@@ -42,11 +43,7 @@ function plusReady() {
         ws.webviewLast = false;
       }
 
-      if (ws.webviewPreload === undefined) {
-        ws.webviewPreload = true;
-      }
-
-      if (ws.webviewPreload && !ws.webviewLast) {
+      if (!ws.webviewLast) {
         plus.webview.hide(ws, 'auto');
       } else {
         if (!firstExitApp) {
