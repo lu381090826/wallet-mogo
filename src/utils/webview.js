@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import {Toast} from "vant";
 import {isEmpty, isNotEmpty, isNotEmptyObject} from "./globalFunc";
+import './webviews'
 
 Vue.use(Toast);
 
@@ -62,6 +63,7 @@ export function openWebview(config, style = {}, extras = {}) {
       {
         titleNView: titelStyle,
         popGesture: "none",
+        scrollIndicator: 'none',
         ...style
       }
       ,
@@ -96,6 +98,13 @@ export function openWebviewFast(config) {
   if (typeof(plus) === "undefined") {
     return;
   }
+
+  let nws = plus.webview.getWebviewById(config.id);
+  if (isNotEmptyObject(nws)) {
+    nws.close();
+  }
+
+  //默认样式
   let navStyle;
   if (config.noTitle) {
     navStyle = null;
@@ -132,6 +141,8 @@ export function openWebviewFast(config) {
     config.id,
     {
       titleNView: navStyle,
+      scrollIndicator: 'none',
+      backButtonAutoControl: 'close',
     },
     "pop-in",
     200,

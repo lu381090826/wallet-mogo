@@ -5,10 +5,15 @@ import {isNotEmpty} from "./globalFunc";
 //全局窗口控制
 Vue.prototype.webview = {
   webviewId: null,
-  closeWebview: function () {
+  getWebview() {
+    return plus.webview.getWebviewById(this.webviewId);
+  },
+  closeWebview() {
     if (isNotEmpty(this.webviewId)) {
-      let ws = plus.webview.getWebviewById(this.webviewId);
+      let ws = this.getWebview();
       ws.close();
+    } else {
+      plus.webview.currentWebview().close();
     }
   }
 };

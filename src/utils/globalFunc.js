@@ -3,7 +3,6 @@
  * 可以用于全局添加某功能
  */
 import Vue from 'vue'
-import {saveStepData} from "./globalTools";
 
 // 防止多次点击的组件
 (function () {
@@ -42,7 +41,7 @@ import {saveStepData} from "./globalTools";
 })();
 
 export function isEmptyObject(obj) {
-  return Object.keys(obj).length === 0 || typeof obj === "undefined" || obj === undefined || obj === null || obj === "" || obj === "null";
+  return obj === null || obj === undefined || Object.keys(obj).length === 0 || typeof obj === "undefined" || obj === "" || obj === "null";
 }
 
 export function isNotEmptyObject(obj) {

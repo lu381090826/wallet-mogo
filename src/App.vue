@@ -20,6 +20,7 @@
     },
     beforeCreate() {
       let _this = this;
+      console.log("start");
       if (isEmpty(plus.storage.getItem('uid')) || isEmpty(plus.storage.getItem('token'))) {
         const component = Vue.extend(Login);
         const instance = new component();

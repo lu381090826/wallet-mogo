@@ -5,7 +5,7 @@
     "name" : "感恩链",
     /*应用名称，程序桌面图标名称*/
     "version" : {
-        "name" : "2.1.1",
+        "name" : "2.1.2",
         /*应用版本名称*/
         "code" : "141"
     },
@@ -14,7 +14,7 @@
     "icons" : {
         "72" : "icon.png"
     },
-    "launch_path" : "dist/index.html",
+    "launch_path" : "http://192.168.137.1:8080/",
     /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
     "developer" : {
         "name" : "",
@@ -141,7 +141,7 @@
                         "notification@2x" : "unpackage/res/icons/40x40.png"
                     },
                     /*iPad高分屏设置页面程序图标，分辨率：58x58*/
-                    "appstore" : "D:/图片/公益图标.png"
+                    "appstore" : "D:/图片/gongyi3.png"
                 },
                 "android" : {
                     "mdpi" : "unpackage/res/icons/48x48.png",

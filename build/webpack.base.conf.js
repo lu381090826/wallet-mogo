@@ -125,7 +125,7 @@ const webpackConfig = {
   },
   plugins: [...extraHtmlWebpackPlugins, new webpack.DefinePlugin(Defines),
   new vConsolePlugin({
-    enable: config.dev.vConsole // 发布代码前记得改回 false
+    enable: config.build.vConsole // 发布代码前记得改回 false
   }),
   new CommonsChunkPlugin({
     name: ["vue"],

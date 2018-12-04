@@ -75,7 +75,7 @@
 
       <div class="area-title">
         <div class="area-tag"></div>
-        赚TG
+        挖矿项目
       </div>
       <div class="area">
         <van-row>
@@ -96,7 +96,7 @@
             <div class="zhuantg">
               <van-row>
                 <van-col span="14">
-                  <div class="zhuant-title">感恩行</div>
+                  <div class="zhuant-title">行走矿</div>
                   <div class="zhuant-desc">行走步数换TG</div>
                 </van-col>
                 <van-col span="10">
@@ -112,24 +112,34 @@
 
       <div class="area-title">
         <div class="area-tag"></div>
-        精选
+        TG特惠
       </div>
-      <div class="area" style="padding-top: 5%;" v-intervalclick="{func:buyTg}">
+      <div class="area" style="padding-top: 5%;" v-intervalclick="{func:goodsList}">
         <van-row type="flex" justify="center">
-          <van-col span="6">
-            <img src="../assets/gushi.png" width="60">
-          </van-col>
-          <van-col span="14">
-            <div style="border: 0 solid gray;text-align: left;padding-top: 3%">
-              <div style="font-size: 16px;font-weight: bold">稳健理财</div>
-              <div style="font-size: 14px;color: #626262">认购TG，高收益，年化稳定<span style="color: orange">13%</span></div>
+          <van-col span="8" v-for="(item,k) in goods" :key="k">
+            <div class="hot-sell-img">
+              <img :src="item.img" width="48px"/>
             </div>
           </van-col>
         </van-row>
-        <div class="seemore" style="padding-top: 5%">
+        <van-row type="flex" justify="center">
+          <van-col span="8" v-for="(item,k) in goods" :key="k">
+            <div class="hot-sell-title">
+              {{item.title}}
+            </div>
+          </van-col>
+        </van-row>
+        <van-row type="flex" justify="center">
+          <van-col span="8" v-for="(item,k) in goods" :key="k">
+            <div class="hot-sell-price">
+              热卖价<span class="hot-sell-price-num">{{item.price}}TG</span>
+            </div>
+          </van-col>
+        </van-row>
+        <div class="seemore" style="padding-top: 5%" v-intervalclick="{func:goodsList}">
           <div class="seemore-inner">
             <van-row type="flex" justify="space-between">
-              <van-col>立即认购</van-col>
+              <van-col>去商城看看</van-col>
               <van-col>
                 <van-icon name="arrow"></van-icon>
               </van-col>
@@ -237,8 +247,28 @@
         tokenBalance: "---",
         showWalletConfig: false,
         walletList: null,
-        img1: "http://120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.55e6834.jpeg",
+        img1: "http://120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.jpeg",
         img2: "http://120.79.191.116/static/img/wuzhubingren.png",
+        goods: [
+          {
+            img: "http://120.79.191.116/static/goods/p5.png",
+            title: "区块链：技术指南",
+            price: "80",
+            goodsId: "1",
+          },
+          {
+            img: "http://120.79.191.116/static/goods/20181201144926.png",
+            title: "区块链：重塑经济的力量",
+            price: "80",
+            goodsId: "2",
+          },
+          {
+            img: "http://120.79.191.116/static/goods/p3.png",
+            title: "区块链：技术驱动金融",
+            price: "80",
+            goodsId: "3",
+          },
+        ]
       }
     },
     created() {
@@ -291,9 +321,19 @@
           url: "./charitable.step.html",
           id: "charitable.step",
           titleStyle: {
-            titleText: "感恩行",
+            titleText: "行走矿",
           }
         }, {}, {none: true});
+      },
+      toBuy(goodsId) {
+      },
+      goodsList() {
+        openWebviewFast({
+          url: './shop.shopIndex.html',
+          id: "shop.shopIndex",
+          title: "TG特惠商城",
+          needLoaded: true,
+        })
       },
       profit() {
         openWebview(
@@ -382,7 +422,6 @@
         this.showWalletConfig = false;
         setTimeout(() => {
           _t.isLoading = false;
-          _t.$toast('刷新成功');
           _t.init();
         }, 500);
       },
@@ -452,11 +491,11 @@
   }
 
   .asset-header-botton {
-    color: #6d6d6d;
+    color: #8e8e8e;
   }
 
   .asset-header-botton-text {
-    color: #6d6d6d;
+    color: #8e8e8e;
     font-size: 13px;
   }
 
@@ -482,7 +521,6 @@
 
   .gongyi-box-title {
     text-align: left;
-    color: gray;
     font-size: 15px;
     font-weight: bold;
     color: black;
@@ -491,7 +529,7 @@
   .box-de {
     text-align: left;
     font-size: 13px;
-    color: #c8c8c8;
+    color: #8e8e8e;
     margin-bottom: 5%;
   }
 
@@ -499,7 +537,7 @@
     background-color: #f3f3f3;
     height: 50px;
     text-align: center;
-    color: #dddddd;
+    color: #8e8e8e;
   }
 
   .area-title {
@@ -529,14 +567,14 @@
   }
 
   .zhuant-desc {
-    color: #c8c8c8;
+    color: #8e8e8e;
     font-size: 12px;
     margin-left: 28%;
   }
 
   .seemore {
     font-size: 13px;
-    color: gray;
+    color: #8e8e8e;
     padding-left: 3%;
     padding-right: 3%;
   }
@@ -555,6 +593,22 @@
     width: 94%;
     margin-left: 3%;
     margin-bottom: 5%;
+  }
+
+  .hot-sell-title {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .hot-sell-price {
+    margin-top: 3%;
+    font-size: 12px;
+    color: #8e8e8e;
+    bottom: 0;
+  }
+
+  .hot-sell-price-num {
+    color: red;
   }
 
 </style>

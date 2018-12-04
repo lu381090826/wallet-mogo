@@ -3,7 +3,7 @@
     <div class="login-center">
       <van-row type="flex" justify="center">
         <div>
-          <img src="../assets/gongyilan.png" width="90">
+          <img src="../assets/gongyilan.png" width="70">
         </div>
       </van-row>
 
@@ -59,12 +59,12 @@
 
       <div class="login-bottom">
         <!--<van-row type="flex" justify="space-between">-->
-          <!--<van-col>-->
-            <!--<div @click="tips">短信验证码登录</div>-->
-          <!--</van-col>-->
-          <!--<van-col>-->
-            <!--<div @click="tips">忘记密码？</div>-->
-          <!--</van-col>-->
+        <!--<van-col>-->
+        <!--<div @click="tips">短信验证码登录</div>-->
+        <!--</van-col>-->
+        <!--<van-col>-->
+        <!--<div @click="tips">忘记密码？</div>-->
+        <!--</van-col>-->
         <!--</van-row>-->
       </div>
     </div>
@@ -76,7 +76,7 @@
 <script>
   import Vue from 'vue';
   import "../utils/css/TgField.less"
-  import {Button, Col, Icon, Row,Toast} from 'vant';
+  import {Button, Col, Icon, Row, Toast} from 'vant';
   import RegexRoules from "@/utils/constants/RegexRoules";
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {request} from "@/utils/request";
@@ -187,13 +187,6 @@
             webView.addEventListener('loaded', function () {
               webView.show("slide-in-right");
               wait.close();
-
-              let ws = plus.webview.all();
-              for (let i = 0; i < ws.length; i++) {
-                if (!cons.inLastWebViewIds(ws[i].id)) {
-                  ws[i].close();
-                }
-              }
             }, 100);
           });
 
@@ -209,7 +202,7 @@
 
 <style scoped>
   .login-center {
-    margin-top: 10%;
+    margin-top: 20%;
     width: 100%;
   }
 
