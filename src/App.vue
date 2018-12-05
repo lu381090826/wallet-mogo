@@ -11,6 +11,8 @@
   import Login from "@/components/Login";
   import Index from "@/components/Index";
   import {isEmpty} from "./utils/globalFunc";
+  import cons from "./utils/constants/Cons";
+  import {openWebview} from "./utils/webview";
 
   export default {
     data() {
@@ -20,11 +22,9 @@
     },
     beforeCreate() {
       let _this = this;
-      console.log("start");
+      console.log(":::::::::::::::::::::start::::::::::::::::::::::");
       if (isEmpty(plus.storage.getItem('uid')) || isEmpty(plus.storage.getItem('token'))) {
-        const component = Vue.extend(Login);
-        const instance = new component();
-        instance.$mount("#app");
+        openWebview({url: cons.loginViewUrl, id: cons.loginViewId, noTitle: true});
       } else {
         request(TGCApiUrl.checkLogin).then(res => {
           if (isNotEmpty(res.state) && res.state === 100) {
@@ -34,9 +34,7 @@
             instance.$mount("#app");
           } else {
             plus.storage.clear();
-            const component = Vue.extend(Login);
-            const instance = new component();
-            instance.$mount("#app");
+            openWebview({url: cons.loginViewUrl, id: cons.loginViewId, noTitle: true});
           }
         });
       }

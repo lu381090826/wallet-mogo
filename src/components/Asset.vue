@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="top">我的财富</div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div class="pull-refresh">
         <div class="asset-header">
@@ -42,12 +41,12 @@
               <van-cell v-for="(item,k) in tokenList" :key="k"
                         :title="item.tokenName"
                         :value="item.tokenBalance"
-                        :label="item.tokenAddressShow" is-link @click="trans(item.tokenAddress)"/>
+                        :label="item.tokenAddressShow" is-link @click="trans(item.tokenAddress)"></van-cell>
             </van-cell-group>
 
             <van-cell-group>
               <van-cell title="添加资产">
-                <van-icon slot="right-icon" name="add-o" v-intervalclick="{func:addToken}"/>
+                <van-icon slot="right-icon" name="add-o" v-intervalclick="{func:addToken}"></van-icon>
               </van-cell>
             </van-cell-group>
           </div>
@@ -75,7 +74,7 @@
   import Vue from 'vue'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
-  import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon} from 'vant';
+  import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon, Popup} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById} from "@/utils/webview";
@@ -85,6 +84,7 @@
     .use(PullRefresh)
     .use(Toast)
     .use(Icon)
+    .use(Popup)
     .use(Cell)
     .use(CellGroup);
   export default {

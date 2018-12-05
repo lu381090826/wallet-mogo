@@ -1,7 +1,5 @@
 <template>
   <div class="myselfbody">
-
-    <div class="navbar">我的</div>
     <div class="navpanel">
       <van-row type="flex" justify="center">
         <van-col span="12">
@@ -53,6 +51,7 @@
   import {NavBar, Cell, CellGroup, Button, Row, Col} from 'vant';
   import {Icon} from 'vant';
   import cons from "../utils/constants/Cons";
+  import {isNotEmptyObject} from "../utils/globalFunc";
 
   Vue.use(Icon);
   Vue.use(NavBar);
@@ -110,6 +109,10 @@
       },
       logout() {
         plus.storage.clear();
+        let home = plus.webview.getWebviewById(cons.homeViewId);
+        if (isNotEmptyObject(home)) {
+          home.close();
+        }
         openWebview({
           url: cons.loginViewUrl,
           id: cons.loginViewId,

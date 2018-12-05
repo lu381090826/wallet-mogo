@@ -82,6 +82,7 @@
   import {request} from "@/utils/request";
   import {openWebview} from "@/utils/webview";
   import cons from "@/utils/constants/Cons";
+  import {fire} from "../utils/envent";
 
   Vue.use(Row).use(Col);
   Vue.use(Icon);

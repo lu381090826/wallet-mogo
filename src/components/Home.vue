@@ -222,7 +222,7 @@
   import Vue from 'vue'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
-  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button, Popup} from 'vant';
+  import {PullRefresh, Row, Col, Toast, Icon, Loading, Button, Popup, Cell, CellGroup} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById, openWebviewFast} from "@/utils/webview";
@@ -235,6 +235,8 @@
     .use(Button)
     .use(Toast)
     .use(Icon)
+    .use(Cell)
+    .use(CellGroup)
     .use(Loading);
   export default {
     data() {

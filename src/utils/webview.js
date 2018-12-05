@@ -53,17 +53,18 @@ export function openWebview(config, style = {}, extras = {}) {
     } else {
       titelStyle = getTitleStyle(config);
     }
+    if (isEmpty(config.noTitle) || !config.noTitle) {
+      style.titleNView = titelStyle;
+    }
 
     let wload = plus.webview.create(
       config.url,
       config.id,
       {
-        titleNView: titelStyle,
         popGesture: "none",
         scrollIndicator: 'none',
         ...style
-      }
-      ,
+      },
       extras
     );
 
