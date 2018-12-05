@@ -67,7 +67,7 @@ module.exports = {
 
   build: {
 
-    vConsole: false, //是否显示VConsole
+    vConsole: true, //是否显示VConsole
     // Template for index.html
     index: path.resolve(__dirname, "../dist/index.html"),
 

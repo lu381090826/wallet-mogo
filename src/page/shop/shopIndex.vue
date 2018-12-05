@@ -39,7 +39,6 @@
       active() {
         switch (Number(this.active)) {
           case 0:
-            plus.webview.getWebviewById('shop.cart').close();
             break;
           case 1:
             let ws = plus.webview.getWebviewById('shop.cart');
