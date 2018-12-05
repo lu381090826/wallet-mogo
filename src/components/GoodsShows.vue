@@ -217,7 +217,7 @@
               color: "#cccccc"
             },
           }
-        })
+        }, {}, {goodsId: 1})
       }
     }
   }

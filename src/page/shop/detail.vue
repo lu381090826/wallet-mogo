@@ -24,11 +24,11 @@
           <van-tag type="danger">官方</van-tag>
         </template>
       </van-cell>
-      <van-cell title="线下门店" icon="location" is-link @click="sorry"/>
+      <van-cell title="线下门店" icon="location" is-link @click="sorry"></van-cell>
     </van-cell-group>
 
     <van-cell-group class="goods-cell-group">
-      <van-cell title="查看商品详情" is-link @click="sorry"/>
+      <van-cell title="查看商品详情" is-link @click="sorry"></van-cell>
     </van-cell-group>
     <br><br><br><br><br>
 
@@ -42,10 +42,11 @@
       <van-goods-action-big-btn @click="sendEvent">
         加入购物车
       </van-goods-action-big-btn>
-      <van-goods-action-big-btn primary @click="sorry">
+      <van-goods-action-big-btn primary @click="createOrder">
         立即购买
       </van-goods-action-big-btn>
     </van-goods-action>
+
   </div>
 </template>
 
@@ -66,6 +67,7 @@
   } from "vant";
 
   import {fire} from "../../utils/envent.js";
+  import {openWebview} from "../../utils/webview";
 
   export default {
     components: {
@@ -88,16 +90,24 @@
           price: 2680,
           express: "免运费",
           remain: 19,
+          goodsId: 19,
           thumb: [
             "https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg",
             "https://img.yzcdn.cn/public_files/2017/10/24/1791ba14088f9c2be8c610d0a6cc0f93.jpeg"
           ]
-        }
+        },
       };
     },
     created() {
     },
     methods: {
+      createOrder() {
+        openWebview({
+          id: 'shop.orderConfirm',
+          url: './shop.orderConfirm.html',
+          title: '确认订单',
+        })
+      },
       sendEvent() {
         const indexWebview = plus.webview.getLaunchWebview();
         fire(indexWebview, "customEvent", {name: "ArH", project: "MogoH5+"});
