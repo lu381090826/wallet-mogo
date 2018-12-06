@@ -14,6 +14,7 @@
   "shop.detail|plusReady": "./src/page/shop/detail.js",
   "shop.cart|plusReady": "./src/page/shop/cart.js",
   "shop.orderConfirm|plusReady": "./src/page/shop/orderConfirm.js",
+  "shop.linkman|plusReady": "./src/page/shop/linkman.js",
   "wallet.send|plusReady": "./src/page/wallet/send.js",
   "wallet.scan|plusReady": "./src/page/wallet/scan.js",
   "wallet.yaoqing|plusReady": "./src/page/wallet/yaoqing.js",

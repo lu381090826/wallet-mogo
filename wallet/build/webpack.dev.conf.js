@@ -1,17 +1,17 @@
-"use strict";
-const utils = require("./utils");
-const webpack = require("webpack");
-const config = require("../config");
-const merge = require("webpack-merge");
-const path = require("path");
-const baseWebpackConfig = require("./webpack.base.conf");
+/* eslint-disable no-unused-vars,semi */
+'use strict';
+const utils = require('./utils');
+const webpack = require('webpack');
+const config = require('../config');
+const merge = require('webpack-merge');
+const path = require('path');
+const baseWebpackConfig = require('./webpack.base.conf');
 
-
-const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
-const portfinder = require("portfinder");
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const portfinder = require('portfinder');
 
 // const HOST = process.env.HOST;
-const HOST = '192.168.8.125';
+const HOST = '192.168.1.108';
 const PORT = process.env.PORT && Number(process.env.PORT);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
@@ -25,7 +25,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   devtool: config.dev.devtool,
   // these devServer options should be customized in /config/index.js
   devServer: {
-    clientLogLevel: "warning",
+    clientLogLevel: 'warning',
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
@@ -33,7 +33,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
-      ? { warnings: false, errors: true }
+      ? {warnings: false, errors: true}
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
@@ -44,11 +44,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env": require("../config/dev.env")
+      'process.env': require('../config/dev.env')
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
 
   ]
 });
@@ -57,7 +57,7 @@ module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port;
   portfinder.getPort((err, port) => {
     if (err) {
-      reject(err);
+      reject(err)
     } else {
       // publish the new Port, necessary for e2e tests
       process.env.PORT = port;
@@ -70,8 +70,8 @@ module.exports = new Promise((resolve, reject) => {
           compilationSuccessInfo: {
             messages: [
               `Your application is running here: http://${
-              devWebpackConfig.devServer.host
-              }:${port}`
+                devWebpackConfig.devServer.host
+                }:${port}`
             ]
           },
           onErrors: config.dev.notifyOnErrors
@@ -80,7 +80,7 @@ module.exports = new Promise((resolve, reject) => {
         })
       );
 
-      resolve(devWebpackConfig);
+      resolve(devWebpackConfig)
     }
-  });
+  })
 });

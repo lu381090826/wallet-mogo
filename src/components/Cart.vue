@@ -30,6 +30,7 @@
 
 <script>
   import {Checkbox, CheckboxGroup, Card, SubmitBar, Toast, SwipeCell} from "vant";
+  import {openWebview} from "../utils/webview";
 
   export default {
     components: {
@@ -103,7 +104,11 @@
         return (price / 100).toFixed(2);
       },
       onSubmit() {
-        Toast("点击结算");
+        openWebview({
+          url: './shop.orderConfirm.html',
+          id: 'shop.orderConfirm',
+          title: '确认订单',
+        })
       }
     }
   };

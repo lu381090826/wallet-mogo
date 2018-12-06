@@ -37,10 +37,11 @@
 <script>
   import Vue from 'vue';
   import {ContactCard, ContactList, ContactEdit, Popup} from 'vant';
-  import {AddressList} from 'vant';
+  import {AddressList,Button} from 'vant';
 
   Vue.use(AddressList);
   Vue
+    .use(Button)
     .use(Popup)
     .use(ContactCard)
     .use(ContactList)
