@@ -21,6 +21,8 @@
   import Cart from "../../components/Cart";
   import {openWebviewFast} from "../../utils/webview";
   import {isNotEmpty} from "../../utils/globalFunc";
+  import {request} from "../../utils/request";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
 
   Vue.use(Tabbar).use(TabbarItem);
   export default {

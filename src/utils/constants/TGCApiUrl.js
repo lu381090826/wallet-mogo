@@ -2,6 +2,8 @@
 const TGCApiUrl = {
   walletTokenList: "/walletToken/api/WalletTokenList",
   walletList: "/wallet/api/walletList",
+  goodsHot: "/shop/goods/getHot",
+  goodsHome: "/shop/goods/home",
   login: "/user/api/login",
   register: "/user/api/register",
   payOrder: "/donation/order/payOrder",

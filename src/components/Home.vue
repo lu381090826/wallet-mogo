@@ -125,14 +125,14 @@
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in goods" :key="k">
             <div class="hot-sell-title">
-              {{item.title}}
+              {{item.skuName}}
             </div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in goods" :key="k">
             <div class="hot-sell-price">
-              热卖价<span class="hot-sell-price-num">{{item.price}}TG</span>
+              热卖价<span class="hot-sell-price-num">{{item.price}}{{item.units}}</span>
             </div>
           </van-col>
         </van-row>
@@ -229,15 +229,15 @@
   import TGCConfig from "../utils/constants/tgcConfig";
 
   Vue.use(Tabbar).use(TabbarItem)
-    .use(Row).use(Col)
-    .use(PullRefresh)
-    .use(Popup)
-    .use(Button)
-    .use(Toast)
-    .use(Icon)
-    .use(Cell)
-    .use(CellGroup)
-    .use(Loading);
+     .use(Row).use(Col)
+     .use(PullRefresh)
+     .use(Popup)
+     .use(Button)
+     .use(Toast)
+     .use(Icon)
+     .use(Cell)
+     .use(CellGroup)
+     .use(Loading);
   export default {
     data() {
       return {
@@ -251,26 +251,7 @@
         walletList: null,
         img1: "http://120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.jpeg",
         img2: "http://120.79.191.116/static/img/wuzhubingren.png",
-        goods: [
-          {
-            img: "http://120.79.191.116/static/goods/p5.png",
-            title: "区块链：技术指南",
-            price: "80",
-            goodsId: "1",
-          },
-          {
-            img: "http://120.79.191.116/static/goods/20181201144926.png",
-            title: "区块链：重塑经济的力量",
-            price: "80",
-            goodsId: "2",
-          },
-          {
-            img: "http://120.79.191.116/static/goods/p3.png",
-            title: "区块链：技术驱动金融",
-            price: "80",
-            goodsId: "3",
-          },
-        ]
+        goods: []
       }
     },
     created() {
@@ -440,6 +421,9 @@
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
+        request(TGCApiUrl.goodsHot).then(res => {
+          this.goods = res;
+        });
 
       },
       subString(value) {
@@ -544,7 +528,7 @@
 
   .area-title {
     background-color: white;
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid #fafafa;
     color: black;
     font-size: 13px;
     padding-left: 15px;
@@ -576,13 +560,13 @@
 
   .seemore {
     font-size: 13px;
-    color: #8e8e8e;
+    color: #595959;
     padding-left: 3%;
     padding-right: 3%;
   }
 
   .seemore-inner {
-    border-top: 1px solid #f1f1f1;
+    border-top: 1px solid #fafafa;
     padding-top: 3%;
   }
 

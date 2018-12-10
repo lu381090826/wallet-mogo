@@ -131,6 +131,8 @@
   import Vue from "vue";
   import {Row, Col} from 'vant';
   import {openWebview, openWebviewFast} from "../utils/webview";
+  import {request} from "../utils/request";
+  import TGCApiUrl from "../utils/constants/TGCApiUrl";
 
   Vue.use(Row).use(Col);
   export default {
@@ -199,6 +201,11 @@
           },
         ]
       }
+    },
+    created(){
+      request(TGCApiUrl.goodsHome).then(res => {
+        this.itemList = res;
+      });
     },
     methods: {
       goodsDetail() {
