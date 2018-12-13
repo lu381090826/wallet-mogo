@@ -1,18 +1,12 @@
 <template>
   <div>
-    <!--&lt;!&ndash; 联系人卡片 &ndash;&gt;-->
-    <!--<van-contact-card-->
-    <!--:type="cardType"-->
-    <!--:name="currentContact.name"-->
-    <!--:tel="currentContact.tel"-->
-    <!--/>-->
     <van-cell title="收货人：陆嘉冠" label="汇庭居203" value="185****4265" is-link clickable @click="gotoLinkman">
     </van-cell>
     <div class="orderConfirm-address"></div>
 
     <br>
     <van-cell-group>
-      <van-panel title="标题" desc="描述信息" status="状态">
+      <van-panel :title="goods.skuName" :desc="goods.buyNum" :status="goods.priceShow">
       </van-panel>
     </van-cell-group>
 
@@ -28,7 +22,7 @@
 
 
     <van-submit-bar
-      :price="3050"
+      :price="goods.price"
       button-text="提交订单"
       @submit="onSubmit"
     />
@@ -42,6 +36,12 @@
   import {Panel} from 'vant';
   import {SubmitBar} from 'vant';
   import {openWebview} from "../../utils/webview";
+  import {request} from "../../utils/request";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import PayType from "../../utils/constants/PayType";
+  import OrderType from "../../utils/constants/OrderType";
+  import TGCConfig from "../../utils/constants/tgcConfig";
+  import MathUtil from "../../utils/MathUtil";
 
   Vue.use(SubmitBar);
   Vue.use(AddressList);
@@ -59,6 +59,7 @@
   export default {
     data() {
       return {
+        skuNo: "",
         chosenContactId: null,
         editingContact: {},
         showList: false,
@@ -69,15 +70,52 @@
           tel: '13000000000',
           id: 0,
         }],
+        goods: {
+          skuName: "",
+          buyNum: "",
+        },
+        orderId: "",
       };
     },
+    created() {
+      let wb = plus.webview.currentWebview();
+      this.skuNo = wb.skuNo;
 
+      request(TGCApiUrl.goodsDetail, {skuNo: this.skuNo}).then(res => {
+        this.goods = res;
+        this.goods.buyNum = "x 1";
+        this.goods.priceShow = res.price + res.units;
+        this.goods.price = MathUtil.accMul(res.price, 100);
+      });
+
+    },
     methods: {
       onSubmit() {
-        openWebview({
-          url: './wallet.send.html',
-          id: 'wallet.send',
-          title: '收银台',
+        let params = {
+          skuList: [{
+            skuNo: this.skuNo,
+            buyNum: 1,
+          }],
+          deliverInfo: {
+            receiveName: "lujiaguan",
+            receiveAddress: "***",
+            receivePhone: "185***",
+          },
+          payType: PayType.eth_tg,
+          memo: "测试",
+        };
+        request(TGCApiUrl.shopOrderCreate, params).then(res => {
+          this.orderId = res;
+          openWebview({
+            url: './wallet.send.html',
+            id: 'wallet.send',
+            title: '收银台',
+            needLoaded: true,
+          }, {}, {
+            orderId: this.orderId,
+            orderType: OrderType.shop,
+            tokenAddress: TGCConfig.tokenAddress,
+          })
         });
       },
       gotoLinkman() {

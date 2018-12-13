@@ -225,7 +225,7 @@
   import {PullRefresh, Row, Col, Toast, Icon, Loading, Button, Popup, Cell, CellGroup} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
-  import {openWebview, preLoad, showWebviewById, openWebviewFast} from "@/utils/webview";
+  import {openWebview, showWebviewById, openWebviewFast} from "@/utils/webview";
   import TGCConfig from "../utils/constants/tgcConfig";
 
   Vue.use(Tabbar).use(TabbarItem)
@@ -311,7 +311,7 @@
       toBuy(goodsId) {
       },
       goodsList() {
-        openWebviewFast({
+        openWebview({
           url: './shop.shopIndex.html',
           id: "shop.shopIndex",
           title: "TG特惠商城",
@@ -355,9 +355,6 @@
           walletAddress: _this.walletAddress,
           tokenAddress: TGCConfig.tokenAddress,
         })
-      },
-      addToken() {
-        showWebviewById("wallet.tokenAdd")
       },
       scan() {
         openWebviewFast({

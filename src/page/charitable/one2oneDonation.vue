@@ -4,7 +4,7 @@
 
     </div>
     <div v-else>
-      <div id="primarySchool-banner" >
+      <div id="primarySchool-banner">
         <img :src="info.smallImg"/>
       </div>
       <div class="primarySchool-text">
@@ -118,16 +118,17 @@
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
   import {openWebview} from "../../utils/webview";
+  import OrderType from "../../utils/constants/OrderType";
 
   Vue.use(Popup)
-    .use(Sku)
-    .use(Tabbar)
-    .use(TabbarItem)
-    .use(Button)
-    .use(Field)
-    .use(Radio)
-    .use(Cell)
-    .use(RadioGroup);
+     .use(Sku)
+     .use(Tabbar)
+     .use(TabbarItem)
+     .use(Button)
+     .use(Field)
+     .use(Radio)
+     .use(Cell)
+     .use(RadioGroup);
   export default {
     name: 'charitable',
     data() {
@@ -194,8 +195,8 @@
             receiveAddress: params.blAddress,
             sendAmount: params.amount,
             tokenAddress: TGCConfig.tokenAddress,
-            callbackWebViewId: 'charitable.one2oneDonation',
             orderId: res,
+            orderType: OrderType.donation
           });
         })
 

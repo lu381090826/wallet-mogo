@@ -1,36 +1,26 @@
 <template>
   <div class="goods">
     <van-swipe class="goods-swipe" :autoplay="3000">
-      <van-swipe-item v-for="thumb in goods.thumb" :key="thumb">
-        <img :src="thumb">
+      <van-swipe-item>
+        <img :src="goods.img">
       </van-swipe-item>
     </van-swipe>
 
     <van-cell-group>
       <van-cell>
-        <div class="goods-title">{{ goods.title }}</div>
+        <div class="goods-title">{{ goods.skuName }}</div>
         <div class="goods-price">{{ formatPrice(goods.price) }}</div>
       </van-cell>
       <van-cell class="goods-express">
-        <van-col span="10">运费：{{ goods.express }}</van-col>
-        <van-col span="14">剩余：{{ goods.remain }}</van-col>
+        <van-col span="10">运费：免运费</van-col>
+        <van-col span="14">剩余：{{ goods.stock }}</van-col>
       </van-cell>
     </van-cell-group>
-
-    <van-cell-group class="goods-cell-group">
-      <van-cell value="进入店铺" icon="shop" is-link @click="sorry">
-        <template slot="title">
-          <span class="van-cell-text">有赞的店</span>
-          <van-tag type="danger">官方</van-tag>
-        </template>
+    <van-cell-group>
+      <van-cell>
+        <div>{{ goods.skuDetail }}</div>
       </van-cell>
-      <van-cell title="线下门店" icon="location" is-link @click="sorry"></van-cell>
     </van-cell-group>
-
-    <van-cell-group class="goods-cell-group">
-      <van-cell title="查看商品详情" is-link @click="sorry"></van-cell>
-    </van-cell-group>
-    <br><br><br><br><br>
 
     <van-goods-action>
       <van-goods-action-mini-btn icon="chat" @click="sorry">
@@ -39,7 +29,7 @@
       <van-goods-action-mini-btn icon="cart" @click="onClickCart">
         购物车
       </van-goods-action-mini-btn>
-      <van-goods-action-big-btn @click="sendEvent">
+      <van-goods-action-big-btn @click="addToCart">
         加入购物车
       </van-goods-action-big-btn>
       <van-goods-action-big-btn primary @click="createOrder">
@@ -66,8 +56,10 @@
     GoodsActionMiniBtn
   } from "vant";
 
-  import {fire} from "../../utils/envent.js";
-  import {openWebview} from "../../utils/webview";
+  import {fire} from "@/utils/envent.js";
+  import {openWebview} from "@/utils/webview";
+  import {request} from "@/utils/request";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
 
   export default {
     components: {
@@ -86,39 +78,52 @@
     data() {
       return {
         goods: {
-          title: "美国伽力果（约680g/3个）",
-          price: 2680,
-          express: "免运费",
-          remain: 19,
-          goodsId: 19,
-          thumb: [
-            "https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg",
-            "https://img.yzcdn.cn/public_files/2017/10/24/1791ba14088f9c2be8c610d0a6cc0f93.jpeg"
-          ]
+          skuNo: "",
+          skuName: "",
+          price: "",
+          originPrice: "",
+          sellNum: "",
+          units: "",
+          img: "",
+          buyNum: "",
+          skuDetail: "",
         },
       };
     },
     created() {
+      let wb = plus.webview.currentWebview();
+      this.skuNo = wb.skuNo;
+
+      request(TGCApiUrl.goodsDetail, {skuNo: this.skuNo}).then(res => {
+        this.goods = res;
+      });
+
     },
     methods: {
       createOrder() {
+        let skuNo = this.skuNo;
         openWebview({
           id: 'shop.orderConfirm',
           url: './shop.orderConfirm.html',
           title: '确认订单',
+        }, {}, {
+          skuNo: skuNo,
         })
       },
-      sendEvent() {
-        const indexWebview = plus.webview.getLaunchWebview();
-        fire(indexWebview, "customEvent", {name: "ArH", project: "MogoH5+"});
-      },
       formatPrice() {
-        return "¥" + (this.goods.price / 100).toFixed(2);
+        return "" + (this.goods.price / 100).toFixed(2);
+      },
+      addToCart() {
+        Toast('加入购物车成功');
       },
       onClickCart() {
-        // this.$router.push("cart");
-        const cartWebview = plus.webview.getWebviewById("goods.cart");
-        fire(cartWebview, "addGoodsToCart", {goods_id: 3, num: 1});
+        openWebview(
+          {
+            id: 'shop.cart',
+            url: './shop.cart.html',
+            title: '我的购物车',
+          }
+        )
       },
       sorry() {
         Dialog.alert({
@@ -133,7 +138,9 @@
 </script>
 
 <style lang="less">
+
   .goods {
+    overflow-y: scroll;
     padding-bottom: 50px;
     &-swipe {
       img {

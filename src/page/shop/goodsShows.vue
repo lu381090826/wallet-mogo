@@ -9,52 +9,52 @@
       </div>
       <div class="goods-row goods-row-1">
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
-            <div class="goods-img" v-intervalclick="{func:goodsDetail}">
-              <img :src="item.img" width="100px">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(0, 3)" :key="k">
+            <div class="goods-img" v-intervalclick="{func:goodsDetail,skuNo:item.skuNo}">
+              <div class="img-box"><img :src="item.img" width="100px"></div>
             </div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(0, 3)" :key="k">
             <div>{{item.goodsName}}</div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(0, 3)" :key="k">
             <div class="goods-row-1-price">
-              <span class="tg-sym">TG </span><span class="am">{{item.amount}}</span>
-              <s class="de"> ￥{{item.rmbAmount}}</s>
+              <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
+              <s class="de"> {{item.originPrice}} {{item.units}}</s>
             </div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(0, 3)" :key="k">
             <span class="sl">已售{{item.sellNum}}件</span>
           </van-col>
         </van-row>
       </div>
       <div class="goods-row goods-row-1">
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(3, 6)" :key="k">
-            <img :src="item.img" width="100px">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(3, 6)" :key="k">
+            <div class="img-box"><img :src="item.img" width="100px"></div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(3, 6)" :key="k">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(3, 6)" :key="k">
             <span>{{item.goodsName}}</span>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(3, 6)" :key="k">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(3, 6)" :key="k">
             <div class="goods-row-1-price">
-              <span class="tg-sym">TG </span><span class="am">{{item.amount}}</span>
-              <s class="de"> ￥{{item.rmbAmount}}</s>
+              <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
+              <s class="de"> {{item.originPrice}} {{item.units}}</s>
             </div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
-          <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+          <van-col span="8" v-for="(item,k) in itemList1.slice(0, 3)" :key="k">
             <span class="sl">已售{{item.sellNum}}件</span>
           </van-col>
         </van-row>
@@ -72,13 +72,13 @@
     <div class="half-sell half-sell-con">
       <div class="goods-row goods-row-1 gun">
         <van-row type="flex" justify="space-around" gutter="5">
-          <van-col span="4" v-for="(item,k) in itemList" :key="k">
+          <van-col span="4" v-for="(item,k) in itemList2" :key="k">
             <div class="half-sell-in">
-              <img :src="item.img" width="100px">
+              <div class="img-box"><img :src="item.img" width="100px"></div>
               <div>{{item.goodsName}}</div>
               <div class="goods-row-1-price half-sell-in">
-                <span class="tg-sym">TG </span><span class="am">{{item.amount}}</span>
-                <s class="de"> ￥{{item.rmbAmount}}</s>
+                <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
+                <s class="de"> {{item.originPrice}} {{item.units}}</s>
               </div>
             </div>
           </van-col>
@@ -97,25 +97,25 @@
     </div>
     <div class="goods-row goods-row-1">
       <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
           <img :src="item.img" width="100px">
         </van-col>
       </van-row>
       <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
           <span>{{item.goodsName}}</span>
         </van-col>
       </van-row>
       <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
           <div class="goods-row-1-price">
-            <span class="tg-sym">TG </span><span class="am">{{item.amount}}</span>
-            <s class="de"> ￥{{item.rmbAmount}}</s>
+            <span class="tg-sym">{{item.units}} </span><span class="am">{{item.price}}</span>
+            <s class="de">{{item.units}} {{item.originPrice}}</s>
           </div>
         </van-col>
       </van-row>
       <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList.slice(0, 3)" :key="k">
+        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
           <span class="sl">已售{{item.sellNum}}件</span>
         </van-col>
       </van-row>
@@ -130,85 +130,29 @@
 <script>
   import Vue from "vue";
   import {Row, Col} from 'vant';
-  import {openWebview, openWebviewFast} from "../utils/webview";
-  import {request} from "../utils/request";
-  import TGCApiUrl from "../utils/constants/TGCApiUrl";
+  import {openWebview} from "@/utils/webview";
+  import {request} from "@/utils/request";
+  import TGCApiUrl from "@/utils/constants/TGCApiUrl";
 
   Vue.use(Row).use(Col);
   export default {
     data() {
       return {
-        itemList: [
-          {
-            goodsId: "1",
-            goodsName: "区块链：技术驱动金融1",
-            img: "http://120.79.191.116/static/goods/p3.png",
-            amount: "80",
-            desc: "解密区块链，用技术重构金融世界。",
-            author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
-            sellNum: "101",
-            rmbAmount: "101",
-          },
-          {
-            goodsId: "1",
-            goodsName: "区块链：技术驱动金融2",
-            img: "http://120.79.191.116/static/goods/p3.png",
-            amount: "80",
-            desc: "解密区块链，用技术重构金融世界。",
-            author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
-            sellNum: "101",
-            rmbAmount: "101",
-          },
-          {
-            goodsId: "1",
-            goodsName: "区块链：技术驱动金融3",
-            img: "http://120.79.191.116/static/goods/p3.png",
-            amount: "80",
-            desc: "解密区块链，用技术重构金融世界。",
-            author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
-            sellNum: "101",
-            rmbAmount: "101",
-          },
-          {
-            goodsId: "1",
-            goodsName: "区块链：技术驱动金融4",
-            img: "http://120.79.191.116/static/goods/p3.png",
-            amount: "80",
-            desc: "解密区块链，用技术重构金融世界。",
-            author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
-            sellNum: "101",
-            rmbAmount: "101",
-          },
-          {
-            goodsId: "1",
-            goodsName: "区块链：技术驱动金融5",
-            img: "http://120.79.191.116/static/goods/p3.png",
-            amount: "80",
-            desc: "解密区块链，用技术重构金融世界。",
-            author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
-            sellNum: "101",
-            rmbAmount: "101",
-          },
-          {
-            goodsId: "1",
-            goodsName: "区块链：技术驱动金融6",
-            img: "http://120.79.191.116/static/goods/p3.png",
-            amount: "80",
-            desc: "解密区块链，用技术重构金融世界。",
-            author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
-            sellNum: "101",
-            rmbAmount: "101",
-          },
-        ]
+        itemList1: [],
+        itemList2: [],
+        itemList3: [],
       }
     },
-    created(){
+    created() {
       request(TGCApiUrl.goodsHome).then(res => {
-        this.itemList = res;
+        this.itemList1 = res[0];
+        this.itemList2 = res[1];
+        this.itemList3 = res[2];
       });
     },
     methods: {
-      goodsDetail() {
+      goodsDetail(skuNo) {
+        console.log(skuNo)
         openWebview({
           url: "./shop.detail.html",
           id: "shop.detail",
@@ -224,7 +168,7 @@
               color: "#cccccc"
             },
           }
-        }, {}, {goodsId: 1})
+        }, {}, {skuNo: skuNo});
       }
     }
   }
@@ -286,7 +230,6 @@
 
   .shop-body {
     white-space: normal;
-    overflow: hidden;
   }
 
   .gun {
@@ -320,4 +263,8 @@
     height: 48px;
   }
 
+  .img-box {
+    width: 100px;
+    height: 150px;
+  }
 </style>

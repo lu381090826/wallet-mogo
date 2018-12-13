@@ -13,6 +13,7 @@
   "shop.shopIndex|plusReady": "./src/page/shop/shopIndex.js",
   "shop.detail|plusReady": "./src/page/shop/detail.js",
   "shop.cart|plusReady": "./src/page/shop/cart.js",
+  "shop.goodsShows|plusReady": "./src/page/shop/goodsShows.js",
   "shop.orderConfirm|plusReady": "./src/page/shop/orderConfirm.js",
   "shop.linkman|plusReady": "./src/page/shop/linkman.js",
   "wallet.send|plusReady": "./src/page/wallet/send.js",

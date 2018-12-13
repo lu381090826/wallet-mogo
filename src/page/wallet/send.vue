@@ -97,6 +97,7 @@
   import MathUtil from "../../utils/MathUtil";
   import {isEmpty, isNotEmpty} from "../../utils/globalFunc";
   import {openWebview, openWebviewFast} from "../../utils/webview";
+  import OrderType from "../../utils/constants/OrderType";
 
   Vue.use(Dialog);
   Vue.use(Actionsheet);
@@ -133,6 +134,7 @@
         walletListActions: [],
         tokenListActions: [],
         walletOnSelect: "",
+        orderType: "",
       }
     },
     beforeMount() {
@@ -156,6 +158,9 @@
       if (isNotEmpty(ws.sendAmount)) {
         this.sendAmount = ws.sendAmount;
         this.sendAmountReadOnly = true;
+      }
+      if (isNotEmpty(ws.orderType)) {
+        this.orderType = ws.orderType
       }
 
       this.initSend();
@@ -321,6 +326,15 @@
             _this.tokenName = res;
           });
         }
+
+        if (this.orderType === OrderType.shop) {
+          request(tgcApiUrl.shopOrderGet, {orderId: this.orderId}).then(res => {
+            this.sendAmount = res.totalAmount;
+            this.receiveAddress = res.receiveAddress;
+            this.receiveAddressReadOnly = true;
+          })
+        }
+
       },
     },
     computed: {

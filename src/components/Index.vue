@@ -54,7 +54,7 @@
       }
     },
     created() {
-      // 动态改变webview的侧滑返回功能：
+      // 动态改变webview的侧滑返回功能
       let wv = plus.webview.currentWebview();
       // 关闭侧滑返回功能
       wv.setStyle({scrollIndicator: 'none'});

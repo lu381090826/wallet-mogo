@@ -37,6 +37,7 @@ function getTitleStyle(config) {
 
 /**
  * 打开一个webview窗口
+ * onlyOneWebview :相同webview id只允许一个窗口
  */
 export function openWebview(config, style = {}, extras = {}) {
   if (typeof(plus) === "undefined") {
@@ -46,6 +47,10 @@ export function openWebview(config, style = {}, extras = {}) {
   let webView = plus.webview.getWebviewById(config.id);
   //有参数传入都以新窗口打开
   if (isEmpty(webView) || isNotEmptyObject(extras)) {
+
+    if (isNotEmptyObject(webView)) {
+      webView.close();
+    }
 
     let titelStyle;
     if (config.titleStyle) {
