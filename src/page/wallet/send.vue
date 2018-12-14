@@ -9,7 +9,7 @@
                  :disabled="sendAmountReadOnly"
                  type="number"
       >
-        <van-icon slot="icon" name="more-o" @click="selectToken"/>
+        <van-icon slot="icon" name="more-o" @click="selectToken" v-show="showTokenSelect"/>
       </van-field>
       <van-field label="交易合约"
                  v-model="tokenAddress"
@@ -135,6 +135,7 @@
         tokenListActions: [],
         walletOnSelect: "",
         orderType: "",
+        showTokenSelect: true,
       }
     },
     beforeMount() {
@@ -243,6 +244,11 @@
                 }, {}, {
                   tx: res
                 });
+
+                //回传交易号
+                setTimeout(() => {
+                  request(tgcApiUrl.shopOrderUpdate, {orderId: params.orderId, transAddress: res});
+                }, 10);
               }
               setTimeout(() => {
                 Toast.clear();
@@ -332,6 +338,7 @@
             this.sendAmount = res.totalAmount;
             this.receiveAddress = res.receiveAddress;
             this.receiveAddressReadOnly = true;
+            this.showTokenSelect = false;
           })
         }
 

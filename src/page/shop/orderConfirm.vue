@@ -1,7 +1,16 @@
 <template>
   <div>
-    <van-cell title="收货人：陆嘉冠" label="汇庭居203" value="185****4265" is-link clickable @click="gotoLinkman">
-    </van-cell>
+
+    <van-cell-group>
+      <van-cell v-if="linkman!=null" :title="linkman.name" :label="linkman.address" value="linkman.phone" is-link
+                clickable
+                @click="gotoLinkman">
+      </van-cell>
+      <van-cell v-else title="收货地址" label="点击查看我的联系人" value="" is-link
+                clickable
+                @click="gotoLinkman">
+      </van-cell>
+    </van-cell-group>
     <div class="orderConfirm-address"></div>
 
     <br>
@@ -65,11 +74,7 @@
         showList: false,
         showEdit: false,
         isEdit: false,
-        linkmanList: [{
-          name: '张三',
-          tel: '13000000000',
-          id: 0,
-        }],
+        linkman: null,
         goods: {
           skuName: "",
           buyNum: "",
@@ -86,6 +91,10 @@
         this.goods.buyNum = "x 1";
         this.goods.priceShow = res.price + res.units;
         this.goods.price = MathUtil.accMul(res.price, 100);
+      });
+
+      request(TGCApiUrl.shopLinkmanList, {skuNo: this.skuNo}).then(res => {
+        this.goods = res;
       });
 
     },

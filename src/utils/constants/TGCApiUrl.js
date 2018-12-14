@@ -6,6 +6,8 @@ const TGCApiUrl = {
   goodsHome: "/shop/goods/home",
   goodsDetail: "/shop/goods/goodsDetail",
   shopOrderCreate: "/shop/order/create",
+  shopOrderUpdate: "/shop/order/update",
+  shopLinkmanList: "/shop/linkman/list",
   shopOrderGet: "/shop/order/getOrder",
   login: "/user/api/login",
   register: "/user/api/register",

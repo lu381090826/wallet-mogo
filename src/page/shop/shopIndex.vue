@@ -2,7 +2,7 @@
   <div>
     <van-tabbar v-model="active" fixed class="index-tabbar">
       <van-tabbar-item icon="home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin">购物车</van-tabbar-item>
+      <!--<van-tabbar-item icon="gold-coin">购物车</van-tabbar-item>-->
       <van-tabbar-item icon="contact">订单</van-tabbar-item>
     </van-tabbar>
   </div>
@@ -58,7 +58,7 @@
             this.append(this.goodsShows);
             break;
           case 1:
-            this.append(this.cart);
+            // this.append(this.cart);
             break;
           default:
             break;
