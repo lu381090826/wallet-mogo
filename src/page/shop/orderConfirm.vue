@@ -91,6 +91,7 @@
         this.goods.buyNum = "x 1";
         this.goods.priceShow = res.price + res.units;
         this.goods.price = MathUtil.accMul(res.price, 100);
+        console.log(this.goods)
       });
 
       request(TGCApiUrl.shopLinkmanList, {skuNo: this.skuNo}).then(res => {

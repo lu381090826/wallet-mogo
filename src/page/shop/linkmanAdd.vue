@@ -8,7 +8,6 @@
       show-search-result
       @save="onSave"
       @delete="onDelete"
-      @change-detail="onChangeDetail"
     />
   </div>
 </template>
@@ -17,6 +16,9 @@
   import Vue from 'vue';
   import area from '../../utils/constants/Area';
   import {AddressEdit, Toast} from 'vant';
+  import {request} from "../../utils/request";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import {fire} from "../../utils/envent";
 
   Vue.use(AddressEdit);
 
@@ -31,22 +33,16 @@
     computed: {},
 
     methods: {
-      onSave() {
-        Toast('save');
+      onSave(content) {
+        request(TGCApiUrl.shopLinkmanAdd, content).then(res => {
+          Toast('保存成功');
+          fire(plus.webview.getWebviewById("shop.linkman"), 'init');
+          plus.webview.currentWebview().close();
+        })
       },
       onDelete() {
-        Toast('delete');
+        plus.webview.currentWebview().close();
       },
-      onChangeDetail(val) {
-        if (val) {
-          this.searchResult = [{
-            name: '黄龙万科中心',
-            address: '杭州市西湖区'
-          }];
-        } else {
-          this.searchResult = [];
-        }
-      }
     }
   };
 </script>

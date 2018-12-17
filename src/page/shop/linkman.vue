@@ -18,16 +18,19 @@
 
 <script>
   import Vue from 'vue';
-  import {Cell, CellGroup, Icon, Field, Button} from 'vant';
+  import {Cell, CellGroup, Icon, Field, Button, Toast} from 'vant';
   import {Popup} from 'vant';
   import {openWebview} from "../../utils/webview";
+  import {request} from "../../utils/request";
+  import TGCConfig from "../../utils/constants/tgcConfig";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
 
   Vue.use(Popup);
   Vue.use(Icon)
-     .use(Button)
-     .use(Field)
-     .use(Cell)
-     .use(CellGroup);
+    .use(Button)
+    .use(Field)
+    .use(Cell)
+    .use(CellGroup);
 
   export default {
     data() {
@@ -37,7 +40,14 @@
         searchResult: [],
       };
     },
-
+    created() {
+      window.addEventListener("customEvent", function (event) {
+        //通过event.detail可获得传递过来的参数内容
+        plus.nativeUI.toast("我是首页,我很慌,我收到了信息");
+        console.log(event);
+      });
+      this.init()
+    },
     computed: {},
 
     methods: {
@@ -48,6 +58,13 @@
           title: "添加联系人",
         })
       },
+      init() {
+        Toast.loading();
+        request(TGCApiUrl.shopLinkmanList).then(res => {
+          console.log(res);
+          Toast.clear();
+        })
+      }
     }
   };
 </script>

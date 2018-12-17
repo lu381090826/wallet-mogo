@@ -11,7 +11,7 @@ const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 const portfinder = require("portfinder");
 
 // const HOST = process.env.HOST;
-const HOST = '192.168.8.207';
+const HOST = '192.168.8.125';
 const PORT = process.env.PORT && Number(process.env.PORT);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
@@ -33,7 +33,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
-      ? {warnings: false, errors: true}
+      ? { warnings: false, errors: true }
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
@@ -70,8 +70,8 @@ module.exports = new Promise((resolve, reject) => {
           compilationSuccessInfo: {
             messages: [
               `Your application is running here: http://${
-                devWebpackConfig.devServer.host
-                }:${port}`
+              devWebpackConfig.devServer.host
+              }:${port}`
             ]
           },
           onErrors: config.dev.notifyOnErrors
