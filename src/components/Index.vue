@@ -37,7 +37,7 @@
           id: 'common.home',
           url: './common.home.html',
           title: null,
-          color: null,
+          color: '#3a90e0',
         },
         asset: {
           id: 'wallet.asset',
@@ -91,11 +91,13 @@
               progress: {color: '#1a6eff', height: "1%"},
             }
           }
+
           let embed = plus.webview.create(obj.url, obj.id, {
             titleNView: titleNView,
             height: '93%',
             backButtonAutoControl: 'none'
           });
+
           plus.webview.currentWebview().append(embed);
         } else {
           ws.show();

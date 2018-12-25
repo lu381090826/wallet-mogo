@@ -10,8 +10,22 @@
         </div>
       </van-cell>
     </van-cell-group>
-
     <div class="orderConfirm-address-linkman"></div>
+
+    <van-cell-group>
+      <van-cell v-if="linkmanList!==null"
+                v-for="(item,k) in linkmanList"
+                :key="k"
+                :title="item.name+item.phone"
+                :label="item.provinceName+item.cityName+item.countyName+item.address"
+                @click="selectLinkman(item)"
+      >
+        <div slot="right-icon" style="margin-left: 5%">
+          <van-icon name="edit" size="20px" @click="editLinkman(item.id)"></van-icon>
+        </div>
+      </van-cell>
+    </van-cell-group>
+
 
   </div>
 </template>
@@ -24,6 +38,7 @@
   import {request} from "../../utils/request";
   import TGCConfig from "../../utils/constants/tgcConfig";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import {fire} from "../../utils/envent";
 
   Vue.use(Popup);
   Vue.use(Icon)
@@ -38,31 +53,43 @@
         showAddFrom: false,
         areaList: [],
         searchResult: [],
+        linkmanList: null,
       };
     },
     created() {
-      window.addEventListener("customEvent", function (event) {
+      let t = this;
+      window.addEventListener("init", function (event) {
         //通过event.detail可获得传递过来的参数内容
-        plus.nativeUI.toast("我是首页,我很慌,我收到了信息");
-        console.log(event);
+        t.init();
       });
+
       this.init()
     },
-    computed: {},
-
     methods: {
+      selectLinkman(obj) {
+        obj.phone = obj.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
+        fire(plus.webview.getWebviewById("shop.orderConfirm"), 'updateLinkman', obj);
+        plus.webview.currentWebview().close();
+      },
+      editLinkman(id) {
+        openWebview({
+          url: "./shop.linkmanAdd.html",
+          id: "shop.linkmanAdd",
+          title: "编辑联系人",
+        }, {}, {linkmanId: id})
+      },
       addButton() {
         openWebview({
           url: "./shop.linkmanAdd.html",
           id: "shop.linkmanAdd",
           title: "添加联系人",
-        })
+        }, {}, {newWebview: true})
       },
       init() {
         Toast.loading();
         request(TGCApiUrl.shopLinkmanList).then(res => {
-          console.log(res);
           Toast.clear();
+          this.linkmanList = res;
         })
       }
     }

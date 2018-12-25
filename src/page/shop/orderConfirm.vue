@@ -2,7 +2,7 @@
   <div>
 
     <van-cell-group>
-      <van-cell v-if="linkman!=null" :title="linkman.name" :label="linkman.address" value="linkman.phone" is-link
+      <van-cell v-if="linkman!=null" :title="linkman.name" :label="linkman.address" :value="linkman.phone" is-link
                 clickable
                 @click="gotoLinkman">
       </van-cell>
@@ -15,8 +15,7 @@
 
     <br>
     <van-cell-group>
-      <van-panel :title="goods.skuName" :desc="goods.buyNum" :status="goods.priceShow">
-      </van-panel>
+      <van-panel :title="goods.skuName" :desc="goods.buyNum" :status="goods.priceShow"></van-panel>
     </van-cell-group>
 
     <br>
@@ -34,7 +33,7 @@
       :price="goods.price"
       button-text="提交订单"
       @submit="onSubmit"
-    />
+    ></van-submit-bar>
   </div>
 </template>
 
@@ -51,6 +50,8 @@
   import OrderType from "../../utils/constants/OrderType";
   import TGCConfig from "../../utils/constants/tgcConfig";
   import MathUtil from "../../utils/MathUtil";
+  import {isEmptyObject, isNotEmpty, isNotEmptyObject} from "../../utils/globalFunc";
+  import {fire} from "../../utils/envent";
 
   Vue.use(SubmitBar);
   Vue.use(AddressList);
@@ -83,6 +84,12 @@
       };
     },
     created() {
+      let t = this;
+      window.addEventListener("updateLinkman", function (event) {
+        //通过event.detail可获得传递过来的参数内容
+        t.linkman = event.detail;
+      });
+
       let wb = plus.webview.currentWebview();
       this.skuNo = wb.skuNo;
 
@@ -91,41 +98,45 @@
         this.goods.buyNum = "x 1";
         this.goods.priceShow = res.price + res.units;
         this.goods.price = MathUtil.accMul(res.price, 100);
-        console.log(this.goods)
       });
 
-      request(TGCApiUrl.shopLinkmanList, {skuNo: this.skuNo}).then(res => {
-        this.goods = res;
+      request(TGCApiUrl.shopLinkmanList, {skuNo: this.skuNo, defaultAddress: 1}).then(res => {
+        if (isNotEmptyObject(res[0])) {
+          this.linkman = res[0];
+          this.linkman.phone = this.linkman.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
+        }
       });
 
     },
     methods: {
       onSubmit() {
+        if (isEmptyObject(this.linkman)) {
+          Toast.fail('请选择联系人')
+        }
         let params = {
           skuList: [{
             skuNo: this.skuNo,
             buyNum: 1,
           }],
-          deliverInfo: {
-            receiveName: "lujiaguan",
-            receiveAddress: "***",
-            receivePhone: "185***",
-          },
+          linkmanId: this.linkman.id,
           payType: PayType.eth_tg,
           memo: "测试",
         };
         request(TGCApiUrl.shopOrderCreate, params).then(res => {
           this.orderId = res;
-          openWebview({
-            url: './wallet.send.html',
-            id: 'wallet.send',
-            title: '收银台',
-            needLoaded: true,
-          }, {}, {
-            orderId: this.orderId,
-            orderType: OrderType.shop,
-            tokenAddress: TGCConfig.tokenAddress,
-          })
+          if (isNotEmpty(res)) {
+            openWebview({
+              url: './wallet.send.html',
+              id: 'wallet.send',
+              title: '收银台',
+              needLoaded: true,
+            }, {}, {
+              orderId: this.orderId,
+              orderType: OrderType.shop,
+              tokenAddress: TGCConfig.tokenAddress,
+            });
+            fire(plus.webview.getWebviewById('shop.order'), 'init');
+          }
         });
       },
       gotoLinkman() {

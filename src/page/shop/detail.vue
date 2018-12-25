@@ -27,10 +27,10 @@
         客服
       </van-goods-action-mini-btn>
       <!--<van-goods-action-mini-btn icon="cart" @click="onClickCart">-->
-        <!--购物车-->
+      <!--购物车-->
       <!--</van-goods-action-mini-btn>-->
       <!--<van-goods-action-big-btn @click="addToCart">-->
-        <!--加入购物车-->
+      <!--加入购物车-->
       <!--</van-goods-action-big-btn>-->
       <van-goods-action-big-btn primary @click="createOrder">
         立即购买
@@ -106,6 +106,7 @@
           id: 'shop.orderConfirm',
           url: './shop.orderConfirm.html',
           title: '确认订单',
+          needLoaded: true,
         }, {}, {
           skuNo: skuNo,
         })

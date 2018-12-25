@@ -12,6 +12,7 @@
   import {Tabbar, TabbarItem} from 'vant';
   import {isEmpty} from "@/utils/globalFunc";
   import {isEmptyObject} from "@/utils/globalFunc";
+  import {isNotEmptyObject} from "../../utils/globalFunc";
 
   Vue.use(Tabbar).use(TabbarItem);
   export default {
@@ -26,6 +27,10 @@
           id: 'shop.cart',
           url: './shop.cart.html',
         },
+        order: {
+          id: 'shop.order',
+          url: './shop.order.html',
+        },
       }
     },
     created() {
@@ -39,8 +44,6 @@
           let embed = plus.webview.create(obj.url, obj.id, {
             height: '93%',
             backButtonAutoControl: 'none',
-            // top: '1px',
-            // bottom: '7%',
             titleNView: {
               progress: {color: '#ff5c0a', height: "1px"}
             },
@@ -58,7 +61,7 @@
             this.append(this.goodsShows);
             break;
           case 1:
-            // this.append(this.cart);
+            this.append(this.order);
             break;
           default:
             break;

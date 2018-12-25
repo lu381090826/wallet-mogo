@@ -6,6 +6,7 @@
       show-delete
       show-set-default
       show-search-result
+      :address-info="addressInfo"
       @save="onSave"
       @delete="onDelete"
     />
@@ -19,6 +20,7 @@
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {fire} from "../../utils/envent";
+  import {isEmpty, isNotEmpty, isNotEmptyObject} from "../../utils/globalFunc";
 
   Vue.use(AddressEdit);
 
@@ -27,18 +29,46 @@
       return {
         areaList: area,
         searchResult: [],
+        linkmanId: null,
+        addressInfo: {},
       };
     },
+    created() {
+      let wb = plus.webview.currentWebview();
+      let id = wb.linkmanId;
+      this.linkmanId = id;
+      let t = this;
+      console.log(id);
+      if (isNotEmpty(id)) {
+        request(TGCApiUrl.shopLinkmanList, {id: Number(id)}).then(res => {
+          if (isNotEmptyObject(res[0])) {
+            let info = res[0];
+            info.tel = info.phone;
+            info.addressDetail = info.address;
+            info.postalCode = info.postcode;
+            info.isDefault = info.defaultAddress > 0;
+            t.addressInfo = info;
+          }
+        });
+      }
 
-    computed: {},
-
+    },
     methods: {
       onSave(content) {
-        request(TGCApiUrl.shopLinkmanAdd, content).then(res => {
-          Toast('保存成功');
-          fire(plus.webview.getWebviewById("shop.linkman"), 'init');
-          plus.webview.currentWebview().close();
-        })
+        if (isEmpty(this.linkmanId)) {
+          request(TGCApiUrl.shopLinkmanAdd, content).then(res => {
+            fire(plus.webview.getWebviewById("shop.linkman"), 'init');
+            plus.webview.currentWebview().close();
+            Toast('保存成功');
+          })
+        } else {
+          content.id = this.linkmanId;
+          request(TGCApiUrl.shopLinkmanUpdate, content).then(res => {
+            fire(plus.webview.getWebviewById("shop.linkman"), 'init');
+            plus.webview.currentWebview().close();
+            Toast('更新成功');
+          })
+        }
       },
       onDelete() {
         plus.webview.currentWebview().close();

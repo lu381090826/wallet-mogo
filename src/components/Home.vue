@@ -190,11 +190,7 @@
           </div>
         </div>
       </div>
-
-
       <div class="blank-space"></div>
-
-      <div class="asset-footer"></div>
     </van-pull-refresh>
 
     <van-popup v-model="showWalletConfig" position="right">
@@ -229,15 +225,15 @@
   import TGCConfig from "../utils/constants/tgcConfig";
 
   Vue.use(Tabbar).use(TabbarItem)
-     .use(Row).use(Col)
-     .use(PullRefresh)
-     .use(Popup)
-     .use(Button)
-     .use(Toast)
-     .use(Icon)
-     .use(Cell)
-     .use(CellGroup)
-     .use(Loading);
+    .use(Row).use(Col)
+    .use(PullRefresh)
+    .use(Popup)
+    .use(Button)
+    .use(Toast)
+    .use(Icon)
+    .use(Cell)
+    .use(CellGroup)
+    .use(Loading);
   export default {
     data() {
       return {
@@ -407,20 +403,21 @@
       },
       init() {
         let _this = this;
-
-        Web3Util.getBalance(_this.walletAddress).then(res => {
-          _this.walletBalance = res;
-        });
-        Web3Util.getBalance(TGCConfig.tokenAddress, _this.walletAddress).then(res => {
-          _this.tokenBalance = res;
-        });
-
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
         request(TGCApiUrl.goodsHot).then(res => {
           this.goods = res;
         });
+        setTimeout(() => {
+          Web3Util.getBalance(_this.walletAddress).then(res => {
+            _this.walletBalance = res;
+          });
+          Web3Util.getBalance(TGCConfig.tokenAddress, _this.walletAddress).then(res => {
+            _this.tokenBalance = res;
+          });
+        }, 50);
+
 
       },
       subString(value) {
@@ -579,7 +576,7 @@
   }
 
   .hot-sell-title {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
   }
 

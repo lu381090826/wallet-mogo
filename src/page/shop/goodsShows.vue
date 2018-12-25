@@ -17,7 +17,7 @@
         </van-row>
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in itemList1.slice(0, 3)" :key="k">
-            <div>{{item.goodsName}}</div>
+            <div class="sku-name">{{item.skuName}}</div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
@@ -42,7 +42,7 @@
         </van-row>
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in itemList1.slice(3, 6)" :key="k">
-            <span>{{item.goodsName}}</span>
+            <div class="sku-name">{{item.skuName}}</div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
@@ -75,8 +75,8 @@
           <van-col span="4" v-for="(item,k) in itemList2" :key="k">
             <div class="half-sell-in">
               <div class="img-box"><img :src="item.img" width="100px"></div>
-              <div>{{item.goodsName}}</div>
-              <div class="goods-row-1-price half-sell-in">
+              <div class="sku-name">{{item.skuName}}</div>
+              <div class="goods-row-1-price">
                 <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
                 <s class="de"> {{item.originPrice}} {{item.units}}</s>
               </div>
@@ -103,7 +103,7 @@
       </van-row>
       <van-row type="flex" justify="center">
         <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
-          <span>{{item.goodsName}}</span>
+          <div class="sku-name">{{item.skuName}}</div>
         </van-col>
       </van-row>
       <van-row type="flex" justify="center">
@@ -133,6 +133,7 @@
   import {openWebview} from "@/utils/webview";
   import {request} from "@/utils/request";
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
+  import {isNotEmptyObject} from "../../utils/globalFunc";
 
   Vue.use(Row).use(Col);
   export default {
@@ -144,6 +145,13 @@
       }
     },
     created() {
+      plus.key.addEventListener('backbutton', function () {
+        let parent = plus.webview.currentWebview().parent();
+        if (isNotEmptyObject(parent)) {
+          parent.close();
+        }
+      });
+
       request(TGCApiUrl.goodsHome).then(res => {
         this.itemList1 = res[0];
         this.itemList2 = res[1];
@@ -178,10 +186,6 @@
   .goods-row {
     padding: 3% 3%;
     text-align: left;
-  }
-
-  .goods-row-1 {
-    font-size: 12px;
   }
 
   .goods-row-1-price {
@@ -257,6 +261,7 @@
   .half-sell-in {
     background-color: white;
     padding: 3%;
+    height: 189px;
   }
 
   .shops-footer {
@@ -266,5 +271,10 @@
   .img-box {
     width: 100px;
     height: 150px;
+  }
+
+  .sku-name {
+    overflow-x: hidden;
+    font-size: 11px;
   }
 </style>
