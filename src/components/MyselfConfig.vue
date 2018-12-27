@@ -32,6 +32,9 @@
       <van-cell title="我的捐助" is-link icon="like-o" v-intervalclick="{func:wodejuanzeng}">
       </van-cell>
 
+      <van-cell title="商城订单" is-link icon="shop-collect-o" v-intervalclick="{func:shopOrder}">
+      </van-cell>
+
       <van-cell title="检查更新" is-link icon="upgrade" v-intervalclick="{func:checkUpdate}">
       </van-cell>
     </van-cell-group>
@@ -74,7 +77,7 @@
           id: "wallet.trans",
           title: "交易记录",
           needLoaded: true,
-        })
+        }, {}, {needRefresh: true})
       },
       config() {
         openWebview({
@@ -98,7 +101,14 @@
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"}
           }
-        })
+        }, {}, {needRefresh: true})
+      },
+      shopOrder() {
+        openWebview({
+          url: './shop.order.html',
+          id: 'shop.order',
+          title: '我的商城订单',
+        }, {}, {needRefresh: true})
       },
       yaoqing() {
         openWebview({
@@ -149,7 +159,7 @@
 
   .bottom {
     padding: 3%;
-    margin-top: 50%
+    margin-top: 40%
   }
 
   .myselfbody {

@@ -12,10 +12,16 @@
                       :price="item.totalAmount"
                       :title="item.skuName"
                       :thumb="item.img"
+                      :desc="getDesc(i.status)"
             >
               <div slot="footer">
-                <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
-                <van-button size="mini">取消订单</van-button>
+                <div v-if="i.status === 100">
+                  <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
+                  <van-button size="mini">取消订单</van-button>
+                </div>
+                <div v-else>
+                  <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
+                </div>
               </div>
             </van-card>
           </van-cell>
@@ -28,6 +34,7 @@
             :key="j">
             <van-card v-if="i.status===100" v-for="(item,k) in i.orderDetailList"
                       :key="k"
+                      :desc="getDesc(i.status)"
                       :num="item.buyNum"
                       :price="item.totalAmount"
                       :title="item.skuName"
@@ -52,6 +59,7 @@
                       :price="item.totalAmount"
                       :title="item.skuName"
                       :thumb="item.img"
+                      :desc="getDesc(i.status)"
             >
               <div slot="footer">
                 <van-button size="mini">申请退款</van-button>
@@ -67,6 +75,7 @@
             :key="j">
             <van-card v-if="i.status===160" v-for="(item,k) in i.orderDetailList"
                       :key="k"
+                      :desc="getDesc(i.status)"
                       :num="item.buyNum"
                       :price="item.totalAmount"
                       :title="item.skuName"
@@ -88,11 +97,15 @@
   import {Tab, Tabs} from 'vant';
   import {Card} from 'vant';
   import {Button} from 'vant';
+  import {Toast} from 'vant';
+  import {Dialog} from 'vant';
   import {CellGroup, Cell} from 'vant';
 
   Vue.use(CellGroup).use(Cell);
   Vue.use(Button);
   Vue.use(Card);
+  Vue.use(Dialog);
+  Vue.use(Toast);
   Vue.use(Tab).use(Tabs);
   import {isNotEmptyObject} from "../../utils/globalFunc";
   import {request} from "../../utils/request";
@@ -120,6 +133,35 @@
       init() {
         request(TGCApiUrl.shopOrderGetOrderList, {pageSize: 30}).then(res => {
           this.orderList = res;
+        });
+      },
+      getDesc(status) {
+        let desc = "";
+        console.log(Number(status))
+        switch (Number(status)) {
+          case 100:
+            desc = "待付款";
+            break;
+          case 150:
+            desc = "待发货";
+            break;
+          case 160:
+            desc = "待收货";
+            break;
+          default :
+            break;
+        }
+        return desc;
+      },
+      refund(orderId) {
+        Dialog.confirm({
+          title: '申请退款',
+          message: '确定要退款吗？'
+        }).then(() => {
+          Dialog.alert({
+            title: '提示',
+            message: '暂不支持线上退款，请邮箱至381090826@qq.com进行人工退款。'
+          });
         });
       },
       gotoPay(orderId) {

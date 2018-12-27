@@ -154,6 +154,7 @@
 
       if (isNotEmpty(ws.orderId)) {
         this.orderId = ws.orderId;
+        this.sendAmountReadOnly = true;
       }
 
       if (isNotEmpty(ws.sendAmount)) {
@@ -244,7 +245,6 @@
                 }, {}, {
                   tx: res
                 });
-
                 //回传交易号
                 setTimeout(() => {
                   request(tgcApiUrl.shopOrderUpdate, {orderId: params.orderId, transAddress: res});

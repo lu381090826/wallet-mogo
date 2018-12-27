@@ -1,8 +1,8 @@
 <template>
   <div>
     <van-tabbar v-model="active" fixed class="index-tabbar">
-      <van-tabbar-item icon="home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin">财富</van-tabbar-item>
+      <van-tabbar-item icon="wap-home">首页</van-tabbar-item>
+      <van-tabbar-item icon="gold-coin-o">财富</van-tabbar-item>
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
     </van-tabbar>
   </div>
