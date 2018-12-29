@@ -37,7 +37,7 @@
       <div class="goods-row goods-row-1">
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in itemList1.slice(3, 6)" :key="k">
-            <div class="img-box"><img :src="item.img" width="100px"></div>
+            <div class="img-box" v-intervalclick="{func:goodsDetail,skuNo:item.skuNo}"><img :src="item.img" width="100px"></div>
           </van-col>
         </van-row>
         <van-row type="flex" justify="center">
@@ -74,7 +74,7 @@
         <van-row type="flex" justify="space-around" gutter="5">
           <van-col span="4" v-for="(item,k) in itemList2" :key="k">
             <div class="half-sell-in">
-              <div class="img-box"><img :src="item.img" width="100px"></div>
+              <div class="img-box" v-intervalclick="{func:goodsDetail,skuNo:item.skuNo}"><img :src="item.img" width="100px"></div>
               <div class="sku-name">{{item.skuName}}</div>
               <div class="goods-row-1-price">
                 <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
@@ -98,7 +98,7 @@
     <div class="goods-row goods-row-1">
       <van-row type="flex" justify="center">
         <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
-          <img :src="item.img" width="100px">
+          <img :src="item.img" width="100px" v-intervalclick="{func:goodsDetail,skuNo:item.skuNo}">
         </van-col>
       </van-row>
       <van-row type="flex" justify="center">

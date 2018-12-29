@@ -18,7 +18,7 @@
     </van-cell-group>
     <van-cell-group>
       <van-cell>
-        <div>{{ goods.skuDetail }}</div>
+        <div>{{goods.skuDetail}}</div>
       </van-cell>
     </van-cell-group>
 
@@ -112,7 +112,7 @@
         })
       },
       formatPrice() {
-        return "" + (this.goods.price / 100).toFixed(2);
+        return "" + (this.goods.price) + this.goods.units;
       },
       addToCart() {
         Toast('加入购物车成功');

@@ -125,7 +125,7 @@
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in goods" :key="k">
             <div class="hot-sell-title">
-              {{item.skuName}}
+              {{item.simpleName}}
             </div>
           </van-col>
         </van-row>

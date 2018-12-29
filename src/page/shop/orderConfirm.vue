@@ -31,6 +31,7 @@
 
     <van-submit-bar
       :price="goods.price"
+      :currency="goods.units"
       button-text="提交订单"
       @submit="onSubmit"
     ></van-submit-bar>

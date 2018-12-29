@@ -87,6 +87,7 @@
             titleNView = {
               titleText: obj.title,
               backgroundColor: obj.color,
+              statusBarBackground: obj.color,
               titleColor: '#ffffff',
               progress: {color: '#1a6eff', height: "1%"},
             }
