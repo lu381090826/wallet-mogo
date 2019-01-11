@@ -38,7 +38,7 @@
         <van-icon slot="icon" name="contact" @click="contact"/>
       </van-field>
       <van-field label="燃料费(ETH)" :readonly="true" disableClear v-model="gasValue">
-        <van-icon name="question" slot="icon" @click="gasQuestion"/>
+        <van-icon name="question-o" slot="icon" @click="gasQuestion"/>
       </van-field>
       <van-slider v-model="rangeValue" :min="rangeMin" :max="rangeMax" :step="0.00001">
       </van-slider>

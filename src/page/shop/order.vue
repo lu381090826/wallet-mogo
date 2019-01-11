@@ -11,9 +11,11 @@
                       :num="item.buyNum"
                       :price="item.totalAmount"
                       :title="item.skuName"
-                      :thumb="item.img"
                       :desc="getDesc(i.status)"
             >
+              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
+                <img :src="item.img">
+              </div>
               <div slot="footer">
                 <div v-if="i.status === 100">
                   <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
@@ -38,11 +40,13 @@
                       :num="item.buyNum"
                       :price="item.totalAmount"
                       :title="item.skuName"
-                      :thumb="item.img"
             >
+              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
+                <img :src="item.img">
+              </div>
               <div slot="footer">
                 <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
-                <van-button size="mini">取消订单</van-button>
+                <van-button size="mini" @click="gotoCancel(i.orderId)">取消订单</van-button>
               </div>
             </van-card>
           </van-cell>
@@ -58,11 +62,13 @@
                       :num="item.buyNum"
                       :price="item.totalAmount"
                       :title="item.skuName"
-                      :thumb="item.img"
                       :desc="getDesc(i.status)"
             >
+              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
+                <img :src="item.img">
+              </div>
               <div slot="footer">
-                <van-button size="mini">申请退款</van-button>
+                <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
               </div>
             </van-card>
           </van-cell>
@@ -79,10 +85,12 @@
                       :num="item.buyNum"
                       :price="item.totalAmount"
                       :title="item.skuName"
-                      :thumb="item.img"
             >
+              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
+                <img :src="item.img">
+              </div>
               <div slot="footer">
-                <van-button size="mini">申请退款</van-button>
+                <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
               </div>
             </van-card>
           </van-cell>
@@ -135,6 +143,14 @@
           this.orderList = res;
         });
       },
+      gotoOrderDetail(orderId) {
+        openWebview({
+          url: './shop.orderDetail.html',
+          id: 'shop.orderDetail',
+          title: '订单详情',
+          needLoaded: true,
+        }, {}, {orderId: orderId})
+      },
       getDesc(status) {
         let desc = "";
         console.log(Number(status))
@@ -163,6 +179,14 @@
             message: '暂不支持线上退款，请邮箱至381090826@qq.com进行人工退款。'
           });
         });
+      },
+      gotoCancel(orderId) {
+        Dialog.confirm({
+          title: '取消订单',
+          message: '确定要取消吗？'
+        }).then(() => {
+          request(TGCApiUrl.shopOrderCancel, {orderId: orderId});
+        })
       },
       gotoPay(orderId) {
         openWebview({

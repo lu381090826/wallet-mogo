@@ -10,7 +10,7 @@ Vue.prototype.webview = {
   },
   closeWebview() {
     if (isNotEmpty(this.webviewId)) {
-      let ws = this.getWebview();
+      let ws = this.getWebview;
       ws.close();
     } else {
       plus.webview.currentWebview().close();

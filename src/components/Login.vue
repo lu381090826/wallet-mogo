@@ -41,10 +41,10 @@
                             @click="clear('password')"></van-icon>
                 </van-col>
                 <van-col span="4">
-                  <van-icon name="password-not-view" color="gray" size="20px"
+                  <van-icon name="closed-eye" color="gray" size="20px"
                             v-show="!passwordView" @click="changePasswordView">
                   </van-icon>
-                  <van-icon name="password-view" color="#76c3e8" size="20px"
+                  <van-icon name="eye-o" color="#76c3e8" size="20px"
                             v-show="passwordView" @click="changePasswordView">
                   </van-icon>
                 </van-col>
@@ -203,7 +203,7 @@
 
 <style scoped>
   .login-center {
-    margin-top: 20%;
+    margin-top: 25%;
     width: 100%;
   }
 
@@ -214,7 +214,7 @@
   }
 
   .login-to-register {
-    margin-top: 40%;
+    margin-top: 60%;
     left: 0;
     right: 0;
     margin-left: auto;

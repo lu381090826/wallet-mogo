@@ -35,6 +35,9 @@
       <van-cell title="商城订单" is-link icon="shop-collect-o" v-intervalclick="{func:shopOrder}">
       </van-cell>
 
+      <van-cell title="认购TG" is-link icon="diamond-o" v-intervalclick="{func:butTG}">
+      </van-cell>
+
       <van-cell title="检查更新" is-link icon="upgrade" v-intervalclick="{func:checkUpdate}">
       </van-cell>
     </van-cell-group>
@@ -103,6 +106,13 @@
           }
         }, {}, {needRefresh: true})
       },
+      butTG() {
+        openWebview({
+          url: './wallet.buyTg.html',
+          id: 'wallet.buyTg',
+          title: '认购TG'
+        })
+      },
       shopOrder() {
         openWebview({
           url: './shop.order.html',
@@ -159,7 +169,7 @@
 
   .bottom {
     padding: 3%;
-    margin-top: 40%
+    margin-top: 30%;
   }
 
   .myselfbody {

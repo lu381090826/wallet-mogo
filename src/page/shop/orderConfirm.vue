@@ -121,7 +121,7 @@
           }],
           linkmanId: this.linkman.id,
           payType: PayType.eth_tg,
-          memo: "测试",
+          memo: "",
         };
         request(TGCApiUrl.shopOrderCreate, params).then(res => {
           this.orderId = res;
