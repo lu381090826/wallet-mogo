@@ -112,13 +112,22 @@
 
       <div class="area-title">
         <div class="area-tag"></div>
+      </div>
+      <div class="area" style="padding-top: 5%;" v-intervalclick="{func:forest}">
+          你有一颗能量待领取
+      </div>
+
+      <div class="blank-space"></div>
+
+      <div class="area-title">
+        <div class="area-tag"></div>
         TG特惠
       </div>
       <div class="area" style="padding-top: 5%;" v-intervalclick="{func:goodsList}">
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in goods" :key="k">
             <div class="hot-sell-img">
-              <img :src="item.img" width="48px"/>
+              <img :src="item.imgSmall" width="48px"/>
             </div>
           </van-col>
         </van-row>
@@ -312,6 +321,13 @@
           id: "shop.shopIndex",
           title: "TG特惠商城",
           needLoaded: true,
+        })
+      },
+      forest() {
+        openWebviewFast({
+          url: './forest.forestIndex.html',
+          id: "forest.forestIndex",
+          title: "TG森林",
         })
       },
       profit() {

@@ -39,7 +39,7 @@
     name: 'share',
     data() {
       return {
-        shareUrl: "",
+        shareUrl: "http://120.79.191.116/",
         sharewx: "",
         popupVisible: false,
         backgroundImg: require('../../assets/img/a92ce141472ce15ead2a252713c1cb63.png'),
@@ -66,7 +66,8 @@
           title: "邀请好友，赚取TG",
           content: "下载即可奖励0.1TG",
           href: _this.shareUrl,
-          thumbs: ["http://120.79.191.116/static/img/aixin.jpg"],
+          type: "web",
+          thumbs: ["http://120.79.191.116/static/img/gongyilogo.png"],
           extra: {scene: "WXSceneSession"}
         };
         _this.sharewx.send(content, function () {
