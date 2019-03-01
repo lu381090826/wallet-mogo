@@ -113,8 +113,22 @@
       <div class="area-title">
         <div class="area-tag"></div>
       </div>
-      <div class="area" style="padding-top: 5%;" v-intervalclick="{func:forest}">
-          你有一颗能量待领取
+
+      <div class="area" v-intervalclick="{func:forest}">
+        <div class="zhuantg">
+          <van-row>
+            <van-col span="14">
+              <div class="zhuant-title">你有一颗能量待领取</div>
+              <div class="zhuant-desc">采集能量攒TG</div>
+            </van-col>
+            <van-col span="8">
+              <div>
+                <img src="../../static/forest/image/qiu.png" style="width: 48px;">
+                <div style="margin-top: -38px;margin-left:10px;color: #008002">TG能量</div>
+              </div>
+            </van-col>
+          </van-row>
+        </div>
       </div>
 
       <div class="blank-space"></div>
