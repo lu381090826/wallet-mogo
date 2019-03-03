@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       "/api": {
         name: "RINKEBY",
-        target: "https://rinkeby.infura.io",
+        target: "https://mainnet.infura.io",
         pathRewrite: { "^/api": "" },
         changeOrigin: true,
         secure: false

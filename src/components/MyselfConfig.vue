@@ -40,6 +40,9 @@
 
       <van-cell title="检查更新" is-link icon="upgrade" v-intervalclick="{func:checkUpdate}">
       </van-cell>
+
+      <van-cell title="关于" is-link icon="more-o" v-intervalclick="{func:about}">
+      </van-cell>
     </van-cell-group>
 
     <div class="bottom">
@@ -91,6 +94,14 @@
       },
       checkUpdate() {
         NativeFun.checkUpdate(true);
+      },
+      about() {
+        openWebview({
+          url: "./common.about.html",
+          id: "common.about",
+          title: "关于",
+        });
+
       },
       wodejuanzeng() {
         openWebview({
@@ -169,7 +180,7 @@
 
   .bottom {
     padding: 3%;
-    margin-top: 30%;
+    margin-top: 20%;
   }
 
   .myselfbody {

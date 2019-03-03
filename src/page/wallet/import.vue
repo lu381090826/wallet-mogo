@@ -83,7 +83,7 @@
           done();
         }
       },
-      beforePrivateClose(action) {
+      beforePrivateClose(action, done) {
         let _this = this;
         if (action === 'confirm') {
           _this.importByPrivate(_this.password);
@@ -108,7 +108,7 @@
           }
 
           Toast.loading({
-            text: '正在创建钱包，请耐心等待...',
+            text: '正在导入钱包，请耐心等待...',
           });
           setTimeout(() => {
             let params = {
@@ -118,10 +118,7 @@
               walletName: walletName,
             };
             request(TGCApiUrl.walletAdd, params).then(() => {
-              Toast("钱包创建成功");
-              setTimeout(() => {
-                Toast.clear();
-              }, 1000);
+              Toast("钱包导入成功");
             });
           }, 200)
         });
@@ -143,6 +140,9 @@
             throw new Error('password error');
           }
 
+          Toast.loading({
+            text: '正在导入钱包，请耐心等待...',
+          });
           setTimeout(() => {
             let wallet = new Wallet(privateKey);
             let address = wallet.getAddressString();
@@ -155,12 +155,12 @@
               walletName: walletName,
               password: password,
             };
+            console.log(keyStore);
             request(TGCApiUrl.walletAdd, params).then(() => {
-              Toast.success("钱包创建成功");
-              plus.webview.getWebviewById('wallet.walletConfig').reload();
-              plus.webview.currentWebview().hide();
+              Toast.success("钱包导入成功");
+              // plus.webview.getWebviewById('wallet.walletConfig').reload();
+              plus.webview.currentWebview().close();
             });
-
           }, 300);
         })
       }

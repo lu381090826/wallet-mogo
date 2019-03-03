@@ -37,8 +37,8 @@
         tokenName: "",
         tokenList: [
           {
-            tokenName: '感恩链（Tgc）',
-            tokenAddress: '0xCc79Cb5023A4896547F4b00a2289d1ed4098Ce13',
+            tokenName: 'TGCoin (TG)',
+            tokenAddress: '0x04DB0AF8E59Ce72dA91587af8291f4E3E08073a5',
           }
         ]
       }
@@ -56,7 +56,6 @@
             Toast('添加成功');
           });
         });
-
       },
       select(tokenName, tokenAddress) {
         this.tokenAddress = tokenAddress;
