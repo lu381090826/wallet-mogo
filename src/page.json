@@ -4,6 +4,7 @@
   "common.index|plusReady": "./src/page/common/index.js",
   "common.home|plusReady": "./src/page/common/home.js",
   "common.about|plusReady": "./src/page/common/about.js",
+  "common.bank|plusReady": "./src/page/common/bank.js",
   "forest.forestIndex|plusReady": "./src/page/forest/forestIndex.js",
   "charitable.index|plusReady": "./src/page/charitable/index.js",
   "charitable.one2one|plusReady": "./src/page/charitable/one2one.js",
