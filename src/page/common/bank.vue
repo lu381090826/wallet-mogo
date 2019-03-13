@@ -2,7 +2,7 @@
   <!--收银台-->
   <div class="body text-left">
     <div>
-      <div class="box">
+      <div class="box" style="color: #575757">
         <div>
           订单详情：认购{{buyNum}}TG
         </div>
@@ -10,16 +10,16 @@
           金额：￥{{amount}}
         </div>
         <div>
-          当前汇率：1TG=1$
+          <!--当前汇率：1TG=1$-->
         </div>
       </div>
-      <div class="box">
+      <div class="box" style="color: #575757">
         请选择支付方式
 
         <div style="margin-top: 5%">
           <van-radio-group v-model="radio">
             <van-cell-group>
-              <van-cell title=" " clickable @click="radio = '1'">
+              <van-cell title=" " @click="radio = '1'">
                 <van-radio name="1"/>
                 <img
                   slot="icon"

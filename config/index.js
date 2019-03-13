@@ -7,7 +7,7 @@ const ip = require("ip");
 module.exports = {
   dev: {
     // Paths
-    vConsole: true, //是否显示VConsole
+    vConsole: false, //是否显示VConsole
     assetsSubDirectory: "static",
     assetsPublicPath: "/",
     proxyTable: {
@@ -67,7 +67,7 @@ module.exports = {
 
   build: {
 
-    vConsole: true, //是否显示VConsole
+    vConsole: false, //是否显示VConsole
     // Template for index.html
     index: path.resolve(__dirname, "../dist/index.html"),
 

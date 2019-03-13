@@ -54,12 +54,13 @@ let Web3Util = {
       if (isEmpty(walletAddress)) {
         walletAddress = plus.storage.getItem('walletAddress');
       }
+
       let s = web3.eth.call({
         to: contractAddress,
         data: contract.balanceOf.getData(walletAddress)
       });
       if (!isNaN(parseInt(s, 16))) {
-        return (parseInt(s, 16) / Math.pow(10, 4));
+        return (parseInt(s, 16) / Math.pow(10, Number(contract.decimals())));
       } else {
         return (0);
       }

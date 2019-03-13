@@ -299,7 +299,7 @@
         this.onRefresh();
       },
       buyTg() {
-        openWebview({
+        openWebviewFast({
           url: './wallet.buyTg.html',
           id: 'wallet.buyTg',
           title: '认购TG'

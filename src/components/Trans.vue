@@ -3,7 +3,9 @@
     <div class="blank-space"></div>
     <div class="trans-cell" v-show="transList !==null && transList.length === 0">
       <div class="no-trans">
-      <div><van-icon name="info-o" size="50px"></van-icon></div>
+        <div>
+          <van-icon name="info-o" size="50px"></van-icon>
+        </div>
         暂无交易记录
       </div>
     </div>
@@ -156,7 +158,7 @@
             for (let i = 0; i < res.length; i++) {
 
               if (isNotEmpty(res[i].tokenDecimal)) {
-                res[i].value = _t.unitAmount(res[i].value, res[i].tokenDecimal);
+                res[i].value = _t.unitAmount(res[i].value, Number(res[i].tokenDecimal));
               } else {
                 res[i].value = _t.unitAmount(res[i].value);
               }

@@ -37,8 +37,8 @@
         tokenName: "",
         tokenList: [
           {
-            tokenName: 'TGCoin (TG)',
-            tokenAddress: '0x04DB0AF8E59Ce72dA91587af8291f4E3E08073a5',
+            tokenName: 'TG积分 (TG)',
+            tokenAddress: '0x95ff62d03D45e29b20E497D0fD526D8d2d387804',
           }
         ]
       }
