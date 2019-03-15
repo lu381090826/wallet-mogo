@@ -18,6 +18,7 @@ const TGCApiUrl = {
   register: "/user/api/register",
   payOrder: "/donation/order/payOrder",
   addToken: "/walletToken/api/addToken",
+  updateToken: "/walletToken/api/updateToken",
   getLastVersion: "/common/api/getLastVersion",
   checkPassword: "/user/api/checkPassword",
   checkLogin: "/user/api/checkLogin",

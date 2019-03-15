@@ -44,21 +44,15 @@
                         :label="item.tokenAddressShow" is-link @click="trans(item.tokenAddress)"></van-cell>
             </van-cell-group>
 
-            <van-cell-group>
-              <van-cell title="添加资产">
-                <van-icon slot="right-icon" name="add-o" v-intervalclick="{func:addToken}"></van-icon>
-              </van-cell>
-            </van-cell-group>
           </div>
         </div>
       </div>
     </van-pull-refresh>
 
     <van-popup v-model="showWalletConfig" position="right">
-      <div style="width: 200px;height: 1000px;padding: 5%">
-        <div style="margin-top: 10%;font-weight: bold;">选择钱包</div>
-        <div style="margin-top: 20%">
-          <van-cell-group>
+      <div style="width: 200px;height: 1000px;">
+        <div style="margin-top: 1%">
+          <van-cell-group :border="false">
             <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
                       @click="set(item.walletAddress,item.walletName)" :label="subString(item.walletAddress)"
                       :style="{backgroundColor: getColor(item.walletAddress)}"
@@ -66,6 +60,15 @@
             </van-cell>
           </van-cell-group>
         </div>
+        <hr color='#AFAFAF'>
+        <van-cell-group :border="false">
+          <van-cell :border="false">
+            <van-button type="default" size="large" v-intervalclick="{func:walletConfig}">钱包管理</van-button>
+          </van-cell>
+          <van-cell :border="false">
+            <van-button type="default" size="large" v-intervalclick="{func:addToken}">合约管理</van-button>
+          </van-cell>
+        </van-cell-group>
       </div>
     </van-popup>
   </div>
@@ -74,7 +77,7 @@
   import Vue from 'vue'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
-  import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon, Popup} from 'vant';
+  import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon, Popup, Button} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById} from "@/utils/webview";
@@ -85,6 +88,7 @@
     .use(Toast)
     .use(Icon)
     .use(Popup)
+    .use(Button)
     .use(Cell)
     .use(CellGroup);
   export default {
@@ -121,6 +125,13 @@
         } else {
           return "white";
         }
+      },
+      walletConfig() {
+        openWebview({
+          url: "./wallet.walletConfig.html",
+          id: "wallet.walletConfig",
+          title: "钱包设置",
+        });
       },
       profit() {
         openWebview(
@@ -160,7 +171,7 @@
         openWebview({
           url: "./wallet.tokenAdd.html",
           id: "wallet.tokenAdd",
-          title: "添加资产",
+          title: "合约管理",
         })
       },
       send() {
@@ -201,7 +212,7 @@
           _this.walletBalance = res;
         });
 
-        request(TGCApiUrl.walletTokenList).then(res => {
+        request(TGCApiUrl.walletTokenList, {status: true}).then(res => {
           _this.tokenList = [];
           if (res.length != null) {
             let arr = [];

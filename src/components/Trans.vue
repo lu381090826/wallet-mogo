@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="blank-space"></div>
-    <div class="trans-cell" v-show="transList !==null && transList.length === 0">
+    <div class="box" v-show="transList !==null && transList.length === 0">
       <div class="no-trans">
         <div>
           <van-icon name="info-o" size="50px"></van-icon>
@@ -55,7 +55,7 @@
   import etherscanHttpUtils from "../utils/web3Util/etherscanHttpUtils";
   import {isEmpty, isNotEmpty} from "../utils/globalFunc";
   import Web3Util from "../utils/web3Util/Web3Util";
-  import {Toast, Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem} from 'vant';
+  import {Toast, Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem, Switch} from 'vant';
 
   Vue.use(Cell)
     .use(CellGroup)
@@ -65,6 +65,7 @@
     .use(Col)
     .use(Tabbar)
     .use(TabbarItem)
+    .use(Switch)
     .use(Pagination);
 
   export default {
@@ -228,7 +229,8 @@
   }
 
   .no-trans {
-    margin-top: 50%;
+    padding-top: 10%;
+    padding-bottom: 10%;
     font-size: 20px;
     color: #979797;
   }
