@@ -5,27 +5,8 @@
         <van-cell-group v-if="orderList!==null">
           <van-cell
             v-for="(i,j) in orderList"
-            :key="j">
-            <van-card v-for="(item,k) in i.orderDetailList"
-                      :key="k"
-                      :num="item.buyNum"
-                      :price="item.totalAmount"
-                      :title="item.skuName"
-                      :desc="getDesc(i.status)"
-            >
-              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
-                <img :src="item.img">
-              </div>
-              <div slot="footer">
-                <div v-if="i.status === 100">
-                  <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
-                  <van-button size="mini">取消订单</van-button>
-                </div>
-                <div v-else>
-                  <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
-                </div>
-              </div>
-            </van-card>
+            :key="j" :title="i.memo" :label="getDesc(i.status)">
+            {{i.totalAmount}}
           </van-cell>
         </van-cell-group>
       </van-tab>
@@ -33,44 +14,8 @@
         <van-cell-group v-if="orderList!==null">
           <van-cell
             v-for="(i,j) in orderList"
-            :key="j">
-            <van-card v-if="i.status===100" v-for="(item,k) in i.orderDetailList"
-                      :key="k"
-                      :desc="getDesc(i.status)"
-                      :num="item.buyNum"
-                      :price="item.totalAmount"
-                      :title="item.skuName"
-            >
-              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
-                <img :src="item.img">
-              </div>
-              <div slot="footer">
-                <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
-                <van-button size="mini" @click="gotoCancel(i.orderId)">取消订单</van-button>
-              </div>
-            </van-card>
-          </van-cell>
-        </van-cell-group>
-      </van-tab>
-      <van-tab title="待发货">
-        <van-cell-group v-if="orderList!==null">
-          <van-cell
-            v-for="(i,j) in orderList"
-            :key="j">
-            <van-card v-if="i.status===150" v-for="(item,k) in i.orderDetailList"
-                      :key="k"
-                      :num="item.buyNum"
-                      :price="item.totalAmount"
-                      :title="item.skuName"
-                      :desc="getDesc(i.status)"
-            >
-              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
-                <img :src="item.img">
-              </div>
-              <div slot="footer">
-                <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
-              </div>
-            </van-card>
+            :key="j" :title="i.memo" v-if="i.status===OrderState.ORDER_WATI_PAY" :label="getDesc(i.status)">
+            {{i.totalAmount}}
           </van-cell>
         </van-cell-group>
       </van-tab>
@@ -78,21 +23,17 @@
         <van-cell-group v-if="orderList!==null">
           <van-cell
             v-for="(i,j) in orderList"
-            :key="j">
-            <van-card v-if="i.status===160" v-for="(item,k) in i.orderDetailList"
-                      :key="k"
-                      :desc="getDesc(i.status)"
-                      :num="item.buyNum"
-                      :price="item.totalAmount"
-                      :title="item.skuName"
-            >
-              <div slot="thumb" @click="gotoOrderDetail(i.orderId)">
-                <img :src="item.img">
-              </div>
-              <div slot="footer">
-                <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
-              </div>
-            </van-card>
+            :key="j" :title="i.memo" v-if="i.status===OrderState.ORDER_WATI_RECEIVE" :label="getDesc(i.status)">
+            {{i.totalAmount}}
+          </van-cell>
+        </van-cell-group>
+      </van-tab>
+      <van-tab title="已完成">
+        <van-cell-group v-if="orderList!==null">
+          <van-cell
+            v-for="(i,j) in orderList"
+            :key="j" :title="i.memo" v-if="i.status===OrderState.ORDER_FINISH" :label="getDesc(i.status)">
+            {{i.totalAmount}}
           </van-cell>
         </van-cell-group>
       </van-tab>
@@ -120,6 +61,7 @@
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {openWebview} from "../../utils/webview";
   import OrderType from "../../utils/constants/OrderType";
+  import orderState from "../../utils/constants/OrderState";
   import TGCConfig from "../../utils/constants/tgcConfig";
 
   export default {
@@ -139,7 +81,7 @@
     },
     methods: {
       init() {
-        request(TGCApiUrl.shopOrderGetOrderList, {pageSize: 30, orderType: OrderType.shop}).then(res => {
+        request(TGCApiUrl.shopOrderGetOrderList, {pageSize: 30, orderType: OrderType.virtualShopTg}).then(res => {
           this.orderList = res;
         });
       },
@@ -205,6 +147,7 @@
       return {
         active: 0,
         orderList: null,
+        OrderState: orderState,
       }
     }
   }

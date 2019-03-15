@@ -63,8 +63,8 @@
       shareWeixinMessage() {
         let _this = this;
         let content = {
-          title: "邀请好友，赚取TG",
-          content: "下载即可奖励0.1TG",
+          title: "区块链公益平台",
+          content: "积分购手机享9.5折",
           href: _this.shareUrl,
           type: "web",
           thumbs: ["http://120.79.191.116/static/img/gongyilogo.png"],

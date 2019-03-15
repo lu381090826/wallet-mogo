@@ -33,6 +33,7 @@
   "wallet.tokenAdd|plusReady": "./src/page/wallet/tokenAdd.js",
   "wallet.import|plusReady": "./src/page/wallet/import.js",
   "wallet.buyTg|plusReady": "./src/page/wallet/buyTg.js",
+  "wallet.buyTgOrder|plusReady": "./src/page/wallet/buyTgOrder.js",
   "wallet.trans|plusReady": "./src/page/wallet/trans.js",
   "wallet.myselfConfig|plusReady": "./src/page/wallet/myselfConfig.js",
   "wallet.transInfo|plusReady": "./src/page/wallet/transInfo.js"

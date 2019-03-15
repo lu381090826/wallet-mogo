@@ -69,66 +69,59 @@
             <van-col span="8">收款</van-col>
           </van-row>
         </div>
-
       </div>
+
       <div class="blank-space"></div>
 
       <div class="area-title">
         <div class="area-tag"></div>
         挖矿项目
       </div>
-      <div class="area">
-        <van-row>
-          <van-col span="12" v-intervalclick="{func:profit}">
-            <div class="zhuantg">
-              <van-row>
-                <van-col span="14">
-                  <div class="zhuant-title">持币矿</div>
-                  <div class="zhuant-desc">持有TG涨收益</div>
-                </van-col>
-                <van-col span="10">
-                  <img src="../assets/shouyi.png" width="48"/>
-                </van-col>
-              </van-row>
-            </div>
-          </van-col>
-          <van-col span="12" v-intervalclick="{func:step}">
-            <div class="zhuantg">
-              <van-row>
-                <van-col span="14">
-                  <div class="zhuant-title">行走矿</div>
-                  <div class="zhuant-desc">行走步数换TG</div>
-                </van-col>
-                <van-col span="10">
-                  <img src="../assets/walk.png" width="48"/>
-                </van-col>
-              </van-row>
-            </div>
-          </van-col>
-        </van-row>
-      </div>
+      <div class="area" >
+        <van-swipe :autoplay="5000" indicator-color="black">
+          <van-swipe-item v-intervalclick="{func:profit}">
+            <van-row style="height: 80px">
+              <van-col span="14">
+                <div class="zhuant-title">持币矿</div>
+                <div class="zhuant-desc">持有TG涨收益</div>
+              </van-col>
+              <van-col span="8">
+                <div>
+                  <img src="../../static/shouyi.png" style="width: 48px;">
+                </div>
+              </van-col>
+            </van-row>
+          </van-swipe-item>
 
-      <div class="blank-space"></div>
+          <van-swipe-item v-intervalclick="{func:step}">
+            <van-row style="height: 80px">
+              <van-col span="14">
+                <div class="zhuant-title">行走矿</div>
+                <div class="zhuant-desc">行走步数换TG</div>
+              </van-col>
+              <van-col span="8">
+                <div>
+                  <img src="../../static/walk.png" style="width: 48px;">
+                </div>
+              </van-col>
+            </van-row>
+          </van-swipe-item>
 
-      <div class="area-title">
-        <div class="area-tag"></div>
-      </div>
-
-      <div class="area" v-intervalclick="{func:forest}">
-        <div class="zhuantg">
-          <van-row>
-            <van-col span="14">
-              <div class="zhuant-title">你有一颗能量待领取</div>
-              <div class="zhuant-desc">采集能量攒TG</div>
-            </van-col>
-            <van-col span="8">
-              <div>
-                <img src="../../static/forest/image/qiu.png" style="width: 48px;">
-                <div style="margin-top: -38px;margin-left:10px;color: #008002">TG能量</div>
-              </div>
-            </van-col>
-          </van-row>
-        </div>
+          <van-swipe-item v-intervalclick="{func:forest}">
+            <van-row style="height: 80px">
+              <van-col span="14">
+                <div class="zhuant-title">采集能量攒TG</div>
+                <div class="zhuant-desc">采集能量攒TG</div>
+              </van-col>
+              <van-col span="8">
+                <div>
+                  <img src="../../static/forest/image/qiu.png" style="width: 48px;">
+                  <div style="margin-top: -38px;margin-left:10px;color: #008002">TG能量</div>
+                </div>
+              </van-col>
+            </van-row>
+          </van-swipe-item>
+        </van-swipe>
       </div>
 
       <div class="blank-space"></div>
@@ -246,7 +239,9 @@
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, showWebviewById, openWebviewFast} from "@/utils/webview";
   import TGCConfig from "../utils/constants/tgcConfig";
+  import {Swipe, SwipeItem} from 'vant';
 
+  Vue.use(Swipe).use(SwipeItem);
   Vue.use(Tabbar).use(TabbarItem)
     .use(Row).use(Col)
     .use(PullRefresh)
