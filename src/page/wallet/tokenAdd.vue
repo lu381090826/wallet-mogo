@@ -5,9 +5,10 @@
         <van-field placeholder="请输入要添加的合约地址" :border="true" v-model="tokenAddress"></van-field>
       </div>
       <div style="margin-top: 8%">
+        推荐合约地址：
         <van-radio-group v-model="tokenAddress">
           <van-cell-group>
-            <van-cell v-for="(item,k) in tokenList" :key="k" :title="item.tokenName" clickable
+            <van-cell v-for="(item,k) in commondTokenAddress" :key="k" :title="item.tokenName" clickable
                       @click="select(item.tokenName,item.tokenAddress)">
               <van-radio :name="item.tokenAddress" :value="item.tokenAddress"></van-radio>
             </van-cell>
@@ -67,6 +68,9 @@
         tokenName: "",
         tokenListAdded: [],
         tokenList: [
+          {}
+        ],
+        commondTokenAddress: [
           {
             tokenName: 'TG积分 (TG)',
             tokenAddress: '0x95ff62d03D45e29b20E497D0fD526D8d2d387804',

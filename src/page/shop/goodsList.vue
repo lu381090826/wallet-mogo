@@ -38,7 +38,7 @@
           {
             goodsId: "1",
             goodsName: "区块链：技术驱动金融",
-            img: "http://120.79.191.116/static/goods/p3.png",
+            img: "http://www.thanksgiving.cn/static/goods/p3.png",
             amount: "80",
             desc: "解密区块链，用技术重构金融世界。",
             author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
@@ -46,7 +46,7 @@
           {
             goodsId: "1",
             goodsName: "区块链：技术驱动金融",
-            img: "http://120.79.191.116/static/goods/p3.png",
+            img: "http://www.thanksgiving.cn/static/goods/p3.png",
             amount: "80",
             desc: "解密区块链，用技术重构金融世界。",
             author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",
@@ -54,7 +54,7 @@
           {
             goodsId: "1",
             goodsName: "区块链：技术驱动金融",
-            img: "http://120.79.191.116/static/goods/p3.png",
+            img: "http://www.thanksgiving.cn/static/goods/p3.png",
             amount: "80",
             desc: "解密区块链，用技术重构金融世界。",
             author: "[美] 阿尔文德·纳拉亚南（Arvind Narayanan），约什·贝努 等 著，林华，王勇，帅初 等 译",

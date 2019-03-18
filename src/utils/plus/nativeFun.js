@@ -14,7 +14,7 @@ let NativeFun = {
       if (MathUtil.Version(version, res) < 0) {
         plus.nativeUI.confirm("发现新版本，立即更新？", function (e) {
           if (Number(e.index) === 0) {
-            plus.runtime.openURL("http://120.79.191.116/");
+            plus.runtime.openURL("http://www.thanksgiving.cn/");
           }
         });
       } else {

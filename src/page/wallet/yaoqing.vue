@@ -39,7 +39,7 @@
     name: 'share',
     data() {
       return {
-        shareUrl: "http://120.79.191.116/",
+        shareUrl: "http://www.thanksgiving.cn/",
         sharewx: "",
         popupVisible: false,
         backgroundImg: require('../../assets/img/a92ce141472ce15ead2a252713c1cb63.png'),
@@ -67,7 +67,7 @@
           content: "积分购手机享9.5折",
           href: _this.shareUrl,
           type: "web",
-          thumbs: ["http://120.79.191.116/static/img/gongyilogo.png"],
+          thumbs: ["http://www.thanksgiving.cn/static/img/gongyilogo.png"],
           extra: {scene: "WXSceneSession"}
         };
         _this.sharewx.send(content, function () {

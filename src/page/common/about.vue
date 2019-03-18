@@ -28,7 +28,7 @@
   export default {
     data() {
       return {
-        homePage: "http://120.79.191.116"
+        homePage: "http://www.thanksgiving.cn"
       }
     },
     components: {

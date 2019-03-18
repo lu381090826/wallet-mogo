@@ -263,8 +263,8 @@
         tokenBalance: "---",
         showWalletConfig: false,
         walletList: null,
-        img1: "http://120.79.191.116/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.jpeg",
-        img2: "http://120.79.191.116/static/img/wuzhubingren.png",
+        img1: "http://www.thanksgiving.cn/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.jpeg",
+        img2: "http://www.thanksgiving.cn/static/img/wuzhubingren.png",
         goods: []
       }
     },
