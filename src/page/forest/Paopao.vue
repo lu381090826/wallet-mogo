@@ -1,5 +1,5 @@
 <template>
-  <div :style="{top:y,left:x,animationDelay:animationDelay}" :class="paoClass"  v-intervalclick="{func:paoClick}">
+  <div :style="{top:y,left:x,animationDelay:animationDelay}" :class="paoClass" v-intervalclick="{func:paoClick}">
     <div class="pao-text">{{weight}} g</div>
   </div>
 </template>
@@ -20,6 +20,9 @@
     methods: {
       paoClick() {
         this.paoClass = "qiu animation";
+
+        //采集能量
+
       }
     }
 

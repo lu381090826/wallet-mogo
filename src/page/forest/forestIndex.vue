@@ -11,29 +11,37 @@
           >
           </li>
         </ul>
-
-<div style="width: 70%">
-  <ul>
-    <li style="float: left" :is="item.component"
-        v-for="(item,k) in items" :key="k"
-        :weight="item.weight"
-        :x="item.x"
-        :y="item.y"
-        :animationDelay="item.animationDelay"
-    >
-    </li>
-  </ul>
-</div>
-
+        <div style="width: 70%">
+          <ul>
+            <li style="float: left" :is="item.component"
+                v-for="(item,k) in items" :key="k"
+                :weight="item.weight"
+                :x="item.x"
+                :y="item.y"
+                :animationDelay="item.animationDelay"
+            >
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="grassLand"></div>
+      <div class="grassLand">
+        <div class="my-collection">
+
+          <div style="color: #009e04;font-weight: bold">已收集：999g</div>
+          <van-button class="my-collection-button">查看记录</van-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Vue from "vue";
   import Paopao from "./Paopao";
   import ForestCloud from "./ForestCloud";
+  import {Button} from 'vant';
+
+  Vue.use(Button);
 
   export default {
     components: {
@@ -98,7 +106,6 @@
       },
       changeFixed(clientHeight) {
         this.$refs.homePage.style.height = clientHeight + 'px';
-
       },
     },
     created() {
@@ -122,5 +129,16 @@
 
   .container {
     overflow: hidden;
+  }
+
+  .my-collection {
+    padding-top: 20%;
+    margin-left: 15%;
+    text-align: center;
+  }
+
+  .my-collection-button {
+    background-color: #00b004;
+    color: white;
   }
 </style>
