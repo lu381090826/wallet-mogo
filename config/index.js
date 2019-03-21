@@ -14,21 +14,21 @@ module.exports = {
       "/api": {
         name: "RINKEBY",
         target: "https://mainnet.infura.io",
-        pathRewrite: { "^/api": "" },
+        pathRewrite: {"^/api": ""},
         changeOrigin: true,
         secure: false
       },
       "/localApi": {
         name: "LOCALAPI",
         target: "http://127.0.0.1:7001",
-        pathRewrite: { "^/localApi": "" },
+        pathRewrite: {"^/localApi": ""},
         changeOrigin: true,
         secure: false
       },
       "/femirror": {
         name: "FemirrorAPI",
         target: "https://api.hotfix.femirror.com",
-        pathRewrite: { "^/femirror": "" },
+        pathRewrite: {"^/femirror": ""},
         changeOrigin: true,
         secure: false
       }

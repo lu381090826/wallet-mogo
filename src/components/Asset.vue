@@ -5,7 +5,11 @@
         <div class="asset-header">
           <van-row type="flex" justify="end" style="padding-top: 3%;margin-right: 5%">
             <van-col span="20">
-              <div style="font-size: 20px;text-align: center">钱包-{{walletName}}</div>
+              <div style="text-align: center">
+                <span style="font-size: 20px;">{{walletName}}</span>
+                <span style="font-size: 12px;">{{walletAddress|formatAddress}}</span>
+                <van-icon name="qr" size="12px" @click="showWalletQcode"></van-icon>
+              </div>
             </van-col>
             <van-col>
               <van-col span="4" v-intervalclick="{func:config}">
@@ -14,9 +18,6 @@
                 </div>
               </van-col>
             </van-col>
-          </van-row>
-          <van-row type="flex" justify="center" style="margin-top: 3%">
-            <div style="font-size: 10px">地址-{{walletAddress}}</div>
           </van-row>
           <van-row gutter="20" type="flex" justify="center">
             <van-col span="10">
@@ -71,16 +72,29 @@
         </van-cell-group>
       </div>
     </van-popup>
+
+    <van-popup v-model="walletQcode" class="box" style="width: 250px;text-align: center;">
+      <qrcode-vue :value="walletAddress" :size="150" style="margin-top: 3%" level="H"></qrcode-vue>
+      <div>
+        <span style="font-size: 10px;">{{walletAddress}}</span>
+      </div>
+      <div style="margin-top: 5%;">
+        <van-button size="large" @click="doCopy">复制</van-button>
+      </div>
+    </van-popup>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
+  import VueClipboard from 'vue-clipboard2'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
   import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon, Popup, Button} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById} from "@/utils/webview";
+  import QrcodeVue from 'qrcode.vue'
 
   Vue.use(Tabbar).use(TabbarItem)
     .use(Row).use(Col)
@@ -91,7 +105,11 @@
     .use(Button)
     .use(Cell)
     .use(CellGroup);
+  Vue.use(VueClipboard);
   export default {
+    components: {
+      QrcodeVue
+    },
     data() {
       return {
         walletAddress: plus.storage.getItem("walletAddress"),
@@ -102,18 +120,32 @@
         totalProfit: "---",
         walletList: null,
         showWalletConfig: false,
+        walletQcode: false,
 
       }
     },
     created() {
-      let t = this;
-      request(TGCApiUrl.walletList).then(res => {
-        t.walletList = res;
-      });
-
       this.init();
     },
+    filters: {
+      formatAddress(val) {
+        return val.substring(0, 6) + '...' + val.substring(val.length - 6, val.length);
+      }
+    },
     methods: {
+      showWalletQcode() {
+        this.walletQcode = !this.walletQcode;
+      },
+      doCopy() {
+        let _this = this;
+        _this.$copyText(_this.walletAddress).then(function (e) {
+          Toast.success({
+            message: '地址复制成功',
+            position: 'bottom',
+          })
+        }, function (e) {
+        })
+      },
       set(walletAddress, walletName) {
         this.walletAddress = walletAddress;
         this.walletName = walletName;
@@ -208,6 +240,10 @@
       init() {
         let _this = this;
 
+        request(TGCApiUrl.walletList).then(res => {
+          _this.walletList = res;
+        });
+
         Web3Util.getBalance(_this.walletAddress).then(res => {
           _this.walletBalance = res;
         });
@@ -228,7 +264,8 @@
 
         request(TGCApiUrl.getProgitInfo, {walletAddress: _this.walletAddress}).then(function (res) {
           _this.totalProfit = res.totalProfit;
-        })
+        });
+
       },
     }
   }

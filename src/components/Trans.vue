@@ -45,9 +45,22 @@
           @change="pageChange"
         />
       </div>
-
     </div>
+
     <div class="blank-space"></div>
+
+    <div class="box">
+      <div style="margin-top: 5%;margin-bottom: 5%">
+        <van-button size="large" class="button-blue" v-intervalclick="{func:send}">
+          转账
+        </van-button>
+      </div>
+      <div style="margin-bottom: 5%">
+        <van-button size="large">
+          收款
+        </van-button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -55,7 +68,8 @@
   import etherscanHttpUtils from "../utils/web3Util/etherscanHttpUtils";
   import {isEmpty, isNotEmpty} from "../utils/globalFunc";
   import Web3Util from "../utils/web3Util/Web3Util";
-  import {Toast, Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem, Switch} from 'vant';
+  import {Toast, Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem, Switch, Button} from 'vant';
+  import {openWebview} from "../utils/webview";
 
   Vue.use(Cell)
     .use(CellGroup)
@@ -66,6 +80,7 @@
     .use(Tabbar)
     .use(TabbarItem)
     .use(Switch)
+    .use(Button)
     .use(Pagination);
 
   export default {
@@ -95,6 +110,28 @@
 
     },
     methods: {
+      send() {
+        let _this = this;
+        openWebview({
+          url: "./wallet.send.html",
+          id: "wallet.send",
+          titleStyle: {
+            titleText: "转账",
+            autoBackButton: true,
+            progress: {color: '#ff5c0a', height: "1%"},
+          }
+        }, {}, {
+          tokenAddress: _this.tokenAddress
+        })
+      },
+      receive() {
+        let _this = this;
+        openWebview({
+          url: "./wallet.receive.html",
+          id: "wallet.receive",
+          title: "收款"
+        });
+      },
       pageChange() {
         this.getData();
       },

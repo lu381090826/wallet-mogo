@@ -1,5 +1,5 @@
 <template>
-  <div :class="paoClass" :style="{top:y,left:x}" v-intervalclick="{func:paoClick}">
+  <div :style="{top:y,left:x,animationDelay:animationDelay}" :class="paoClass"  v-intervalclick="{func:paoClick}">
     <div class="pao-text">{{weight}} g</div>
   </div>
 </template>
@@ -15,10 +15,11 @@
       weight: Number,
       x: String,
       y: String,
+      animationDelay: String,
     },
     methods: {
       paoClick() {
-        this.paoClass = "qiu animation";4
+        this.paoClass = "qiu animation";
       }
     }
 
@@ -27,8 +28,12 @@
 <style>
 
   @keyframes float-qiu {
-    from{transform:translate(0,0)}
-    to{transform:translate(0,16px)}
+    from {
+      transform: translate(0, 0)
+    }
+    to {
+      transform: translate(0, 16px)
+    }
   }
 
   @keyframes qiu {
@@ -93,7 +98,7 @@
   }
 
   .float-animation {
-    animation: float-qiu 1.3s ease-in-out 0.7s infinite alternate;
+    animation: float-qiu 1.3s ease-in-out infinite alternate;
   }
 
   .pao-text {

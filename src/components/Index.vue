@@ -2,7 +2,7 @@
   <div>
     <van-tabbar v-model="active" fixed class="index-tabbar">
       <van-tabbar-item icon="wap-home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin-o">积分</van-tabbar-item>
+      <van-tabbar-item icon="points">积分</van-tabbar-item>
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
     </van-tabbar>
   </div>
