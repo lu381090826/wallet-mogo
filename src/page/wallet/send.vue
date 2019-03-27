@@ -333,7 +333,7 @@
           });
         }
 
-        if (this.orderType === OrderType.shop) {
+        if (this.orderType === OrderType.shop || this.orderType === OrderType.virtualShopTg) {
           request(tgcApiUrl.shopOrderGet, {orderId: this.orderId}).then(res => {
             this.sendAmount = res.totalAmount;
             this.receiveAddress = res.receiveAddress;

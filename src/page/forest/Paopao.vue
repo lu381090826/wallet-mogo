@@ -4,6 +4,8 @@
   </div>
 </template>
 <script>
+  import {request} from "../../utils/request";
+
   export default {
     name: 'paopao',
     data() {
@@ -22,7 +24,7 @@
         this.paoClass = "qiu animation";
 
         //采集能量
-
+        request();
       }
     }
 

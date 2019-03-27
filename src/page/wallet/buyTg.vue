@@ -21,7 +21,8 @@
             <van-field placeholder="请输入要购入的数量" v-model="buyNum" type="number" label="购买数"></van-field>
           </van-cell>
           <van-cell>
-            <van-field v-model="buyNum*6.7260" type="number" label="预计金额" :readonly="true" disable></van-field>
+            <van-field v-model="buyNum*6.7260" type="number" label="预计金额(￥)" :readonly="true" disable></van-field>
+            <van-field v-model="buyNum*0.00732" type="number" label="预计金额(Eth)" :readonly="true" disable></van-field>
           </van-cell>
           <van-cell title="转入钱包(点击可更换)" :label="walletAddress" icon="cash-back-record" @click="selectWallet">
           </van-cell>
