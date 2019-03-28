@@ -59,7 +59,7 @@ export async function request(url, data = {}) {
     let data = res.data;
     if (data.code !== 100) {
       Toast("【" + data.code + "】" + data.msg);
-      return Promise.reject(data.code + data.msg);
+      return Promise.reject("【" + data.code + "】" + data.msg);
     }
     return data.data;
   }).catch(error => {

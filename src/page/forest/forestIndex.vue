@@ -19,6 +19,7 @@
                 :x="item.x"
                 :y="item.y"
                 :animationDelay="item.animationDelay"
+                @reflash="reflash"
             >
             </li>
           </ul>
@@ -27,7 +28,7 @@
       <div class="grassLand">
         <div class="my-collection">
 
-          <div style="color: #009e04;font-weight: bold">已收集：999g</div>
+          <div style="color: #009e04;font-weight: bold">已收集：{{totalEnergy}}g</div>
           <van-button class="my-collection-button">查看记录</van-button>
         </div>
       </div>
@@ -40,6 +41,8 @@
   import Paopao from "./Paopao";
   import ForestCloud from "./ForestCloud";
   import {Button} from 'vant';
+  import {request} from "../../utils/request";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
 
   Vue.use(Button);
 
@@ -53,6 +56,7 @@
         clientHeight: '',
         skyHeight: '',
         cloudItems: [],
+        totalEnergy: 0,
       }
     },
     mounted() {
@@ -89,7 +93,7 @@
 
         //添加泡泡
         for (let i = 0; i < 5; i++) {
-          let weight = Math.ceil(Math.random() * 10) * 100;
+          let weight = Math.ceil(Math.random() * 10) * 10;
           let xNum = Math.random() * 200;
           let x = xNum > 301 ? 151 : xNum + 'px';
           let yNum = Math.random() * 200;
@@ -107,9 +111,16 @@
       changeFixed(clientHeight) {
         this.$refs.homePage.style.height = clientHeight + 'px';
       },
+      reflash() {
+        let _t = this;
+        request(TGCApiUrl.forestCollectInfo).then(res => {
+          _t.totalEnergy = res;
+        })
+      }
     },
     created() {
       this.append();
+      this.reflash()
     }
   }
 </script>

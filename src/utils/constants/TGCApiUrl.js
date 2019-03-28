@@ -33,6 +33,8 @@ const TGCApiUrl = {
   totalTGBalance: '/wallet/api/totalTgBalance',
   getProgitInfo: '/profit/api/getProgitInfo',
   getShareUrl: "/common/api/getShareUrl",
+  forestCollect: "/forset/api/collect",
+  forestCollectInfo: "/forset/api/collectInfo",
 };
 
 export default TGCApiUrl;

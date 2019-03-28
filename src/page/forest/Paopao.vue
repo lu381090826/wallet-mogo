@@ -3,33 +3,6 @@
     <div class="pao-text">{{weight}} g</div>
   </div>
 </template>
-<script>
-  import {request} from "../../utils/request";
-
-  export default {
-    name: 'paopao',
-    data() {
-      return {
-        paoClass: "qiu float-animation",
-      }
-    },
-    props: {
-      weight: Number,
-      x: String,
-      y: String,
-      animationDelay: String,
-    },
-    methods: {
-      paoClick() {
-        this.paoClass = "qiu animation";
-
-        //采集能量
-        request();
-      }
-    }
-
-  }
-</script>
 <style>
 
   @keyframes float-qiu {
@@ -113,3 +86,36 @@
     font-weight: bold;
   }
 </style>
+<script>
+  import {request} from "../../utils/request";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import {isEmpty} from "../../utils/globalFunc";
+
+  export default {
+    name: 'paopao',
+    data() {
+      return {
+        paoClass: "qiu float-animation",
+      }
+    },
+    props: {
+      weight: Number,
+      x: String,
+      y: String,
+      animationDelay: String,
+    },
+    methods: {
+      paoClick() {
+        //采集能量
+        request(TGCApiUrl.forestCollect, {energy: this.weight}).then(res => {
+          if (!isEmpty(res)) {
+            this.paoClass = "qiu animation";
+            this.$emit('reflash')
+          }
+        });
+      }
+    }
+
+  }
+</script>
+
