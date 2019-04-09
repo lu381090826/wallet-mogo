@@ -35,6 +35,7 @@ const TGCApiUrl = {
   getShareUrl: "/common/api/getShareUrl",
   forestCollect: "/forset/api/collect",
   forestCollectInfo: "/forset/api/collectInfo",
+  getDollarRate: "/buyTg/api/getDollarRate",
 };
 
 export default TGCApiUrl;

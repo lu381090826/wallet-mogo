@@ -1,12 +1,11 @@
 <template>
-  <div class="body yaoqing-body" :style="{backgroundImage:'url(' + backgroundImg + ')'}">
+  <div class="body yaoqing-body">
     <div>
-      <div class="bg">
-      </div>
+      <img src="../../../static/yaoqing.png" width="100%">
       <div class="button-area">
         <van-button size="large"
                     type="default"
-                    class="button-blue"
+                    class="fenxiang"
                     v-intervalclick="{func:showShare}">
           立即分享
         </van-button>
@@ -42,7 +41,6 @@
         shareUrl: "http://www.thanksgiving.cn/",
         sharewx: "",
         popupVisible: false,
-        backgroundImg: require('../../assets/img/a92ce141472ce15ead2a252713c1cb63.png'),
       };
     },
     methods: {
@@ -102,9 +100,20 @@
     background-color: white;
   }
 
-  .button-area {
-    margin-top: 450px;
-    border: 1px solid gray;
+  .fenxiang {
+    margin-top: 8%;
+    width: 80%;
+    height: 45px;
+    border: 1px solid;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    vertical-align: top;
+    background: -webkit-linear-gradient(left top, #54B8F4, #5C78EB);
+    background: -o-linear-gradient(bottom right, #54B8F4, #5C78EB);
+    background: -moz-linear-gradient(bottom right, #54B8F4, #5C78EB);
+    background: linear-gradient(to bottom right, #54B8F4, #5C78EB);
   }
 </style>
 
