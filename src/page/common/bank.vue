@@ -92,16 +92,17 @@
       this.buyNum = Number(ws.buyNum);
       this.walletAddress = ws.walletAddress;
       if (ws.dollarAmount != null) {
-        this.amount = Number(ws.dollarAmount);
+        this.amount = ws.dollarAmount;
       }
       if (ws.ethAmount != null) {
-        this.ethAmount = Number(ws.ethAmount);
+        this.ethAmount = ws.ethAmount;
       }
       if (ws.gasValue != null) {
-        this.gasValue = Number(ws.gasValue);
+        this.gasValue = ws.gasValue;
       }
+
       if (ws.gasValueAmount != null) {
-        this.gasValueAmount = Number(ws.gasValueAmount);
+        this.gasValueAmount = ws.gasValueAmount;
       }
 
       let _t = this;
@@ -125,10 +126,11 @@
         requestPay() {
           let params = {
             buyNum: this.buyNum,
-            gasValue: this.gasValue,
+            gasValue: Number(Number(this.gasValue) / 10).toFixed(7),
             walletAddress: this.walletAddress,
             payType: this.radio,
           };
+
           let _t = this;
 
           if (this.radio === PayType.wxpay) {

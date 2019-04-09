@@ -205,7 +205,7 @@
       },
       gasValueAmount: {
         get: function () {
-          let amount = this.gasValue * this.ethRate * this.dollarRate ;
+          let amount = this.gasValue * this.ethRate * this.dollarRate;
           return (Math.ceil(amount * 100) / 100);
         },
         set: function () {
