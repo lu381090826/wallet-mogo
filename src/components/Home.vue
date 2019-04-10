@@ -77,7 +77,7 @@
         <div class="area-tag"></div>
         挖矿项目
       </div>
-      <div class="area" >
+      <div class="area">
         <van-swipe :autoplay="5000" indicator-color="black">
           <van-swipe-item v-intervalclick="{func:profit}">
             <van-row style="height: 80px">
@@ -436,7 +436,11 @@
         });
         setTimeout(() => {
           Web3Util.getBalance(_this.walletAddress).then(res => {
-            _this.walletBalance = res;
+            if (res.toString().length > 14) {
+              _this.walletBalance = res.toString().substring(0, 14);
+            } else {
+              _this.walletBalance = res
+            }
           });
           Web3Util.getBalance(TGCConfig.tokenAddress, _this.walletAddress).then(res => {
             _this.tokenBalance = res;

@@ -4,12 +4,16 @@
     <div>
       <div class="box" style="color: #575757">
         <div>
-          订单详情：认购{{buyNum}}TG
+          <span style="font-size: 17px;font-weight: bold">订单详情</span>
+          <div>认购{{buyNum}}TG</div>
         </div>
         <div>
-          预计金额<span style="font-size: 12px">（已包括燃料费，下单会实时计算汇率，可能跟预测的有偏差）</span>：
-          <div v-if="radio=='20'">≈{{Number(amount+gasValueAmount).toFixed(2)}}￥</div>
-          <div v-if="radio=='10'">≈{{Number(ethAmount+gasValue)}}Eth</div>
+          <span style="font-size: 17px;font-weight: bold">预计金额</span>
+          <van-icon name="question-o" @click="questionAmount"/>
+          <div>
+            <span v-if="radio=='10'">≈{{Number(ethAmount+gasValue)}}Eth</span>
+            <span v-if="radio=='20'">≈{{Number(amount+gasValueAmount).toFixed(2)}}￥</span>
+          </div>
         </div>
       </div>
       <div class="box" style="color: #575757">
@@ -54,14 +58,14 @@
 </template>
 <script>
   import Vue from "vue";
-  import {Toast, Cell, CellGroup, Radio, RadioGroup, Popup, Button} from "vant";
+  import {Toast, Cell, CellGroup, Radio, RadioGroup, Popup, Button, Dialog, Icon} from "vant";
   import {request} from "../../utils/request";
   import MathUtil from "../../utils/MathUtil";
   import PayType from "../../utils/constants/PayType";
   import {openWebview} from "../../utils/webview";
   import OrderType from "../../utils/constants/OrderType";
 
-  Vue.use(Cell).use(CellGroup).use(Toast).use(Radio).use(RadioGroup).use(Button).use(Popup);
+  Vue.use(Cell).use(CellGroup).use(Toast).use(Radio).use(RadioGroup).use(Button).use(Popup).use(Dialog).use(Icon);
 
   export default {
     data() {
@@ -91,18 +95,21 @@
       let ws = plus.webview.currentWebview();
       this.buyNum = Number(ws.buyNum);
       this.walletAddress = ws.walletAddress;
+
       if (ws.dollarAmount != null) {
-        this.amount = ws.dollarAmount;
+        this.amount = Number(ws.dollarAmount);
       }
+
       if (ws.ethAmount != null) {
-        this.ethAmount = ws.ethAmount;
+        this.ethAmount = Number(ws.ethAmount);
       }
+
       if (ws.gasValue != null) {
-        this.gasValue = ws.gasValue;
+        this.gasValue = Number(ws.gasValue);
       }
 
       if (ws.gasValueAmount != null) {
-        this.gasValueAmount = ws.gasValueAmount;
+        this.gasValueAmount = Number(ws.gasValueAmount);
       }
 
       let _t = this;
@@ -122,8 +129,11 @@
     },
     methods:
       {
-        // 请求支付操作
+        questionAmount() {
+          Dialog.alert({message: "已包括燃料费，下单会实时计算汇率，可能跟预测的有偏差"})
+        },
         requestPay() {
+          // 请求支付操作
           let params = {
             buyNum: this.buyNum,
             gasValue: Number(Number(this.gasValue) / 10).toFixed(7),
@@ -150,7 +160,6 @@
           if (this.radio === PayType.eth_tg) {
             request("/buyTg/api/createOrder", params).then(res => {
               let result = JSON.parse(res)
-              console.log(result.totalAmount)
 
               openWebview({
                   title: "认购TG",
