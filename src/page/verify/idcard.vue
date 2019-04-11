@@ -27,7 +27,8 @@
                      placeholder="验证码"
                      required clearable
           >
-            <van-button slot="button" size="small" type="default" v-intervalclick="{func:sendVerifyCode}" :disabled="disableVerify">
+            <van-button slot="button" size="small" type="default" v-intervalclick="{func:sendVerifyCode}"
+                        :disabled="disableVerify">
               <span v-if="times===0 || times===60">获取(**7140)</span>
               <span v-else>{{times}}s</span>
             </van-button>
@@ -36,7 +37,7 @@
         </van-cell>
       </van-cell-group>
       <div style="margin-top: 6%;margin-bottom: 6%">
-        <van-button class="button-blue" size="large" v-intervalclick="{func:checkVerifyCode}" >
+        <van-button class="button-blue" size="large" v-intervalclick="{func:checkVerifyCode}">
           立即验证
         </van-button>
       </div>
@@ -82,9 +83,11 @@
         })
       },
       sendVerifyCode() {
-        // request(TGCApiUrl.verifySendCodeMsg).then(res => {
-        //   Toast.success("验证码已发送")
-        // })
+        request(TGCApiUrl.verifySendCodeMsg).then(res => {
+          Toast.success("验证码已发送")
+        });
+        this.disableVerify = true;
+
         this.countdown();
       },
       countdown() {
@@ -95,7 +98,6 @@
             that.disableVerify = false;
             return false;
           } else {
-            that.disableVerify = true;
             that.times--;
           }
           that.countdown();
