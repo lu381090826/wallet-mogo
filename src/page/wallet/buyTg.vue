@@ -175,24 +175,40 @@
 
       },
       gotoBuy() {
-        if (!this.buyNum || this.buyNum === 0) {
-          Toast.fail("请输入正确的金额");
-          return false;
-        }
-        let _t = this;
-        openWebview({
-          url: './common.bank.html',
-          id: 'common.bank',
-          title: '收银台',
-        }, {}, {
-          buyNum: _t.buyNum,
-          walletAddress: _t.walletAddress,
-          dollarAmount: _t.dollarAmount,
-          ethAmount: _t.ethAmount,
-          gasValue: _t.gasValue,
-          gasValueAmount: _t.gasValueAmount,
-        })
+        request(tgcApiUrl.verifyIsChecked).then(res => {
+          console.log("::::::::::::::::" + res);
+          if (res === 0) {
+            Dialog.alert({
+              message: "需要进行身份验证才可以认购，现在去认证？"
+            })
+              .then(() => {
+                openWebview({
+                  url: './verify.idcard.html',
+                  id: 'verify.idcard',
+                  title: '认证中心',
+                })
+              });
+            return false;
+          }
 
+          if (!this.buyNum || this.buyNum === 0) {
+            Toast.fail("请输入正确的金额");
+            return false;
+          }
+          let _t = this;
+          openWebview({
+            url: './common.bank.html',
+            id: 'common.bank',
+            title: '收银台',
+          }, {}, {
+            buyNum: _t.buyNum,
+            walletAddress: _t.walletAddress,
+            dollarAmount: _t.dollarAmount,
+            ethAmount: _t.ethAmount,
+            gasValue: _t.gasValue,
+            gasValueAmount: _t.gasValueAmount,
+          })
+        });
       }
     },
     computed: {
