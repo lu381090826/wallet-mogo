@@ -36,7 +36,7 @@ const TGCApiUrl = {
   forestCollect: "/forset/api/collect",
   forestCollectInfo: "/forset/api/collectInfo",
   getDollarRate: "/buyTg/api/getDollarRate",
-  verifyIsChecked: "/verify/api/isChecked",
+  verifyIdcardIsChecked: "/verify/api/idcardIsChecked",
   verifySendCodeMsg: "/verify/api/sendCodeMsg",
   verifyIdcard: "/verify/api/verifyIdcard",
 };

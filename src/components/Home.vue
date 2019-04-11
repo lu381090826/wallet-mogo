@@ -48,6 +48,12 @@
         </div>
 
       </div>
+      <div v-if="showVerifyIdcard" v-intervalclick="{func:gotoVerifyIdcard}">
+        <van-notice-bar
+          text="您未进行身份认证，为不影响体验，点击跳转认证。"
+          left-icon="info-o"
+        />
+      </div>
       <div class="asset-body">
         <div class="asset-header-botton">
           <van-row>
@@ -240,7 +246,9 @@
   import {openWebview, showWebviewById, openWebviewFast} from "@/utils/webview";
   import TGCConfig from "../utils/constants/tgcConfig";
   import {Swipe, SwipeItem} from 'vant';
+  import {NoticeBar} from 'vant';
 
+  Vue.use(NoticeBar);
   Vue.use(Swipe).use(SwipeItem);
   Vue.use(Tabbar).use(TabbarItem)
     .use(Row).use(Col)
@@ -265,7 +273,8 @@
         walletList: null,
         img1: "http://www.thanksgiving.cn/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.jpeg",
         img2: "http://www.thanksgiving.cn/static/img/wuzhubingren.png",
-        goods: []
+        goods: [],
+        showVerifyIdcard: false,
       }
     },
     created() {
@@ -377,6 +386,13 @@
           tokenAddress: TGCConfig.tokenAddress,
         })
       },
+      gotoVerifyIdcard() {
+        openWebview({
+          url: './verify.idcard.html',
+          id: 'verify.idcard',
+          title: '认证中心',
+        });
+      },
       scan() {
         openWebviewFast({
           url: "./wallet.scan.html",
@@ -428,6 +444,14 @@
       },
       init() {
         let _this = this;
+        request(TGCApiUrl.verifyIdcardIsChecked).then(res => {
+          console.log("：：：：：：：：：：：：" + res)
+          if (res === 0) {
+            _this.showVerifyIdcard = true;
+          } else {
+            _this.showVerifyIdcard = false;
+          }
+        });
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });

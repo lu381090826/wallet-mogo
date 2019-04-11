@@ -175,8 +175,7 @@
 
       },
       gotoBuy() {
-        request(tgcApiUrl.verifyIsChecked).then(res => {
-          console.log("::::::::::::::::" + res);
+        request(tgcApiUrl.verifyIdcardIsChecked).then(res => {
           if (res === 0) {
             Dialog.alert({
               message: "需要进行身份验证才可以认购，现在去认证？"
