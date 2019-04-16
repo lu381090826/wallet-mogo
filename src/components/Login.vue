@@ -58,14 +58,14 @@
       </van-button>
 
       <div class="login-bottom">
-        <!--<van-row type="flex" justify="space-between">-->
-        <!--<van-col>-->
-        <!--<div @click="tips">短信验证码登录</div>-->
-        <!--</van-col>-->
-        <!--<van-col>-->
-        <!--<div @click="tips">忘记密码？</div>-->
-        <!--</van-col>-->
-        <!--</van-row>-->
+        <van-row type="flex" justify="space-between">
+          <van-col>
+            <div @click="verifyCodeLogin">短信验证码登录</div>
+          </van-col>
+          <van-col>
+            <div @click="tips">忘记密码？</div>
+          </van-col>
+        </van-row>
       </div>
     </div>
     <div class="login-to-register" @click="gotoRegister">
@@ -145,6 +145,26 @@
             }]
           }
         });
+      },
+      verifyCodeLogin() {
+        openWebview({
+          url: './login.verifyCodeLogin.html',
+          id: 'login.verifyCodeLogin',
+          needLoaded: true,
+          titleStyle: {
+            style: 'transparent',
+            backgroundColor: 'white',
+            titleText: '   ',
+            titleColor: '#1287ca',
+            autoBackButton: false,
+            buttons: [{
+              text: '返回',
+              fontSize: '16px',
+              float: 'left',
+              onclick: this.webview.closeWebview.bind({webviewId: "login.verifyCodeLogin"})
+            }]
+          }
+        })
       },
       changePasswordView() {
         this.passwordView = !this.passwordView;

@@ -15,6 +15,8 @@ const TGCApiUrl = {
   shopLinkmanUpdate: "/shop/linkman/update",
   shopOrderGet: "/shop/order/getOrder",
   login: "/user/api/login",
+  loginSendCodeLoginMsg: "/user/api/sendCodeLoginMsg",
+  loginVerifyLoginCodeMsg: "/user/api/verifyLoginCodeMsg",
   register: "/user/api/register",
   payOrder: "/donation/order/payOrder",
   addToken: "/walletToken/api/addToken",

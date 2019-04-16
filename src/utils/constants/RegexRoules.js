@@ -1,6 +1,7 @@
 const regexRoules = {
   username: /^[a-zA-Z0-9]{11}$/,
   phone: /^[0-9]{11,20}$/,
+  verifyCode: /^[0-9]{6}$/,
   password: /^[a-zA-Z0-9]{6,20}$/,
   captcha: /^[0-9]{6}$/,
   walletName: /^[a-zA-Z0-9\u4E00-\u9FA5]{1,20}$/,
