@@ -63,7 +63,7 @@
             <div @click="verifyCodeLogin">短信验证码登录</div>
           </van-col>
           <van-col>
-            <div @click="tips">忘记密码？</div>
+            <div @click="forgetPassword">忘记密码？</div>
           </van-col>
         </van-row>
       </div>
@@ -105,9 +105,6 @@
       };
     },
     methods: {
-      tips() {
-        Toast('暂不支持，请联系管理员修改')
-      },
       onFocus(type) {
         if (type === 'username') {
           this.borderBottomColor.username = "#1287ca";
@@ -125,6 +122,26 @@
         if (type === 'password') {
           this.password = "";
         }
+      },
+      forgetPassword() {
+        openWebview({
+          url: './login.forgetPassword.html',
+          id: 'login.forgetPassword',
+          needLoaded: true,
+          titleStyle: {
+            style: 'transparent',
+            backgroundColor: 'white',
+            titleText: '   ',
+            titleColor: '#1287ca',
+            autoBackButton: false,
+            buttons: [{
+              text: '返回',
+              fontSize: '16px',
+              float: 'left',
+              onclick: this.webview.closeWebview.bind({webviewId: "login.forgetPassword"})
+            }]
+          }
+        })
       },
       gotoRegister() {
         openWebview({

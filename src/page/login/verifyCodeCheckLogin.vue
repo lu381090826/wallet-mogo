@@ -5,6 +5,7 @@
     </div>
     <div style="margin-top: 10%"></div>
     <h1>输入验证码</h1>
+    <div style="color: #7f7f7f">我们已向{{phone.replace(/(\d{3})\d*(\d{4})/,'$1****$2')}}发送短信验证码，请查看短信并输入验证码</div>
     <div class="tg-field" style="margin-top: 6%" :style="{borderBottomColor:borderBottomColor.code}">
       <van-row type="flex" justify="start">
         <van-col span="18" class="tg-field-label">
