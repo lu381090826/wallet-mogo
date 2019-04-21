@@ -81,7 +81,6 @@
               let loginWx = plus.webview.getWebviewById(cons.loginViewId);
               loginWx.show();
             }, 100)
-
           }
         })
       },

@@ -62,7 +62,5 @@ export async function request(url, data = {}) {
       return Promise.reject("【" + data.code + "】" + data.msg);
     }
     return data.data;
-  }).catch(error => {
-    Toast(error);
   });
 }

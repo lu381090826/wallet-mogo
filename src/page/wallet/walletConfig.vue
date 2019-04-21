@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="box text-left">
-      <h2>选择当前钱包</h2>
+      <h2>我的钱包</h2>
       <van-cell-group>
         <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName">
         </van-cell>
@@ -19,7 +19,9 @@
   import cons from "@/utils/constants/Cons";
   import {preLoad, showWebviewById} from "@/utils/webview";
   import {openWebview} from "../../utils/webview";
+  import { Actionsheet } from 'vant';
 
+  Vue.use(Actionsheet);
   Vue.use(RadioGroup);
   Vue.use(Button);
   Vue.use(Radio);

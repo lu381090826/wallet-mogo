@@ -110,7 +110,7 @@
         Toast.loading({mask: true, message: '查询最新价格...'});
         let finishDollar = false;
         let finishEth = false;
-        request(tgcApiUrl.getDollarRate).then(res => {
+        request(tgcApiUrl.buyTgDollarRate).then(res => {
           _t.dollarRate = Number(res);
           finishDollar = true;
           if (finishDollar && finishEth) {
@@ -175,18 +175,30 @@
 
       },
       gotoBuy() {
-        request(tgcApiUrl.verifyIdcardIsChecked).then(res => {
-          if (res === 0) {
-            Dialog.alert({
+        request(tgcApiUrl.buyTgBeforeCheck, {buyNum: this.buyNum}).then(res => {
+          if (res === 101) {
+            Dialog.confirm({
               message: "需要进行身份验证才可以认购，现在去认证？"
-            })
-              .then(() => {
-                openWebview({
-                  url: './verify.idcard.html',
-                  id: 'verify.idcard',
-                  title: '认证中心',
-                })
-              });
+            }).then(() => {
+              openWebview({
+                url: './verify.idcard.html',
+                id: 'verify.idcard',
+                title: '认证中心',
+              })
+            });
+            return false;
+          }
+          else if (res === 102) {
+            Dialog.confirm({
+              message: "尊敬的客户，您认购的数量较大，需进行人工审核，现在提交审核吗？",
+              confirmButtonText: '去提交'
+            }).then(() => {
+              openWebview({
+                url: './verify.buyTgAudit.html',
+                id: 'verify.buyTgAudit',
+                title: '认购审核',
+              })
+            });
             return false;
           }
 
