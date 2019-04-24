@@ -155,6 +155,9 @@
           <van-col span="8" v-for="(item,k) in goods" :key="k">
             <div class="hot-sell-price">
               热卖价<span class="hot-sell-price-num">{{item.price}}{{item.units}}</span>
+              <div>
+                <span class="hot-sell-price-num-cn">{{item.originPriceCn}}￥</span>
+              </div>
             </div>
           </van-col>
         </van-row>
@@ -444,20 +447,13 @@
       },
       init() {
         let _this = this;
-        request(TGCApiUrl.verifyIdcardIsChecked).then(res => {
-          console.log("：：：：：：：：：：：：" + res)
-          if (res === 0) {
-            _this.showVerifyIdcard = true;
-          } else {
-            _this.showVerifyIdcard = false;
-          }
+        request(TGCApiUrl.homePage).then(res => {
+          _this.showVerifyIdcard = res.idcardIsCheck === 0;
+          _this.walletList = res.walletList;
+          _this.goods = res.getHot;
         });
-        request(TGCApiUrl.walletList).then(res => {
-          _this.walletList = res;
-        });
-        request(TGCApiUrl.goodsHot).then(res => {
-          this.goods = res;
-        });
+
+
         setTimeout(() => {
           Web3Util.getBalance(_this.walletAddress).then(res => {
             if (res.toString().length > 14) {
@@ -470,7 +466,6 @@
             _this.tokenBalance = res;
           });
         }, 50);
-
 
       },
       subString(value) {
@@ -642,6 +637,9 @@
 
   .hot-sell-price-num {
     color: red;
+  }
+  .hot-sell-price-num-cn {
+    color: gray;
   }
 
 </style>

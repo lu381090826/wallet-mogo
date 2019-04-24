@@ -3,7 +3,7 @@
     <div class="tuijian">
       <div class="goods-title">
         <div class="goods-title-inner">
-          <img src="@/assets/fengexian40.png" width="40">专属推荐<img
+          <img src="@/assets/fengexian40.png" width="40">重磅优惠<img
           src="@/assets/fengexian40.png" width="40">
         </div>
       </div>
@@ -22,8 +22,15 @@
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in itemList1.slice(0, 3)" :key="k">
             <div class="goods-row-1-price">
-              <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
-              <s class="de"> {{item.originPriceCn}} ￥</s>
+              <div>
+                <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
+              </div>
+              <div>
+                <span class="tgtocn">≈{{tgToCN(item.price)}}</span>
+              </div>
+              <div>
+                <span class="de"> {{item.originPriceCn}} ￥</span>
+              </div>
             </div>
           </van-col>
         </van-row>
@@ -48,8 +55,15 @@
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in itemList1.slice(3, 6)" :key="k">
             <div class="goods-row-1-price">
-              <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
-              <s class="de"> {{item.originPriceCn}} ￥</s>
+              <div>
+                <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
+              </div>
+              <div>
+                <span class="tgtocn">≈{{tgToCN(item.price)}}</span>
+              </div>
+              <div>
+                <span class="de"> {{item.originPriceCn}} ￥</span>
+              </div>
             </div>
           </van-col>
         </van-row>
@@ -66,7 +80,7 @@
 
     <div class="half-sell half-sell-title">
       <img src="@/assets/fengexian40.png" width="40">
-      限量半价
+      限量超低折扣
       <img src="@/assets/fengexian40.png" width="40">
     </div>
     <div class="half-sell half-sell-con">
@@ -78,50 +92,21 @@
                 <img :src="item.img" width="100px"></div>
               <div class="sku-name">{{item.skuName}}</div>
               <div class="goods-row-1-price">
-                <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
-                <s class="de"> {{item.originPriceCn}} ￥</s>
+                <div>
+                  <span class="am">{{item.price}}</span><span class="tg-sym">{{item.units}} </span>
+                </div>
+                <div>
+                  <span class="tgtocn">≈{{tgToCN(item.price)}}</span>
+                </div>
+                <div>
+                  <span class="de"> {{item.originPriceCn}} ￥</span>
+                </div>
               </div>
             </div>
           </van-col>
         </van-row>
       </div>
     </div>
-
-    <div class="blank-space"></div>
-
-    <div class="goods-title">
-      <div class="goods-title-inner">
-        <img src="@/assets/fengexian40.png" width="40">
-        限时立减
-        <img src="@/assets/fengexian40.png" width="40">
-      </div>
-    </div>
-    <div class="goods-row goods-row-1">
-      <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
-          <img :src="item.img" width="100px" v-intervalclick="{func:goodsDetail,skuNo:item.skuNo}">
-        </van-col>
-      </van-row>
-      <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
-          <div class="sku-name">{{item.skuName}}</div>
-        </van-col>
-      </van-row>
-      <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
-          <div class="goods-row-1-price">
-            <span class="tg-sym">{{item.units}} </span><span class="am">{{item.price}}</span>
-            <s class="de"> {{item.originPriceCn}} ￥</s>
-          </div>
-        </van-col>
-      </van-row>
-      <van-row type="flex" justify="center">
-        <van-col span="8" v-for="(item,k) in itemList3.slice(0, 3)" :key="k">
-          <span class="sl">已售{{item.sellNum}}件</span>
-        </van-col>
-      </van-row>
-    </div>
-
     <div class="blank-space"></div>
     <div class="shops-footer"></div>
 
@@ -135,6 +120,7 @@
   import {request} from "@/utils/request";
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {isNotEmptyObject} from "../../utils/globalFunc";
+  import MathUtil from "../../utils/MathUtil";
 
   Vue.use(Row).use(Col);
   export default {
@@ -143,9 +129,11 @@
         itemList1: [],
         itemList2: [],
         itemList3: [],
+        rate: 1,
       }
     },
     created() {
+      let _this = this;
       plus.key.addEventListener('backbutton', function () {
         let parent = plus.webview.currentWebview().parent();
         if (isNotEmptyObject(parent)) {
@@ -153,15 +141,18 @@
         }
       });
 
+      request(TGCApiUrl.buyTgDollarRate).then(res => {
+        _this.rate = res;
+      });
+
       request(TGCApiUrl.goodsHome).then(res => {
-        this.itemList1 = res[0];
-        this.itemList2 = res[1];
-        this.itemList3 = res[2];
+        _this.itemList1 = res[0];
+        _this.itemList2 = res[1];
+        _this.itemList3 = res[2];
       });
     },
     methods: {
       goodsDetail(skuNo) {
-        console.log(skuNo)
         openWebview({
           url: "./shop.detail.html",
           id: "shop.detail",
@@ -178,6 +169,9 @@
             },
           }
         }, {}, {skuNo: skuNo});
+      },
+      tgToCN(tgPrice) {
+        return MathUtil.accMul(this.rate, tgPrice).toFixed(2) + "￥"
       }
     }
   }
@@ -262,7 +256,7 @@
   .half-sell-in {
     background-color: white;
     padding: 3%;
-    height: 150px;
+    height: 180px;
   }
 
   .shops-footer {
@@ -278,4 +272,10 @@
     overflow-x: hidden;
     font-size: 11px;
   }
+
+  .tgtocn {
+    color: #939393;
+    font-size: 10px;
+  }
+
 </style>
