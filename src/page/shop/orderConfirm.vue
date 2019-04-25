@@ -15,7 +15,7 @@
 
     <br>
     <van-cell-group>
-      <van-panel :title="goods.skuName" :desc="goods.buyNum" :status="goods.priceShow"></van-panel>
+      <van-panel :title="goods.skuName" :desc="goods.buyNum" :status="priceShow()"></van-panel>
     </van-cell-group>
 
     <br>
@@ -28,10 +28,32 @@
       <van-field label="商品备注" placeholder="建议下单前与客服沟通确认"></van-field>
     </van-cell-group>
 
+    <br>
+    <van-cell-group>
+      <div style="padding-left: 5%;padding-top: 5%;font-size: 14px;border-top: 0.5px solid #fbfbfb;">
+        购买方式
+      </div>
+      <div style="margin-top: 5%">
+        <van-radio-group v-model="radio">
+          <van-cell-group>
+
+            <van-cell title="TG积分" @click="radio = '10'">
+              <van-radio name="10"></van-radio>
+            </van-cell>
+
+            <van-cell title="法币" @click="radio = '20'">
+              <van-radio name="20"></van-radio>
+            </van-cell>
+          </van-cell-group>
+        </van-radio-group>
+      </div>
+
+    </van-cell-group>
+
 
     <van-submit-bar
-      :price="goods.price"
-      :currency="goods.units"
+      :price="priceTotal()"
+      :currency="getUnits()"
       button-text="提交订单"
       @submit="onSubmit"
     ></van-submit-bar>
@@ -40,7 +62,20 @@
 
 <script>
   import Vue from 'vue';
-  import {ContactCard, ContactList, ContactEdit, Popup, Button, Toast, Cell, CellGroup, Field} from 'vant';
+  import {
+    ContactCard,
+    ContactList,
+    Radio,
+    RadioGroup,
+    ContactEdit,
+    Popup,
+    Button,
+    Icon,
+    Toast,
+    Cell,
+    CellGroup,
+    Field
+  } from 'vant';
   import {AddressList} from 'vant';
   import {Panel} from 'vant';
   import {SubmitBar} from 'vant';
@@ -60,6 +95,9 @@
   Vue.use(Cell);
   Vue.use(Field);
   Vue.use(Toast);
+  Vue.use(Icon);
+  Vue.use(Radio);
+  Vue.use(RadioGroup);
   Vue
     .use(Popup)
     .use(CellGroup)
@@ -71,12 +109,16 @@
     data() {
       return {
         skuNo: "",
+        radio: PayType.eth_tg,
         chosenContactId: null,
         editingContact: {},
         showList: false,
         showEdit: false,
         isEdit: false,
         linkman: null,
+        price: null,
+        units: null,
+        priceCn: null,
         goods: {
           skuName: "",
           buyNum: "",
@@ -97,8 +139,12 @@
       request(TGCApiUrl.goodsDetail, {skuNo: this.skuNo}).then(res => {
         this.goods = res;
         this.goods.buyNum = "x 1";
-        this.goods.priceShow = res.price + res.units;
-        this.goods.price = MathUtil.accMul(res.price, 100);
+        this.goods.price = res.price.toFixed(2);
+        this.goods.priceCn = res.originPriceCn.toFixed(2);
+
+        this.price = this.goods.price;
+        this.priceCn = this.goods.priceCn;
+        this.units = res.units;
       });
 
       request(TGCApiUrl.shopLinkmanList, {skuNo: this.skuNo, defaultAddress: 1}).then(res => {
@@ -110,6 +156,27 @@
 
     },
     methods: {
+      getUnits() {
+        if (this.radio === PayType.eth_tg) {
+          return this.units;
+        } else if (this.radio === PayType.wxpay) {
+          return "￥";
+        }
+      },
+      priceTotal() {
+        if (this.radio === PayType.eth_tg) {
+          return MathUtil.accMul(this.price, 100);
+        } else if (this.radio === PayType.wxpay) {
+          return MathUtil.accMul(this.priceCn, 100);
+        }
+      },
+      priceShow() {
+        if (this.radio === PayType.eth_tg) {
+          return this.price + this.getUnits()
+        } else if (this.radio === PayType.wxpay) {
+          return this.priceCn + this.getUnits()
+        }
+      },
       onSubmit() {
         if (isEmptyObject(this.linkman)) {
           Toast.fail('请选择联系人')
@@ -120,24 +187,41 @@
             buyNum: 1,
           }],
           linkmanId: this.linkman.id,
-          payType: PayType.eth_tg,
+          payType: this.radio,
           memo: "",
         };
+
         request(TGCApiUrl.shopOrderCreate, params).then(res => {
           this.orderId = res;
+
+
           if (isNotEmpty(res)) {
-            openWebview({
-              url: './wallet.send.html',
-              id: 'wallet.send',
-              title: '收银台',
-              needLoaded: true,
-            }, {}, {
-              orderId: this.orderId,
-              orderType: OrderType.shop,
-              tokenAddress: TGCConfig.tokenAddress,
-            });
+            if (this.radio === PayType.eth_tg) {
+              openWebview({
+                url: './wallet.send.html',
+                id: 'wallet.send',
+                title: '收银台',
+                needLoaded: true,
+              }, {}, {
+                orderId: this.orderId,
+                orderType: OrderType.shop,
+                tokenAddress: TGCConfig.tokenAddress,
+              });
+            } else if (this.radio === PayType.wxpay) {
+              openWebview({
+                url: './wallet.sendLegalCurrency.html',
+                id: 'wallet.sendLegalCurrency',
+                title: '收银台',
+                needLoaded: true,
+              }, {}, {
+                orderId: this.orderId,
+                orderType: OrderType.shop,
+              });
+            }
             fire(plus.webview.getWebviewById('shop.order'), 'init');
           }
+
+
         });
       },
       gotoLinkman() {

@@ -154,7 +154,7 @@
         <van-row type="flex" justify="center">
           <van-col span="8" v-for="(item,k) in goods" :key="k">
             <div class="hot-sell-price">
-              热卖价<span class="hot-sell-price-num">{{item.price}}{{item.units}}</span>
+              热卖价<span class="hot-sell-price-num">{{item.price.toFixed(2)}}{{item.units}}</span>
               <div>
                 <span class="hot-sell-price-num-cn">{{item.originPriceCn}}￥</span>
               </div>

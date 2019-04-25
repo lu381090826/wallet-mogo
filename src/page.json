@@ -23,6 +23,7 @@
   "shop.order|plusReady": "./src/page/shop/order.js",
   "shop.orderDetail|plusReady": "./src/page/shop/orderDetail.js",
   "wallet.send|plusReady": "./src/page/wallet/send.js",
+  "wallet.sendLegalCurrency|plusReady": "./src/page/wallet/sendLegalCurrency.js",
   "wallet.scan|plusReady": "./src/page/wallet/scan.js",
   "wallet.yaoqing|plusReady": "./src/page/wallet/yaoqing.js",
   "wallet.register|plusReady": "./src/page/wallet/register.js",

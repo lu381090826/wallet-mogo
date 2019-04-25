@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-tabbar v-model="active" fixed class="index-tabbar">
-      <van-tabbar-item icon="home">首页</van-tabbar-item>
+      <van-tabbar-item icon="shop-o">特惠商城</van-tabbar-item>
       <!--<van-tabbar-item icon="gold-coin">购物车</van-tabbar-item>-->
       <van-tabbar-item icon="contact">订单</van-tabbar-item>
     </van-tabbar>
@@ -32,6 +32,21 @@
           url: './shop.order.html',
         },
       }
+    },
+    mounted() {
+      let _t = this;
+      // 扩展API加载完毕，现在可以正常调用扩展API
+      // 获取支付通道
+      plus.payment.getChannels(function (channels) {
+        for (let i in channels) {
+          let channel = channels[i];
+          if (channel.id === 'wxpay') {
+            _t.iap = channel;
+          }
+        }
+      }, function (e) {
+        console.log("获取支付通道失败：" + e.message);
+      });
     },
     created() {
       this.append(this.goodsShows)

@@ -18,8 +18,8 @@
               </div>
               <div slot="footer">
                 <div v-if="i.status === 100">
-                  <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
-                  <van-button size="mini">取消订单</van-button>
+                  <van-button size="mini" @click="gotoPay(i.orderId,i.payType)">去付款</van-button>
+                  <van-button size="mini" @click="gotoCancel(i.orderId)">取消订单</van-button>
                 </div>
                 <div v-else>
                   <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
@@ -33,8 +33,8 @@
         <van-cell-group v-if="orderList!==null">
           <van-cell
             v-for="(i,j) in orderList"
-            :key="j">
-            <van-card v-if="i.status===100" v-for="(item,k) in i.orderDetailList"
+            :key="j" v-if="i.status===100">
+            <van-card  v-for="(item,k) in i.orderDetailList"
                       :key="k"
                       :desc="getDesc(i.status)"
                       :num="item.buyNum"
@@ -45,7 +45,7 @@
                 <img :src="item.img">
               </div>
               <div slot="footer">
-                <van-button size="mini" @click="gotoPay(i.orderId)">去付款</van-button>
+                <van-button size="mini" @click="gotoPay(i.orderId,i.payType)">去付款</van-button>
                 <van-button size="mini" @click="gotoCancel(i.orderId)">取消订单</van-button>
               </div>
             </van-card>
@@ -56,8 +56,8 @@
         <van-cell-group v-if="orderList!==null">
           <van-cell
             v-for="(i,j) in orderList"
-            :key="j">
-            <van-card v-if="i.status===150" v-for="(item,k) in i.orderDetailList"
+            :key="j" v-if="i.status===150">
+            <van-card  v-for="(item,k) in i.orderDetailList"
                       :key="k"
                       :num="item.buyNum"
                       :price="item.totalAmount"
@@ -78,8 +78,8 @@
         <van-cell-group v-if="orderList!==null">
           <van-cell
             v-for="(i,j) in orderList"
-            :key="j">
-            <van-card v-if="i.status===160" v-for="(item,k) in i.orderDetailList"
+            :key="j" v-if="i.status===160">
+            <van-card  v-for="(item,k) in i.orderDetailList"
                       :key="k"
                       :desc="getDesc(i.status)"
                       :num="item.buyNum"
@@ -121,6 +121,7 @@
   import {openWebview} from "../../utils/webview";
   import OrderType from "../../utils/constants/OrderType";
   import TGCConfig from "../../utils/constants/tgcConfig";
+  import PayType from "../../utils/constants/PayType";
 
   export default {
     created() {
@@ -153,7 +154,6 @@
       },
       getDesc(status) {
         let desc = "";
-        console.log(Number(status))
         switch (Number(status)) {
           case 100:
             desc = "待付款";
@@ -181,24 +181,45 @@
         });
       },
       gotoCancel(orderId) {
+        let _this = this;
         Dialog.confirm({
           title: '取消订单',
           message: '确定要取消吗？'
         }).then(() => {
-          request(TGCApiUrl.shopOrderCancel, {orderId: orderId});
+          Toast.loading("正在取消订单，请稍等...");
+          setTimeout(() => {
+            request(TGCApiUrl.shopOrderCancel, {orderId: orderId}).then(res => {
+              Toast.success("取消成功");
+              _this.init();
+            });
+          }, 100);
         })
       },
-      gotoPay(orderId) {
-        openWebview({
-          url: './wallet.send.html',
-          id: 'wallet.send',
-          title: '收银台',
-          needLoaded: true,
-        }, {}, {
-          orderId: orderId,
-          orderType: OrderType.shop,
-          tokenAddress: TGCConfig.tokenAddress,
-        })
+      gotoPay(orderId, payType) {
+        console.log("payType" + payType)
+
+        if (payType.toString() === PayType.eth_tg) {
+          openWebview({
+            url: './wallet.send.html',
+            id: 'wallet.send',
+            title: '收银台',
+            needLoaded: true,
+          }, {}, {
+            orderId: orderId,
+            orderType: OrderType.shop,
+            tokenAddress: TGCConfig.tokenAddress,
+          })
+        } else if (payType.toString() === PayType.wxpay) {
+          openWebview({
+            url: './wallet.sendLegalCurrency.html',
+            id: 'wallet.sendLegalCurrency',
+            title: '收银台',
+            needLoaded: true,
+          }, {}, {
+            orderId: orderId,
+            orderType: OrderType.shop,
+          })
+        }
       },
     },
     data() {
