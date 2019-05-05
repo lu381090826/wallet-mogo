@@ -28,8 +28,8 @@
       <div class="grassLand">
         <div class="my-collection">
 
-          <div style="color: #009e04;font-weight: bold">已收集：{{totalEnergy}}g</div>
-          <van-button class="my-collection-button">查看记录</van-button>
+          <div style="color: #009e04;font-weight: bold">已收集：{{collectInfo.totalCollectTg}}Tg</div>
+          <!--<van-button class="my-collection-button">查看记录</van-button>-->
         </div>
       </div>
     </div>
@@ -57,6 +57,7 @@
         skyHeight: '',
         cloudItems: [],
         totalEnergy: 0,
+        collectInfo: {},
       }
     },
     mounted() {
@@ -93,7 +94,7 @@
 
         //添加泡泡
         for (let i = 0; i < 5; i++) {
-          let weight = Math.ceil(Math.random() * 10) * 10;
+          let weight = 0.1;
           let xNum = Math.random() * 200;
           let x = xNum > 301 ? 151 : xNum + 'px';
           let yNum = Math.random() * 200;
@@ -114,7 +115,7 @@
       reflash() {
         let _t = this;
         request(TGCApiUrl.forestCollectInfo).then(res => {
-          _t.totalEnergy = res;
+          _t.collectInfo = res;
         })
       }
     },

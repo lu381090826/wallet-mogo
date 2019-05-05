@@ -1,6 +1,6 @@
 <template>
   <div :style="{top:y,left:x,animationDelay:animationDelay}" :class="paoClass" v-intervalclick="{func:paoClick}">
-    <div class="pao-text">{{weight}} g</div>
+    <div class="pao-text">{{weight}} Tg</div>
   </div>
 </template>
 <style>
@@ -96,6 +96,7 @@
     data() {
       return {
         paoClass: "qiu float-animation",
+        loading: 0,
       }
     },
     props: {
@@ -106,11 +107,21 @@
     },
     methods: {
       paoClick() {
-        //采集能量
+        let t = this;
+        if (this.loading === 1) {
+          setTimeout(() => {
+            t.loading = 0;
+          }, 3000);
+          return;
+        } else {
+          this.loading = 1;
+        }
         request(TGCApiUrl.forestCollect, {energy: this.weight}).then(res => {
+          //采集能量
+          this.paoClass = "qiu animation";
           if (!isEmpty(res)) {
-            this.paoClass = "qiu animation";
-            this.$emit('reflash')
+            this.$emit('reflash');
+            this.loading = 0;
           }
         });
       }
