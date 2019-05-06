@@ -111,12 +111,13 @@
         if (this.loading === 1) {
           setTimeout(() => {
             t.loading = 0;
-          }, 3000);
+          }, 300);
           return;
         } else {
           this.loading = 1;
         }
-        request(TGCApiUrl.forestCollect, {energy: this.weight}).then(res => {
+
+        request(TGCApiUrl.forestCollect, {energy: this.weight, walletAddress: plus.storage.getItem("walletAddress")}).then(res => {
           //采集能量
           this.paoClass = "qiu animation";
           if (!isEmpty(res)) {
