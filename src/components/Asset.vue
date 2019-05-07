@@ -23,7 +23,7 @@
             <van-col span="10">
               <div class="asset-header-titile" v-intervalclick="{func:trans}">
                 <div class="titile-name">Eth资产</div>
-                <div>
+                <div class="asset-number">
                   {{walletBalance}}
                 </div>
               </div>
@@ -31,7 +31,7 @@
             <van-col span="10">
               <div class="asset-header-titile" v-intervalclick="{func:profit}">
                 <div class="titile-name">累计收益(TG)</div>
-                <div>
+                <div class="asset-number">
                   {{totalProfit}}
                 </div>
               </div>
@@ -239,7 +239,6 @@
       },
       init() {
         let _this = this;
-
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
@@ -311,5 +310,9 @@
   .cell-group {
     min-height: 500px;
     background-color: white;
+  }
+
+  .asset-number {
+    font-size: 11px;
   }
 </style>
