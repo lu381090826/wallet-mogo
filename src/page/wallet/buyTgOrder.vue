@@ -1,61 +1,17 @@
 <template>
   <div>
     <van-tabs v-model="active">
-      <van-tab title="全部">
-        <van-cell-group v-if="orderList!==null">
-          <van-cell
-            v-for="(i,j) in orderList"
-            :key="j" :title="i.memo" :label="getDesc(i.status)">
-            {{i.totalAmount}}
-          </van-cell>
-        </van-cell-group>
-      </van-tab>
-      <van-tab title="待付款">
-        <van-cell-group v-if="orderList!==null">
-          <van-cell
-            v-for="(i,j) in orderList"
-            :key="j" :title="i.memo" v-if="i.status===OrderState.ORDER_WATI_PAY" :label="getDesc(i.status)">
-            {{i.totalAmount}}
-          </van-cell>
-        </van-cell-group>
-      </van-tab>
-      <van-tab title="待收货">
-        <van-cell-group v-if="orderList!==null">
-          <van-cell
-            v-for="(i,j) in orderList"
-            :key="j" :title="i.memo" v-if="i.status===OrderState.ORDER_WATI_RECEIVE" :label="getDesc(i.status)">
-            {{i.totalAmount}}
-          </van-cell>
-        </van-cell-group>
-      </van-tab>
-      <van-tab title="已完成">
-        <van-cell-group v-if="orderList!==null">
-          <van-cell
-            v-for="(i,j) in orderList"
-            :key="j" :title="i.memo" v-if="i.status===OrderState.ORDER_FINISH" :label="getDesc(i.status)">
-            {{i.totalAmount}}
-          </van-cell>
-        </van-cell-group>
-      </van-tab>
+      <order-tab :order-state="OrderState.ALL" :order-list="orderList.ALL"/>
+      <order-tab :order-state="OrderState.ORDER_WATI_PAY" :order-list="orderList.ORDER_WATI_PAY"/>
+      <order-tab :order-state="OrderState.ORDER_WATI_RECEIVE" :order-list="orderList.ORDER_WATI_RECEIVE"/>
+      <order-tab :order-state="OrderState.ORDER_FINISH" :order-list="orderList.ORDER_FINISH"/>
     </van-tabs>
   </div>
 </template>
 
 <script>
   import Vue from 'vue';
-  import {Tab, Tabs} from 'vant';
-  import {Card} from 'vant';
-  import {Button} from 'vant';
-  import {Toast} from 'vant';
-  import {Dialog} from 'vant';
-  import {CellGroup, Cell} from 'vant';
-
-  Vue.use(CellGroup).use(Cell);
-  Vue.use(Button);
-  Vue.use(Card);
-  Vue.use(Dialog);
-  Vue.use(Toast);
-  Vue.use(Tab).use(Tabs);
+  import {Button, Card, Cell, CellGroup, Dialog, Tab, Tabs, Toast} from 'vant';
   import {isNotEmptyObject} from "../../utils/globalFunc";
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
@@ -63,8 +19,17 @@
   import OrderType from "../../utils/constants/OrderType";
   import orderState from "../../utils/constants/OrderState";
   import TGCConfig from "../../utils/constants/tgcConfig";
+  import OrderTab from "./OrderTab";
+
+  Vue.use(CellGroup).use(Cell);
+  Vue.use(Button);
+  Vue.use(Card);
+  Vue.use(Dialog);
+  Vue.use(Toast);
+  Vue.use(Tab).use(Tabs);
 
   export default {
+    components: {OrderTab},
     created() {
       plus.key.addEventListener('backbutton', function () {
         let parent = plus.webview.currentWebview().parent();
@@ -82,7 +47,27 @@
     methods: {
       init() {
         request(TGCApiUrl.shopOrderGetOrderList, {pageSize: 30, orderType: OrderType.virtualShopTg}).then(res => {
-          this.orderList = res;
+          this.orderList.ALL = res;
+          for (let i = 0; i < res.length; i++) {
+            let status = res[i].status;
+            switch (Number(status)) {
+              case orderState.ORDER_WATI_PAY:
+                this.orderList.ORDER_WATI_PAY.push(res[i]);
+                break;
+              case orderState.ORDER_WATI_DELIVER:
+                this.orderList.ORDER_WATI_DELIVER.push(res[i]);
+                break;
+              case orderState.ORDER_WATI_RECEIVE:
+                this.orderList.ORDER_WATI_RECEIVE.push(res[i]);
+                break;
+              case orderState.ORDER_FINISH:
+                this.orderList.ORDER_FINISH.push(res[i]);
+                break;
+              default :
+                break;
+            }
+          }
+          console.log(this.orderList.ALL)
         });
       },
       gotoOrderDetail(orderId) {
@@ -92,24 +77,6 @@
           title: '订单详情',
           needLoaded: true,
         }, {}, {orderId: orderId})
-      },
-      getDesc(status) {
-        let desc = "";
-        console.log(Number(status))
-        switch (Number(status)) {
-          case 100:
-            desc = "待付款";
-            break;
-          case 150:
-            desc = "待发货";
-            break;
-          case 160:
-            desc = "待收货";
-            break;
-          default :
-            break;
-        }
-        return desc;
       },
       refund(orderId) {
         Dialog.confirm({
@@ -146,7 +113,14 @@
     data() {
       return {
         active: 0,
-        orderList: null,
+        orderList: {
+          ALL: [],
+          ORDER_WATI_PAY: [],
+          ORDER_CANCEL: [],
+          ORDER_WATI_DELIVER: [],
+          ORDER_WATI_RECEIVE: [],
+          ORDER_FINISH: [],
+        },
         OrderState: orderState,
       }
     }

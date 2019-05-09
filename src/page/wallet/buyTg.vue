@@ -107,22 +107,11 @@
       },
       reflashRate() {
         let _t = this;
-        Toast.loading({mask: true, message: '查询最新价格...'});
-        let finishDollar = false;
-        let finishEth = false;
         request(tgcApiUrl.buyTgDollarRate).then(res => {
           _t.dollarRate = Number(res);
-          finishDollar = true;
-          if (finishDollar && finishEth) {
-            Toast.clear();
-          }
         });
         etherscanHttpUtils.get({module: "stats", action: 'ethprice'}).then(res => {
           _t.ethRate = res.ethusd;
-          finishEth = true;
-          if (finishDollar && finishEth) {
-            Toast.clear();
-          }
         })
       },
       calculate() {
@@ -167,11 +156,11 @@
         this.walletQcode = !this.walletQcode;
       },
       gotoBuyTgOrder() {
-        openWebviewFast({
+        openWebview({
           url: './wallet.buyTgOrder.html',
           id: 'wallet.buyTgOrder',
           title: 'Tg购买记录',
-        })
+        }, {}, {isnew: true})
 
       },
       gotoBuy() {
@@ -228,6 +217,7 @@
           return (Number(this.rangeValue) / 10000).toFixed(7);
         },
         set: function () {
+          return (Number(this.rangeValue) / 10000).toFixed(7);
         }
       },
       gasValueAmount: {

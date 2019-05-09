@@ -107,7 +107,6 @@
       if (ws.gasValue != null) {
         this.gasValue = Number(ws.gasValue);
       }
-
       if (ws.gasValueAmount != null) {
         this.gasValueAmount = Number(ws.gasValueAmount);
       }
@@ -136,22 +135,24 @@
           // 请求支付操作
           let params = {
             buyNum: this.buyNum,
-            gasValue: Number(Number(this.gasValue) / 10).toFixed(7),
+            gasValue: Number(this.gasValue).toFixed(7),
             walletAddress: this.walletAddress,
             payType: this.radio,
           };
 
           let _t = this;
-
           if (this.radio === PayType.wxpay) {
+            Toast.loading("正在生成支付单...")
             request("/buyTg/api/createOrder", params).then(res => {
-
+              Toast.clear();
+              Toast.loading("正在跳转支付...")
               plus.payment.request(_t.iap, res, function (result) {
+                Toast.clear();
                 plus.nativeUI.confirm("请问是否支付成功，请勿重复支付", function (e) {
                 }, '提示', ['已支付成功', '未成功']);
               }, function (e) {
-                plus.nativeUI.confirm("错误信息：" + JSON.stringify(e), function (e) {
-                }, '重新请求支付', ['确定', '取消']);
+                plus.nativeUI.confirm("重新请求支付?", function (e) {
+                }, '没有支付成功！', ['确定', '取消']);
               });
 
             });
@@ -159,7 +160,7 @@
 
           if (this.radio === PayType.eth_tg) {
             request("/buyTg/api/createOrder", params).then(res => {
-              let result = JSON.parse(res)
+              let result = JSON.parse(res);
 
               openWebview({
                   title: "认购TG",
