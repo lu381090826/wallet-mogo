@@ -31,7 +31,7 @@
 
       <div class="cell-group">
         <van-cell-group>
-          <van-cell v-for="(item,k) in tokenList" :key="k"
+          <van-cell v-if="tokenList!=null && tokenList.length>0" v-for="(item,k) in tokenList" :key="k"
                     :title="item.tokenName"
                     :label="item.tokenAddress.substring(0,30)+'...'"
           >
@@ -49,6 +49,7 @@
   import {RadioGroup, Radio, Cell, CellGroup, Field, Button, Toast, Switch, SwitchCell, Icon, Dialog} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import Web3Util from "../../utils/web3Util/Web3Util";
 
   Vue.use(SwitchCell);
   Vue.use(RadioGroup);
@@ -72,8 +73,8 @@
         ],
         commondTokenAddress: [
           {
-            tokenName: 'TG积分 (TG)',
-            tokenAddress: '0x95ff62d03D45e29b20E497D0fD526D8d2d387804',
+            tokenName: Web3Util.tgName,
+            tokenAddress: Web3Util.tgAddress,
           }
         ]
       }
@@ -92,7 +93,6 @@
         });
       },
       onInput(item) {
-        console.log(JSON.stringify(item));
         let state = !item.status ? "隐藏" : "恢复显示";
         Dialog.confirm({
           title: '提醒',
@@ -109,10 +109,11 @@
       },
       addToken() {
         let t = this;
-        request(TGCApiUrl.addToken, {
+        let params = {
           tokenAddress: t.tokenAddress,
           tokenName: t.tokenName
-        }).then((res) => {
+        };
+        request(TGCApiUrl.addToken,params).then((res) => {
           let pw = plus.webview.getWebviewById('wallet.asset');
           plus.webview.show(pw, "auto", 200, res => {
             pw.reload(true);
@@ -123,6 +124,8 @@
       select(tokenName, tokenAddress) {
         this.tokenAddress = tokenAddress;
         this.tokenName = tokenName;
+
+        console.log(this.tokenName)
       }
     }
   }

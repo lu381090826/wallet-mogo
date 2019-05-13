@@ -55,6 +55,7 @@
   import {isToday} from "../../utils/globalTools";
   import circleProgress from '@/components/Circle'
   import "@/utils/css/CommonStyle.less";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
 
   Vue.use(Button).use(Circle).use(Row).use(Col);
   export default {
@@ -101,7 +102,7 @@
     methods: {
       changeStep() {
         let _this = this;
-        request("/donation/step/stepToTG", {receiveAddress: plus.storage.getItem("walletAddress")}).then(function (res) {
+        request(TGCApiUrl.donationStepToTG, {receiveAddress: plus.storage.getItem("walletAddress")}).then(function (res) {
           Toast('兑换成功，请查收');
           localStorage.setItem("todayStep", 0);
           localStorage.setItem("hasChange", 1);

@@ -29,7 +29,7 @@
         <div class="my-collection">
 
           <div style="color: #009e04;font-weight: bold">已收集：{{collectInfo.totalCollectTg}}Tg</div>
-          <!--<van-button class="my-collection-button">查看记录</van-button>-->
+          <div style="color: #009e04;font-size: 11px">采集的能量将由区块链发放到钱包-{{walletName}}</div>
         </div>
       </div>
     </div>
@@ -58,6 +58,7 @@
         cloudItems: [],
         totalEnergy: 0,
         collectInfo: {},
+        walletName: plus.storage.getItem('walletName'),
       }
     },
     mounted() {
@@ -93,7 +94,7 @@
 
         //添加泡泡
         for (let i = 0; i < 5; i++) {
-          let weight = 0.1;
+          let weight = 0.02;
           let xNum = Math.random() * 200;
           let x = xNum > 301 ? 151 : xNum + 'px';
           let yNum = Math.random() * 200;

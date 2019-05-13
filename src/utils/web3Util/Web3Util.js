@@ -14,9 +14,14 @@ if (isNotEmpty(Vue.prototype.HOST)) {
   web3.setProvider(new web3.providers.HttpProvider('https://mainnet.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
 }
 
+const tgAddress = '0x95ff62d03D45e29b20E497D0fD526D8d2d387804';
+const tgName = 'TG积分 (TG)';
+const tgContract = web3.eth.contract(abi).at(tgAddress);
 
 let Web3Util = {
   instance: web3,
+  tgAddress: '0x95ff62d03D45e29b20E497D0fD526D8d2d387804',
+  tgName: 'TG积分 (TG)',
   isContract(tokenAddress) {
     let code = web3.eth.getCode(tokenAddress);
     return code !== '0x';
@@ -45,6 +50,9 @@ let Web3Util = {
     if (isEmpty(contractAddress)) {
       return null;
     }
+    if (contractAddress === tgAddress) {
+      return tgContract;
+    }
     return await web3.eth.contract(abi).at(contractAddress);
   },
   async getContractBalance(contractAddress, walletAddress) {
@@ -55,10 +63,7 @@ let Web3Util = {
         walletAddress = plus.storage.getItem('walletAddress');
       }
 
-      let s = web3.eth.call({
-        to: contractAddress,
-        data: contract.balanceOf.getData(walletAddress)
-      });
+      let s = contract.balanceOf(walletAddress);
       if (!isNaN(parseInt(s, 16))) {
         return (parseInt(s, 16) / Math.pow(10, Number(contract.decimals())));
       } else {
@@ -73,10 +78,7 @@ let Web3Util = {
   async getContractName(contractAddress) {
     let t = this;
     return await t.getContract(contractAddress).then(contract => {
-      return web3.toAscii(web3.eth.call({
-        to: contractAddress,
-        data: contract.name.getData()
-      }));
+      return contract.name();
     });
   }
 };

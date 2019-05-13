@@ -41,8 +41,11 @@
             <van-cell-group>
               <van-cell v-for="(item,k) in tokenList" :key="k"
                         :title="item.tokenName"
-                        :value="item.tokenBalance"
-                        :label="item.tokenAddressShow" is-link @click="trans(item.tokenAddress)"></van-cell>
+                        :label="item.tokenAddressShow"
+                        is-link
+                        @click="trans(item.tokenAddress)">
+
+              </van-cell>
             </van-cell-group>
 
           </div>
@@ -251,12 +254,15 @@
           _this.tokenList = [];
           if (res.length != null) {
             let arr = [];
+
             for (let i = 0; i < res.length; i++) {
-              Web3Util.getContractBalance(res[i].tokenAddress, _this.walletAddress).then(contractBalance => {
-                res[i].tokenBalance = contractBalance;
-                res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "...";
-                _this.tokenList.push(res[i])
-              });
+              res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "...";
+              _this.tokenList.push(res[i])
+              // Web3Util.getContractBalance(res[i].tokenAddress, _this.walletAddress).then(contractBalance => {
+              //   res[i].tokenBalance = contractBalance;
+              //   res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "...";
+              //   _this.tokenList.push(res[i])
+              // });
             }
           }
         });

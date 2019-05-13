@@ -45,6 +45,7 @@ const TGCApiUrl = {
   verifyIdcardIsChecked: "/verify/api/idcardIsChecked",
   verifySendCodeMsg: "/verify/api/sendCodeMsg",
   verifyIdcard: "/verify/api/verifyIdcard",
+  donationStepToTG: "/donation/step/stepToTG",
 };
 
 export default TGCApiUrl;

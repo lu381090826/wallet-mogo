@@ -1,6 +1,17 @@
 <template>
   <div class="body">
     <div class="blank-space"></div>
+    <div class="box" style="text-align: left">
+      <div>
+        钱包地址：<span class="address-font">{{walletAddress}}</span>
+      </div>
+      <div>
+        合约地址：<span class="address-font">{{tokenAddress}}</span>
+      </div>
+      <div>
+        合约余额：<span>{{balance}}</span>
+      </div>
+    </div>
     <div class="box" v-show="transList !==null && transList.length === 0">
       <div class="no-trans">
         <div>
@@ -9,7 +20,6 @@
         暂无交易记录
       </div>
     </div>
-
     <div class="box" v-show="transList !== null && transList.length > 0">
       <div class="trans-cell-row" v-for="(item,i) in transList" :key="i">
         <van-row type="flex" justify="space-between" gutter="20">
@@ -46,9 +56,6 @@
         />
       </div>
     </div>
-
-    <div class="blank-space"></div>
-
     <div class="box">
       <div style="margin-top: 5%;margin-bottom: 5%">
         <van-button size="large" class="button-blue" v-intervalclick="{func:send}">
@@ -88,6 +95,7 @@
       return {
         tokenAddress: "",
         walletAddress: "",
+        balance: "---",
         selected: 0,
         transList: null,
         page: 1,
@@ -97,6 +105,7 @@
     },
     created: function () {
       let ws = plus.webview.currentWebview();
+      let t = this;
       if (isNotEmpty(ws.walletAddress)) {
         this.walletAddress = ws.walletAddress;
       } else {
@@ -105,9 +114,12 @@
       if (isNotEmpty(ws.tokenAddress)) {
         this.tokenAddress = ws.tokenAddress;
       }
-
-      this.getData();
-
+      setTimeout(() => {
+        Web3Util.getBalance(this.walletAddress).then(res => {
+          t.balance = res;
+        });
+        this.getData();
+      }, 200);
     },
     methods: {
       send() {
@@ -270,5 +282,9 @@
     padding-bottom: 10%;
     font-size: 20px;
     color: #979797;
+  }
+
+  .address-font {
+    font-size: 9px;
   }
 </style>
