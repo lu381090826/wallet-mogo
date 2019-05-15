@@ -128,7 +128,12 @@
       }
     },
     created() {
+      let t = this;
       this.init();
+      window.addEventListener("walletList", function (event) {
+        //通过event.detail可获得传递过来的参数内容
+        t.getWalletList();
+      });
     },
     filters: {
       formatAddress(val) {
@@ -240,11 +245,16 @@
           ws.close();
         }, 500);
       },
-      init() {
+      getWalletList() {
         let _this = this;
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
+      },
+      init() {
+        let _this = this;
+
+        _this.getWalletList();
 
         Web3Util.getBalance(_this.walletAddress).then(res => {
           _this.walletBalance = res;

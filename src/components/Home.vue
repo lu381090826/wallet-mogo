@@ -269,9 +269,9 @@
         walletAddress: plus.storage.getItem("walletAddress"),
         walletName: plus.storage.getItem("walletName"),
         tokenList: [],
-        walletBalance: "---",
+        walletBalance: "查询中...",
         isLoading: false,
-        tokenBalance: "---",
+        tokenBalance: "查询中...",
         showWalletConfig: false,
         walletList: null,
         img1: "http://www.thanksgiving.cn/static/img/29c0db75a70929c60f2c0a47a3c8a3f0.jpeg",
@@ -281,7 +281,14 @@
       }
     },
     created() {
+      let t = this;
       this.init();
+      window.addEventListener("init", function (event) {
+        t.init();
+      });
+      window.addEventListener("walletList", function (event) {
+        t.getWalletList();
+      });
     },
     methods: {
       getColor(walletAddress) {
@@ -445,6 +452,12 @@
           _t.init();
         }, 500);
       },
+      getWalletList(){
+        let _this = this;
+        request(TGCApiUrl.walletList).then(res => {
+          _this.walletList = res;
+        });
+      },
       init() {
         let _this = this;
         request(TGCApiUrl.homePage).then(res => {
@@ -462,7 +475,7 @@
               _this.walletBalance = res
             }
           });
-          Web3Util.getBalance(TGCConfig.tokenAddress, _this.walletAddress).then(res => {
+          Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
             _this.tokenBalance = res;
           });
         }, 50);
@@ -638,6 +651,7 @@
   .hot-sell-price-num {
     color: red;
   }
+
   .hot-sell-price-num-cn {
     color: gray;
   }

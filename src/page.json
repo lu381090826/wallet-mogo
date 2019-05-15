@@ -38,6 +38,7 @@
   "wallet.trans|plusReady": "./src/page/wallet/trans.js",
   "wallet.myselfConfig|plusReady": "./src/page/wallet/myselfConfig.js",
   "wallet.transInfo|plusReady": "./src/page/wallet/transInfo.js",
+  "wallet.walletInfo|plusReady": "./src/page/wallet/walletInfo.js",
   "verify.idcard|plusReady": "./src/page/verify/idcard.js",
   "verify.buyTgAudit|plusReady": "./src/page/verify/buyTgAudit.js",
   "login.verifyCodeLogin|plusReady": "./src/page/login/verifyCodeLogin.js",

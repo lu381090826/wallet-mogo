@@ -15,7 +15,6 @@ if (isNotEmpty(Vue.prototype.HOST)) {
 }
 
 const tgAddress = '0x95ff62d03D45e29b20E497D0fD526D8d2d387804';
-const tgName = 'TG积分 (TG)';
 const tgContract = web3.eth.contract(abi).at(tgAddress);
 
 let Web3Util = {
@@ -31,7 +30,6 @@ let Web3Util = {
   },
   async getBalance(walletAddress, contractAddress) {
     if (isEmpty(contractAddress)) {
-
       if (isEmpty(walletAddress)) {
         walletAddress = plus.storage.getItem('walletAddress');
       }
@@ -40,10 +38,11 @@ let Web3Util = {
       if (walletAddress) {
         balance = web3.eth.getBalance(walletAddress);
       }
+
       return await (Number(web3.fromWei(balance, 'ether')));
 
     } else {
-      return await this.getContractBalance(walletAddress, contractAddress);
+      return await this.getContractBalance(contractAddress, walletAddress);
     }
   },
   async getContract(contractAddress) {
@@ -63,9 +62,9 @@ let Web3Util = {
         walletAddress = plus.storage.getItem('walletAddress');
       }
 
-      let s = contract.balanceOf(walletAddress);
-      if (!isNaN(parseInt(s, 16))) {
-        return (parseInt(s, 16) / Math.pow(10, Number(contract.decimals())));
+      let s = Number(contract.balanceOf(walletAddress));
+      if (s > 0) {
+        return (s / Math.pow(10, Number(contract.decimals())));
       } else {
         return (0);
       }

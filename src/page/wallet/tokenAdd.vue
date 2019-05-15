@@ -6,11 +6,16 @@
       </div>
       <div style="margin-top: 8%">
         推荐合约地址：
-        <van-radio-group v-model="tokenAddress">
+        <van-radio-group v-model="radio" @change="select">
           <van-cell-group>
-            <van-cell v-for="(item,k) in commondTokenAddress" :key="k" :title="item.tokenName" clickable
-                      @click="select(item.tokenName,item.tokenAddress)">
-              <van-radio :name="item.tokenAddress" :value="item.tokenAddress"></van-radio>
+            <van-cell v-for="(item,k) in commondTokenAddress"
+                      :key="k"
+                      :title="item.tokenName"
+            >
+              <van-radio
+                :name="item"
+              >
+              </van-radio>
             </van-cell>
           </van-cell-group>
         </van-radio-group>
@@ -33,7 +38,7 @@
         <van-cell-group>
           <van-cell v-if="tokenList!=null && tokenList.length>0" v-for="(item,k) in tokenList" :key="k"
                     :title="item.tokenName"
-                    :label="item.tokenAddress.substring(0,30)+'...'"
+                    :label="item.tokenAddressShow"
           >
             <van-switch size="18px"
                         v-model="item.status"
@@ -68,6 +73,7 @@
         tokenAddress: "",
         tokenName: "",
         tokenListAdded: [],
+        radio: null,
         tokenList: [
           {}
         ],
@@ -75,7 +81,7 @@
           {
             tokenName: Web3Util.tgName,
             tokenAddress: Web3Util.tgAddress,
-          }
+          },
         ]
       }
     },
@@ -113,7 +119,7 @@
           tokenAddress: t.tokenAddress,
           tokenName: t.tokenName
         };
-        request(TGCApiUrl.addToken,params).then((res) => {
+        request(TGCApiUrl.addToken, params).then((res) => {
           let pw = plus.webview.getWebviewById('wallet.asset');
           plus.webview.show(pw, "auto", 200, res => {
             pw.reload(true);
@@ -121,11 +127,9 @@
           });
         });
       },
-      select(tokenName, tokenAddress) {
-        this.tokenAddress = tokenAddress;
-        this.tokenName = tokenName;
-
-        console.log(this.tokenName)
+      select(s) {
+        this.tokenName = s.tokenName;
+        this.tokenAddress = s.tokenAddress;
       }
     }
   }

@@ -87,7 +87,7 @@
           Toast.success("验证码已发送")
         });
         this.disableVerify = true;
-
+        this.times = 59;
         this.countdown();
       },
       countdown() {
