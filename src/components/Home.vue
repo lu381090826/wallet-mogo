@@ -307,6 +307,7 @@
       },
       set(walletAddress, walletName) {
         plus.storage.setItem("walletAddress", walletAddress);
+        plus.storage.setItem("walletName", walletName);
         this.walletAddress = walletAddress;
         this.walletName = walletName;
 
