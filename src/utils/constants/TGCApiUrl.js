@@ -43,6 +43,7 @@ const TGCApiUrl = {
   getShareUrl: "/common/api/getShareUrl",
   forestCollect: "/forset/api/collect",
   forestCollectInfo: "/forset/api/collectInfo",
+  forestCollectList: "/forset/api/collectList",
   buyTgDollarRate: "/buyTg/api/getDollarRate",
   buyTgBeforeCheck: "/buyTg/api/beforeCheck",
   buyTgSubmitAudit: "/buyTg/api/submitAudit",

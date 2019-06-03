@@ -26,8 +26,7 @@
         </div>
       </div>
       <div class="grassLand">
-        <div class="my-collection">
-
+        <div class="my-collection" v-intervalclick="{func:gotoMycollect}">
           <div style="color: #009e04;font-weight: bold">已收集：{{collectInfo.totalCollectTg}}Tg</div>
           <div style="color: #009e04;font-size: 11px">采集的能量将由区块链发放到钱包-{{walletName}}</div>
         </div>
@@ -43,6 +42,7 @@
   import {Button} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import {openWebview, openWebviewFast} from "../../utils/webview";
 
   Vue.use(Button);
 
@@ -77,6 +77,13 @@
       }
     },
     methods: {
+      gotoMycollect() {
+        openWebviewFast({
+          url: './forest.mycollection.html',
+          id: 'forest.mycollection',
+          title: '收集记录'
+        })
+      },
       append() {
         //添加云
         for (let i = 0; i < 2; i++) {

@@ -6,6 +6,7 @@
   "common.about|plusReady": "./src/page/common/about.js",
   "common.bank|plusReady": "./src/page/common/bank.js",
   "forest.forestIndex|plusReady": "./src/page/forest/forestIndex.js",
+  "forest.mycollection|plusReady": "./src/page/forest/mycollection.js",
   "charitable.index|plusReady": "./src/page/charitable/index.js",
   "charitable.one2one|plusReady": "./src/page/charitable/one2one.js",
   "charitable.one2oneDonation|plusReady": "./src/page/charitable/one2oneDonation.js",

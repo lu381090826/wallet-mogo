@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="primarySchool-text">
-        <div class="primarySchool-text-title">区块链钱包地址</div>
+        <div class="primarySchool-text-title">{{info.name}}的区块链地址</div>
         <div class="primarySchool-text-desc">
           <!--<router-link :to="{path:'/Wallet/Trans',query:{address:tokenAddress,walletAddress:info.blAddress}}">-->
           <!---->
