@@ -70,7 +70,8 @@
   import MathUtil from "../../utils/MathUtil";
   import etherscanHttpUtils from "../../utils/web3Util/etherscanHttpUtils";
 
-  Vue.use(Field).use(Popup).use(Button).use(CellGroup).use(Cell).use(NoticeBar).use(Toast).use(Actionsheet).use(Slider).use(Dialog);
+  Vue.use(Field).use(Popup).use(Button).use(CellGroup).use(Cell).use(NoticeBar).use(Toast).use(Actionsheet).use(Slider)
+     .use(Dialog);
 
   export default {
     data() {
@@ -116,7 +117,11 @@
       },
       calculate() {
         this.dollarAmount = MathUtil.accMul(this.buyNum, this.dollarRate);
-        this.ethAmount = MathUtil.accMul(this.buyNum, 1 / this.ethRate).toFixed(6);
+        if (isEmpty(this.ethRate)) {
+          this.ethAmount = '查询异常，稍后重试'
+        } else {
+          this.ethAmount = MathUtil.accMul(this.buyNum, 1 / this.ethRate).toFixed(6);
+        }
       },
       selectWallet() {
         let _this = this;
