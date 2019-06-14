@@ -69,10 +69,10 @@ module.exports = {
 
     vConsole: false, //是否显示VConsole
     // Template for index.html
-    index: path.resolve(__dirname, "../dist/index.html"),
+    index: path.resolve(__dirname, "/Users/lujagan/JavaProjects/iOSSDK@2.0.0.64577_20190610/HBuilder-Hello/HBuilder-Hello/Pandora/apps/TGWallet/www//index.html"),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, "../dist"),
+    assetsRoot: path.resolve(__dirname, "/Users/lujagan/JavaProjects/iOSSDK@2.0.0.64577_20190610/HBuilder-Hello/HBuilder-Hello/Pandora/apps/TGWallet/www/"),
     assetsSubDirectory: "assets",
     assetsPublicPath: "/",
 
