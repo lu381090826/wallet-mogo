@@ -17,7 +17,7 @@
 
       <van-cell
         v-for="(i,j) in orderList"
-        v-if="i.status===orderState&&(orderState===160||orderState===200)"
+        v-if="i.status===orderState&&(orderState===160||orderState===150||orderState===200)"
         :key="j" :title="i.memo" @click="check(i)">
         {{i.totalAmount}}
       </van-cell>

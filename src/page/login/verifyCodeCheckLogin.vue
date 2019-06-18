@@ -6,13 +6,15 @@
     <div style="margin-top: 10%"></div>
     <h1>输入验证码</h1>
     <div style="color: #7f7f7f">我们已向{{phone.replace(/(\d{3})\d*(\d{4})/,'$1****$2')}}发送短信验证码，请查看短信并输入验证码</div>
-    <div class="tg-field" style="margin-top: 6%" :style="{borderBottomColor:borderBottomColor.code}">
+    <div class="tg-field" style="margin-top: 6%" :style="{borderBottomColor:borderBottomColor.code}"
+         @focus="onFocus('code')">
       <van-row type="flex" justify="start">
         <van-col span="18" class="tg-field-label">
           <div>
             <van-row type="flex" justify="start">
               <van-col span="20">
-                <input placeholder="请输入验证码" class="tg-field-input" v-model="code" @focus="onFocus('code')"/>
+                <input placeholder="" class="tg-field-input" v-model="code"
+                ref="codeInput"/>
               </van-col>
               <van-col span="4">
                 <van-icon name="cross" color="gray" size="20px" v-show="code"
@@ -66,6 +68,7 @@
       onFocus(type) {
         if (type === 'code') {
           this.borderBottomColor.code = "#1287ca";
+          this.$refs.codeInput.focus();
         }
       },
       clear(type) {

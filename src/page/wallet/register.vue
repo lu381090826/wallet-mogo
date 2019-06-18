@@ -33,7 +33,7 @@
           <div>
             <van-row type="flex" justify="start">
               <van-col span="20">
-                <input placeholder="请输入手机号" class="tg-field-input" v-model="phone" @focus="onFocus('phone')"/>
+                <input placeholder="" class="tg-field-input" v-model="phone" @focus="onFocus('phone')"/>
               </van-col>
               <van-col span="4">
                 <van-icon name="cross" color="gray" size="20px" v-show="phone"

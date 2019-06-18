@@ -24,7 +24,8 @@
       </van-row>
     </div>
 
-    <div class="tg-field" style="margin-top: 6%" :style="{borderBottomColor:borderBottomColor.phone}">
+    <div class="tg-field" style="margin-top: 6%" :style="{borderBottomColor:borderBottomColor.phone}"
+         @focus="onFocus('phone')">
       <van-row type="flex" justify="start">
         <van-col span="6" class="tg-field-title">
           +86
@@ -33,7 +34,7 @@
           <div>
             <van-row type="flex" justify="start">
               <van-col span="20">
-                <input placeholder="请输入手机号" class="tg-field-input" v-model="phone" @focus="onFocus('phone')"/>
+                <input placeholder="" class="tg-field-input" v-model="phone" ref="phoneInput"/>
               </van-col>
               <van-col span="4">
                 <van-icon name="cross" color="gray" size="20px" v-show="phone"
@@ -81,6 +82,7 @@
       onFocus(type) {
         if (type === 'phone') {
           this.borderBottomColor.phone = "#1287ca";
+          this.$refs.phoneInput.focus();
         }
       },
       clear(type) {

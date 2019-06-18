@@ -7,14 +7,19 @@
         </div>
       </van-row>
 
-      <div class="tg-field" style="margin-top: 15%" :style="{borderBottomColor:borderBottomColor.username}">
-        <van-row type="flex" justify="start">
+      <div class="tg-field" style="margin-top: 15%"
+           :style="{borderBottomColor:borderBottomColor.username}"
+           @click="onFocus('username')"
+           >
+        <van-row type="flex" justify="start" >
           <van-col span="7" class="tg-field-title">账号</van-col>
           <van-col span="17" class="tg-field-label">
             <div>
               <van-row type="flex" justify="start">
                 <van-col span="20">
-                  <input placeholder="请输入手机号" class="tg-field-input" v-model="username" @focus="onFocus('username')"/>
+                  <input placeholder="" class="tg-field-input" v-model="username"
+                         ref="usernameInput"
+                  />
                 </van-col>
                 <van-col span="4">
                   <van-icon name="cross" color="gray" size="20px" v-show="username"
@@ -26,15 +31,22 @@
         </van-row>
       </div>
 
-      <div class="tg-field" :style="{borderBottomColor:borderBottomColor.password}">
-        <van-row type="flex" justify="start">
+      <div class="tg-field"
+           :style="{borderBottomColor:borderBottomColor.password}"
+           @click="onFocus('password')"
+           >
+        <van-row type="flex" justify="start" >
           <van-col span="7" class="tg-field-title">密码</van-col>
           <van-col span="17" class="tg-field-label">
             <div>
               <van-row type="flex" justify="start">
                 <van-col span="16">
-                  <input :type="passwordType" placeholder="请输入密码" class="tg-field-input"
-                         v-model="password" @focus="onFocus('password')"/>
+                  <input :type="passwordType"
+                         placeholder=""
+                         class="tg-field-input"
+                         v-model="password"
+                         ref="passwordInput"
+                  />
                 </van-col>
                 <van-col span="4">
                   <van-icon name="cross" color="gray" size="20px" v-show="password"
@@ -109,10 +121,13 @@
         if (type === 'username') {
           this.borderBottomColor.username = "#1287ca";
           this.borderBottomColor.password = "lightgray";
+          this.$refs.usernameInput.focus();
+
         }
         if (type === 'password') {
           this.borderBottomColor.password = "#1287ca";
           this.borderBottomColor.username = "lightgray";
+          this.$refs.passwordInput.focus();
         }
       },
       clear(type) {
