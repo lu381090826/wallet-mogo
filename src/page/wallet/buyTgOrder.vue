@@ -1,8 +1,7 @@
 <template>
   <div>
     <van-tabs v-model="active">
-      <order-tab :order-state="OrderState.ALL" :order-list="orderList.ALL"/>
-      <order-tab :order-state="OrderState.ORDER_WATI_PAY" :order-list="orderList.ORDER_WATI_PAY"/>
+      <!--<order-tab :order-state="OrderState.ALL" :order-list="orderList.ALL"/>-->
       <order-tab :order-state="OrderState.ORDER_WATI_DELIVER" :order-list="orderList.ORDER_WATI_DELIVER"/>
       <order-tab :order-state="OrderState.ORDER_WATI_RECEIVE" :order-list="orderList.ORDER_WATI_RECEIVE"/>
       <order-tab :order-state="OrderState.ORDER_FINISH" :order-list="orderList.ORDER_FINISH"/>
@@ -48,10 +47,9 @@
     methods: {
       init() {
         request(TGCApiUrl.shopOrderGetOrderList, {pageSize: 30, orderType: OrderType.virtualShopTg}).then(res => {
-          this.orderList.ALL = res;
+          // this.orderList.ALL = res;
           for (let i = 0; i < res.length; i++) {
             let status = res[i].status;
-            console.log("Number(status)", Number(status));
             switch (Number(status)) {
               case orderState.ORDER_WATI_PAY:
                 this.orderList.ORDER_WATI_PAY.push(res[i]);
@@ -69,7 +67,6 @@
                 break;
             }
           }
-          console.log(JSON.stringify(res[0]))
         });
       },
       gotoOrderDetail(orderId) {

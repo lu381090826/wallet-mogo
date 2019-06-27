@@ -36,7 +36,7 @@
         home: {
           id: 'common.home',
           url: './common.home.html',
-          title: null,
+          title: '感恩链',
           color: '#3a90e0',
         },
         asset: {
@@ -58,15 +58,7 @@
       let wv = plus.webview.currentWebview();
       // 关闭侧滑返回功能
       wv.setStyle({scrollIndicator: 'none'});
-
-      plus.nativeUI.showWaiting();
       this.append(this.home);
-      setTimeout(() => {
-        plus.webview.getWebviewById(this.home.id).addEventListener('loaded', function () {
-          plus.nativeUI.closeWaiting();
-        });
-      }, 100);
-
     },
     mounted() {
       setTimeout(() => {
@@ -96,7 +88,8 @@
           let embed = plus.webview.create(obj.url, obj.id, {
             titleNView: titleNView,
             height: '93%',
-            backButtonAutoControl: 'none'
+            backButtonAutoControl: 'none',
+            scrollIndicator:"none"
           });
 
           plus.webview.currentWebview().append(embed);

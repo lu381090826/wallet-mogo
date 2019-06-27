@@ -24,7 +24,9 @@
     },
     created() {
       let t = this;
-      t.createBarcode();
+      setTimeout(()=>{
+        t.createBarcode();
+      },10)
     },
     methods: {
       // 扫码成功回调
@@ -33,15 +35,12 @@
       },
       // 创建Barcode扫码控件
       createBarcode() {
-        setTimeout(() => {
-          scan = new plus.barcode.Barcode('bcid', [plus.barcode.QR], {
-            top: "100px",
-            scanbarColor: "#069bff",
-            frameColor: "#0083ff",
-          });
-          scan.onmarked = this.onmarked;
-          scan.start()
-        }, 200)
+        scan = new plus.barcode.Barcode('bcid', [plus.barcode.QR], {
+          scanbarColor: "#069bff",
+          frameColor: "#0083ff",
+        });
+        scan.onmarked = this.onmarked;
+        scan.start()
       },
       gotoSend(walletAddress) {
         //预加载窗口

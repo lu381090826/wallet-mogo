@@ -29,7 +29,7 @@
           >
             <van-button slot="button" size="small" type="default" v-intervalclick="{func:sendVerifyCode}"
                         :disabled="disableVerify">
-              <span v-if="times===0 || times===60">获取(**7140)</span>
+              <span v-if="times===0 || times===60">获取验证码</span>
               <span v-else>{{times}}s</span>
             </van-button>
           </van-field>

@@ -132,20 +132,16 @@
               cons.homeViewId,
               {
                 titleNView: null,
-                render: "always"
+                render: "always",
+                cachemode:"default",
+                statusbar:{background:'#3a90e0'},
+                scrollIndicator:"none"
               },
             );
             webView.addEventListener('loaded', function () {
               webView.show("slide-in-right");
               wait.close();
-
-              let ws = plus.webview.all();
-              for (let i = 0; i < ws.length; i++) {
-                if (!cons.inLastWebViewIds(ws[i].id)) {
-                  ws[i].close();
-                }
-              }
-            }, 100);
+            }, 50);
 
           }
         })

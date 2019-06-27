@@ -254,15 +254,15 @@
   Vue.use(NoticeBar);
   Vue.use(Swipe).use(SwipeItem);
   Vue.use(Tabbar).use(TabbarItem)
-    .use(Row).use(Col)
-    .use(PullRefresh)
-    .use(Popup)
-    .use(Button)
-    .use(Toast)
-    .use(Icon)
-    .use(Cell)
-    .use(CellGroup)
-    .use(Loading);
+     .use(Row).use(Col)
+     .use(PullRefresh)
+     .use(Popup)
+     .use(Button)
+     .use(Toast)
+     .use(Icon)
+     .use(Cell)
+     .use(CellGroup)
+     .use(Loading);
   export default {
     data() {
       return {
@@ -432,6 +432,8 @@
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"},
           }
+        }, {}, {
+          needReLoad: true,
         });
       },
       receive() {
@@ -445,15 +447,26 @@
         this.showWalletConfig = true;
       },
       onRefresh() {
-        let _t = this;
-        _t.isLoading = true;
+        let _this = this;
+        _this.isLoading = true;
         this.showWalletConfig = false;
         setTimeout(() => {
-          _t.isLoading = false;
-          _t.init();
-        }, 500);
+          _this.isLoading = false;
+          setTimeout(() => {
+            Web3Util.getBalance(_this.walletAddress).then(res => {
+              if (res.toString().length > 14) {
+                _this.walletBalance = res.toString().substring(0, 14);
+              } else {
+                _this.walletBalance = res
+              }
+            });
+            Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
+              _this.tokenBalance = res;
+            });
+          }, 50)
+        }, 100);
       },
-      getWalletList(){
+      getWalletList() {
         let _this = this;
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;

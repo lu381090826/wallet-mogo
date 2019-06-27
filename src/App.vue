@@ -32,6 +32,11 @@
             const component = Vue.extend(Index);
             const instance = new component();
             instance.$mount("#app");
+            plus.webview.currentWebview().setStyle({
+              cachemode:"default",
+              statusbar:{background:'#3a90e0'},
+              scrollIndicator:"none"
+            });
           } else {
             plus.storage.clear();
             openWebview({url: cons.loginViewUrl, id: cons.loginViewId, noTitle: true});

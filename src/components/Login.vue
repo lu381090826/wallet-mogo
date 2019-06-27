@@ -234,13 +234,16 @@
               cons.homeViewId,
               {
                 titleNView: null,
-                render: "always"
+                render: "always",
+                cachemode:"default",
+                statusbar:{background:'#3a90e0'},
+                scrollIndicator:"none"
               },
             );
             webView.addEventListener('loaded', function () {
               webView.show("slide-in-right");
               wait.close();
-            }, 100);
+            }, 50);
           });
 
       }
