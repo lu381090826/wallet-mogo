@@ -325,6 +325,7 @@
 
         web3Util.getGasPrice().then(res => {
           _this.gasPrice = res;
+          console.log("_this.gasPrice::::" + _this.gasPrice);
         });
 
         if (isNotEmpty(_this.tokenAddress)) {

@@ -32,14 +32,14 @@ let Web3Util = {
   abiDecoder() {
     return abiDecoder;
   },
-  getBalance(walletAddress, contractAddress) {
+  async getBalance(walletAddress, contractAddress) {
     if (isEmpty(contractAddress)) {
       if (isEmpty(walletAddress)) {
         walletAddress = plus.storage.getItem('walletAddress');
       }
       let balance = 0;
       if (walletAddress) {
-        return web3.eth.getBalance(walletAddress).then(balance => {
+        return await web3.eth.getBalance(walletAddress).then(balance => {
           return (Number(web3.utils.fromWei(balance, 'ether')));
         })
       } else {
@@ -59,10 +59,10 @@ let Web3Util = {
     }
     return new web3.eth.Contract(abi, contractAddress);
   },
-  getContractBalance(contractAddress, walletAddress) {
+  async getContractBalance(contractAddress, walletAddress) {
     let t = this;
     let contract = t.getContract(contractAddress);
-    return contract.methods.balanceOf(walletAddress).call()
+    return await contract.methods.balanceOf(walletAddress).call()
                    .then(result => {
                      let balance = parseInt(result._hex, 16);
                      if (balance > 0) {
@@ -74,32 +74,10 @@ let Web3Util = {
                      }
                    });
   },
-  getContractBalanceBak(contractAddress, walletAddress) {
-    let t = this;
-
-    return t.getContract(contractAddress).then(contract => {
-      if (isEmpty(walletAddress)) {
-        walletAddress = plus.storage.getItem('walletAddress');
-      }
-
-      return contract.methods.balanceOf(walletAddress).then(result => {
-        if (!error) {
-          let s = result;
-          if (s > 0) {
-            return (s / Math.pow(10, Number(contract.decimals())));
-          } else {
-            return (0);
-          }
-        } else {
-          console.log(error);
-        }
-      });
-
-    });
-  },
   async getGasPrice() {
-    let gasPrice = web3.eth.gasPrice;
-    return await gasPrice;
+    return await web3.eth.getGasPrice().then(res => {
+      return res;
+    });
   }
   ,
   async getContractName(contractAddress) {
