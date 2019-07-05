@@ -180,7 +180,7 @@
 
   .bottom {
     padding: 3%;
-    margin-top: 15%;
+    margin-top: 5%;
   }
 
   .myselfbody {

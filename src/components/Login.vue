@@ -10,8 +10,8 @@
       <div class="tg-field" style="margin-top: 15%"
            :style="{borderBottomColor:borderBottomColor.username}"
            @click="onFocus('username')"
-           >
-        <van-row type="flex" justify="start" >
+      >
+        <van-row type="flex" justify="start">
           <van-col span="7" class="tg-field-title">账号</van-col>
           <van-col span="17" class="tg-field-label">
             <div>
@@ -34,8 +34,8 @@
       <div class="tg-field"
            :style="{borderBottomColor:borderBottomColor.password}"
            @click="onFocus('password')"
-           >
-        <van-row type="flex" justify="start" >
+      >
+        <van-row type="flex" justify="start">
           <van-col span="7" class="tg-field-title">密码</van-col>
           <van-col span="17" class="tg-field-label">
             <div>
@@ -72,16 +72,19 @@
       <div class="login-bottom">
         <van-row type="flex" justify="space-between">
           <van-col>
-            <div @click="verifyCodeLogin">短信验证码登录</div>
+            <div>
+              <span @click="verifyCodeLogin">短信验证码登录</span>
+              <span style="color: lightgrey">|</span>
+              <span @click="gotoRegister">注册</span>
+            </div>
+          </van-col>
+          <van-col>
           </van-col>
           <van-col>
             <div @click="forgetPassword">忘记密码？</div>
           </van-col>
         </van-row>
       </div>
-    </div>
-    <div class="login-to-register" @click="gotoRegister">
-      注册
     </div>
   </div>
 </template>
@@ -235,9 +238,9 @@
               {
                 titleNView: null,
                 render: "always",
-                cachemode:"default",
-                statusbar:{background:'#3a90e0'},
-                scrollIndicator:"none"
+                cachemode: "default",
+                statusbar: {background: '#3a90e0'},
+                scrollIndicator: "none"
               },
             );
             webView.addEventListener('loaded', function () {

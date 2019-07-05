@@ -65,7 +65,12 @@
         nativeFun.checkUpdate(false);
 
         //监听步数
-        nativeFun.initSensorEventListener();
+        let u = navigator.userAgent, app = navigator.appVersion;
+        let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+        let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isAndroid) {
+          nativeFun.initSensorEventListener();
+        }
       }, 1000);
     },
     methods: {
@@ -89,7 +94,8 @@
             titleNView: titleNView,
             height: '93%',
             backButtonAutoControl: 'none',
-            scrollIndicator:"none"
+            scrollIndicator: "none",
+            statusbar: {background: obj.color}
           });
 
           plus.webview.currentWebview().append(embed);

@@ -98,8 +98,8 @@
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-permission android:name=\"android.permission.CAMERA\"/>"
                 ],
-                "minSdkVersion" : 27,
-                "targetSdkVersion" : 27
+                "minSdkVersion" : 22,
+                "targetSdkVersion" : 22
             },
             /*使用Native.js调用原生安卓API需要使用到的系统权限*/
             "orientation" : [ "portrait-primary" ],

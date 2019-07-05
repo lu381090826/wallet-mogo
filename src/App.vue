@@ -24,6 +24,7 @@
       let _this = this;
       console.log(":::::::::::::::::::::start::::::::::::::::::::::");
       if (isEmpty(plus.storage.getItem('uid')) || isEmpty(plus.storage.getItem('token'))) {
+        plus.storage.clear();
         openWebview({url: cons.loginViewUrl, id: cons.loginViewId, noTitle: true});
       } else {
         request(TGCApiUrl.checkLogin).then(res => {
@@ -34,8 +35,8 @@
             instance.$mount("#app");
             plus.webview.currentWebview().setStyle({
               cachemode:"default",
-              statusbar:{background:'#3a90e0'},
-              scrollIndicator:"none"
+              // statusbar:{background:'#3a90e0'},
+              // scrollIndicator:"none"
             });
           } else {
             plus.storage.clear();

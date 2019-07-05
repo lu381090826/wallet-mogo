@@ -56,7 +56,7 @@
   import {Tab, Tabs, Button, Field, Toast, Dialog} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
-  import Wallet from "../../utils/web3Util/Myetherwallet";
+  import Web3Util from "../../utils/web3Util/Web3Util";
 
   Vue.use(Tab).use(Tabs).use(Button).use(Field).use(Dialog);
 
@@ -98,6 +98,7 @@
       importByKeyStore(password) {
         let keyStore = this.keyStore;
         let walletName = this.walletName;
+
         request(TGCApiUrl.checkPassword, {
           uid: plus.storage.getItem("uid"),
           password: password
@@ -108,7 +109,7 @@
           }
 
           Toast.loading({
-            text: '正在导入钱包，请耐心等待...',
+            message: '正在导入钱包，请耐心等待...',
           });
           setTimeout(() => {
             let params = {
@@ -134,20 +135,30 @@
           uid: plus.storage.getItem("uid"),
           password: password
         }).then(function (res) {
-
+          console.log(JSON.stringify(res))
           if (!res.passwordSuccess) {
             Toast('密码不正确');
             throw new Error('password error');
           }
 
           Toast.loading({
-            text: '正在导入钱包，请耐心等待...',
+            message: '正在导入钱包，请耐心等待...',
           });
           setTimeout(() => {
-            let wallet = new Wallet(privateKey);
-            let address = wallet.getAddressString();
-            let keyStore = wallet.toV3String(password);
+            let keyStore = Web3Util.instance.eth.accounts.encrypt(privateKey, password);
+            // let keyStore;
+            // let Accounts = require('web3-eth-accounts');
+            // let accounts = new Accounts(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd');
+            // keyStore = accounts.encrypt(privateKey, password);
+            console.log(keyStore);
 
+            if (typeof keyStore === 'undefined') {
+              Toast.fail('导入失败，请重试。');
+              return;
+            }
+
+            let address = keyStore.address;
+            console.log(address)
             let params = {
               keyStore: keyStore,
               address: address,
@@ -155,13 +166,12 @@
               walletName: walletName,
               password: password,
             };
-            console.log(keyStore);
-            request(TGCApiUrl.walletAdd, params).then(() => {
+            request(TGCApiUrl.walletAdd, params).then((res) => {
+              console.log(JSON.stringify(res));
               Toast.success("钱包导入成功");
-              // plus.webview.getWebviewById('wallet.walletConfig').reload();
               plus.webview.currentWebview().close();
             });
-          }, 300);
+          }, 100);
         })
       }
     }
