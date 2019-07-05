@@ -6,16 +6,20 @@ import {isEmpty, isNotEmpty} from "../globalFunc";
 const abiDecoder = require('abi-decoder');
 abiDecoder.addABI(abi);
 
-let web3 = new Web3();
-if (isNotEmpty(Vue.prototype.HOST)) {
-  web3.setProvider(new web3.providers.HttpProvider(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
-} else {
-  // web3.setProvider(new web3.providers.HttpProvider('https://rinkeby.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
-  web3.setProvider(new web3.providers.HttpProvider('https://mainnet.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
-}
+// let web3 = new Web3();
+// if (isNotEmpty(Vue.prototype.HOST)) {
+//   web3.setProvider(new web3.providers.HttpProvider(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
+// } else {
+//   // web3.setProvider(new web3.providers.HttpProvider('https://rinkeby.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
+//   web3.setProvider(new web3.providers.HttpProvider('https://mainnet.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
+// }
+
+let web3 = new Web3(Web3.givenProvider || 'wss://mainnet.infura.io/ws');
+
+// web3.setProvider(new web3.providers.HttpProvider('https://mainnet.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
 
 const tgAddress = '0x95ff62d03D45e29b20E497D0fD526D8d2d387804';
-const tgContract = web3.eth.contract(abi).at(tgAddress);
+const tgContract = new web3.eth.Contract(abi, tgAddress);
 
 let Web3Util = {
   instance: web3,
@@ -28,52 +32,76 @@ let Web3Util = {
   abiDecoder() {
     return abiDecoder;
   },
-  async getBalance(walletAddress, contractAddress) {
+  getBalance(walletAddress, contractAddress) {
     if (isEmpty(contractAddress)) {
       if (isEmpty(walletAddress)) {
         walletAddress = plus.storage.getItem('walletAddress');
       }
-
       let balance = 0;
       if (walletAddress) {
-        balance = web3.eth.getBalance(walletAddress);
+        return web3.eth.getBalance(walletAddress).then(balance => {
+          return (Number(web3.utils.fromWei(balance, 'ether')));
+        })
+      } else {
+        return balance;
       }
 
-      return await (Number(web3.fromWei(balance, 'ether')));
-
     } else {
-      return await this.getContractBalance(contractAddress, walletAddress);
+      return this.getContractBalance(contractAddress, walletAddress);
     }
   },
-  async getContract(contractAddress) {
+  getContract(contractAddress) {
     if (isEmpty(contractAddress)) {
       return null;
     }
     if (contractAddress === tgAddress) {
       return tgContract;
     }
-    return await web3.eth.contract(abi).at(contractAddress);
+    return new web3.eth.Contract(abi, contractAddress);
   },
-  async getContractBalance(contractAddress, walletAddress) {
+  getContractBalance(contractAddress, walletAddress) {
+    let t = this;
+    let contract = t.getContract(contractAddress);
+    return contract.methods.balanceOf(walletAddress).call()
+                   .then(result => {
+                     let balance = parseInt(result._hex, 16);
+                     if (balance > 0) {
+                       return contract.methods.decimals().call().then(res => {
+                         return balance / Math.pow(10, Number(res));
+                       });
+                     } else {
+                       return 0;
+                     }
+                   });
+  },
+  getContractBalanceBak(contractAddress, walletAddress) {
     let t = this;
 
-    return await t.getContract(contractAddress).then(contract => {
+    return t.getContract(contractAddress).then(contract => {
       if (isEmpty(walletAddress)) {
         walletAddress = plus.storage.getItem('walletAddress');
       }
 
-      let s = Number(contract.balanceOf(walletAddress));
-      if (s > 0) {
-        return (s / Math.pow(10, Number(contract.decimals())));
-      } else {
-        return (0);
-      }
+      return contract.methods.balanceOf(walletAddress).then(result => {
+        if (!error) {
+          let s = result;
+          if (s > 0) {
+            return (s / Math.pow(10, Number(contract.decimals())));
+          } else {
+            return (0);
+          }
+        } else {
+          console.log(error);
+        }
+      });
+
     });
   },
   async getGasPrice() {
     let gasPrice = web3.eth.gasPrice;
     return await gasPrice;
-  },
+  }
+  ,
   async getContractName(contractAddress) {
     let t = this;
     return await t.getContract(contractAddress).then(contract => {
