@@ -441,6 +441,8 @@
           url: "./wallet.receive.html",
           id: "wallet.receive",
           title: "收款"
+        }, {}, {
+          needReLoad: true,
         });
       },
       config() {
@@ -450,6 +452,10 @@
         let _this = this;
         _this.isLoading = true;
         this.showWalletConfig = false;
+
+        this.walletBalance = '-';
+        this.tokenBalance = '-';
+
         setTimeout(() => {
           _this.isLoading = false;
           setTimeout(() => {
