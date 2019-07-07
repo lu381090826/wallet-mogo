@@ -128,8 +128,8 @@ const webpackConfig = {
     enable: config.build.vConsole // 发布代码前记得改回 false
   }),
   new CommonsChunkPlugin({
-    name: ["vue"],
-    minChunks: 2
+    name: ["vue","common", "webpackAssets"],
+    minChunks: 3
 
   })]
 };

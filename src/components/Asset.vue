@@ -100,14 +100,14 @@
   import QrcodeVue from 'qrcode.vue'
 
   Vue.use(Tabbar).use(TabbarItem)
-    .use(Row).use(Col)
-    .use(PullRefresh)
-    .use(Toast)
-    .use(Icon)
-    .use(Popup)
-    .use(Button)
-    .use(Cell)
-    .use(CellGroup);
+     .use(Row).use(Col)
+     .use(PullRefresh)
+     .use(Toast)
+     .use(Icon)
+     .use(Popup)
+     .use(Button)
+     .use(Cell)
+     .use(CellGroup);
   Vue.use(VueClipboard);
   export default {
     components: {
@@ -118,9 +118,9 @@
         walletAddress: plus.storage.getItem("walletAddress"),
         walletName: plus.storage.getItem("walletName"),
         tokenList: [],
-        walletBalance: "---",
+        walletBalance: "-",
         isLoading: false,
-        totalProfit: "---",
+        totalProfit: "-",
         walletList: null,
         showWalletConfig: false,
         walletQcode: false,
@@ -253,6 +253,8 @@
       },
       init() {
         let _this = this;
+
+        _this.walletBalance = '-';
 
         _this.getWalletList();
 

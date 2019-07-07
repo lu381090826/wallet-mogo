@@ -457,20 +457,8 @@
         this.tokenBalance = '-';
 
         setTimeout(() => {
-          _this.isLoading = false;
-          setTimeout(() => {
-            Web3Util.getBalance(_this.walletAddress).then(res => {
-              if (res.toString().length > 14) {
-                _this.walletBalance = res.toString().substring(0, 14);
-              } else {
-                _this.walletBalance = res
-              }
-            });
-            Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
-              _this.tokenBalance = res;
-            });
-          }, 50)
-        }, 100);
+          _this.init();
+        }, 50)
       },
       getWalletList() {
         let _this = this;
@@ -481,6 +469,7 @@
       init() {
         let _this = this;
         request(TGCApiUrl.homePage).then(res => {
+          console.log(JSON.stringify(res));
           _this.showVerifyIdcard = res.idcardIsCheck === 0;
           _this.walletList = res.walletList;
           _this.goods = res.getHot;
@@ -500,6 +489,7 @@
           });
         }, 50);
 
+        _this.isLoading = false;
       },
       subString(value) {
         if (Number(value) === 0) {

@@ -1,48 +1,83 @@
 <template>
   <div style="margin: 3%">
-    <van-cell-group>
-      <van-field label="金额" placeholder=""
-                 v-model="sendAmount"
-                 :error-message="sendAmountError"
-                 @input="sendAmountError = ''"
-                 :readonly="sendAmountReadOnly"
-                 :disabled="sendAmountReadOnly"
-                 type="number"
-      >
-        <van-icon slot="icon" name="more-o" @click="selectToken" v-show="showTokenSelect"/>
-      </van-field>
-      <van-field label="交易合约"
-                 v-model="tokenAddress"
-                 v-show="tokenAddress"
-                 :readonly="tokenAddressReadOnly"
-                 :disabled="tokenAddressReadOnly"
-      >
-        <van-icon slot="icon" name="close" @click="closeToken" v-show="!tokenAddressReadOnly"/>
-      </van-field>
-      <van-field label="合约名称"
-                 v-model="tokenName"
-                 v-show="tokenAddress"
-                 :readonly="tokenAddressReadOnly"
-                 :disabled="tokenAddressReadOnly"
-      >
-      </van-field>
-      <van-field label="收款方"
-                 v-model="receiveAddress"
-                 placeholder="收款钱包地址"
-                 :error-message="receiveAddressError"
-                 @input="receiveAddressError = ''"
-                 :clearable="true"
-                 :readonly="receiveAddressReadOnly"
-                 :disabled="receiveAddressReadOnly"
-      >
-        <van-icon slot="icon" name="contact" @click="contact"/>
-      </van-field>
-      <van-field label="燃料费(ETH)" :readonly="true" disableClear v-model="gasValue">
-        <van-icon name="question-o" slot="icon" @click="gasQuestion"/>
-      </van-field>
-      <van-slider v-model="rangeValue" :min="rangeMin" :max="rangeMax" :step="0.00001">
-      </van-slider>
-    </van-cell-group>
+    <van-tabs v-model="active">
+      <van-tab title="转Eth">
+        <div>
+          <van-cell-group>
+            <van-field label="数量" placeholder=""
+                       v-model="sendAmount"
+                       :error-message="sendAmountError"
+                       @input="sendAmountError = ''"
+                       :readonly="sendAmountReadOnly"
+                       :disabled="sendAmountReadOnly"
+                       type="number"
+            >
+            </van-field>
+            <van-field label="收款方"
+                       v-model="receiveAddress"
+                       placeholder="收款钱包地址"
+                       :error-message="receiveAddressError"
+                       @input="receiveAddressError = ''"
+                       :clearable="true"
+                       :readonly="receiveAddressReadOnly"
+                       :disabled="receiveAddressReadOnly"
+            >
+              <van-icon slot="icon" name="contact" @click="contact"/>
+            </van-field>
+            <van-field label="燃料费(ETH)" :readonly="true" disableClear v-model="gasValue">
+              <van-icon name="question-o" slot="icon" @click="gasQuestion"/>
+            </van-field>
+            <van-slider v-model="rangeValue" :min="rangeMin" :max="rangeMax" :step="0.00001">
+            </van-slider>
+          </van-cell-group>
+        </div>
+      </van-tab>
+
+      <van-tab title="转合约">
+        <div>
+          <van-cell-group>
+            <van-field label="交易合约"
+                       v-model="tokenAddress"
+                       :readonly="tokenAddressReadOnly"
+                       :disabled="tokenAddressReadOnly"
+            >
+              <van-icon slot="icon" name="bars" @click="selectToken" v-show="!tokenAddressReadOnly"/>
+            </van-field>
+            <van-field label="合约名称"
+                       v-model="tokenName"
+                       :readonly="true"
+                       :disabled="true"
+            >
+            </van-field>
+            <van-field label="数量" placeholder=""
+                       v-model="sendAmount"
+                       :error-message="sendAmountError"
+                       @input="sendAmountError = ''"
+                       :readonly="sendAmountReadOnly"
+                       :disabled="sendAmountReadOnly"
+                       type="number"
+            >
+            </van-field>
+            <van-field label="收款方"
+                       v-model="receiveAddress"
+                       placeholder="收款钱包地址"
+                       :error-message="receiveAddressError"
+                       @input="receiveAddressError = ''"
+                       :clearable="true"
+                       :readonly="receiveAddressReadOnly"
+                       :disabled="receiveAddressReadOnly"
+            >
+              <van-icon slot="icon" name="contact" @click="contact"/>
+            </van-field>
+            <van-field label="燃料费(ETH)" :readonly="true" disableClear v-model="gasValue">
+              <van-icon name="question-o" slot="icon" @click="gasQuestion"/>
+            </van-field>
+            <van-slider v-model="rangeValue" :min="rangeMin" :max="rangeMax" :step="0.00001">
+            </van-slider>
+          </van-cell-group>
+        </div>
+      </van-tab>
+    </van-tabs>
 
     <van-popup v-model="showConfirm" class="confirm">
       <van-field label="金额" v-model="sendAmount" :readonly="true" :disabled="true">
@@ -56,7 +91,6 @@
         立即转账
       </van-button>
     </van-popup>
-
     <van-actionsheet
       cancel-text="取消"
       v-model="showWalletList"
@@ -75,6 +109,7 @@
     <van-button class="doNext button-blue" type="primary" size="large" v-intervalclick="{func:doNext}">
       确认转账
     </van-button>
+
   </div>
 </template>
 <script>
@@ -89,16 +124,19 @@
     Popup,
     Dialog,
     Icon,
-    Toast
+    Toast,
+    Tab,
+    Tabs
   } from 'vant';
   import web3Util from "../../utils/web3Util/Web3Util";
   import tgcApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
   import MathUtil from "../../utils/MathUtil";
   import {isEmpty, isNotEmpty} from "../../utils/globalFunc";
-  import {openWebview, openWebviewFast} from "../../utils/webview";
+  import {openWebview} from "../../utils/webview";
   import OrderType from "../../utils/constants/OrderType";
 
+  Vue.use(Tab).use(Tabs);
   Vue.use(Dialog);
   Vue.use(Actionsheet);
   Vue.use(Popup);
@@ -110,6 +148,7 @@
   export default {
     data() {
       return {
+        active: 0,
         sendAmount: "",
         sendAmountReadOnly: false,
         receiveAddress: "",
@@ -127,8 +166,8 @@
         walletPassword: "",
         showWalletList: false,
         showTokenList: false,
-        tokenName: "",
-        tokenAddress: "",
+        tokenName: web3Util.tgName,
+        tokenAddress: web3Util.tgAddress,
         tokenAddressReadOnly: false,
         orderId: "",
         walletListActions: [],
@@ -270,7 +309,6 @@
       selectToken() {
         let _this = this;
         if (_this.tokenListActions.length === 0) {
-          Toast.loading();
           request(tgcApiUrl.walletTokenList).then(res => {
             if (isEmpty(res.length)) {
               Toast('出错了T_T');
@@ -283,7 +321,6 @@
               res[i].type = 'token'
             }
             _this.tokenListActions = res;
-            Toast.clear();
           });
         }
         this.showTokenList = !this.showTokenList;
