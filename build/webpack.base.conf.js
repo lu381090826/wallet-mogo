@@ -127,11 +127,10 @@ const webpackConfig = {
   new vConsolePlugin({
     enable: config.build.vConsole // 发布代码前记得改回 false
   }),
-  new CommonsChunkPlugin({
-    name: ["vue","common", "webpackAssets"],
-    minChunks: 3
-
-  })]
+    new CommonsChunkPlugin({
+      name: ["vue"],
+      minChunks: 2
+    })]
 };
 
 const vuxLoader = require("vux-loader");

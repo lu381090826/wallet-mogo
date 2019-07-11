@@ -1,7 +1,20 @@
 <template>
   <div class="body">
     <div class="box text-left">
-      <h2>我的钱包</h2>
+      <div style="padding: 3%">
+        <span style="font-weight: bold;font-size: 26px">我的钱包</span>
+        <div style="float: right;">
+          <van-button size="mini"
+                      v-intervalclick="{func:gotoImport}">
+            <van-icon name="refund-o"></van-icon>
+            导入钱包
+          </van-button>
+          <van-button size="mini" @click="init">
+            <van-icon name="replay"></van-icon>
+            刷新
+          </van-button>
+        </div>
+      </div>
       <van-cell-group>
         <van-cell v-for="(item,k) in walletList"
                   :key="k"
@@ -14,9 +27,22 @@
         </van-cell>
       </van-cell-group>
 
-      <van-button class="gotoImport button-blue" type="primary" size="large" v-intervalclick="{func:gotoImport}">导入钱包
+
+      <van-button class="gotoImport button-blue" type="primary" size="large" v-intervalclick="{func:createWallet}">创建新钱包
       </van-button>
     </div>
+
+    <van-popup class="box" style="width: 80%" v-model="showCreate">
+      <div>
+        <van-cell-group>
+          <van-field v-model="newWaletName" placeholder="请输入钱包名"></van-field>
+          <van-field v-model="newWaletPassword" type='password' placeholder="请输入钱包密码"></van-field>
+        </van-cell-group>
+        <div style="margin-top: 8%">
+          <van-button type="info" size="large" v-intervalclick="{func:doCreate}">立即创建</van-button>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -28,7 +54,14 @@
   import {preLoad, showWebviewById} from "@/utils/webview";
   import {openWebview} from "../../utils/webview";
   import {Actionsheet} from 'vant';
+  import {Icon} from 'vant';
+  import {Dialog} from 'vant';
+  import {Popup} from 'vant';
+  import {Field} from 'vant';
 
+  Vue.use(Field);
+  Vue.use(Popup);
+  Vue.use(Icon);
   Vue.use(Actionsheet);
   Vue.use(RadioGroup);
   Vue.use(Button);
@@ -45,6 +78,9 @@
         walletName: plus.storage.getItem("walletName"),
         radio: plus.storage.getItem("walletAddress"),
         originWalletAddress: plus.storage.getItem("walletAddress"),
+        showCreate: false,
+        newWaletName: 'new1',
+        newWaletPassword: '111111',
       }
     },
     created() {
@@ -61,6 +97,14 @@
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
+      },
+      doCreate() {
+        request(TGCApiUrl.createWallet, {walletName: this.newWaletName, password: this.newWaletPassword}).then(res => {
+          Dialog({message: "钱包创建成功，钱包地址" + res.walletAddress});
+        })
+      },
+      createWallet() {
+        this.showCreate = !this.showCreate;
       },
       reloadWebview() {
         let wa = plus.nativeUI.showWaiting();
@@ -102,11 +146,10 @@
 </script>
 <style scoped>
   .gotoImport {
-    margin-top: 30%;
+    margin-top: 5%;
     width: 94%;
     margin-left: 3%;
     margin-bottom: 5%;
     color: white;
   }
-
 </style>

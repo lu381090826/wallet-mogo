@@ -83,7 +83,7 @@
         })
       },
       sendVerifyCode() {
-        request(TGCApiUrl.verifySendCodeMsg).then(res => {
+        request(TGCApiUrl.verifySendCodeMsg).then(() => {
           Toast.success("验证码已发送")
         });
         this.disableVerify = true;

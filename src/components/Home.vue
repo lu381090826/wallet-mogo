@@ -230,8 +230,8 @@
             </van-cell>
           </van-cell-group>
           <van-cell-group>
-            <van-button class="gotoImport button-blue" type="default" size="normal" v-intervalclick="{func:gotoImport}">
-              导入钱包
+            <van-button class="gotoImport button-blue" type="default" size="normal" v-intervalclick="{func:gotoWalletConfig}">
+              钱包管理
             </van-button>
           </van-cell-group>
         </div>
@@ -298,11 +298,11 @@
           return "white";
         }
       },
-      gotoImport() {
+      gotoWalletConfig() {
         openWebview({
-          url: "./wallet.import.html",
-          id: "wallet.import",
-          title: "钱包导入"
+          url: "./wallet.walletConfig.html",
+          id: "wallet.walletConfig",
+          title: "钱包设置"
         });
       },
       set(walletAddress, walletName) {
@@ -469,7 +469,6 @@
       init() {
         let _this = this;
         request(TGCApiUrl.homePage).then(res => {
-          console.log(JSON.stringify(res));
           _this.showVerifyIdcard = res.idcardIsCheck === 0;
           _this.walletList = res.walletList;
           _this.goods = res.getHot;

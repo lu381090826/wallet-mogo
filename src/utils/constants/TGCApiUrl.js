@@ -3,6 +3,7 @@ const TGCApiUrl = {
   homePage: "/common/api/homePage",
   walletTokenList: "/walletToken/api/WalletTokenList",
   walletList: "/wallet/api/walletList",
+  createWallet: "/wallet/api/createWallet",
   goodsHot: "/shop/goods/getHot",
   goodsHome: "/shop/goods/home",
   goodsDetail: "/shop/goods/goodsDetail",

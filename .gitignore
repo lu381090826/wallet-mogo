@@ -1,8 +1,9 @@
 .DS_Store
 node_modules/
-/dist/www/
-/dist/unpackage/release
-/dist/unpackage/resources
+dist/www/
+dist/unpackage/release
+dist/unpackage/resources
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

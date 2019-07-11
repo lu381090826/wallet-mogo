@@ -69,7 +69,7 @@ module.exports = {
 
     vConsole: false, //是否显示VConsole
     // Template for index.html
-    index: path.resolve(__dirname, "../dist/www/index.html"),
+    index: path.resolve(__dirname, "index.html"),
 
     // Paths
     assetsRoot: path.resolve(__dirname, "../dist/www/"),assetsSubDirectory: "assets",

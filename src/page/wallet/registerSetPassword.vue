@@ -53,6 +53,36 @@
       </van-row>
     </div>
 
+    <div class="tg-field" :style="{borderBottomColor:borderBottomColor.passwordAgain}">
+      <van-row type="flex" justify="start">
+        <van-col span="6" class="tg-field-title">
+          验证码
+        </van-col>
+        <van-col span="12" class="tg-field-label">
+          <div>
+            <van-row type="flex" justify="start">
+              <van-col span="20">
+                <input placeholder="请输入手机验证码" class="tg-field-input" type="password"
+                       v-model="verifyCode"
+                       @focus="onFocus('passwordAgain')"/>
+              </van-col>
+              <van-col span="4">
+                <van-icon name="cross" color="gray" size="20px" v-show="verifyCode"
+                          @click="clear('verifyCode')"></van-icon>
+              </van-col>
+            </van-row>
+          </div>
+        </van-col>
+        <van-col span="8">
+          <van-button size="small" type="default" v-intervalclick="{func:sendVerifyCode}"
+                      :disabled="disableVerify">
+            <span v-if="times===0 || times===60">获取</span>
+            <span v-else>{{times}}s</span>
+          </van-button>
+        </van-col>
+      </van-row>
+    </div>
+
     <van-button size="large" class="button-blue" style="margin-top: 8%;" @click="register" :disabled="disabled">立即注册
     </van-button>
 
@@ -67,7 +97,6 @@
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {isNotEmpty} from "../../utils/globalFunc";
   import cons from "../../utils/constants/Cons";
-  import {openWebview} from "../../utils/webview";
 
   Vue.use(Row)
     .use(Col)
@@ -85,12 +114,22 @@
         },
         disabled: true,
         phone: null,
-        captcha: "123456",
+        verifyCode: "",
+        times: 0,
+        disableVerify: false,
       };
     },
     methods: {
       checkAble() {
         return RegexRoules.password.test(this.password) && this.password === this.passwordAgain && isNotEmpty(this.phone);
+      },
+      sendVerifyCode() {
+        request(TGCApiUrl.verifySendCodeMsg).then(() => {
+          Toast.success("验证码已发送")
+        });
+        this.disableVerify = true;
+        this.times = 59;
+        this.countdown();
       },
       onFocus(type) {
         if (type === 'password') {
@@ -108,12 +147,15 @@
         if (type === 'passwordAgain') {
           this.passwordAgain = "";
         }
+        if (type === 'verifyCode') {
+          this.verifyCode = "";
+        }
       },
       register() {
         let inputMap = {
           phone: this.phone,
           password: this.password,
-          captcha: this.captcha,
+          captcha: this.verifyCode,
           passwordAgain: ""
         };
 
@@ -133,9 +175,9 @@
               {
                 titleNView: null,
                 render: "always",
-                cachemode:"default",
-                statusbar:{background:'#3a90e0'},
-                scrollIndicator:"none"
+                cachemode: "default",
+                statusbar: {background: '#3a90e0'},
+                scrollIndicator: "none"
               },
             );
             webView.addEventListener('loaded', function () {
