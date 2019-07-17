@@ -56,6 +56,8 @@
   import "@/utils/css/TgField.less"
   import RegexRoules from "@/utils/constants/RegexRoules";
   import {openWebview} from "../../utils/webview";
+  import {request} from "../../utils/request";
+  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
 
   Vue.use(Row)
     .use(Col)
@@ -85,24 +87,26 @@
         }
       },
       register() {
-        openWebview({
-          url: './wallet.registerSetPassword.html',
-          id: 'wallet.registerSetPassword',
-          needLoaded: true,
-          titleStyle: {
-            style: 'transparent',
-            backgroundColor: 'white',
-            titleText: '   ',
-            titleColor: '#1287ca',
-            autoBackButton: false,
-            buttons: [{
-              text: '返回',
-              fontSize: '16px',
-              float: 'left',
-              onclick: this.webview.closeWebview.bind({webviewId: 'wallet.registerSetPassword'})
-            }]
-          }
-        }, {}, {phone: this.phone})
+        request(TGCApiUrl.checkMobile).then(res => {
+          openWebview({
+            url: './wallet.registerSetPassword.html',
+            id: 'wallet.registerSetPassword',
+            needLoaded: true,
+            titleStyle: {
+              style: 'transparent',
+              backgroundColor: 'white',
+              titleText: '   ',
+              titleColor: '#1287ca',
+              autoBackButton: false,
+              buttons: [{
+                text: '返回',
+                fontSize: '16px',
+                float: 'left',
+                onclick: this.webview.closeWebview.bind({webviewId: 'wallet.registerSetPassword'})
+              }]
+            }
+          }, {}, {phone: this.phone})
+        });
       },
     },
     watch: {

@@ -140,6 +140,19 @@
           this.borderBottomColor.password = "lightgray";
         }
       },
+      countdown() {
+        let that = this;
+        setTimeout(function () {
+          if (that.times === 0) {
+            that.times = 60;
+            that.disableVerify = false;
+            return false;
+          } else {
+            that.times--;
+          }
+          that.countdown();
+        }, 1000);
+      },
       clear(type) {
         if (type === 'password') {
           this.password = "";
