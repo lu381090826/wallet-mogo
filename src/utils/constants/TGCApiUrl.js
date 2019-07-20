@@ -26,7 +26,7 @@ const TGCApiUrl = {
   updateToken: "/walletToken/api/updateToken",
   getLastVersion: "/common/api/getLastVersion",
   checkPassword: "/user/api/checkPassword",
-  checkMobile: "/verify/api/checkMobileAvailable",
+  checkMobile: "/user/api/checkMobileAvailable",
   changePassword: "/user/api/changePassword",
   checkLogin: "/user/api/checkLogin",
   walletAdd: "/wallet/api/walletAdd",

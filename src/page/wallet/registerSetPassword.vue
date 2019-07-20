@@ -62,7 +62,7 @@
           <div>
             <van-row type="flex" justify="start">
               <van-col span="20">
-                <input placeholder="请输入手机验证码" class="tg-field-input" type="password"
+                <input placeholder="请输入手机验证码" class="tg-field-input" type="text"
                        v-model="verifyCode"
                        @focus="onFocus('passwordAgain')"/>
               </van-col>
@@ -124,7 +124,7 @@
         return RegexRoules.password.test(this.password) && this.password === this.passwordAgain && isNotEmpty(this.phone);
       },
       sendVerifyCode() {
-        request(TGCApiUrl.verifySendCodeMsg).then(() => {
+        request(TGCApiUrl.verifySendCodeMsg, {mobile: this.phone}).then(() => {
           Toast.success("验证码已发送")
         });
         this.disableVerify = true;
@@ -193,10 +193,13 @@
                 scrollIndicator: "none"
               },
             );
-            webView.addEventListener('loaded', function () {
-              webView.show("slide-in-right");
-              wait.close();
-            }, 50);
+            setTimeout(() => {
+              webView.addEventListener('loaded', function () {
+                webView.show("slide-in-right");
+                wait.close();
+              }, 50);
+            },20)
+
 
           }
         })

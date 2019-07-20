@@ -58,7 +58,9 @@
   import {openWebview} from "../../utils/webview";
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import { Toast } from 'vant';
 
+  Vue.use(Toast);
   Vue.use(Row)
     .use(Col)
     .use(Icon)
@@ -87,7 +89,13 @@
         }
       },
       register() {
-        request(TGCApiUrl.checkMobile).then(res => {
+        request(TGCApiUrl.checkMobile, {mobile: this.phone}).then(res => {
+          console.log(res);
+          if (Number(res) === 0) {
+            Toast.fail('该手机号已注册，请返回登录页面登录。');
+            return false;
+          }
+
           openWebview({
             url: './wallet.registerSetPassword.html',
             id: 'wallet.registerSetPassword',
