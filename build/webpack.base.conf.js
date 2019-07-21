@@ -133,8 +133,10 @@ const webpackConfig = {
     })]
 };
 
-const vuxLoader = require("vux-loader");
+// const vuxLoader = require("vux-loader");
+//
+// module.exports = vuxLoader.merge(webpackConfig, {
+//   plugins: ["vux-ui"]
+// });
 
-module.exports = vuxLoader.merge(webpackConfig, {
-  plugins: ["vux-ui"]
-});
+module.exports = webpackConfig;

@@ -10,7 +10,7 @@
     "icons" : {
         "72" : "icon.png"
     },
-    "launch_path" : "http://192.168.1.104:8080",
+    "launch_path" : "www/index.html",
     "developer" : {
         "name" : "Gavin Lu",
         "email" : "381090826@qq.com",
