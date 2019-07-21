@@ -28,8 +28,7 @@ let etherscanHttpUtils = {
       .catch(error => {
         Toast(error);
         return Promise.reject(error);
-      }).finally(
-        function () {
+      }).finally(() => {
           Toast.clear();
         }
       );

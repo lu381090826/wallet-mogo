@@ -122,6 +122,8 @@
           url: './wallet.buyTg.html',
           id: 'wallet.buyTg',
           title: '认购TG'
+        }, {}, {
+          needReLoad: true
         })
       },
       shopOrder() {

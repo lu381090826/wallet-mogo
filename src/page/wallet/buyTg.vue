@@ -18,12 +18,25 @@
         </div>
         <van-cell-group :border="false">
           <van-cell>
-            <van-field placeholder="请输入要购入的数量" v-model="buyNum" type="number" label="购买数"
+            <van-field placeholder="请输入要购入的数量"
+                       v-model="buyNum"
+                       type="number" label="购买数"
+                       @keyup="checkGive"
                        @input="calculate()"></van-field>
           </van-cell>
           <van-cell>
             <van-field v-model="dollarAmount" label="预计金额(￥)" :readonly="true" disable></van-field>
-            <van-field v-model="ethAmount" label="预计金额(Eth)" :readonly="true" disable></van-field>
+            <van-field v-model="ethAmount"
+                       label="预计金额(Eth)"
+                       :readonly="true"
+                       @click="reflashRate"
+                       disable>
+            </van-field>
+            <van-field v-model="giveAmount" label="活动赠送(Eth)"
+                       v-show="giveAmountShow"
+                       :readonly="true"
+                       :disabled="true"
+                       disable></van-field>
           </van-cell>
           <van-cell title="转入钱包(点击可更换)" :label="walletAddress" icon="cash-back-record" @click="selectWallet">
           </van-cell>
@@ -52,10 +65,15 @@
       :actions="walletListActions"
       @select="onSelect"
       @cancel="onCancel"
-    />
+    ></van-actionsheet>
     <van-popup v-model="walletQcode" class="box" style="width: 150px">
       <qrcode-vue :value="tokenAddress" :size="150" style="margin-top: 3%" level="H"></qrcode-vue>
     </van-popup>
+
+    <van-popup v-model="activitiesShow">
+      <img src="../../../static/activities/huodong736.jpg" width="266">
+    </van-popup>
+
   </div>
 </template>
 <script>
@@ -71,7 +89,7 @@
   import etherscanHttpUtils from "../../utils/web3Util/etherscanHttpUtils";
 
   Vue.use(Field).use(Popup).use(Button).use(CellGroup).use(Cell).use(NoticeBar).use(Toast).use(Actionsheet).use(Slider)
-     .use(Dialog);
+    .use(Dialog);
 
   export default {
     data() {
@@ -91,10 +109,17 @@
         rangeMin: 3,
         rangeMax: 300,
         rangeValue: 3,
+        activitiesShow: false,
+        giveAmountShow: false,
+        giveAmount: null,
       };
     },
     created() {
       this.reflashRate();
+      let _t = this;
+      setTimeout(() => {
+        _t.activitiesShow = true;
+      }, 300)
     },
     methods: {
       gasQuestion() {
@@ -108,17 +133,19 @@
       },
       reflashRate() {
         let _t = this;
+        Toast.loading('查询中...');
         request(tgcApiUrl.buyTgDollarRate).then(res => {
           _t.dollarRate = Number(res);
         });
         etherscanHttpUtils.get({module: "stats", action: 'ethprice'}).then(res => {
+          console.log(JSON.stringify(res))
           _t.ethRate = res.ethusd;
-        })
+        });
       },
       calculate() {
         this.dollarAmount = MathUtil.accMul(this.buyNum, this.dollarRate);
         if (isEmpty(this.ethRate)) {
-          this.ethAmount = '查询异常，稍后重试'
+          this.ethAmount = '查询异常，点击刷新重试'
         } else {
           this.ethAmount = MathUtil.accMul(this.buyNum, 1 / this.ethRate).toFixed(6);
         }
@@ -166,7 +193,14 @@
           id: 'wallet.buyTgOrder',
           title: 'Tg购买记录',
         }, {}, {isnew: true})
-
+      },
+      checkGive() {
+        if (Number(this.buyNum) >= 28) {
+          this.giveAmount = Number(100 / this.ethRate).toFixed(2);
+          this.giveAmountShow = true;
+        } else {
+          this.giveAmountShow = false;
+        }
       },
       gotoBuy() {
         request(tgcApiUrl.buyTgBeforeCheck, {buyNum: this.buyNum}).then(res => {
