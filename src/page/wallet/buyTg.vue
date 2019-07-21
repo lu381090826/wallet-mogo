@@ -71,7 +71,7 @@
     </van-popup>
 
     <van-popup v-model="activitiesShow">
-      <img src="../../../static/activities/huodong736.jpg" width="266">
+      <img src="../../../static/activities/huodong736.png" width="266">
     </van-popup>
 
   </div>
