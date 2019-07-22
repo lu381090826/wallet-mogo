@@ -3,6 +3,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div v-if="tx">
         <van-cell-group>
+          <van-cell title="交易地址" :label="tx" :clickable="true" @click="doCopy"/>
           <van-cell title="交易状态" :label="stateDesc"/>
           <van-cell title="交易失败原因" :label="errDescription" v-if="state==='1'"/>
           <van-cell title="交易哈希值" :label="transInfo.blockHash"/>
@@ -12,7 +13,7 @@
           <van-cell title="实际支付的矿工费(ETH)" :label="formatETH(gasUsed)"/>
           <van-cell title="随机数" :label="formatHexNumber(transInfo.nonce)"/>
           <!--<van-cell title="燃料限制" :value="transInfo.gas"/>-->
-          <van-cell title="交易燃料费用(ETH)" :label="formatETH(transInfo.gasPrice)"/>
+          <van-cell title="交易燃料费用(ETH)" :label="formatEther(transInfo.gasPrice)"/>
           <!--<van-cell title="交易状态" :value="transInfo.blockNumber"/>-->
         </van-cell-group>
       </div>
@@ -26,14 +27,17 @@
   import {isEmpty, isNotEmpty} from "@/utils/globalFunc";
   import {Toast, Cell, CellGroup, PullRefresh} from "vant";
   import web3Util from "../../utils/web3Util/Web3Util";
+  import VueClipboard from 'vue-clipboard2'
 
+
+  Vue.use(VueClipboard);
   Vue.use(Cell).use(CellGroup).use(Toast).use(PullRefresh);
   export default {
     data() {
       return {
         tx: '',
         state: '',
-        stateDesc: '',
+        stateDesc: '正在处理...',
         errDescription: '',
         isLoading: false,
         gasUsed: '0x',
@@ -56,22 +60,40 @@
       }
     },
     methods: {
+      doCopy() {
+        let _this = this;
+        _this.$copyText(_this.tx).then(function (e) {
+          Toast.success({
+            message: '复制成功',
+            position: 'bottom',
+          })
+        }, function (e) {
+        })
+      },
       onRefresh() {
         let _this = this;
+        console.log(_this.tx);
+        _this.queryData();
+        _this.isLoading = true;
         setTimeout(() => {
-          _this.queryData();
           _this.isLoading = false;
-        }, 500);
+        }, 1000);
       },
       formatHexNumber(hex) {
         if (isNotEmpty(hex)) {
-          return parseInt(hex.replace("0x", ""), 16) + ''
+          return web3Util.instance.utils.hexToNumberString(hex);
         }
         return hex;
       },
       formatETH(eth) {
         if (isNotEmpty(eth)) {
-          return web3Util.instance.fromWei(this.formatHexNumber(eth), 'gwei') + ''
+          return web3Util.instance.eth.utils.fromWei(this.formatHexNumber(eth), 'gwei') + ''
+        }
+        return gas;
+      },
+      formatEther(val) {
+        if (isNotEmpty(val)) {
+          return web3Util.instance.eth.utils.fromWei(this.formatHexNumber(val), 'ether') + ''
         }
         return gas;
       },
@@ -84,9 +106,7 @@
           txhash: tx
         }, false).then(res => {
           if (isEmpty(res)) {
-            setTimeout(() => {
-              _this.queryReceipt();
-            }, 500);
+            _this.queryReceipt();
             return false;
           }
           _this.gasUsed = res.gasUsed
@@ -102,9 +122,7 @@
           txhash: tx
         }, false).then(res => {
           if (isEmpty(res)) {
-            setTimeout(() => {
-              _this.queryGetstatus();
-            }, 500);
+            _this.queryGetstatus();
             return false;
           }
           if (isNotEmpty(res.isError)) {
@@ -138,16 +156,15 @@
           txhash: tx
         }, false).then(res => {
           if (isEmpty(res)) {
-            setTimeout(() => {
-              _this.queryTrancaction();
-            }, 500);
+            _this.queryTrancaction();
             return false;
           }
           _this.transInfo = res;
+          // {"blockHash":"0xd3a2734c3f1f9bc2c33af344c5b9afc36fc3c2bdef383cba027c246a4d804a1c","blockNumber":"0x7d1bdb","from":"0x66c5dffb2ab7f3149d8fd1d78f3f525f8debe130","gas":"0x493e0","gasPrice":"0x59682f00","hash":"0xd594d35a5f7e32c23469038fa55f98b32793f2238c30da73438c8e7ac0764887","input":"0xa9059cbb0000000000000000000000003e32fe42434a039ad630c4cf67e5378a9aae6e3600000000000000000000000000000000000000000000000000000000000003e8","nonce":"0x21b","to":"0x95ff62d03d45e29b20e497d0fd526d8d2d387804","transactionIndex":"0x5e","value":"0x0","v":"0x1c","r":"0x2e1fc04225191c134536435698f84a9b886389578ec7874ddfb650f321573d66","s":"0x37824badea8fc894a360e482bc7acdfe52b77ccb51857366c09443c7e6d13ba7"}
+          console.log(JSON.stringify(res));
         });
       },
       queryData() {
-        let tx = this.tx;
         let _this = this;
 
         _this.queryTrancaction();
@@ -161,10 +178,6 @@
       let _this = this;
       let ws = plus.webview.currentWebview();
       this.tx = ws.tx;
-      Toast.loading({
-        message: '查询中...',
-        duration: 0
-      });
       if (isNotEmpty(ws.tx)) {
         _this.queryData();
 

@@ -18,6 +18,13 @@ module.exports = {
         changeOrigin: true,
         secure: false
       },
+      "/etherscan": {
+        name: "ETHERSCAN",
+        target: "https://api.etherscan.io/api/",
+        pathRewrite: {"^/etherscan": ""},
+        changeOrigin: true,
+        // secure: false
+      },
       "/localApi": {
         name: "LOCALAPI",
         target: "http://127.0.0.1:7001",
@@ -73,7 +80,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, "../dist/www/"),assetsSubDirectory: "assets",
-    assetsPublicPath: "/",
+    assetsPublicPath: "../dist/www/",
 
     /**
      * Source Maps

@@ -15,7 +15,7 @@
             </van-field>
             <van-field label="收款方"
                        v-model="receiveAddress"
-                       placeholder="收款钱包地址"
+                       placeholder="收取积分地址"
                        :error-message="receiveAddressError"
                        @input="receiveAddressError = ''"
                        :clearable="true"
@@ -33,17 +33,17 @@
         </div>
       </van-tab>
 
-      <van-tab title="转合约">
+      <van-tab title="转积分">
         <div>
           <van-cell-group>
-            <van-field label="交易合约"
+            <van-field label="积分地址"
                        v-model="tokenAddress"
                        :readonly="tokenAddressReadOnly"
                        :disabled="tokenAddressReadOnly"
             >
               <van-icon slot="icon" name="bars" @click="selectToken" v-show="!tokenAddressReadOnly"/>
             </van-field>
-            <van-field label="合约名称"
+            <van-field label="积分名称"
                        v-model="tokenName"
                        :readonly="true"
                        :disabled="true"
@@ -149,6 +149,7 @@
     data() {
       return {
         active: 0,
+        gasPrice: 0,
         sendAmount: "",
         sendAmountReadOnly: false,
         receiveAddress: "",

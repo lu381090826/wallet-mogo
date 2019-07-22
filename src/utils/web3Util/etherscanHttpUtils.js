@@ -1,12 +1,18 @@
 import axios from 'axios'
 import Vue from 'vue'
 import {Toast} from 'vant';
+import {isNotEmpty} from "../globalFunc";
 
 Vue.use(Toast);
-
+let url;
+if (isNotEmpty(Vue.prototype.HOST)) {
+  url = '/etherscan'
+} else {
+  url = 'https://api.etherscan.io/api';
+}
 let etherscanHttpUtils = {
   apiKey: 'NG3SDFKAUSKT1JD3VRKWJSU7QC35T1T85W',
-  url: 'https://api.etherscan.io/api',
+  url: url,
   // url: 'http://api.etherscan.io/api',
   get: function (request, toast = true) {
     let url = this.url;

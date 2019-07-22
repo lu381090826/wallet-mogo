@@ -95,7 +95,7 @@
             height: '93%',
             backButtonAutoControl: 'none',
             scrollIndicator: "none",
-            statusbar: {background: obj.color}
+            // statusbar: {background: obj.color}
           });
 
           plus.webview.currentWebview().append(embed);

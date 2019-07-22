@@ -63,16 +63,16 @@ let Web3Util = {
     let t = this;
     let contract = t.getContract(contractAddress);
     return await contract.methods.balanceOf(walletAddress).call()
-                   .then(result => {
-                     let balance = parseInt(result._hex, 16);
-                     if (balance > 0) {
-                       return contract.methods.decimals().call().then(res => {
-                         return balance / Math.pow(10, Number(res));
-                       });
-                     } else {
-                       return 0;
-                     }
-                   });
+      .then(result => {
+        let balance = parseInt(result._hex, 16);
+        if (balance > 0) {
+          return contract.methods.decimals().call().then(res => {
+            return balance / Math.pow(10, Number(res));
+          });
+        } else {
+          return 0;
+        }
+      });
   },
   async getGasPrice() {
     return await web3.eth.getGasPrice().then(res => {
@@ -82,9 +82,9 @@ let Web3Util = {
   ,
   async getContractName(contractAddress) {
     let t = this;
-    return await t.getContract(contractAddress).then(contract => {
-      return contract.name();
-    });
+    return await t.getContract(contractAddress).methods.name().call().then(res => {
+      return res;
+    })
   }
 };
 export default Web3Util;

@@ -98,6 +98,7 @@
   import {openWebview} from "@/utils/webview";
   import cons from "@/utils/constants/Cons";
   import {fire} from "../utils/envent";
+  import {isEmpty} from "@/utils/globalFunc";
 
   Vue.use(Row).use(Col);
   Vue.use(Icon);
@@ -209,6 +210,29 @@
           this.passwordType = "password";
         }
       },
+      append() {
+        let obj = {
+          id: 'common.home',
+          url: './common.home.html',
+          title: '感恩链',
+          color: '#3a90e0',
+        };
+        let ws = plus.webview.getWebviewById('common.home');
+        console.log(JSON.stringify(ws));
+        if (isEmpty(ws)) {
+          let embed = plus.webview.create(obj.url, obj.id, {
+            titleNView: null,
+            height: '93%',
+            backButtonAutoControl: 'none',
+            scrollIndicator: "none",
+            // statusbar: {background: obj.color}
+          });
+
+          plus.webview.currentWebview().append(embed);
+        } else {
+          ws.show();
+        }
+      },
       login() {
         let _this = this;
         if (!RegexRoules.phone.test(this.username)) {
@@ -238,17 +262,17 @@
               {
                 titleNView: null,
                 render: "always",
-                cachemode: "default",
                 statusbar: {background: '#3a90e0'},
                 scrollIndicator: "none"
               },
             );
+
             webView.addEventListener('loaded', function () {
               webView.show("slide-in-right");
+              webView.append();
               wait.close();
             }, 50);
           });
-
       }
     },
     watch: {
