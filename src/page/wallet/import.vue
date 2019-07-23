@@ -144,13 +144,15 @@
           Toast.loading({
             message: '正在导入钱包，请耐心等待...',
           });
+          console.log('keystroe111');
           setTimeout(() => {
             let keyStore = Web3Util.instance.eth.accounts.encrypt(privateKey, password);
             // let keyStore;
             // let Accounts = require('web3-eth-accounts');
             // let accounts = new Accounts(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd');
             // keyStore = accounts.encrypt(privateKey, password);
-            console.log(keyStore);
+            console.log('keystroe222');
+            console.log(JSON.stringify(keyStore));
 
             if (typeof keyStore === 'undefined') {
               Toast.fail('导入失败，请重试。');
@@ -160,7 +162,7 @@
             let address = keyStore.address;
             console.log(address)
             let params = {
-              keyStore: keyStore,
+              keyStore: JSON.stringify(keyStore),
               address: address,
               uid: plus.storage.getItem("uid"),
               walletName: walletName,
@@ -168,6 +170,10 @@
             };
             request(TGCApiUrl.walletAdd, params).then((res) => {
               console.log(JSON.stringify(res));
+              if (isEmpty(res)) {
+                Toast.fail("钱包导入失败");
+                return false;
+              }
               Toast.success("钱包导入成功");
               plus.webview.currentWebview().close();
             });

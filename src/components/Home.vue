@@ -455,7 +455,7 @@
 
         this.walletBalance = '-';
         this.tokenBalance = '-';
-
+        console.log(11111)
         setTimeout(() => {
           _this.init();
         }, 50)
@@ -473,7 +473,8 @@
           _this.walletList = res.walletList;
           _this.goods = res.getHot;
         });
-
+        console.log('walletList')
+        console.log(JSON.stringify(_this.walletList))
 
         setTimeout(() => {
           Web3Util.getBalance(_this.walletAddress).then(res => {

@@ -210,7 +210,7 @@
           this.passwordType = "password";
         }
       },
-      append() {
+      append(webView) {
         let obj = {
           id: 'common.home',
           url: './common.home.html',
@@ -228,7 +228,7 @@
             // statusbar: {background: obj.color}
           });
 
-          plus.webview.currentWebview().append(embed);
+          webView.append(embed);
         } else {
           ws.show();
         }
@@ -269,7 +269,7 @@
 
             webView.addEventListener('loaded', function () {
               webView.show("slide-in-right");
-              webView.append();
+              webView.append(webView);
               wait.close();
             }, 50);
           });
