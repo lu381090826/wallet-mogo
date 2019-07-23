@@ -38,7 +38,6 @@
     },
     methods: {
       handleModelInput() {
-        console.log(this.currentValue);
         this.$emit('change', this.currentValue)
       },
       onBlur() {

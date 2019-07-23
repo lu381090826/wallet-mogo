@@ -32,7 +32,7 @@
               <div class="asset-header-titile" v-intervalclick="{func:trans}">
                 <div class="titile-name">Eth</div>
                 <div :style="{fontSize: '16px'}">
-                  {{walletBalance}}
+                  {{walletBalance}}<span class="minbalance">   {{walletBalanceRMB}}</span>
                 </div>
               </div>
             </van-col>
@@ -40,7 +40,7 @@
               <div class="asset-header-titile" v-intervalclick="{func:tgTrans}">
                 <div class="titile-name">TG</div>
                 <div :style="{fontSize: '16px'}">
-                  {{tokenBalance}}
+                  {{tokenBalance}}<span class="minbalance">   {{tokenBalanceRMB}}</span>
                 </div>
               </div>
             </van-col>
@@ -230,7 +230,8 @@
             </van-cell>
           </van-cell-group>
           <van-cell-group>
-            <van-button class="gotoImport button-blue" type="default" size="normal" v-intervalclick="{func:gotoWalletConfig}">
+            <van-button class="gotoImport button-blue" type="default" size="normal"
+                        v-intervalclick="{func:gotoWalletConfig}">
               钱包管理
             </van-button>
           </van-cell-group>
@@ -250,19 +251,21 @@
   import TGCConfig from "../utils/constants/tgcConfig";
   import {Swipe, SwipeItem} from 'vant';
   import {NoticeBar} from 'vant';
+  import MathUtil from "../utils/MathUtil";
+  import etherscanHttpUtils from "../utils/web3Util/etherscanHttpUtils";
 
   Vue.use(NoticeBar);
   Vue.use(Swipe).use(SwipeItem);
   Vue.use(Tabbar).use(TabbarItem)
-     .use(Row).use(Col)
-     .use(PullRefresh)
-     .use(Popup)
-     .use(Button)
-     .use(Toast)
-     .use(Icon)
-     .use(Cell)
-     .use(CellGroup)
-     .use(Loading);
+    .use(Row).use(Col)
+    .use(PullRefresh)
+    .use(Popup)
+    .use(Button)
+    .use(Toast)
+    .use(Icon)
+    .use(Cell)
+    .use(CellGroup)
+    .use(Loading);
   export default {
     data() {
       return {
@@ -278,6 +281,8 @@
         img2: "http://www.thanksgiving.cn/static/img/wuzhubingren.png",
         goods: [],
         showVerifyIdcard: false,
+        walletBalanceRMB: null,
+        tokenBalanceRMB: null,
       }
     },
     created() {
@@ -455,7 +460,6 @@
 
         this.walletBalance = '-';
         this.tokenBalance = '-';
-        console.log(11111)
         setTimeout(() => {
           _this.init();
         }, 50)
@@ -473,21 +477,27 @@
           _this.walletList = res.walletList;
           _this.goods = res.getHot;
         });
-        console.log('walletList')
-        console.log(JSON.stringify(_this.walletList))
 
-        setTimeout(() => {
-          Web3Util.getBalance(_this.walletAddress).then(res => {
-            if (res.toString().length > 14) {
-              _this.walletBalance = res.toString().substring(0, 14);
-            } else {
-              _this.walletBalance = res
-            }
+        Web3Util.getBalance(_this.walletAddress).then(res => {
+          if (res.toString().length > 14) {
+            _this.walletBalance = res.toString().substring(0, 14);
+          } else {
+            _this.walletBalance = res
+          }
+
+          request('https://www.coinbase.com/api/v2/prices/CNY/spot?')
+          etherscanHttpUtils.get({module: "stats", action: 'ethprice'}, false).then(res => {
+            _t.walletBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, res.ethusd) + '￥';
           });
-          Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
-            _this.tokenBalance = res;
+        });
+
+        Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
+          _this.tokenBalance = res;
+          request(TGCApiUrl.buyTgDollarRate).then(res => {
+            _this.tokenBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, res).toFixed(2) + '￥';
           });
-        }, 50);
+        });
+
 
         _this.isLoading = false;
       },
@@ -666,4 +676,7 @@
     color: gray;
   }
 
+  .minbalance {
+    font-size: 12px;
+  }
 </style>

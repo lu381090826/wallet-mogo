@@ -97,7 +97,6 @@
       },
       getAction(status) {
         let desc = "";
-        console.log(Number(status));
         switch (Number(status)) {
           case 100:
             desc = "取消订单";

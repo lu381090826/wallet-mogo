@@ -38,7 +38,6 @@
       let id = wb.linkmanId;
       this.linkmanId = id;
       let t = this;
-      console.log(id);
       if (isNotEmpty(id)) {
         request(TGCApiUrl.shopLinkmanList, {id: Number(id)}).then(res => {
           if (isNotEmptyObject(res[0])) {

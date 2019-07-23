@@ -54,7 +54,6 @@
     methods: {
       append(obj) {
         let ws = plus.webview.getWebviewById(obj.id);
-        console.log(ws);
         if (isEmptyObject(ws)) {
           let embed = plus.webview.create(obj.url, obj.id, {
             height: '93%',

@@ -72,7 +72,6 @@
       },
       onRefresh() {
         let _this = this;
-        console.log(_this.tx);
         _this.queryData();
         _this.isLoading = true;
         setTimeout(() => {
@@ -161,7 +160,6 @@
           }
           _this.transInfo = res;
           // {"blockHash":"0xd3a2734c3f1f9bc2c33af344c5b9afc36fc3c2bdef383cba027c246a4d804a1c","blockNumber":"0x7d1bdb","from":"0x66c5dffb2ab7f3149d8fd1d78f3f525f8debe130","gas":"0x493e0","gasPrice":"0x59682f00","hash":"0xd594d35a5f7e32c23469038fa55f98b32793f2238c30da73438c8e7ac0764887","input":"0xa9059cbb0000000000000000000000003e32fe42434a039ad630c4cf67e5378a9aae6e3600000000000000000000000000000000000000000000000000000000000003e8","nonce":"0x21b","to":"0x95ff62d03d45e29b20e497d0fd526d8d2d387804","transactionIndex":"0x5e","value":"0x0","v":"0x1c","r":"0x2e1fc04225191c134536435698f84a9b886389578ec7874ddfb650f321573d66","s":"0x37824badea8fc894a360e482bc7acdfe52b77ccb51857366c09443c7e6d13ba7"}
-          console.log(JSON.stringify(res));
         });
       },
       queryData() {

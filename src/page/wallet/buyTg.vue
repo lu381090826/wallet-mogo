@@ -138,7 +138,6 @@
           _t.dollarRate = Number(res);
         });
         etherscanHttpUtils.get({module: "stats", action: 'ethprice'}).then(res => {
-          console.log(JSON.stringify(res))
           _t.ethRate = res.ethusd;
         });
       },

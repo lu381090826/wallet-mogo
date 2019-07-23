@@ -60,7 +60,6 @@
         });
       },
       check(obj) {
-        console.log(JSON.stringify(obj))
         openWebview({
           url: './wallet.transInfo.html',
           id: 'wallet.transInfo',

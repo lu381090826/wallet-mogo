@@ -49,7 +49,6 @@
         });
         goods.num++;
         plus.nativeUI.toast(`我是购物车页面,当前苹果数量为${goods.num}`);
-        console.log(event.detail);
       });
     },
     data() {

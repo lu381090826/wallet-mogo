@@ -196,7 +196,6 @@
         })
       },
       gotoPay(orderId, payType) {
-        console.log("payType" + payType)
 
         if (payType.toString() === PayType.eth_tg) {
           openWebview({

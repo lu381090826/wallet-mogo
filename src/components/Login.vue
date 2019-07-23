@@ -218,7 +218,6 @@
           color: '#3a90e0',
         };
         let ws = plus.webview.getWebviewById('common.home');
-        console.log(JSON.stringify(ws));
         if (isEmpty(ws)) {
           let embed = plus.webview.create(obj.url, obj.id, {
             titleNView: null,

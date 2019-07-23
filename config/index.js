@@ -20,7 +20,7 @@ module.exports = {
       },
       "/etherscan": {
         name: "ETHERSCAN",
-        target: "https://api.etherscan.io/api/",
+        target: "https://api.etherscan.io",
         pathRewrite: {"^/etherscan": ""},
         changeOrigin: true,
         // secure: false

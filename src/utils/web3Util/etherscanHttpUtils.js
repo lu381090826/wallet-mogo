@@ -6,13 +6,13 @@ import {isNotEmpty} from "../globalFunc";
 Vue.use(Toast);
 let url;
 if (isNotEmpty(Vue.prototype.HOST)) {
-  url = '/etherscan'
+  url = '/etherscan/api/'
 } else {
   url = 'https://api.etherscan.io/api';
 }
 let etherscanHttpUtils = {
   apiKey: 'NG3SDFKAUSKT1JD3VRKWJSU7QC35T1T85W',
-  url: url,
+  url: 'https://api.etherscan.io/api',
   // url: 'http://api.etherscan.io/api',
   get: function (request, toast = true) {
     let url = this.url;
