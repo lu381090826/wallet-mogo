@@ -87,6 +87,7 @@
   import {isEmpty} from "../../utils/globalFunc";
   import MathUtil from "../../utils/MathUtil";
   import etherscanHttpUtils from "../../utils/web3Util/etherscanHttpUtils";
+  import RateUtil from "../../utils/web3Util/RateUtil";
 
   Vue.use(Field).use(Popup).use(Button).use(CellGroup).use(Cell).use(NoticeBar).use(Toast).use(Actionsheet).use(Slider)
     .use(Dialog);
@@ -137,9 +138,12 @@
         request(tgcApiUrl.buyTgDollarRate).then(res => {
           _t.dollarRate = Number(res);
         });
-        etherscanHttpUtils.get({module: "stats", action: 'ethprice'}).then(res => {
-          _t.ethRate = res.ethusd;
-        });
+        // etherscanHttpUtils.get({module: "stats", action: 'ethprice'}).then(res => {
+        //   _t.ethRate = res.ethusd;
+        // });
+        RateUtil.ethToUSD(1).then(res=>{
+          _t.ethRate = res;
+        })
       },
       calculate() {
         this.dollarAmount = MathUtil.accMul(this.buyNum, this.dollarRate);

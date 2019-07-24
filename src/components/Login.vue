@@ -268,8 +268,10 @@
 
             webView.addEventListener('loaded', function () {
               webView.show("slide-in-right");
-              webView.append(webView);
               wait.close();
+              setTimeout(()=>{
+                webView.append(webView);
+              },300);
             }, 50);
           });
       }

@@ -25,6 +25,13 @@ module.exports = {
         changeOrigin: true,
         // secure: false
       },
+      "/coinmarketcap": {
+        name: "COINMARKETCAP",
+        target: "https://api.coinmarketcap.com",
+        pathRewrite: {"^/coinmarketcap": ""},
+        changeOrigin: true,
+        secure: false
+      },
       "/localApi": {
         name: "LOCALAPI",
         target: "http://127.0.0.1:7001",

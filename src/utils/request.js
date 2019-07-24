@@ -10,14 +10,14 @@ import cons from "./constants/Cons";
 Vue.use(Toast);
 Vue.use(Dialog);
 
-export async function request(url, data = {}) {
+export async function request(url, data = {}, baseURL = null) {
   const conf = {
     //请求的接口，在请求的时候，如axios.get(url,config);这里的url会覆盖掉config中的url
     url: url,
     // 请求方法同上
     method: 'post', // default
     // 基础url前缀
-    baseURL: process.env.requestBaseURL,
+    baseURL: baseURL === null ? process.env.requestBaseURL : baseURL,
     // 请求头信息
     headers: {
       'Content-Type': 'application/json',

@@ -252,7 +252,7 @@
   import {Swipe, SwipeItem} from 'vant';
   import {NoticeBar} from 'vant';
   import MathUtil from "../utils/MathUtil";
-  import etherscanHttpUtils from "../utils/web3Util/etherscanHttpUtils";
+  import rateUtil from "../utils/web3Util/RateUtil";
 
   Vue.use(NoticeBar);
   Vue.use(Swipe).use(SwipeItem);
@@ -478,23 +478,25 @@
           _this.goods = res.getHot;
         });
 
-        Web3Util.getBalance(_this.walletAddress).then(res => {
-          if (res.toString().length > 14) {
-            _this.walletBalance = res.toString().substring(0, 14);
-          } else {
-            _this.walletBalance = res
-          }
-
-          request('https://www.coinbase.com/api/v2/prices/CNY/spot?')
-          etherscanHttpUtils.get({module: "stats", action: 'ethprice'}, false).then(res => {
-            _t.walletBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, res.ethusd) + '￥';
+        request(TGCApiUrl.buyTgDollarRate).then(dollarRate => {
+          Web3Util.getBalance(_this.walletAddress).then(walletBalance => {
+            if (walletBalance.toString().length > 14) {
+              _this.walletBalance = walletBalance.toString().substring(0, 14);
+            } else {
+              _this.walletBalance = walletBalance
+            }
+            if (Number(_this.walletBalance) !== 0) {
+              rateUtil.ethToCNY(_this.walletBalance, dollarRate).then(res => {
+                _this.walletBalanceRMB = '≈' + res + '￥';
+              })
+            }
           });
-        });
 
-        Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(res => {
-          _this.tokenBalance = res;
-          request(TGCApiUrl.buyTgDollarRate).then(res => {
-            _this.tokenBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, res).toFixed(2) + '￥';
+          Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(tokenBalance => {
+            _this.tokenBalance = tokenBalance;
+            if (Number(_this.tokenBalance) !== 0) {
+              _this.tokenBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, dollarRate).toFixed(2) + '￥';
+            }
           });
         });
 
