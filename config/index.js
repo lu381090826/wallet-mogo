@@ -25,6 +25,13 @@ module.exports = {
         changeOrigin: true,
         // secure: false
       },
+      "/ethplorer": {
+        name: "ETHPLORER",
+        target: "http://api.ethplorer.io",
+        pathRewrite: {"^/ethplorer": ""},
+        changeOrigin: true,
+        // secure: false
+      },
       "/coinmarketcap": {
         name: "COINMARKETCAP",
         target: "https://api.coinmarketcap.com",
