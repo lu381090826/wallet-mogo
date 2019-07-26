@@ -20,6 +20,7 @@
   import {request} from "@/utils/request";
   import {openWebview, openWebviewFast, preLoad} from "@/utils/webview";
   import {isEmpty} from "@/utils/globalFunc";
+  import {isAndroid} from "../utils/tools";
 
   export default {
     components: {
@@ -65,9 +66,6 @@
         nativeFun.checkUpdate(false);
 
         //监听步数
-        let u = navigator.userAgent, app = navigator.appVersion;
-        let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
-        let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
         if (isAndroid) {
           nativeFun.initSensorEventListener();
         }

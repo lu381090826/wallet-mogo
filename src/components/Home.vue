@@ -315,6 +315,8 @@
         plus.storage.setItem("walletName", walletName);
         this.walletAddress = walletAddress;
         this.walletName = walletName;
+        this.walletBalanceRMB = null;
+        this.tokenBalanceRMB = null;
 
         this.onRefresh();
       },

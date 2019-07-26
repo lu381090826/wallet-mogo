@@ -13,7 +13,7 @@ if (isNotEmpty(Vue.prototype.HOST)) {
 let ethplorerUtils = {
   apiKey: 'freekey',
   url: url,
-  get: function (api, request, toast = true) {
+  get: function (api, request = {}, toast = true) {
     let url = this.url + api;
     if (toast) {
       Toast.loading('加载中...');
