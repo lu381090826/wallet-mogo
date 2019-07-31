@@ -5,14 +5,19 @@
       <div>
         钱包地址：<span class="address-font">{{walletAddress}}</span>
       </div>
-      <div>
-        合约地址：<span class="address-font">{{tokenAddress}}</span>
-      </div>
-      <div>
-        合约余额：<span>{{balance}}</span>
+      <div if="tokenAddress">
+        <div>
+          合约名称：<span class="address-font">{{tokenInfo.name}}{{tokenInfo.symbol}}</span>
+        </div>
+        <div>
+          合约地址：<span class="address-font">{{tokenAddress}}</span>
+        </div>
+        <div>
+          合约余额：<span>{{balance}}</span>
+        </div>
       </div>
     </div>
-    <div class="box" v-show="transList !==null && transList.length === 0">
+    <div class="box" v-show="transList.length === 0">
       <div class="no-trans">
         <div>
           <van-icon name="info-o" size="50px"></van-icon>
@@ -21,25 +26,27 @@
       </div>
     </div>
 
-    <div>
+    <div v-show="transList.length > 0">
       <van-tabs v-model="transActive">
         <van-tab title="转入">
-          <van-panel v-for="(item,i) in transInList"
+          <van-panel v-for="(item,i) in transList"
+                     v-if="item.to===walletAddress"
                      :key="i"
-                     :title="formatAddress(item.returnValues[0])"
-                     :desc="fromHex(item.returnValues[2]._hex).toString()"
-                     :status="item.transactionIndex===null?'处理中':'成功'"
+                     :title="transValue(item.value)"
+                     :desc="formatAddress(item.transactionHash)"
+                     :status="item.transactionHash===null?'处理中':'成功'"
                      @click="gotoTransInfo(item.transactionHash)"
           >
           </van-panel>
         </van-tab>
 
         <van-tab title="转出">
-          <van-panel v-for="(item,i) in transOutList"
+          <van-panel v-for="(item,i) in transList"
+                     v-if="item.from===walletAddress"
                      :key="i"
-                     :title="formatAddress(item.returnValues[0])"
-                     :desc="fromHex(item.returnValues[2]._hex).toString()"
-                     :status="item.transactionIndex===null?'处理中':'成功'"
+                     :title="transValue(item.value)"
+                     :desc="formatAddress(item.transactionHash)"
+                     :status="item.transactionHash===null?'处理中':'成功'"
                      @click="gotoTransInfo(item.transactionHash)"
           >
           </van-panel>
@@ -64,7 +71,6 @@
 </template>
 <script>
   import Vue from 'vue';
-  // import etherscanHttpUtils from "../utils/web3Util/etherscanHttpUtils";
   import {isEmpty, isNotEmpty} from "../utils/globalFunc";
   import Web3Util from "../utils/web3Util/Web3Util";
   import {Toast, Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem, Switch, Button} from 'vant';
@@ -94,13 +100,12 @@
         walletAddress: "",
         balance: "---",
         selected: 0,
-        transList: null,
+        transList: [],
         page: 1,
         offset: 5,
         active: 1,
-        transInList: [],
-        transOutList: [],
         transActive: 0,
+        tokenInfo: 0,
       }
     },
     created: function () {
@@ -122,6 +127,14 @@
       }, 200);
     },
     methods: {
+      transValue(value) {
+        if (isEmpty(this.tokenAddress)) {
+          return value + 'eth';
+        }
+        let decimals = this.tokenInfo.decimals;
+        console.log(decimals);
+        return (Number(value) / Math.pow(10, decimals)).toFixed(4) + "   " + this.tokenInfo.symbol;
+      },
       gotoTransInfo(tx) {
         openWebview({
           url: './wallet.transInfo.html',
@@ -165,56 +178,24 @@
       subAddress(address) {
         return address.substring(0, 16) + "...";
       },
-      getDesc(isContract, fromAddress, toAddress, tokenValue) {
-        if (isContract) {
-          return "[合约交易]"
-        } else {
-          let address = this.walletAddress;
-          if (fromAddress === address) {
-            return "[转入]";
-          } else {
-            return "[转出]";
-          }
-        }
-      },
-      getTitle(fromAddress, toAddress) {
-        let address = this.walletAddress;
-        let showAddress = "";
-        if (fromAddress === address) {
-          showAddress = this.subAddress(toAddress);
-        } else {
-          showAddress = this.subAddress(fromAddress);
-        }
-        return showAddress;
-      },
-      unitAmount: function (value, tokenDecimal = 0) {
-        return value / Math.pow(10, tokenDecimal);
-      },
       getData() {
         let _t = this;
         let walletAddress = plus.storage.getItem("walletAddress");
         let tokenAddress = _t.tokenAddress;
         if (isNotEmpty(tokenAddress)) {
-          Web3Util.getContract(tokenAddress).getPastEvents('Transfer', {
-            fromBlock: 0,
-            toBlock: 'latest',
-            filter: {
-              to: walletAddress
-            }
-          }).then((res) => {
-            _t.transInList = res;
-            console.log(1112333);
-            console.log(JSON.stringify(res[0]))
+          ethplorerUtils.getTokenInfo(tokenAddress).then(res => {
+            _t.tokenInfo = res;
           });
-          Web3Util.getContract(tokenAddress).getPastEvents('Transfer', {
-            fromBlock: 0,
-            toBlock: 'latest',
-            filter: {
-              from: walletAddress
-            }
-          }).then((res) => {
-            _t.transOutList = res;
-          })
+
+          ethplorerUtils.getAddressHistory(walletAddress, {token: tokenAddress, type: 'transfer'}).then(res => {
+            console.log(JSON.stringify(res))
+            _t.transList = res.operations;
+          });
+        } else {
+          ethplorerUtils.getAddressHistory(walletAddress, {type: 'transfer'}).then(res => {
+            console.log(JSON.stringify(res))
+            _t.transList = res.operations;
+          });
         }
       }
     }

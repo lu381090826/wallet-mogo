@@ -66,7 +66,8 @@
         </van-row>
       </div>
 
-      <van-button size="large" class="button-blue" style="margin-top: 8%;" @click="login" :disabled="disabled">登录
+      <van-button size="large" class="button-blue" style="margin-top: 8%;" @click="login" :disabled="disabled">
+        {{loginText}}
       </van-button>
 
       <div class="login-bottom">
@@ -112,6 +113,7 @@
         password: "111111",
         passwordView: false,
         passwordType: "password",
+        loginText: "立即登录",
         borderBottomColor: {
           username: "lightgray",
           password: "lightgray",
@@ -210,30 +212,10 @@
           this.passwordType = "password";
         }
       },
-      append(webView) {
-        let obj = {
-          id: 'common.home',
-          url: './common.home.html',
-          title: '感恩链',
-          color: '#3a90e0',
-        };
-        let ws = plus.webview.getWebviewById('common.home');
-        if (isEmpty(ws)) {
-          let embed = plus.webview.create(obj.url, obj.id, {
-            titleNView: null,
-            height: '93%',
-            backButtonAutoControl: 'none',
-            scrollIndicator: "none",
-            // statusbar: {background: obj.color}
-          });
-
-          webView.append(embed);
-        } else {
-          ws.show();
-        }
-      },
       login() {
         let _this = this;
+        _this.loginText = '正在登录...';
+        _this.disabled = true;
 
         request(TGCApiUrl.login, {userName: this.username, password: this.password})
           .then(function (res) {
@@ -243,16 +225,6 @@
             plus.storage.setItem('walletName', res.walletName);
             plus.storage.setItem('walletKeyStroe', res.keyStore);
 
-            _this.username = "";
-            _this.password = "";
-            openWebview({
-              url: cons.homeViewUrl,
-              id: cons.homeViewId,
-              noTitle: true,
-            }, {
-              backButtonAutoControl: 'none',
-              scrollIndicator: "none",
-            },);
             let innerWebView = plus.webview.create(
               'common.home',
               './common.home.html',
@@ -263,7 +235,19 @@
                 scrollIndicator: "none",
               },
             );
-            plus.webview.currentWebview().append(innerWebView);
+            _this.username = "";
+            _this.password = "";
+
+            openWebview({
+              url: cons.homeViewUrl,
+              id: cons.homeViewId,
+              noTitle: true,
+            }, {
+              backButtonAutoControl: 'none',
+              scrollIndicator: "none",
+            }, {}, function () {
+              plus.webview.getWebviewById(cons.homeViewId).append(innerWebView);
+            });
           });
       }
     },

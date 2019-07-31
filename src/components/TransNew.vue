@@ -24,6 +24,12 @@
     <div>
       <van-tabs v-model="transActive">
         <van-tab title="转入">
+          <van-panel v-if="transFromList===null||transFromList.length===0"
+                     title="暂无交易"
+                     desc="暂无交易"
+          >
+          </van-panel>
+
           <van-panel v-for="(item,i) in transFromList"
                      :key="i"
                      :title="formatAddress(item.returnValues[0])"
@@ -187,7 +193,6 @@
             }
           }).then((res) => {
             _t.transFromList = res;
-            console.log(JSON.stringify(res[res.length - 1]))
           })
         }
 

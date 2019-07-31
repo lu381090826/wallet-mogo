@@ -60,7 +60,7 @@
   import {NavBar, Cell, CellGroup, Button, Row, Col} from 'vant';
   import {Icon} from 'vant';
   import cons from "../utils/constants/Cons";
-  import {isNotEmptyObject} from "../utils/globalFunc";
+  import {isNotEmptyObject, loginOut} from "../utils/globalFunc";
   import {Dialog} from 'vant';
   import {Toast} from 'vant';
   import {gotoLogin} from "../utils/globalTools";
@@ -149,50 +149,8 @@
           title: '退出登录',
           message: '确定要退出登录吗？'
         }).then(() => {
-
-          Toast.loading({
-            mask: true,
-            message: '正在清除数据...'
-          });
-
-          openWebview({
-            url: cons.loginViewUrl,
-            id: cons.loginViewId,
-            title: "",
-            noTitle: true,
-            needLoaded: true,
-          }, {}, {}, function () {
-            // plus.storage.clear();
-            Toast.clear();
-            let wvs = plus.webview.all();
-            for (let i = 0; i < wvs.length; i++) {
-              if (wvs[i].id === cons.loginViewId) continue;
-              wvs[i].close();
-            }
-          });
-
-
-          // setTimeout(() => {
-          //   plus.storage.clear();
-          //   let home = plus.webview.getWebviewById(cons.homeViewId)
-          //   console.log(home);
-          //   if (isNotEmptyObject(home)) {
-          //     home.close();
-          //   }
-          //   let commonHome = plus.webview.getWebviewById('common.home');
-          //   console.log(commonHome);
-          //   if (isNotEmptyObject(commonHome)) {
-          //     commonHome.close();
-          //   }
-          //   let myselfConfig = plus.webview.getWebviewById('wallet.myselfConfig');
-          //   console.log(myselfConfig);
-          //   if (isNotEmptyObject(myselfConfig)) {
-          //     myselfConfig.close();
-          //   }
-          //
-          //   Toast.clear();
-          // }, 200);
-
+          // plus.storage.clear();
+          loginOut();
 
         }).catch(() => {
 

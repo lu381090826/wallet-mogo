@@ -3,6 +3,8 @@
  * 可以用于全局添加某功能
  */
 import Vue from 'vue'
+import cons from "./constants/Cons";
+import {openWebview} from "./webview";
 
 // 防止多次点击的组件
 (function () {
@@ -115,3 +117,19 @@ export function print(json, options) {
     pad += indent;
   });
 };
+
+export function loginOut() {
+  openWebview({
+    url: cons.loginViewUrl,
+    id: cons.loginViewId,
+    title: "",
+    noTitle: true,
+    needLoaded: true,
+  }, {}, {}, () => {
+    let wvs = plus.webview.all();
+    for (let i = 0; i < wvs.length; i++) {
+      if (wvs[i].id === cons.loginViewId) continue;
+      wvs[i].close();
+    }
+  })
+}

@@ -462,9 +462,7 @@
 
         this.walletBalance = '-';
         this.tokenBalance = '-';
-        setTimeout(() => {
-          _this.init();
-        }, 50)
+        _this.init();
       },
       getWalletList() {
         let _this = this;
@@ -482,6 +480,7 @@
 
         request(TGCApiUrl.buyTgDollarRate).then(dollarRate => {
           Web3Util.getBalance(_this.walletAddress).then(walletBalance => {
+            console.log(walletBalance);
             if (walletBalance.toString().length > 14) {
               _this.walletBalance = walletBalance.toString().substring(0, 14);
             } else {
