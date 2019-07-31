@@ -97,6 +97,7 @@
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {isNotEmpty} from "../../utils/globalFunc";
   import cons from "../../utils/constants/Cons";
+  import {openWebview} from "../../utils/webview";
 
   Vue.use(Row)
     .use(Col)
@@ -178,29 +179,29 @@
             plus.storage.clear();
             plus.storage.setItem('uid', res.uid);
             plus.storage.setItem('token', res.token);
-            plus.storage.setItem("walletAddress", res.walletAddress);
-            plus.storage.setItem("walletName", res.walletName);
+            plus.storage.setItem('walletAddress', res.walletAddress);
+            plus.storage.setItem('walletName', res.walletName);
+            plus.storage.setItem('walletKeyStroe', res.keyStore);
 
-            let wait = plus.nativeUI.showWaiting();
-            let webView = plus.webview.create(
-              cons.homeViewUrl,
-              cons.homeViewId,
+            openWebview({
+              url: cons.homeViewUrl,
+              id: cons.homeViewId,
+              noTitle: true,
+            }, {
+              backButtonAutoControl: 'none',
+              scrollIndicator: "none",
+            },);
+            let innerWebView = plus.webview.create(
+              'common.home',
+              './common.home.html',
               {
                 titleNView: null,
-                render: "always",
-                cachemode: "default",
-                statusbar: {background: '#3a90e0'},
-                scrollIndicator: "none"
+                height: '93%',
+                backButtonAutoControl: 'none',
+                scrollIndicator: "none",
               },
             );
-            setTimeout(() => {
-              webView.addEventListener('loaded', function () {
-                webView.show("slide-in-right");
-                wait.close();
-              }, 50);
-            },20)
-
-
+            plus.webview.currentWebview().append(innerWebView);
           }
         })
       },

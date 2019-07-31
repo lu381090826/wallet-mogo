@@ -39,7 +39,8 @@ function getTitleStyle(config) {
  * 打开一个webview窗口
  * onlyOneWebview :相同webview id只允许一个窗口
  */
-export function openWebview(config, style = {}, extras = {}) {
+export function openWebview(config, style = {}, extras = {}, callback = () => {
+}) {
   if (typeof(plus) === "undefined") {
     return;
   }
@@ -75,14 +76,12 @@ export function openWebview(config, style = {}, extras = {}) {
 
     //需要加载完再打开
     if (isNotEmpty(config.needLoaded) && config.needLoaded) {
-      let w = plus.nativeUI.showWaiting();
       // 监听窗口加载成功
       wload.addEventListener(
         "loaded",
         function () {
           wload.show("pop-in"); // 显示窗口
-          w.close();
-          // w = null;
+          callback();
         },
         false
       );

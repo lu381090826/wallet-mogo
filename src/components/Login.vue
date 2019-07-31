@@ -108,8 +108,8 @@
   export default {
     data() {
       return {
-        username: "",
-        password: "",
+        username: "1341225714",
+        password: "111111",
         passwordView: false,
         passwordType: "password",
         borderBottomColor: {
@@ -234,14 +234,6 @@
       },
       login() {
         let _this = this;
-        if (!RegexRoules.phone.test(this.username)) {
-          this.usernameError = RegexRoules.errorMessage.phone;
-          return false;
-        }
-        if (!RegexRoules.password.test(this.password)) {
-          this.passwordError = RegexRoules.errorMessage.password;
-          return false;
-        }
 
         request(TGCApiUrl.login, {userName: this.username, password: this.password})
           .then(function (res) {
@@ -253,26 +245,25 @@
 
             _this.username = "";
             _this.password = "";
-
-            let wait = plus.nativeUI.showWaiting();
-            let webView = plus.webview.create(
-              cons.homeViewUrl,
-              cons.homeViewId,
+            openWebview({
+              url: cons.homeViewUrl,
+              id: cons.homeViewId,
+              noTitle: true,
+            }, {
+              backButtonAutoControl: 'none',
+              scrollIndicator: "none",
+            },);
+            let innerWebView = plus.webview.create(
+              'common.home',
+              './common.home.html',
               {
                 titleNView: null,
-                render: "always",
-                statusbar: {background: '#3a90e0'},
-                scrollIndicator: "none"
+                height: '93%',
+                backButtonAutoControl: 'none',
+                scrollIndicator: "none",
               },
             );
-
-            webView.addEventListener('loaded', function () {
-              webView.show("slide-in-right");
-              wait.close();
-              setTimeout(()=>{
-                webView.append(webView);
-              },300);
-            }, 50);
+            plus.webview.currentWebview().append(innerWebView);
           });
       }
     },

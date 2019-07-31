@@ -1,3 +1,6 @@
+import cons from "./constants/Cons";
+import {openWebview} from "./webview";
+
 export function isToday(theDate) {
   let date = (new Date());    //当前时间
   let today = Number(new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()); //今天凌晨

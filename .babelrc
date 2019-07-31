@@ -33,5 +33,6 @@
         "dynamic-import-node"
       ]
     }
-  }
+  },
+  "compact": false
 }

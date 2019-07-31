@@ -6,6 +6,7 @@ import axios from 'axios'
 import {Toast, Dialog} from 'vant';
 import {openWebview} from "./webview";
 import cons from "./constants/Cons";
+import {gotoLogin} from "./globalTools";
 
 Vue.use(Toast);
 Vue.use(Dialog);
@@ -43,12 +44,21 @@ export async function request(url, data = {}, baseURL = null) {
         title: '提示',
         message: '登录已失效，即将重新登录'
       }).then(() => {
+        console.log(333232323)
         openWebview({
           url: cons.loginViewUrl,
           id: cons.loginViewId,
           title: "",
           noTitle: true,
-        });
+        }, {}, {},);
+        setTimeout(() => {
+          let wvs = plus.webview.all();
+          console.log(JSON.stringify(wvs))
+          for (let i = 0; i < wvs.length; i++) {
+            if (wvs[i].id === cons.loginViewId) continue;
+            wvs[i].close();
+          }
+        }, 300)
       });
       return false;
     } else if (res.status !== 200) {
