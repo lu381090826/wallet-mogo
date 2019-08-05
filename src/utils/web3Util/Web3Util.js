@@ -3,9 +3,6 @@ import abi from "./abi";
 import Vue from "vue";
 import {isEmpty, isNotEmpty} from "../globalFunc";
 
-const abiDecoder = require('abi-decoder');
-abiDecoder.addABI(abi);
-
 // let web3 = new Web3();
 // if (isNotEmpty(Vue.prototype.HOST)) {
 //   web3.setProvider(new web3.providers.HttpProvider(Vue.prototype.HOST + '/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
@@ -28,9 +25,6 @@ let Web3Util = {
   isContract(tokenAddress) {
     let code = web3.eth.getCode(tokenAddress);
     return code !== '0x';
-  },
-  abiDecoder() {
-    return abiDecoder;
   },
   async getBalance(walletAddress, contractAddress) {
     if (isEmpty(contractAddress)) {
