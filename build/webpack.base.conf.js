@@ -8,7 +8,7 @@ const multiBuilder = require("./multipage");
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var vConsolePlugin = require("vconsole-webpack-plugin");
 
-const { extraEntry, extraHtmlWebpackPlugins } = multiBuilder;
+const {extraEntry, extraHtmlWebpackPlugins} = multiBuilder;
 
 function resolve(dir) {
   return path.join(__dirname, "..", dir);
@@ -49,8 +49,6 @@ const webpackConfig = {
   entry: {
     ...extraEntry,
     vue: ['vue'],
-
-
   },
   output: {
     path: config.build.assetsRoot,
@@ -124,9 +122,9 @@ const webpackConfig = {
     child_process: "empty"
   },
   plugins: [...extraHtmlWebpackPlugins, new webpack.DefinePlugin(Defines),
-  new vConsolePlugin({
-    enable: config.build.vConsole // 发布代码前记得改回 false
-  }),
+    new vConsolePlugin({
+      enable: config.build.vConsole // 发布代码前记得改回 false
+    }),
     new CommonsChunkPlugin({
       name: ["vue"],
       minChunks: 2
