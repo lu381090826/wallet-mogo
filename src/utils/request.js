@@ -44,7 +44,6 @@ export async function request(url, data = {}, baseURL = null) {
         title: '提示',
         message: '登录已失效，即将重新登录'
       }).then(() => {
-        console.log(333232323)
         openWebview({
           url: cons.loginViewUrl,
           id: cons.loginViewId,

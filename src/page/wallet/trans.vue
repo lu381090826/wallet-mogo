@@ -199,7 +199,6 @@
           });
         } else {
           ethplorerUtils.getAddressHistory(walletAddress, {type: 'transfer'}).then(res => {
-            console.log(JSON.stringify(res))
             _t.transList = res.operations;
           });
         }

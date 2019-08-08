@@ -1,7 +1,6 @@
 import Web3 from "web3";
 import abi from "./abi";
-import Vue from "vue";
-import {isEmpty, isNotEmpty} from "../globalFunc";
+import {isEmpty} from "../globalFunc";
 
 // let web3 = new Web3();
 // if (isNotEmpty(Vue.prototype.HOST)) {
@@ -57,16 +56,16 @@ let Web3Util = {
     let t = this;
     let contract = t.getContract(contractAddress);
     return await contract.methods.balanceOf(walletAddress).call()
-      .then(result => {
-        let balance = parseInt(result._hex, 16);
-        if (balance > 0) {
-          return contract.methods.decimals().call().then(res => {
-            return balance / Math.pow(10, Number(res));
-          });
-        } else {
-          return 0;
-        }
-      });
+                         .then(result => {
+                           let balance = result;
+                           if (balance > 0) {
+                             return contract.methods.decimals().call().then(res => {
+                               return balance / Math.pow(10, Number(res));
+                             });
+                           } else {
+                             return 0;
+                           }
+                         });
   },
   async getGasPrice() {
     return await web3.eth.getGasPrice().then(res => {

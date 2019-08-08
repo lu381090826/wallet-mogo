@@ -81,12 +81,11 @@
   import {Actionsheet, Button, Cell, CellGroup, Field, NoticeBar, Popup, Slider, Toast, Dialog} from 'vant';
   import TGCConfig from "../../utils/constants/tgcConfig";
   import QrcodeVue from 'qrcode.vue'
-  import {openWebview, openWebviewFast} from "../../utils/webview";
+  import {openWebview} from "../../utils/webview";
   import tgcApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
   import {isEmpty} from "../../utils/globalFunc";
   import MathUtil from "../../utils/MathUtil";
-  import etherscanHttpUtils from "../../utils/web3Util/etherscanHttpUtils";
   import RateUtil from "../../utils/web3Util/RateUtil";
 
   Vue.use(Field).use(Popup).use(Button).use(CellGroup).use(Cell).use(NoticeBar).use(Toast).use(Actionsheet).use(Slider)

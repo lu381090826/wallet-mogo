@@ -92,7 +92,6 @@
               _this.stateDesc = '暂未查到交易，请稍后再次查询。'
             }
           }
-          console.log(JSON.stringify(res));
           _this.transInfo = res;
           if (res.success === null) {
             _this.transInfo.stateDesc = '交易还在处理中...';

@@ -109,8 +109,8 @@
   export default {
     data() {
       return {
-        username: "1341225714",
-        password: "111111",
+        username: "",
+        password: "",
         passwordView: false,
         passwordType: "password",
         loginText: "立即登录",

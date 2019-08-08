@@ -480,7 +480,6 @@
 
         request(TGCApiUrl.buyTgDollarRate).then(dollarRate => {
           Web3Util.getBalance(_this.walletAddress).then(walletBalance => {
-            console.log(walletBalance);
             if (walletBalance.toString().length > 14) {
               _this.walletBalance = walletBalance.toString().substring(0, 14);
             } else {
@@ -494,6 +493,8 @@
           });
 
           Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(tokenBalance => {
+            console.log(':::::::::::aaaa:::::::')
+            console.log(tokenBalance)
             _this.tokenBalance = tokenBalance;
             if (Number(_this.tokenBalance) !== 0) {
               _this.tokenBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, dollarRate).toFixed(2) + '￥';

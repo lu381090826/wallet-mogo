@@ -132,7 +132,6 @@
           return value + 'eth';
         }
         let decimals = this.tokenInfo.decimals;
-        console.log(decimals);
         return (Number(value) / Math.pow(10, decimals)).toFixed(4) + "   " + this.tokenInfo.symbol;
       },
       gotoTransInfo(tx) {
@@ -188,12 +187,10 @@
           });
 
           ethplorerUtils.getAddressHistory(walletAddress, {token: tokenAddress, type: 'transfer'}).then(res => {
-            console.log(JSON.stringify(res))
             _t.transList = res.operations;
           });
         } else {
           ethplorerUtils.getAddressHistory(walletAddress, {type: 'transfer'}).then(res => {
-            console.log(JSON.stringify(res))
             _t.transList = res.operations;
           });
         }
