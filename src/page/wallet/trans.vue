@@ -5,7 +5,7 @@
       <div>
         钱包地址：<span class="address-font">{{walletAddress}}</span>
       </div>
-      <div if="tokenAddress">
+      <div v-if="tokenAddress">
         <div>
           合约名称：<span class="address-font">{{tokenInfo.name}}{{tokenInfo.symbol}}</span>
         </div>
@@ -16,7 +16,11 @@
           合约余额：<span>{{balance}}</span>
         </div>
       </div>
+      <div v-else>
+        Eth余额：<span>{{balance}}</span>
+      </div>
     </div>
+
     <div class="box" v-show="transList==null || transList.length === 0">
       <div class="no-trans">
         <div>
@@ -26,13 +30,13 @@
       </div>
     </div>
 
-    <div v-show="transList!=null && transList.length > 0">
+    <div class="box" v-show="transList!=null && transList.length > 0">
       <van-tabs v-model="transActive">
         <van-tab title="转入">
           <van-panel v-for="(item,i) in transList"
                      v-if="item.to===walletAddress"
                      :key="i"
-                     :title="transValue(item.value)"
+                     :title="transValue(item)"
                      :desc="formatAddress(item.transactionHash)"
                      :status="item.transactionHash===null?'处理中':'成功'"
                      @click="gotoTransInfo(item.transactionHash)"
@@ -44,7 +48,7 @@
           <van-panel v-for="(item,i) in transList"
                      v-if="item.from===walletAddress"
                      :key="i"
-                     :title="transValue(item.value)"
+                     :title="transValue(item)"
                      :desc="formatAddress(item.transactionHash)"
                      :status="item.transactionHash===null?'处理中':'成功'"
                      @click="gotoTransInfo(item.transactionHash)"
@@ -121,13 +125,17 @@
       this.getData();
     },
     methods: {
-      transValue(value) {
-        if (isEmpty(this.tokenAddress)) {
+      transValue(obj) {
+        let value = obj.value;
+
+        if (isEmpty(obj.tokenInfo)) {
           return value + 'eth';
         }
-        let decimals = this.tokenInfo.decimals;
-        console.log(decimals);
-        return (Number(value) / Math.pow(10, decimals)).toFixed(4) + "   " + this.tokenInfo.symbol;
+
+        let decimals = obj.tokenInfo.decimals;
+
+        return (Number(value) / Math.pow(10, decimals)).toFixed(4) + "   " + obj.tokenInfo.symbol;
+
       },
       gotoTransInfo(tx) {
         openWebview({
