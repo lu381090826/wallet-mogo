@@ -217,6 +217,12 @@
         _this.loginText = '正在登录...';
         _this.disabled = true;
 
+        setTimeout(() => {
+          _this.loginText = '立即登录';
+          _this.disabled = false;
+        }, 300)
+
+
         request(TGCApiUrl.login, {userName: this.username, password: this.password})
           .then(function (res) {
             plus.storage.setItem('uid', res.uid);
