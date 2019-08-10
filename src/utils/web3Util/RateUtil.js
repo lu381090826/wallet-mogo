@@ -21,16 +21,16 @@ let RateUtil =
         return MathUtil.accMul(eth, ethRate[0].price_usd);
       });
     },
-    async ethToCNY(eth, dollarRate) {
+    async ethToCNY(eth, dollarRate = null) {
       return await axiosRequest(url, {}, 'get').then(ethRate => {
         let ethToUsd = MathUtil.accMul(eth, ethRate[0].price_usd);
         if (isEmpty(dollarRate)) {
-          request(TGCApiUrl.buyTgDollarRate).then(res => {
-            dollarRate = res;
-            return MathUtil.accMul(ethToUsd, dollarRate).toFixed(2);
+          return request(TGCApiUrl.buyTgDollarRate).then(res => {
+            return MathUtil.accMul(ethToUsd, res).toFixed(2);
           });
+        } else {
+          return MathUtil.accMul(ethToUsd, dollarRate).toFixed(2);
         }
-        return MathUtil.accMul(ethToUsd, dollarRate).toFixed(2);
       });
     }
   };

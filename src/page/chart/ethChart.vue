@@ -1,17 +1,25 @@
 <template>
   <div>
     <div id="myChart" ref="myChart"></div>
+    <div class="box" style="width: 98%">
+      ETH最新价格：1eth 约等于 {{lastAmount}} ¥
+    </div>
   </div>
 </template>
 
 <script>
   import echarts from 'echarts'
-  import {request} from "../../utils/request";
   import coniyeeUtils from "../../utils/web3Util/coinyeeUtils";
+  import RateUtil from "../../utils/web3Util/RateUtil";
 
   export default {
     created() {
       let _t = this;
+
+      RateUtil.ethToCNY(1).then(res => {
+        _t.lastAmount = res;
+      });
+
       coniyeeUtils.kline({
         symbol: 'ETHCNY',
         range: 86400000,
@@ -36,7 +44,8 @@
         data0: null,
         categoryData: null,
         values: null,
-        option: null
+        option: null,
+        lastAmount: "-",
       }
     },
     methods: {
