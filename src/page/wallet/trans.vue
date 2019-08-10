@@ -2,6 +2,9 @@
   <div class="body">
     <div class="blank-space"></div>
     <div class="box" style="text-align: left">
+      <div v-if="tokenAddress===''" style="text-align: center">
+        <img width="80px" src="../../../static/eth.jpg">
+      </div>
       <div>
         钱包地址：<span class="address-font">{{walletAddress}}</span>
       </div>
@@ -18,6 +21,9 @@
       </div>
       <div v-else>
         Eth余额：<span>{{balance}}</span>
+      </div>
+      <div style="margin-top: 5%;color: #1d9dd2" @click="gottoExchange">
+        <span>点击查看ETH行情</span>
       </div>
     </div>
 
@@ -86,16 +92,16 @@
   Vue.use(Panel);
   Vue.use(Tab).use(Tabs);
   Vue.use(Cell)
-    .use(CellGroup)
-    .use(Icon)
-    .use(Row)
-    .use(Toast)
-    .use(Col)
-    .use(Tabbar)
-    .use(TabbarItem)
-    .use(Switch)
-    .use(Button)
-    .use(Pagination);
+     .use(CellGroup)
+     .use(Icon)
+     .use(Row)
+     .use(Toast)
+     .use(Col)
+     .use(Tabbar)
+     .use(TabbarItem)
+     .use(Switch)
+     .use(Button)
+     .use(Pagination);
 
   export default {
     data() {
@@ -125,6 +131,15 @@
       this.getData();
     },
     methods: {
+      gottoExchange() {
+        openWebview(
+          {
+            id: 'chart.ethChart',
+            url: './chart.ethChart.html',
+            title: '市场行情',
+          }
+        )
+      },
       transValue(obj) {
         let value = obj.value;
 

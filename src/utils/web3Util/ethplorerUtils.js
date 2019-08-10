@@ -18,11 +18,9 @@ let ethplorerUtils = {
     if (toast) {
       Toast.loading('加载中...');
     }
-    console.log(this.apiKey);
-    console.log(JSON.stringify(request));
+
     request.apiKey = this.apiKey;
 
-    console.log(JSON.stringify(request));
     return await axios.get(url, {params: request}).then(function (res) {
 
       return res.data;

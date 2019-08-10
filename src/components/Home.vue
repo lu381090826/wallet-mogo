@@ -388,7 +388,6 @@
           url: './wallet.trans.html',
           id: "wallet.trans",
           title: "交易记录",
-          needLoaded: true,
         }, {}, {
           walletAddress: _this.walletAddress,
         })

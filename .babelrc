@@ -6,7 +6,10 @@
       {
         "modules": false,
         "targets": {
-          "browsers": ["Android >= 4.0", "iOS >= 7"]
+          "browsers": [
+            "Android >= 4.0",
+            "iOS >= 7"
+          ]
         }
       }
     ],
@@ -22,11 +25,15 @@
         "libraryDirectory": "es",
         "style": true
       }
-    ]
+    ],
+    "equire"
   ],
   "env": {
     "test": {
-      "presets": ["env", "stage-2"],
+      "presets": [
+        "env",
+        "stage-2"
+      ],
       "plugins": [
         "transform-vue-jsx",
         "transform-es2015-modules-commonjs",

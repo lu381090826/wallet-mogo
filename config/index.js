@@ -32,6 +32,13 @@ module.exports = {
         changeOrigin: true,
         // secure: false
       },
+      "/coinyee": {
+        name: "ETHPLORER",
+        target: "https://www.coinyee.pro",
+        pathRewrite: {"^/coinyee": ""},
+        changeOrigin: true,
+        // secure: false
+      },
       "/coinmarketcap": {
         name: "COINMARKETCAP",
         target: "https://api.coinmarketcap.com",
