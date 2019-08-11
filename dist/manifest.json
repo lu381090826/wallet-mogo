@@ -3,14 +3,14 @@
     "id" : "H58335462",
     "name" : "感恩链",
     "version" : {
-        "name" : "2.3.12",
+        "name" : "2.3.15",
         "code" : "141"
     },
     "description" : "感恩链",
     "icons" : {
         "72" : "icon.png"
     },
-    "launch_path" : "http://192.168.1.102:8080",
+    "launch_path" : "www/index.html",
     "developer" : {
         "name" : "Gavin Lu",
         "email" : "381090826@qq.com",

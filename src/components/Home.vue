@@ -257,15 +257,15 @@
   Vue.use(NoticeBar);
   Vue.use(Swipe).use(SwipeItem);
   Vue.use(Tabbar).use(TabbarItem)
-    .use(Row).use(Col)
-    .use(PullRefresh)
-    .use(Popup)
-    .use(Button)
-    .use(Toast)
-    .use(Icon)
-    .use(Cell)
-    .use(CellGroup)
-    .use(Loading);
+     .use(Row).use(Col)
+     .use(PullRefresh)
+     .use(Popup)
+     .use(Button)
+     .use(Toast)
+     .use(Icon)
+     .use(Cell)
+     .use(CellGroup)
+     .use(Loading);
   export default {
     data() {
       return {
@@ -461,7 +461,10 @@
 
         this.walletBalance = '-';
         this.tokenBalance = '-';
-        _this.init();
+
+        setTimeout(() => {
+          _this.init();
+        }, 70);
       },
       getWalletList() {
         let _this = this;
@@ -475,6 +478,7 @@
           _this.showVerifyIdcard = res.idcardIsCheck === 0;
           _this.walletList = res.walletList;
           _this.goods = res.getHot;
+          _this.isLoading = false;
         });
 
         request(TGCApiUrl.buyTgDollarRate).then(dollarRate => {
@@ -492,13 +496,13 @@
           });
 
           Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(tokenBalance => {
-            console.log(':::::::::::aaaa:::::::')
-            console.log(tokenBalance)
             _this.tokenBalance = tokenBalance;
             if (Number(_this.tokenBalance) !== 0) {
               _this.tokenBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, dollarRate).toFixed(2) + '￥';
             }
           });
+
+          _this.isLoading = false;
         });
 
 

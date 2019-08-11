@@ -20,11 +20,15 @@
         </div>
       </div>
       <div v-else>
-        Eth余额：<span>{{balance}}</span>
+        <div>
+          Eth余额：<span>{{balance}}</span>
+        </div>
+
+        <div style="margin-top: 5%;color: #1d9dd2" @click="gottoExchange">
+          <span>点击查看ETH行情</span>
+        </div>
       </div>
-      <div style="margin-top: 5%;color: #1d9dd2" @click="gottoExchange">
-        <span>点击查看ETH行情</span>
-      </div>
+
     </div>
 
     <div class="box" v-show="transList==null || transList.length === 0">

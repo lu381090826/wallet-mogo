@@ -22,7 +22,7 @@
                   <van-button size="mini" @click="gotoCancel(i.orderId)">取消订单</van-button>
                 </div>
                 <div v-else>
-                  <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
+                  <van-button size="mini" @click="refund(i.orderId)">申请售后</van-button>
                 </div>
               </div>
             </van-card>
@@ -34,7 +34,7 @@
           <van-cell
             v-for="(i,j) in orderList"
             :key="j" v-if="i.status===100">
-            <van-card  v-for="(item,k) in i.orderDetailList"
+            <van-card v-for="(item,k) in i.orderDetailList"
                       :key="k"
                       :desc="getDesc(i.status)"
                       :num="item.buyNum"
@@ -57,7 +57,7 @@
           <van-cell
             v-for="(i,j) in orderList"
             :key="j" v-if="i.status===150">
-            <van-card  v-for="(item,k) in i.orderDetailList"
+            <van-card v-for="(item,k) in i.orderDetailList"
                       :key="k"
                       :num="item.buyNum"
                       :price="item.totalAmount"
@@ -68,7 +68,7 @@
                 <img :src="item.img">
               </div>
               <div slot="footer">
-                <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
+                <van-button size="mini" @click="refund(i.orderId)">申请售后</van-button>
               </div>
             </van-card>
           </van-cell>
@@ -79,7 +79,7 @@
           <van-cell
             v-for="(i,j) in orderList"
             :key="j" v-if="i.status===160">
-            <van-card  v-for="(item,k) in i.orderDetailList"
+            <van-card v-for="(item,k) in i.orderDetailList"
                       :key="k"
                       :desc="getDesc(i.status)"
                       :num="item.buyNum"
@@ -90,7 +90,7 @@
                 <img :src="item.img">
               </div>
               <div slot="footer">
-                <van-button size="mini" @click="refund(i.orderId)">申请退款</van-button>
+                <van-button size="mini" @click="refund(i.orderId)">申请售后</van-button>
               </div>
             </van-card>
           </van-cell>
@@ -170,14 +170,9 @@
         return desc;
       },
       refund(orderId) {
-        Dialog.confirm({
-          title: '申请退款',
-          message: '确定要退款吗？'
-        }).then(() => {
-          Dialog.alert({
-            title: '提示',
-            message: '暂不支持线上退款，请邮箱至381090826@qq.com进行人工退款。'
-          });
+        Dialog.alert({
+          title: '提示',
+          message: '暂不支持，请邮箱至  lujiaguan@thanksgiving.cn  进行人工咨询。'
         });
       },
       gotoCancel(orderId) {

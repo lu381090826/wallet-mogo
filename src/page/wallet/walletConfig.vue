@@ -79,8 +79,8 @@
         radio: plus.storage.getItem("walletAddress"),
         originWalletAddress: plus.storage.getItem("walletAddress"),
         showCreate: false,
-        newWaletName: 'new1',
-        newWaletPassword: '111111',
+        newWaletName: '',
+        newWaletPassword: '',
       }
     },
     created() {

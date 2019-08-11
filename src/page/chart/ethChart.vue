@@ -4,40 +4,25 @@
     <div class="box" style="width: 98%">
       ETH最新价格：1eth 约等于 {{lastAmount}} ¥
     </div>
+
+    <div>
+      <van-button @click="reflash()">刷新</van-button>
+    </div>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
   import echarts from 'echarts'
   import coniyeeUtils from "../../utils/web3Util/coinyeeUtils";
   import RateUtil from "../../utils/web3Util/RateUtil";
+  import {Button} from 'vant';
+
+  Vue.use(Button);
 
   export default {
     created() {
-      let _t = this;
-
-      RateUtil.ethToCNY(1).then(res => {
-        _t.lastAmount = res;
-      });
-
-      coniyeeUtils.kline({
-        symbol: 'ETHCNY',
-        range: 86400000,
-        limit: 1000,
-        prevTradeTime: 1565269160612
-      }).then(res => {
-
-        _t.categoryData = res.categoryData;
-        _t.values = res.values;
-        _t.option = res.option;
-
-        setTimeout(() => {
-          // 调用绘制图表的方法
-          _t.draw();
-        }, 200);
-
-      });
-
+      this.init();
     },
     data() {
       return {
@@ -49,6 +34,33 @@
       }
     },
     methods: {
+      init() {
+        let _t = this;
+
+        RateUtil.ethToCNY(1).then(res => {
+          _t.lastAmount = res;
+        });
+
+        coniyeeUtils.kline({
+          symbol: 'ETHCNY',
+          range: 86400000,
+          limit: 1000,
+          prevTradeTime: 1565269160612
+        }).then(res => {
+
+          _t.categoryData = res.categoryData;
+          _t.values = res.values;
+          _t.option = res.option;
+
+          setTimeout(() => {
+            // 调用绘制图表的方法
+            _t.draw();
+          }, 200);
+        });
+      },
+      reflash() {
+        this.init();
+      },
       draw() {
         let _t = this;
         // 实例化echarts对象

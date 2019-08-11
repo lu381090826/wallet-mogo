@@ -101,7 +101,7 @@ let coinyeeUtils = {
           boundaryGap: false,
           axisLine: {onZero: false},
           splitLine: {show: false},
-          splitNumber: 20,
+          splitNumber: 50,
           min: 'dataMin',
           max: 'dataMax'
         },
