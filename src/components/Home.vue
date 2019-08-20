@@ -71,8 +71,8 @@
         <div class="asset-header-botton-text">
           <van-row>
             <van-col span="8">扫一扫</van-col>
-            <van-col span="8">转账</van-col>
-            <van-col span="8">收款</van-col>
+            <van-col span="8">转出</van-col>
+            <van-col span="8">转入</van-col>
           </van-row>
         </div>
       </div>
@@ -220,7 +220,7 @@
 
     <van-popup v-model="showWalletConfig" position="right">
       <div style="width: 200px;height: 1000px;padding: 5%">
-        <div style="margin-top: 10%;font-weight: bold;">选择钱包</div>
+        <div style="margin-top: 10%;font-weight: bold;">选择地址</div>
         <div style="margin-top: 20%">
           <van-cell-group>
             <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
@@ -232,7 +232,7 @@
           <van-cell-group>
             <van-button class="gotoImport button-blue" type="default" size="normal"
                         v-intervalclick="{func:gotoWalletConfig}">
-              钱包管理
+              地址管理
             </van-button>
           </van-cell-group>
         </div>
@@ -307,7 +307,7 @@
         openWebview({
           url: "./wallet.walletConfig.html",
           id: "wallet.walletConfig",
-          title: "钱包设置"
+          title: "地址设置"
         });
       },
       set(walletAddress, walletName) {
@@ -434,7 +434,7 @@
           url: "./wallet.send.html",
           id: "wallet.send",
           titleStyle: {
-            titleText: "转账",
+            titleText: "转出积分",
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"},
           }
@@ -446,7 +446,7 @@
         openWebview({
           url: "./wallet.receive.html",
           id: "wallet.receive",
-          title: "收款"
+          title: "转入积分"
         }, {}, {
           needReLoad: true,
         });

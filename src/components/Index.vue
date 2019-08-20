@@ -2,6 +2,7 @@
   <div>
     <van-tabbar v-model="active" fixed class="index-tabbar">
       <van-tabbar-item icon="wap-home">首页</van-tabbar-item>
+      <!--<van-tabbar-item icon="chart-trending-o">行情</van-tabbar-item>-->
       <van-tabbar-item icon="points">积分</van-tabbar-item>
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
     </van-tabbar>
@@ -38,6 +39,12 @@
           id: 'common.home',
           url: './common.home.html',
           title: '感恩链',
+          color: '#3a90e0',
+        },
+        market: {
+          id: 'market.market',
+          url: './market.market.html',
+          title: '市场',
           color: '#3a90e0',
         },
         asset: {
@@ -108,6 +115,9 @@
           case 0:
             this.append(this.home);
             break;
+          // case 1:
+          //   this.append(this.market);
+          //   break;
           case 1:
             this.append(this.asset);
             break;

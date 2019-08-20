@@ -9,14 +9,14 @@
               <textarea class="text" v-model="keyStore"></textarea>
             </label>
           </div>
-          <van-field label="钱包名" v-model="walletName"></van-field>
+          <van-field label="地址名称" v-model="walletName"></van-field>
           <van-button type="default" size="large" class="button" @click="importWalletFromKeyStore">下一步</van-button>
 
         </van-tab>
         <van-tab id="privateKey" title="私钥导入">
           <div class="cotainer">
             <van-field label="私钥" v-model="privateKey"></van-field>
-            <van-field label="钱包名" v-model="walletName"></van-field>
+            <van-field label="地址名称" v-model="walletName"></van-field>
             <van-button type="default" size="large" class="button" @click="importWalletFromPrivateKey">下一步</van-button>
           </div>
         </van-tab>
@@ -109,7 +109,7 @@
           }
 
           Toast.loading({
-            message: '正在导入钱包，请耐心等待...',
+            message: '正在导入地址，请耐心等待...',
           });
           setTimeout(() => {
             let params = {
@@ -119,7 +119,7 @@
               walletName: walletName,
             };
             request(TGCApiUrl.walletAdd, params).then(() => {
-              Toast("钱包导入成功");
+              Toast("地址导入成功");
             });
           }, 200)
         });
@@ -141,7 +141,7 @@
           }
 
           Toast.loading({
-            message: '正在导入钱包，请耐心等待...',
+            message: '正在导入地址，请耐心等待...',
           });
           setTimeout(() => {
             let keyStore = Web3Util.instance.eth.accounts.encrypt(privateKey, password);
@@ -166,10 +166,10 @@
             };
             request(TGCApiUrl.walletAdd, params).then((res) => {
               if (isEmpty(res)) {
-                Toast.fail("钱包导入失败");
+                Toast.fail("地址导入失败");
                 return false;
               }
-              Toast.success("钱包导入成功");
+              Toast.success("地址导入成功");
               plus.webview.currentWebview().close();
             });
           }, 100);

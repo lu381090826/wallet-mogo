@@ -69,168 +69,78 @@ let coinyeeUtils = {
         values.push(lines[i])
 
       }
+      var base = +new Date(1968, 9, 3);
+      var oneDay = 24 * 3600 * 1000;
+      var date = [];
 
-      let upColor = '#ec0000';
-      let upBorderColor = '#8A0000';
-      let downColor = '#00da3c';
-      let downBorderColor = '#008F28';
+      var data = [Math.random() * 300];
+
+      for (var i = 1; i < 20000; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
+      }
 
       let option = {
-        title: {
-          text: 'ETH行情',
-          left: 0
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross'
-          }
-        },
-        legend: {
-          data: ['日K', 'MA5']
-        },
-        grid: {
-          left: '10%',
-          right: '10%',
-          bottom: '15%'
-        },
-        xAxis: {
-          type: 'category',
-          data: categoryData,
-          scale: true,
-          boundaryGap: false,
-          axisLine: {onZero: false},
-          splitLine: {show: false},
-          splitNumber: 50,
-          min: 'dataMin',
-          max: 'dataMax'
-        },
-        yAxis: {
-          scale: true,
-          splitArea: {
-            show: true
-          }
-        },
-        dataZoom: [
-          {
+          tooltip: {
+            trigger: 'axis',
+            position: function (pt) {
+              return [pt[0], '10%'];
+            }
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: date
+          },
+          yAxis: {
+            type: 'value',
+            boundaryGap: [0, '100%']
+          },
+          dataZoom: [{
             type: 'inside',
-            start: 50,
+            start: 90,
             end: 100
           },
-          {
-            show: true,
-            type: 'slider',
-            y: '90%',
-            start: 50,
-            end: 100
-          }
-        ],
-        series: [
-          {
-            name: '日K',
-            type: 'candlestick',
-            data: values,
-            itemStyle: {
-              normal: {
-                color: upColor,
-                color0: downColor,
-                borderColor: upBorderColor,
-                borderColor0: downBorderColor
+            {
+              start: 0,
+              end: 10,
+              handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+              handleSize: '60%',
+              handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
               }
-            },
-            markPoint: {
-              label: {
-                normal: {
-                  formatter: function (param) {
-                    return param != null ? Math.round(param.value) : '';
-                  }
-                }
+            }],
+          series: [
+            {
+              name: '当日均价',
+              type: 'line',
+              smooth: true,
+              symbol: 'none',
+              sampling: 'average',
+              itemStyle: {
+                color: '#006bf9'
               },
-              data: [
-                {
-                  name: 'XX标点',
-                  coord: ['2013/5/31', 2300],
-                  value: 2300,
-                  itemStyle: {
-                    normal: {color: 'rgb(41,60,85)'}
-                  }
-                },
-                {
-                  name: 'highest value',
-                  type: 'max',
-                  valueDim: 'highest'
-                },
-                {
-                  name: 'lowest value',
-                  type: 'min',
-                  valueDim: 'lowest'
-                },
-                {
-                  name: 'average value on close',
-                  type: 'average',
-                  valueDim: 'close'
-                }
-              ],
-              tooltip: {
-                formatter: function (param) {
-                  return param.name + '<br>' + (param.data.coord || '');
-                }
-              }
-            },
-            markLine: {
-              symbol: ['none', 'none'],
-              data: [
-                [
-                  {
-                    name: 'from lowest to highest',
-                    type: 'min',
-                    valueDim: 'lowest',
-                    symbol: 'circle',
-                    symbolSize: 10,
-                    label: {
-                      normal: {show: false},
-                      emphasis: {show: false}
-                    }
-                  },
-                  {
-                    type: 'max',
-                    valueDim: 'highest',
-                    symbol: 'circle',
-                    symbolSize: 10,
-                    label: {
-                      normal: {show: false},
-                      emphasis: {show: false}
-                    }
-                  }
-                ],
-                {
-                  name: 'min line on close',
-                  type: 'min',
-                  valueDim: 'close'
-                },
-                {
-                  name: 'max line on close',
-                  type: 'max',
-                  valueDim: 'close'
-                }
-              ]
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: '#a2d7ff'
+                }, {
+                  offset: 1,
+                  color: '#ffffff'
+                }])
+              },
+              data: data
             }
-          },
-          {
-            name: 'MA5',
-            type: 'line',
-            data: this.calculateMA(5, values),
-            smooth: true,
-            lineStyle: {
-              normal: {opacity: 0.5}
-            }
-          },
-        ]
-      };
+          ]
+        }
+      ;
 
       return {
-        categoryData: categoryData,
-        values: values,
         option: option
       };
     })

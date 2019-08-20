@@ -50,7 +50,7 @@
 
     <van-popup v-model="showWalletConfig" position="right">
       <div style="width: 200px;height: 1000px;padding: 5%">
-        <div style="margin-top: 10%;font-weight: bold;">选择钱包</div>
+        <div style="margin-top: 10%;font-weight: bold;">选择地址</div>
         <div style="margin-top: 20%">
           <van-cell-group>
             <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable

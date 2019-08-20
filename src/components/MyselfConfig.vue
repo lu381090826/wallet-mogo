@@ -7,7 +7,7 @@
             <van-icon name="pending-payment" size="35px"></van-icon>
           </div>
           <div>
-            钱包管理
+            地址管理
           </div>
         </van-col>
         <van-col span="12">
@@ -93,7 +93,7 @@
         openWebview({
           url: "./wallet.walletConfig.html",
           id: "wallet.walletConfig",
-          title: "钱包设置",
+          title: "地址设置",
         });
       },
       checkUpdate() {
@@ -149,7 +149,7 @@
           title: '退出登录',
           message: '确定要退出登录吗？'
         }).then(() => {
-          // plus.storage.clear();
+          plus.storage.clear();
           loginOut();
 
         }).catch(() => {

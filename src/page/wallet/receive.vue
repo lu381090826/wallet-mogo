@@ -2,7 +2,7 @@
   <div class="body">
     <div class="box">
       <van-row type="flex" justify="center">
-        钱包地址
+        积分转入地址
       </van-row>
       <van-row type="flex" justify="center" class='address'>
         <span style="font-size: 10px">{{walletAddress}}</span>

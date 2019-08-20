@@ -18,7 +18,7 @@
               </div>
               <div slot="footer">
                 <div v-if="i.status === 100">
-                  <van-button size="mini" @click="gotoPay(i.orderId,i.payType)">去付款</van-button>
+                  <van-button size="mini" @click="gotoPay(i.orderId,i.payType)">去转出</van-button>
                   <van-button size="mini" @click="gotoCancel(i.orderId)">取消订单</van-button>
                 </div>
                 <div v-else>
@@ -29,7 +29,7 @@
           </van-cell>
         </van-cell-group>
       </van-tab>
-      <van-tab title="待付款">
+      <van-tab title="待转出">
         <van-cell-group v-if="orderList!==null">
           <van-cell
             v-for="(i,j) in orderList"
@@ -45,7 +45,7 @@
                 <img :src="item.img">
               </div>
               <div slot="footer">
-                <van-button size="mini" @click="gotoPay(i.orderId,i.payType)">去付款</van-button>
+                <van-button size="mini" @click="gotoPay(i.orderId,i.payType)">去转出</van-button>
                 <van-button size="mini" @click="gotoCancel(i.orderId)">取消订单</van-button>
               </div>
             </van-card>
@@ -156,13 +156,13 @@
         let desc = "";
         switch (Number(status)) {
           case 100:
-            desc = "待付款";
+            desc = "待转出";
             break;
           case 150:
-            desc = "待发货";
+            desc = "待转入";
             break;
           case 160:
-            desc = "待收货";
+            desc = "待转入";
             break;
           default :
             break;

@@ -3,17 +3,17 @@
     <div class="blank-space"></div>
     <div class="box" style="text-align: left">
       <div>
-        钱包地址：<span class="address-font">{{walletAddress}}</span>
+        地址：<span class="address-font">{{walletAddress}}</span>
       </div>
       <div if="tokenAddress">
         <div>
-          合约名称：<span class="address-font">{{tokenInfo.name}}{{tokenInfo.symbol}}</span>
+          积分名称：<span class="address-font">{{tokenInfo.name}}{{tokenInfo.symbol}}</span>
         </div>
         <div>
-          合约地址：<span class="address-font">{{tokenAddress}}</span>
+          积分地址：<span class="address-font">{{tokenAddress}}</span>
         </div>
         <div>
-          合约余额：<span>{{balance}}</span>
+          当前积分个数：<span>{{balance}} 个</span>
         </div>
       </div>
     </div>
@@ -58,12 +58,12 @@
     <div class="box">
       <div style="margin-top: 5%;margin-bottom: 5%">
         <van-button size="large" class="button-blue" v-intervalclick="{func:send}">
-          转账
+          转出
         </van-button>
       </div>
       <div style="margin-bottom: 5%">
         <van-button size="large">
-          收款
+          转入
         </van-button>
       </div>
     </div>
@@ -155,7 +155,7 @@
           url: "./wallet.send.html",
           id: "wallet.send",
           titleStyle: {
-            titleText: "转账",
+            titleText: "转出积分",
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"},
           }
@@ -168,7 +168,7 @@
         openWebview({
           url: "./wallet.receive.html",
           id: "wallet.receive",
-          title: "收款"
+          title: "转入积分"
         });
       },
       pageChange() {

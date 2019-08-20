@@ -38,7 +38,7 @@
                        :disabled="true"
                        disable></van-field>
           </van-cell>
-          <van-cell title="转入钱包(点击可更换)" :label="walletAddress" icon="cash-back-record" @click="selectWallet">
+          <van-cell title="转入地址(点击可更换)" :label="walletAddress" icon="cash-back-record" @click="selectWallet">
           </van-cell>
           <van-cell title="燃料费(ETH)" :readonly="true" disableClear :label="gasValue + ' ≈ ' +gasValueAmount + '￥'"
                     icon="question-o"

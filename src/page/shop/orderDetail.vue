@@ -18,12 +18,12 @@
     <van-goods-action>
       <van-goods-action-big-btn v-if="order.status===150||order.status===160"
                                 primary
-                                text="申请退款"
+                                text="申请取消"
                                 @click="refund(orderId)"
       />
       <van-goods-action-big-btn v-if="order.status===100"
                                 primary
-                                text="去支付"
+                                text="去转出"
                                 @click="gotoPay(orderId)"
       />
       <van-goods-action-big-btn v-if="order.status===100"
@@ -82,7 +82,7 @@
         let desc = "";
         switch (Number(status)) {
           case 100:
-            desc = "待付款";
+            desc = "待转出";
             break;
           case 150:
             desc = "待发货";
@@ -103,7 +103,7 @@
             break;
           case 150:
           case 160:
-            desc = "申请退款";
+            desc = "申请退还";
             break;
           default :
             break;

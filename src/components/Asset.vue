@@ -67,7 +67,7 @@
         <hr color='#AFAFAF'>
         <van-cell-group :border="false">
           <van-cell :border="false">
-            <van-button type="default" size="large" v-intervalclick="{func:walletConfig}">钱包管理</van-button>
+            <van-button type="default" size="large" v-intervalclick="{func:walletConfig}">积分管理</van-button>
           </van-cell>
           <van-cell :border="false">
             <van-button type="default" size="large" v-intervalclick="{func:addToken}">合约管理</van-button>
@@ -170,7 +170,7 @@
         openWebview({
           url: "./wallet.walletConfig.html",
           id: "wallet.walletConfig",
-          title: "钱包设置",
+          title: "地址设置",
         });
       },
       profit() {
@@ -219,7 +219,7 @@
           url: "./wallet.send.html",
           id: "wallet.send",
           titleStyle: {
-            titleText: "转账",
+            titleText: "转出积分",
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"},
           }
@@ -229,7 +229,7 @@
         openWebview({
           url: "./wallet.receive.html",
           id: "wallet.receive",
-          title: "收款"
+          title: "转入积分"
         });
       },
       config() {

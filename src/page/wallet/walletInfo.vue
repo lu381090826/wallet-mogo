@@ -3,10 +3,10 @@
     <div class="box">
       <div>
         <van-cell-group>
-          <van-cell title="钱包地址">
+          <van-cell title="地址">
             {{walletAddress}}
           </van-cell>
-          <van-cell title="钱包名" @click="alterWalletName">
+          <van-cell title="地址名称" @click="alterWalletName">
             {{walletName}}
           </van-cell>
         </van-cell-group>
@@ -30,7 +30,7 @@
 
       <div style="text-align: center;margin-top: 30%;margin-bottom: 5%">
         <van-button size="large" v-intervalclick="{func:deleteWallet}">
-          删除钱包
+          删除地址
         </van-button>
       </div>
     </div>
@@ -54,7 +54,7 @@
             </van-button>
           </van-field>
 
-          <van-field label="钱包密码"
+          <van-field label="地址密码"
                      type="password"
                      v-model="password"
                      placeholder="密码"
@@ -78,10 +78,10 @@
     </van-popup>
 
     <van-popup class="box" style="width: 80%;height: 150px" v-model="alterWalletNameShow">
-      <van-field label="钱包名称"
+      <van-field label="地址名称"
                  type="text"
                  v-model="newWalletName"
-                 placeholder="输入新的钱包名"
+                 placeholder="输入新的地址名称"
                  clearable
       >
       </van-field>
@@ -141,7 +141,7 @@
           Web3Util.getBalance(this.walletAddress).then(res => {
             if (Number(res) > 30000) {
               Dialog.alert({
-                message: '您钱包价值过大，不允许系统直接导出，请联系客服咨询。'
+                message: '您地址价值过大，不允许系统直接导出，请联系客服咨询。'
               });
               return;
             }
@@ -201,7 +201,7 @@
         let _this = this;
         let ws = plus.webview.currentWebview();
         Dialog.confirm({
-          title: '删除钱包',
+          title: '删除地址',
           message: '确定要删除吗？'
         }).then(() => {
           request(TGCApiUrl.walletDelete, {

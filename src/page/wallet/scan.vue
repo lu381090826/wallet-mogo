@@ -48,7 +48,7 @@
             url: "./wallet.send.html",
             id: "wallet.send",
             titleStyle: {
-              titleText: "转账",
+              titleText: "转出积分",
               autoBackButton: true,
               progress: {color: '#ff5c0a', height: "1%"},
             }

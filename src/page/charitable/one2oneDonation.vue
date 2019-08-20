@@ -95,7 +95,7 @@
       </van-tabbar>
 
       <van-popup v-model="showBase" position="bottom" class="pop-bottom">
-        <h3>输入捐款金额</h3>
+        <h3>输入捐赠积分</h3>
         <div style="padding: 3%">
           <van-button @click="sendAmount = '10'" plain>10TG</van-button>
           <van-button @click="sendAmount = '50'" plain>50TG</van-button>
@@ -163,7 +163,7 @@
       },
       donation() {
         if (Number(this.sendAmount) === 0) {
-          Toast('请填写捐款金额');
+          Toast('请填写捐款积分数');
           return false;
         }
 
@@ -184,9 +184,9 @@
           openWebview({
             url: './wallet.send.html',
             id: 'wallet.send',
-            title: '捐款收银台',
+            title: '捐赠',
             titleStyle: {
-              titleText: "捐款收银台",
+              titleText: "捐赠",
               autoBackButton: true,
               progress: {color: '#ff5c0a', height: "1%"},
             }

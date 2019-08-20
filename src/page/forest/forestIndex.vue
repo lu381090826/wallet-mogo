@@ -28,7 +28,7 @@
       <div class="grassLand">
         <div class="my-collection" v-intervalclick="{func:gotoMycollect}">
           <div style="color: #009e04;font-weight: bold">已收集：{{collectInfo.totalCollectTg}}Tg</div>
-          <div style="color: #009e04;font-size: 11px">采集的能量将由区块链发放到钱包-{{walletName}}</div>
+          <div style="color: #009e04;font-size: 11px">采集的能量将发送到区块链地址：{{walletName}}</div>
         </div>
       </div>
     </div>

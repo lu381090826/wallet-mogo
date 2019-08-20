@@ -13,7 +13,7 @@
                        type="number"
             >
             </van-field>
-            <van-field label="收款方"
+            <van-field label="转入方"
                        v-model="receiveAddress"
                        placeholder="收取积分地址"
                        :error-message="receiveAddressError"
@@ -58,9 +58,9 @@
                        type="number"
             >
             </van-field>
-            <van-field label="收款方"
+            <van-field label="转入方"
                        v-model="receiveAddress"
-                       placeholder="收款钱包地址"
+                       placeholder="转入地址"
                        :error-message="receiveAddressError"
                        @input="receiveAddressError = ''"
                        :clearable="true"
@@ -83,12 +83,12 @@
       <van-field label="金额" v-model="sendAmount" :readonly="true" :disabled="true">
         <span style="color: dodgerblue;font-size: 16px">ETH</span>
       </van-field>
-      <van-field label="钱包" v-model="walletName" is-link :readonly="true" @click="selectWallet">
+      <van-field label="地址" v-model="walletName" is-link :readonly="true" @click="selectWallet">
       </van-field>
       <van-field label="交易密码" v-model="walletPassword" type="password">
       </van-field>
       <van-button class="sendButton button-blue" type="primary" size="large" v-intervalclick="{func:send}">
-        立即转账
+        立即转出
       </van-button>
     </van-popup>
     <van-actionsheet
@@ -107,7 +107,7 @@
     />
 
     <van-button class="doNext button-blue" type="primary" size="large" v-intervalclick="{func:doNext}">
-      确认转账
+      确认转出
     </van-button>
 
   </div>
@@ -241,11 +241,11 @@
         let sendAmount = Number(this.sendAmount);
 
         if (isEmpty(this.receiveAddress)) {
-          Toast('请输入收款地址');
+          Toast('请输入转入地址');
           return;
         }
         if (isEmpty(this.walletPassword)) {
-          Toast('请输入钱包密码');
+          Toast('请输入地址密码');
           return;
         }
         if (isEmpty(sendAmount) || sendAmount === 0) {
@@ -255,7 +255,7 @@
 
         Dialog.confirm({
           title: '提示',
-          message: '确认转账吗？（提交后不可撤回）'
+          message: '确认转出吗？（提交后不可撤回）'
         }).then(() => {
           Toast.loading({
             duration: 0,       // 持续展示 toast
@@ -353,7 +353,7 @@
           return false;
         }
         if (this.receiveAddress === "") {
-          this.receiveAddressError = "请输入正确的收款地址";
+          this.receiveAddressError = "请输入正确的转入地址";
           return false;
         }
         this.showConfirm = !this.showConfirm;

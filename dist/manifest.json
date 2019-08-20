@@ -3,8 +3,8 @@
     "id" : "H58335462",
     "name" : "感恩链",
     "version" : {
-        "name" : "2.3.15",
-        "code" : "141"
+        "name" : "2.3.16",
+        "code" : "142"
     },
     "description" : "感恩链",
     "icons" : {
@@ -91,7 +91,7 @@
                     "<uses-permission android:name=\"android.permission.CAMERA\"/>"
                 ],
                 "minSdkVersion" : 22,
-                "targetSdkVersion" : 22
+                "targetSdkVersion" : 26
             },
             /*使用Native.js调用原生安卓API需要使用到的系统权限*/
             "orientation" : [ "portrait-primary" ],

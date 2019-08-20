@@ -47,7 +47,7 @@
         openWebview({
           url: "./wallet.walletConfig.html",
           id: "wallet.walletConfig",
-          title: "钱包设置",
+          title: "地址设置",
         });
       },
       profit() {
@@ -96,7 +96,7 @@
           url: "./wallet.send.html",
           id: "wallet.send",
           titleStyle: {
-            titleText: "转账",
+            titleText: "转出积分",
             autoBackButton: true,
             progress: {color: '#ff5c0a', height: "1%"},
           }
@@ -106,7 +106,7 @@
         openWebview({
           url: "./wallet.receive.html",
           id: "wallet.receive",
-          title: "收款"
+          title: "转入积分"
         });
       },
       config() {

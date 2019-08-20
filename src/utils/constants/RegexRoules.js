@@ -11,7 +11,7 @@ const regexRoules = {
     phone: "手机号",
     password: "密码",
     captcha: "验证码",
-    walletName: "钱包名",
+    walletName: "地址名称",
     passwordAgain: "再次输入的密码",
   },
   errorMessage: {

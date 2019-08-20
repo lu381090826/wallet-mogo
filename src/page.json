@@ -46,5 +46,5 @@
   "login.verifyCodeCheckLogin|plusReady": "./src/page/login/verifyCodeCheckLogin.js",
   "login.forgetPassword|plusReady": "./src/page/login/forgetPassword.js",
   "login.changePassword|plusReady": "./src/page/login/changePassword.js",
-  "chart.ethChart|plusReady": "./src/page/chart/ethChart.js"
+  "market.market|plusReady": "./src/page/market/market.js"
 }

@@ -2,12 +2,12 @@
   <div class="body">
     <div class="box text-left">
       <div style="padding: 3%">
-        <span style="font-weight: bold;font-size: 26px">我的钱包</span>
+        <span style="font-weight: bold;font-size: 26px">我的地址</span>
         <div style="float: right;">
           <van-button size="mini"
                       v-intervalclick="{func:gotoImport}">
             <van-icon name="refund-o"></van-icon>
-            导入钱包
+            导入地址
           </van-button>
           <van-button size="mini" @click="init">
             <van-icon name="replay"></van-icon>
@@ -28,15 +28,15 @@
       </van-cell-group>
 
 
-      <van-button class="gotoImport button-blue" type="primary" size="large" v-intervalclick="{func:createWallet}">创建新钱包
+      <van-button class="gotoImport button-blue" type="primary" size="large" v-intervalclick="{func:createWallet}">创建地址
       </van-button>
     </div>
 
     <van-popup class="box" style="width: 80%" v-model="showCreate">
       <div>
         <van-cell-group>
-          <van-field v-model="newWaletName" placeholder="请输入钱包名"></van-field>
-          <van-field v-model="newWaletPassword" type='password' placeholder="请输入钱包密码"></van-field>
+          <van-field v-model="newWaletName" placeholder="请输入地址名称"></van-field>
+          <van-field v-model="newWaletPassword" type='password' placeholder="请输入地址密码"></van-field>
         </van-cell-group>
         <div style="margin-top: 8%">
           <van-button type="info" size="large" v-intervalclick="{func:doCreate}">立即创建</van-button>
@@ -100,7 +100,7 @@
       },
       doCreate() {
         request(TGCApiUrl.createWallet, {walletName: this.newWaletName, password: this.newWaletPassword}).then(res => {
-          Dialog({message: "钱包创建成功，钱包地址" + res.walletAddress});
+          Dialog({message: "地址创建成功，地址" + res.walletAddress});
         })
       },
       createWallet() {
@@ -118,7 +118,7 @@
         openWebview({
           url: "./wallet.import.html",
           id: "wallet.import",
-          title: "钱包导入"
+          title: "地址导入"
         });
       },
       gotoWalletInfo(walletAddress, walletName) {
