@@ -10,7 +10,7 @@
     "icons" : {
         "72" : "icon.png"
     },
-    "launch_path" : "www/index.html",
+    "launch_path" : "http://192.168.1.101:8080/",
     "developer" : {
         "name" : "Gavin Lu",
         "email" : "381090826@qq.com",
@@ -32,7 +32,9 @@
         "Barcode" : {
             "description" : "二维码"
         },
-        "Payment" : {}
+        "Payment" : {},
+        "Push" : {},
+        "Share" : {}
     },
     "plus" : {
         "statusbar" : {
@@ -57,6 +59,15 @@
                 "payment" : {
                     "weixin" : {
                         "appid" : "wx48b75ef0a53ee9cc"
+                    }
+                },
+                "push" : {
+                    "unipush" : {}
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "",
+                        "appsecret" : ""
                     }
                 }
             },
@@ -84,11 +95,21 @@
                 "aliasname" : "",
                 /*Android应用打包使用密钥库中证书的别名*/
                 "permissions" : [
-                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>"
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+                    "<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>"
                 ],
                 "minSdkVersion" : 22,
                 "targetSdkVersion" : 26

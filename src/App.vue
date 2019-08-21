@@ -34,9 +34,9 @@
             const instance = new component();
             instance.$mount("#app");
             plus.webview.currentWebview().setStyle({
-            //   // cachemode:"default",
-            //   // statusbar:{background:'#3a90e0'},
-              scrollIndicator:"none"
+              //   // cachemode:"default",
+              //   // statusbar:{background:'#3a90e0'},
+              scrollIndicator: "none"
             });
           } else {
             plus.storage.clear();
@@ -59,5 +59,9 @@
       font-family: PingFang SC, Helvetica Neue, Arial, sans-serif;
       overflow-x: hidden;
     }
+  }
+
+  html,body,#app{
+    height: 100%;
   }
 </style>

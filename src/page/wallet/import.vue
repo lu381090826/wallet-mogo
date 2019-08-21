@@ -55,6 +55,7 @@
   import Vue from 'vue';
   import {Tab, Tabs, Button, Field, Toast, Dialog} from 'vant';
   import {request} from "../../utils/request";
+  import {isEmpty} from "../../utils/globalFunc";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import Web3Util from "../../utils/web3Util/Web3Util";
 

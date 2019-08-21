@@ -26,22 +26,29 @@
 <script>
   import Vue from 'vue'
   import {Popup, Icon, Toast, Button} from 'vant';
-  import {request} from "../../utils/request";
-  import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+  import {isIos, isAndroid} from '../../utils/tools';
 
   Vue.use(Icon)
-    .use(Popup)
-    .use(Button)
-    .use(Toast);
+     .use(Popup)
+     .use(Button)
+     .use(Toast);
 
   export default {
     name: 'share',
     data() {
       return {
-        shareUrl: "http://www.thanksgiving.cn/",
+        shareUrl: "",
         sharewx: "",
         popupVisible: false,
       };
+    },
+    created() {
+      if (isIos()) {
+        this.shareUrl = "https://www.thanksgiving.cn/"
+      }
+      if (isAndroid()) {
+        this.shareUrl = "https://a.app.qq.com/o/simple.jsp?pkgname=io.dcloud.H58335462"
+      }
     },
     methods: {
       showShare() {
@@ -65,7 +72,7 @@
           content: "积分购手机享9.5折",
           href: _this.shareUrl,
           type: "web",
-          thumbs: ["http://www.thanksgiving.cn/static/img/gongyilogo.png"],
+          thumbs: ["https://www.thanksgiving.cn/static/img/gongyilogo.png"],
           extra: {scene: "WXSceneSession"}
         };
         _this.sharewx.send(content, function () {
