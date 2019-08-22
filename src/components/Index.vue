@@ -2,7 +2,7 @@
   <div>
     <van-tabbar v-model="active" fixed class="index-tabbar">
       <van-tabbar-item icon="wap-home">首页</van-tabbar-item>
-      <!--<van-tabbar-item icon="chart-trending-o">行情</van-tabbar-item>-->
+      <van-tabbar-item icon="chart-trending-o">行情</van-tabbar-item>
       <van-tabbar-item icon="points">积分</van-tabbar-item>
       <van-tabbar-item icon="contact">我的</van-tabbar-item>
     </van-tabbar>
@@ -115,13 +115,13 @@
           case 0:
             this.append(this.home);
             break;
-          // case 1:
-          //   this.append(this.market);
-          //   break;
           case 1:
-            this.append(this.asset);
+            this.append(this.market);
             break;
           case 2:
+            this.append(this.asset);
+            break;
+          case 3:
             this.append(this.wallet);
             break;
           default:

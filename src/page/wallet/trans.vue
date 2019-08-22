@@ -83,7 +83,7 @@
   import Vue from 'vue';
   import {isEmpty, isNotEmpty} from "@/utils/globalFunc";
   import Web3Util from "@/utils/web3Util/Web3Util";
-  import {Toast, Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem, Switch, Button} from 'vant';
+  import {Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem, Switch, Button} from 'vant';
   import {openWebview} from "@/utils/webview";
   import {Tab, Tabs} from 'vant';
   import {Panel} from 'vant';
@@ -95,7 +95,6 @@
      .use(CellGroup)
      .use(Icon)
      .use(Row)
-     .use(Toast)
      .use(Col)
      .use(Tabbar)
      .use(TabbarItem)

@@ -39,12 +39,11 @@
           </van-row>
           <div class="cell-group">
             <van-cell-group>
-              <van-cell v-for="(item,k) in tokenList" :key="k"
+              <van-cell class="box" v-for="(item,k) in tokenList" :key="k"
                         :title="item.tokenName"
                         :label="item.tokenAddressShow"
                         is-link
-                        @click="trans(item.tokenAddress)">
-
+                        v-intervalclick="trans(item.tokenAddress)">
               </van-cell>
             </van-cell-group>
 
@@ -147,7 +146,7 @@
       doCopy() {
         let _this = this;
         _this.$copyText(_this.walletAddress).then(function (e) {
-          Toast.success({
+          plus.nativeUI.toast({
             message: '地址复制成功',
             position: 'bottom',
           })
@@ -326,6 +325,7 @@
   }
 
   .cell-group {
+    padding-top: 3%;
     min-height: 500px;
     background-color: white;
   }

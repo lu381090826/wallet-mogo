@@ -73,13 +73,14 @@ export function openWebview(config, style = {}, extras = {}, callback = () => {
       },
       extras
     );
-
+    plus.nativeUI.showWaiting();
     //需要加载完再打开
     if (isNotEmpty(config.needLoaded) && config.needLoaded) {
       // 监听窗口加载成功
       wload.addEventListener(
         "loaded",
         function () {
+          plus.nativeUI.closeWaiting();
           wload.show("pop-in"); // 显示窗口
           callback();
         },

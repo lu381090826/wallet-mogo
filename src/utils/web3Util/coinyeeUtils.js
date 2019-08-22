@@ -1,16 +1,15 @@
 import axios from 'axios'
 import Vue from 'vue'
-import {Toast} from 'vant';
-import {isNotEmpty} from "../globalFunc";
-import {timestampToDate, timestampToDateDay} from "../tools";
+import echarts from 'echarts';
+import {isEmptyObject, isNotEmpty} from "../globalFunc";
+import {timestampToDateDay} from "../tools";
+
 
 /*
 *
 * 交易所接口
 *
 * */
-
-Vue.use(Toast);
 let url;
 if (isNotEmpty(Vue.prototype.HOST)) {
   url = '/coinyee'
@@ -22,71 +21,65 @@ let coinyeeUtils = {
   async get(api, request = {}, toast = true) {
     let url = this.url + api;
     if (toast) {
-      Toast.loading('加载中...');
+      plus.nativeUI.showWaiting();
     }
 
-    // request.apiKey = this.apiKey;
-
     return await axios.get(url, {params: request}).then(function (res) {
-
       return res.data;
     })
                       .catch(error => {
-                        Toast(error);
+                        plus.nativeUI.toast(error);
                         return Promise.reject(error);
                       }).finally(() => {
-          Toast.clear();
+        plus.nativeUI.closeWaiting();
         }
       );
   },
   calculateMA(dayCount, values) {
-    var result = [];
-    for (var i = 0, len = values.length; i < len; i++) {
+    let result = [];
+    for (let i = 0, len = values.length; i < len; i++) {
       if (i < dayCount) {
         result.push('-');
         continue;
       }
-      var sum = 0;
-      for (var j = 0; j < dayCount; j++) {
+      let sum = 0;
+      for (let j = 0; j < dayCount; j++) {
         sum += values[i - j][1];
       }
       result.push(sum / dayCount);
     }
     return result;
   },
+  async tickers() {
+    return await this.get("/server/tickers").then(res => {
+      return res.data.ticker_list;
+    })
+  },
   async kline(data = {}) {
+
+    if (isEmptyObject(data)) {
+      data = {
+        symbol: 'ETHCNY',
+        range: 86400000,
+        limit: 1000,
+        prevTradeTime: 1566442961761
+      }
+    }
+
     return await this.get('/kline/proxy.php', data).then(res => {
       let lines = res.data.lines;
-      let categoryData = [];
-      let values = [];
+      let date = [];
+      let data = [];
 
       for (let i = 0; i < lines.length; i++) {
-
         lines[i][0] = timestampToDateDay(lines[i][0] / 1000);
-
-        categoryData.push(lines[i].splice(0, 1)[0]);
-
-        values.push(lines[i])
-
-      }
-      var base = +new Date(1968, 9, 3);
-      var oneDay = 24 * 3600 * 1000;
-      var date = [];
-
-      var data = [Math.random() * 300];
-
-      for (var i = 1; i < 20000; i++) {
-        var now = new Date(base += oneDay);
-        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-        data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
+        date.push(lines[i].splice(0, 1)[0]);
+        data.push(lines[i][3])
       }
 
       let option = {
           tooltip: {
             trigger: 'axis',
-            position: function (pt) {
-              return [pt[0], '10%'];
-            }
           },
           xAxis: {
             type: 'category',
@@ -95,13 +88,15 @@ let coinyeeUtils = {
           },
           yAxis: {
             type: 'value',
+            show: false,
             boundaryGap: [0, '100%']
           },
-          dataZoom: [{
-            type: 'inside',
-            start: 90,
-            end: 100
-          },
+          dataZoom: [
+            {
+              type: 'inside',
+              start: 90,
+              end: 100
+            },
             {
               start: 0,
               end: 10,
@@ -117,18 +112,18 @@ let coinyeeUtils = {
             }],
           series: [
             {
-              name: '当日均价',
+              name: '当日均价(¥)',
               type: 'line',
               smooth: true,
               symbol: 'none',
               sampling: 'average',
               itemStyle: {
-                color: '#006bf9'
+                color: '#2681f9'
               },
               areaStyle: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                   offset: 0,
-                  color: '#a2d7ff'
+                  color: '#ccf3ff'
                 }, {
                   offset: 1,
                   color: '#ffffff'

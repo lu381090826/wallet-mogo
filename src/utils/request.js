@@ -3,12 +3,11 @@
  */
 import Vue from 'vue'
 import axios from 'axios'
-import {Toast, Dialog} from 'vant';
+import {Dialog} from 'vant';
 import {openWebview} from "./webview";
 import cons from "./constants/Cons";
 import {gotoLogin} from "./globalTools";
 
-Vue.use(Toast);
 Vue.use(Dialog);
 
 export async function request(url, data = {}, baseURL = null) {
@@ -61,13 +60,13 @@ export async function request(url, data = {}, baseURL = null) {
       });
       return false;
     } else if (res.status !== 200) {
-      Toast("出错了！(T＿T)");
+      plus.nativeUI.toast("出错了！(T＿T)");
       return false;
     }
     //处理服务器返回的错误
     let data = res.data;
     if (data.code !== 100) {
-      Toast("【" + data.code + "】" + data.msg);
+      plus.nativeUI.toast("【" + data.code + "】" + data.msg);
       return Promise.reject("【" + data.code + "】" + data.msg);
     }
     return data.data;

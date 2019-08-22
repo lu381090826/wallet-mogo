@@ -100,7 +100,7 @@ module.exports = {
     index: path.resolve(__dirname, "index.html"),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, "../dist/www/"),assetsSubDirectory: "assets",
+    assetsRoot: path.resolve(__dirname, "../dist/www/"), assetsSubDirectory: "assets",
     assetsPublicPath: "./",
 
     /**

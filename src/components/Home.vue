@@ -32,7 +32,7 @@
               <div class="asset-header-titile" v-intervalclick="{func:trans}">
                 <div class="titile-name">Eth</div>
                 <div :style="{fontSize: '16px'}">
-                  {{walletBalance}}<span class="minbalance">   {{walletBalanceRMB}}</span>
+                  {{walletBalance}}<div class="minbalance">   {{walletBalanceRMB}}</div>
                 </div>
               </div>
             </van-col>
@@ -40,7 +40,7 @@
               <div class="asset-header-titile" v-intervalclick="{func:tgTrans}">
                 <div class="titile-name">TG</div>
                 <div :style="{fontSize: '16px'}">
-                  {{tokenBalance}}<span class="minbalance">   {{tokenBalanceRMB}}</span>
+                  {{tokenBalance}}<div class="minbalance">   {{tokenBalanceRMB}}</div>
                 </div>
               </div>
             </van-col>
@@ -534,9 +534,10 @@
 
   .asset-header {
     width: 100%;
-    background-image: -webkit-linear-gradient(top, #3a90e0, #3a81d1);
+    background-image: -webkit-linear-gradient(top, #3a90e0, #3677c1);
     height: 10%;
     min-height: 100px;
+    border-bottom: 1px solid #e5e5e5;
   }
 
   .asset-header-titile {

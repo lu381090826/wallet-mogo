@@ -17,7 +17,7 @@ let etherscanHttpUtils = {
   get: function (request, toast = true) {
     let url = this.url;
     if (toast) {
-      Toast.loading('加载中...');
+      plus.nativeUI.showWaiting();
     }
 
     request.apiKey = this.apiKey;
@@ -35,7 +35,7 @@ let etherscanHttpUtils = {
         Toast(error);
         return Promise.reject(error);
       }).finally(() => {
-          Toast.clear();
+        plus.nativeUI.closeWaiting();
         }
       );
   }

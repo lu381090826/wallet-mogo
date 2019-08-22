@@ -1,9 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
-import {Toast} from 'vant';
 import {isNotEmpty} from "../globalFunc";
 //https://github.com/EverexIO/Ethplorer/wiki/Ethplorer-API
-Vue.use(Toast);
 let url;
 if (isNotEmpty(Vue.prototype.HOST)) {
   url = '/ethplorer'
@@ -16,7 +14,7 @@ let ethplorerUtils = {
   async get(api, request = {}, toast = true) {
     let url = this.url + api;
     if (toast) {
-      Toast.loading('加载中...');
+      plus.nativeUI.showWaiting();
     }
 
     request.apiKey = this.apiKey;
@@ -26,10 +24,10 @@ let ethplorerUtils = {
       return res.data;
     })
       .catch(error => {
-        Toast(error);
+        plus.nativeUI.toast(error);
         return Promise.reject(error);
       }).finally(() => {
-          Toast.clear();
+        plus.nativeUI.closeWaiting();
         }
       );
   },
