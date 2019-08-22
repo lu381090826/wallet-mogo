@@ -27,7 +27,7 @@
 
     <div style="width: 100%">
       <v-chart :options="option" ref="chart"
-               :height="'300px'"
+               :height="'250px'"
       />
     </div>
     <div class="blank-space"></div>
@@ -35,9 +35,7 @@
 
     <van-tabs v-model="active" color="#3a81d1">
       <van-tab title="CNY">
-        <div style="padding: 3%">
-          <price :ticker_list="ticker_list" unit="CNY"/>
-        </div>
+        <price :ticker_list="ticker_list" unit="CNY"/>
       </van-tab>
       <van-tab title="USDT">
         <price :ticker_list="ticker_list" unit="USDT"/>
@@ -84,16 +82,27 @@
     },
     mounted() {
       let _t = this;
+      _t.init();
 
-      _t.getLastPrice();
+      let ws = plus.webview.currentWebview();
+      ws.setPullToRefresh({support:true,style:'circle',offset:'45px'}, _t.onRefresh);
 
-      coinyeeUtils.kline().then(res => {
-        _t.option = res.option;
-      })
     },
     methods: {
-      getLastPrice() {
+      onRefresh() {
+        this.init();
+        let ws = plus.webview.currentWebview();
+        setTimeout(() => {
+          ws.endPullToRefresh();
+        },1000)
+      },
+      init() {
         let _t = this;
+
+        coinyeeUtils.kline().then(res => {
+          _t.option = res.option;
+        });
+
         coinyeeUtils.tickers().then(res => {
           _t.ticker_list = res;
           for (let i = 0; i < _t.ticker_list.length; i++) {

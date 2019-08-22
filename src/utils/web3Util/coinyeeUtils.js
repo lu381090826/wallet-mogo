@@ -18,11 +18,8 @@ if (isNotEmpty(Vue.prototype.HOST)) {
 }
 let coinyeeUtils = {
   url: url,
-  async get(api, request = {}, toast = true) {
+  async get(api, request = {}) {
     let url = this.url + api;
-    if (toast) {
-      plus.nativeUI.showWaiting();
-    }
 
     return await axios.get(url, {params: request}).then(function (res) {
       return res.data;
@@ -31,7 +28,7 @@ let coinyeeUtils = {
                         plus.nativeUI.toast(error);
                         return Promise.reject(error);
                       }).finally(() => {
-        plus.nativeUI.closeWaiting();
+
         }
       );
   },

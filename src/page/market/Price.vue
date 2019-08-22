@@ -1,29 +1,39 @@
 <style type="text/css">
   .price-st {
-    padding: 5%;
     color: #616161;
+    padding: 3%
+  }
+
+  .box-line {
+    vertical-align: middle;
+    padding-top: 13px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9e9e9;
   }
 </style>
 <template>
   <div class="price-st">
-    <van-row type="flex" justify="left"
+    <van-row class="box-line" type="flex" justify="left"
              v-for="(item , k ) in ticker_list"
              :key="k"
              v-if="item.unit===unit">
       <van-col span="10">
         <div>
-          <span style="font-size: 20px">
+          <div style="float: left;margin-right: 10px">
+            <img :src="'https://www.thanksgiving.cn/static/coin/'+item.coin+'.png'" width="23px">
+          </div>
+          <div style="font-size: 20px;">
             {{item.coin}}
-          </span>
+          </div>
         </div>
       </van-col>
       <van-col span="8">
-        {{formatNum(item.last)}} {{symbol()}}
+        <span style="font-size: 20px">{{formatNum(item.last)}}</span> {{symbol()}}
       </van-col>
       <van-col span="6">
-        <div style="width: 80px;height: 20px;text-align: center;color:white;border-radius: 5px"
+        <div style="width: 80px;height: 28px;text-align: center;color:white;border-radius: 5px"
              :style="{backgroundColor:getBackground(item.percent)}">
-          {{percent(item.percent)}}
+          <div style="padding-top: 3px">{{percent(item.percent)}}</div>
         </div>
       </van-col>
     </van-row>

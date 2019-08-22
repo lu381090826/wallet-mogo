@@ -1,56 +1,55 @@
 <template>
   <div>
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <div class="pull-refresh">
-        <div class="asset-header">
-          <van-row type="flex" justify="end" style="padding-top: 3%;margin-right: 5%">
-            <van-col span="20">
-              <div style="text-align: center">
-                <span style="font-size: 20px;">{{walletName}}</span>
-                <span style="font-size: 12px;">{{walletAddress|formatAddress}}</span>
-                <van-icon name="qr" size="12px" @click="showWalletQcode"></van-icon>
-              </div>
-            </van-col>
-            <van-col>
-              <van-col span="4" v-intervalclick="{func:config}">
-                <div>
-                  <van-icon name="wap-nav" size="20px"></van-icon>
-                </div>
-              </van-col>
-            </van-col>
-          </van-row>
-          <van-row gutter="20" type="flex" justify="center">
-            <van-col span="10">
-              <div class="asset-header-titile" v-intervalclick="{func:trans}">
-                <div class="titile-name">Eth资产</div>
-                <div class="asset-number">
-                  {{walletBalance}}
-                </div>
-              </div>
-            </van-col>
-            <van-col span="10">
-              <div class="asset-header-titile" v-intervalclick="{func:profit}">
-                <div class="titile-name">累计收益(TG)</div>
-                <div class="asset-number">
-                  {{totalProfit}}
-                </div>
-              </div>
-            </van-col>
-          </van-row>
-          <div class="cell-group">
-            <van-cell-group>
-              <van-cell class="box" v-for="(item,k) in tokenList" :key="k"
-                        :title="item.tokenName"
-                        :label="item.tokenAddressShow"
-                        is-link
-                        v-intervalclick="trans(item.tokenAddress)">
-              </van-cell>
-            </van-cell-group>
 
-          </div>
+    <div class="pull-refresh">
+      <div class="asset-header">
+        <van-row type="flex" justify="end" style="padding-top: 3%;margin-right: 5%">
+          <van-col span="20">
+            <div style="text-align: center">
+              <span style="font-size: 20px;">{{walletName}}</span>
+              <span style="font-size: 12px;">{{walletAddress|formatAddress}}</span>
+              <van-icon name="qr" size="12px" @click="showWalletQcode"></van-icon>
+            </div>
+          </van-col>
+          <van-col>
+            <van-col span="4" v-intervalclick="{func:config}">
+              <div>
+                <van-icon name="wap-nav" size="20px"></van-icon>
+              </div>
+            </van-col>
+          </van-col>
+        </van-row>
+        <van-row gutter="20" type="flex" justify="center">
+          <van-col span="10">
+            <div class="asset-header-titile" v-intervalclick="{func:trans}">
+              <div class="titile-name">Eth资产</div>
+              <div class="asset-number">
+                {{walletBalance}}
+              </div>
+            </div>
+          </van-col>
+          <van-col span="10">
+            <div class="asset-header-titile" v-intervalclick="{func:profit}">
+              <div class="titile-name">累计收益(TG)</div>
+              <div class="asset-number">
+                {{totalProfit}}
+              </div>
+            </div>
+          </van-col>
+        </van-row>
+        <div class="cell-group">
+          <van-cell-group>
+            <van-cell v-for="(item,k) in tokenList" :key="k"
+                      :title="item.tokenName"
+                      :label="item.tokenAddressShow"
+                      is-link
+                      v-intervalclick="{func:trans,tokenAddress:item.tokenAddress}">
+            </van-cell>
+          </van-cell-group>
+
         </div>
       </div>
-    </van-pull-refresh>
+    </div>
 
     <van-popup v-model="showWalletConfig" position="right">
       <div style="width: 200px;height: 1000px;">
@@ -92,7 +91,7 @@
   import VueClipboard from 'vue-clipboard2'
   import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
-  import {Cell, CellGroup, PullRefresh, Row, Col, Toast, Icon, Popup, Button} from 'vant';
+  import {Cell, CellGroup, PullRefresh, Row, Col, Icon, Popup, Button} from 'vant';
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById} from "@/utils/webview";
@@ -101,7 +100,6 @@
   Vue.use(Tabbar).use(TabbarItem)
      .use(Row).use(Col)
      .use(PullRefresh)
-     .use(Toast)
      .use(Icon)
      .use(Popup)
      .use(Button)
@@ -118,13 +116,17 @@
         walletName: plus.storage.getItem("walletName"),
         tokenList: [],
         walletBalance: "-",
-        isLoading: false,
         totalProfit: "-",
         walletList: null,
         showWalletConfig: false,
         walletQcode: false,
 
       }
+    },
+    mounted(){
+      let _t = this;
+      let ws = plus.webview.currentWebview();
+      ws.setPullToRefresh({support:true,style:'circle',offset:'45px'}, _t.onRefresh);
     },
     created() {
       let t = this;
@@ -146,11 +148,7 @@
       doCopy() {
         let _this = this;
         _this.$copyText(_this.walletAddress).then(function (e) {
-          plus.nativeUI.toast({
-            message: '地址复制成功',
-            position: 'bottom',
-          })
-        }, function (e) {
+          plus.nativeUI.toast('地址复制成功')
         })
       },
       set(walletAddress, walletName) {
@@ -235,14 +233,11 @@
         this.showWalletConfig = true;
       },
       onRefresh() {
-        let _t = this;
-        this.showWalletConfig = false;
-        let ws = plus.nativeUI.showWaiting();
+        this.init();
+        let ws = plus.webview.currentWebview();
         setTimeout(() => {
-          _t.isLoading = false;
-          _t.init();
-          ws.close();
-        }, 500);
+          ws.endPullToRefresh();
+        },1000)
       },
       getWalletList() {
         let _this = this;
@@ -267,13 +262,8 @@
             let arr = [];
 
             for (let i = 0; i < res.length; i++) {
-              res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "...";
+              res[i].tokenAddressShow = res[i].tokenAddress;
               _this.tokenList.push(res[i])
-              // Web3Util.getContractBalance(res[i].tokenAddress, _this.walletAddress).then(contractBalance => {
-              //   res[i].tokenBalance = contractBalance;
-              //   res[i].tokenAddressShow = res[i].tokenAddress.substring(0, 10) + "...";
-              //   _this.tokenList.push(res[i])
-              // });
             }
           }
         });

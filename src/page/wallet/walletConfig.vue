@@ -87,7 +87,6 @@
       let t = this;
       this.init();
       window.addEventListener("init", function (event) {
-        //通过event.detail可获得传递过来的参数内容
         t.init();
       });
     },
@@ -107,11 +106,9 @@
         this.showCreate = !this.showCreate;
       },
       reloadWebview() {
-        let wa = plus.nativeUI.showWaiting();
         setTimeout(() => {
           let ws = plus.webview.getWebviewById(cons.baseWebViewId);
           ws.reload();
-          wa.close();
         });
       },
       gotoImport() {

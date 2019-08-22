@@ -11,7 +11,7 @@ if (isNotEmpty(Vue.prototype.HOST)) {
 let ethplorerUtils = {
   apiKey: 'ufega69104crcM90',
   url: url,
-  async get(api, request = {}, toast = true) {
+  async get(api, request = {}, toast = false) {
     let url = this.url + api;
     if (toast) {
       plus.nativeUI.showWaiting();

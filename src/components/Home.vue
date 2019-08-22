@@ -464,7 +464,7 @@
 
         setTimeout(() => {
           _this.init();
-        }, 70);
+        }, 1000);
       },
       getWalletList() {
         let _this = this;

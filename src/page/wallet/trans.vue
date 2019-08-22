@@ -105,19 +105,27 @@
   export default {
     data() {
       return {
-        tokenAddress: "",
-        walletAddress: "",
-        balance: "---",
+        tokenAddress: "-",
+        walletAddress: "-",
+        balance: "-",
         selected: 0,
         transList: [],
         page: 1,
         offset: 5,
         active: 1,
         transActive: 0,
-        tokenInfo: 0,
+        tokenInfo: {
+          name: '-',
+          symbol: '',
+        },
       }
     },
-    created: function () {
+    mounted() {
+      let _t = this;
+      let ws = plus.webview.currentWebview();
+      ws.setPullToRefresh({support: true, style: 'circle', offset: '45px'}, _t.onRefresh);
+    },
+    created() {
       let ws = plus.webview.currentWebview();
       if (isNotEmpty(ws.walletAddress)) {
         this.walletAddress = ws.walletAddress;
@@ -130,6 +138,13 @@
       this.getData();
     },
     methods: {
+      onRefresh() {
+        this.getData();
+        let ws = plus.webview.currentWebview();
+        setTimeout(() => {
+          ws.endPullToRefresh();
+        }, 1000)
+      },
       transValue(obj) {
         let value = obj.value;
 
