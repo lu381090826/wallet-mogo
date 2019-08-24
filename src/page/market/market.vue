@@ -17,7 +17,9 @@
         </van-col>
         <van-col span="6">
           <div
-            style="width: 80px;height: 30px;background-color: red;border-radius: 5px;color: white;text-align: center;">
+            style="width: 80px;height: 30px;border-radius: 5px;color: white;text-align: center;"
+            :style="{backgroundColor:getBackground(ethPrice.percent)}"
+          >
             <div style="padding-top: 5%;font-size: 17px;">{{percent(ethPrice.percent)}}</div>
           </div>
         </van-col>
@@ -25,7 +27,7 @@
     </div>
     <div class="blank-space"></div>
 
-    <div style="width: 100%">
+    <div>
       <v-chart :options="option" ref="chart"
                :height="'250px'"
       />
@@ -85,7 +87,7 @@
       _t.init();
 
       let ws = plus.webview.currentWebview();
-      ws.setPullToRefresh({support:true,style:'circle',offset:'45px'}, _t.onRefresh);
+      ws.setPullToRefresh({support: true, style: 'circle', offset: '45px'}, _t.onRefresh);
 
     },
     methods: {
@@ -94,7 +96,7 @@
         let ws = plus.webview.currentWebview();
         setTimeout(() => {
           ws.endPullToRefresh();
-        },1000)
+        }, 1000)
       },
       init() {
         let _t = this;

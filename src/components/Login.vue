@@ -1,5 +1,5 @@
 <template>
-  <div class="body" style="text-align: center;background-color: white;">
+  <div class="body" style="text-align: center;background-color: white;min-height: 800px;">
     <div class="login-center">
       <van-row type="flex" justify="center">
         <div>

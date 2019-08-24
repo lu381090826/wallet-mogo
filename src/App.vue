@@ -60,8 +60,4 @@
       overflow-x: hidden;
     }
   }
-
-  html,body,#app{
-    height: 100%;
-  }
 </style>

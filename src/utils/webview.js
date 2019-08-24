@@ -1,9 +1,7 @@
 import Vue from 'vue'
-import {Toast} from "vant";
 import {isEmpty, isNotEmpty, isNotEmptyObject} from "./globalFunc";
 import './webviews'
 
-Vue.use(Toast);
 
 function getTitleStyle(config) {
   let titelStyle = {};
@@ -73,14 +71,12 @@ export function openWebview(config, style = {}, extras = {}, callback = () => {
       },
       extras
     );
-    plus.nativeUI.showWaiting();
     //需要加载完再打开
     if (isNotEmpty(config.needLoaded) && config.needLoaded) {
       // 监听窗口加载成功
       wload.addEventListener(
         "loaded",
         function () {
-          plus.nativeUI.closeWaiting();
           wload.show("pop-in"); // 显示窗口
           callback();
         },

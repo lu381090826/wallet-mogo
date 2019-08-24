@@ -19,7 +19,7 @@
         <van-cell v-for="(item,k) in walletList"
                   :key="k"
                   :title="item.walletName"
-                  :label="item.walletAddress"
+                  :label="formatAddress(item.walletAddress)"
                   clickable
                   is-link
                   @click="gotoWalletInfo(item.walletAddress,item.walletName)"
@@ -96,6 +96,9 @@
         request(TGCApiUrl.walletList).then(res => {
           _this.walletList = res;
         });
+      },
+      formatAddress(tokenAddress) {
+        return tokenAddress.substring(0, 10) + '...' + tokenAddress.substring(32, tokenAddress.length);
       },
       doCreate() {
         request(TGCApiUrl.createWallet, {walletName: this.newWaletName, password: this.newWaletPassword}).then(res => {

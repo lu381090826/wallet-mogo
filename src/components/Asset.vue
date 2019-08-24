@@ -38,14 +38,20 @@
           </van-col>
         </van-row>
         <div class="cell-group">
-          <van-cell-group>
-            <van-cell v-for="(item,k) in tokenList" :key="k"
-                      :title="item.tokenName"
-                      :label="item.tokenAddressShow"
-                      is-link
-                      v-intervalclick="{func:trans,tokenAddress:item.tokenAddress}">
-            </van-cell>
-          </van-cell-group>
+          <div>
+            <van-row class="box token-row"
+                     v-for="(item,k) in tokenList" :key="k"
+                     v-intervalclick="{func:trans,tokenAddress:item.tokenAddress}">
+              <van-col span="4">
+                <img :src="getTokenImg(item.tokenAddress)" width="45px">
+              </van-col>
+              <van-col span="12">
+                <div style="float: left;margin-bottom: 15px;">{{item.tokenName}}</div>
+                <div style="font-size: 10px;">{{formatAddress(item.tokenAddress)}}</div>
+              </van-col>
+              <van-col span="8">{{item.balance}}</van-col>
+            </van-row>
+          </div>
 
         </div>
       </div>
@@ -96,6 +102,8 @@
   import {Tabbar, TabbarItem} from 'vant';
   import {openWebview, preLoad, showWebviewById} from "@/utils/webview";
   import QrcodeVue from 'qrcode.vue'
+  import {getAddressImg} from "../utils/web3Util/AddressImg";
+
 
   Vue.use(Tabbar).use(TabbarItem)
      .use(Row).use(Col)
@@ -120,13 +128,12 @@
         walletList: null,
         showWalletConfig: false,
         walletQcode: false,
-
       }
     },
-    mounted(){
+    mounted() {
       let _t = this;
       let ws = plus.webview.currentWebview();
-      ws.setPullToRefresh({support:true,style:'circle',offset:'45px'}, _t.onRefresh);
+      ws.setPullToRefresh({support: true, style: 'circle', offset: '45px'}, _t.onRefresh);
     },
     created() {
       let t = this;
@@ -142,6 +149,19 @@
       }
     },
     methods: {
+      async getBalance(tokenAddress) {
+        return await Web3Util.getBalance(this.walletAddress, tokenAddress).then(res => {
+          console.log("tokenAddress:" + tokenAddress);
+          console.log(res);
+          return res;
+        });
+      },
+      formatAddress(tokenAddress) {
+        return tokenAddress.substring(0, 10) + '...' + tokenAddress.substring(28, tokenAddress.length);
+      },
+      getTokenImg(tokenAddress) {
+        return getAddressImg(tokenAddress)
+      },
       showWalletQcode() {
         this.walletQcode = !this.walletQcode;
       },
@@ -197,8 +217,11 @@
         openWebview({
           url: './wallet.trans.html',
           id: "wallet.trans",
-          title: "交易详情",
-          needLoaded: true,
+          titleStyle: {
+            titleText: "交易详情",
+            autoBackButton: true,
+            progress: {color: '#3a90e0', height: "1%"},
+          }
         }, {}, {
           walletAddress: _this.walletAddress,
           tokenAddress: tokenAddress,
@@ -237,7 +260,7 @@
         let ws = plus.webview.currentWebview();
         setTimeout(() => {
           ws.endPullToRefresh();
-        },1000)
+        }, 1000);
       },
       getWalletList() {
         let _this = this;
@@ -262,8 +285,11 @@
             let arr = [];
 
             for (let i = 0; i < res.length; i++) {
-              res[i].tokenAddressShow = res[i].tokenAddress;
-              _this.tokenList.push(res[i])
+              let row = res[i];
+              Web3Util.getBalance(_this.walletAddress, row.tokenAddress).then(res => {
+                row.balance = res;
+                _this.tokenList.push(row)
+              })
             }
           }
         });
@@ -315,12 +341,17 @@
   }
 
   .cell-group {
-    padding-top: 3%;
+    padding: 1%;
     min-height: 500px;
     background-color: white;
   }
 
   .asset-number {
     font-size: 11px;
+  }
+
+  .token-row {
+    background-image: -webkit-linear-gradient(top, #3a90e0, #3a81d1);
+    border: 1px solid #1d9dd2;
   }
 </style>
