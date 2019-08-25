@@ -1,5 +1,6 @@
 <template>
-  <div class="body" style="text-align: center;background-color: white;min-height: 800px;">
+  <div class="body" style="text-align: center;background-color: white;overflow-y: hidden"
+       :style="{minHeight:winHeight+'px'}">
     <div class="login-center">
       <van-row type="flex" justify="center">
         <div>
@@ -109,6 +110,7 @@
   export default {
     data() {
       return {
+        winHeight: window.innerHeight,
         username: "",
         password: "",
         passwordView: false,

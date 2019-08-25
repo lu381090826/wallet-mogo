@@ -149,11 +149,9 @@
       }
     },
     methods: {
-      async getBalance(tokenAddress) {
-        return await Web3Util.getBalance(this.walletAddress, tokenAddress).then(res => {
-          console.log("tokenAddress:" + tokenAddress);
-          console.log(res);
-          return res;
+      getBalance(tokenAddress) {
+        return Web3Util.getBalance(this.walletAddress, tokenAddress).then(res => {
+          return JSON.stringify(res);
         });
       },
       formatAddress(tokenAddress) {
@@ -286,10 +284,10 @@
 
             for (let i = 0; i < res.length; i++) {
               let row = res[i];
-              Web3Util.getBalance(_this.walletAddress, row.tokenAddress).then(res => {
+              _this.getBalance(row.tokenAddress).then(res => {
                 row.balance = res;
                 _this.tokenList.push(row)
-              })
+              });
             }
           }
         });

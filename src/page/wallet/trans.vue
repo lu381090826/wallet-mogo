@@ -205,10 +205,6 @@
         let walletAddress = plus.storage.getItem("walletAddress");
         let tokenAddress = _t.tokenAddress;
 
-        Web3Util.getBalance(this.walletAddress).then(res => {
-          _t.balance = res;
-        });
-
         if (isNotEmpty(tokenAddress)) {
           ethplorerUtils.getTokenInfo(tokenAddress).then(res => {
             _t.tokenInfo = res;
@@ -217,7 +213,17 @@
           ethplorerUtils.getAddressHistory(walletAddress, {token: tokenAddress, type: 'transfer'}).then(res => {
             _t.transList = res.operations;
           });
+
+          Web3Util.getBalance(this.walletAddress, tokenAddress).then(res => {
+            _t.balance = res;
+          });
+
         } else {
+
+          Web3Util.getBalance(this.walletAddress).then(res => {
+            _t.balance = res;
+          });
+
           ethplorerUtils.getAddressHistory(walletAddress, {type: 'transfer'}).then(res => {
             _t.transList = res.operations;
           });

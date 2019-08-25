@@ -120,7 +120,7 @@
     Cell,
     CellGroup,
     Slider,
-    Actionsheet,
+    ActionSheet,
     Popup,
     Dialog,
     Icon,
@@ -138,7 +138,7 @@
 
   Vue.use(Tab).use(Tabs);
   Vue.use(Dialog);
-  Vue.use(Actionsheet);
+  Vue.use(ActionSheet);
   Vue.use(Popup);
   Vue.use(Button);
   Vue.use(Field);

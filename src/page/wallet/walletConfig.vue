@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body" :style="{minHeight:winHeight+'px'}">
     <div class="box text-left">
       <div style="padding: 3%">
         <span style="font-weight: bold;font-size: 26px">我的地址</span>
@@ -53,7 +53,7 @@
   import cons from "@/utils/constants/Cons";
   import {preLoad, showWebviewById} from "@/utils/webview";
   import {openWebview} from "../../utils/webview";
-  import {Actionsheet} from 'vant';
+  import {ActionSheet} from 'vant';
   import {Icon} from 'vant';
   import {Dialog} from 'vant';
   import {Popup} from 'vant';
@@ -62,7 +62,7 @@
   Vue.use(Field);
   Vue.use(Popup);
   Vue.use(Icon);
-  Vue.use(Actionsheet);
+  Vue.use(ActionSheet);
   Vue.use(RadioGroup);
   Vue.use(Button);
   Vue.use(Radio);
@@ -73,6 +73,7 @@
   export default {
     data() {
       return {
+        winHeight: window.innerHeight,
         walletList: [],
         walletAddress: plus.storage.getItem("walletAddress"),
         walletName: plus.storage.getItem("walletName"),

@@ -1,29 +1,32 @@
+<style type="text/css">
+  .top-select {
+    width: 100px;
+    float: left;
+    min-height: 30px;
+  }
+</style>
 <template>
   <div style="color: #616161;">
-    <div style="padding: 5%">
-      <van-row type="flex" justify="left">
-        <van-col span="12">
-          <div>
-            <span style="font-size: 20px;">ETH</span>
-            <span style="font-size: 18px;color: lightgrey">/CNY</span>
-          </div>
+    <div>
+      <van-row>
+        <van-col span="11">
+          <van-dropdown-menu class="top-select">
+            <van-dropdown-item v-model="selected" :options="selectOption" @close="select()">
+            </van-dropdown-item>
+          </van-dropdown-menu>
         </van-col>
         <van-col span="6">
-          <div>
-            <div style="padding-top: 5%;font-size: 17px;">
-              {{formatNum(ethPrice.last)}}
-            </div>
-          </div>
+          <div style="font-size: 20px;min-height: 30px;margin-top: 13%;">{{formatNum(ethPrice.last)}}</div>
         </van-col>
-        <van-col span="6">
+        <van-col span="4">
           <div
-            style="width: 80px;height: 30px;border-radius: 5px;color: white;text-align: center;"
-            :style="{backgroundColor:getBackground(ethPrice.percent)}"
-          >
+            style="width: 80px;height: 30px;border-radius: 5px;color: white;text-align: center;margin-top: 13%;"
+            :style="{backgroundColor:getBackground(ethPrice.percent)}">
             <div style="padding-top: 5%;font-size: 17px;">{{percent(ethPrice.percent)}}</div>
           </div>
         </van-col>
       </van-row>
+
     </div>
     <div class="blank-space"></div>
 
@@ -60,12 +63,13 @@
   import VueECharts from '../../components/ECharts'
   import coinyeeUtils from "../../utils/web3Util/coinyeeUtils";
   import {Col, Row, Tab, Tabs} from 'vant';
+  import {DropdownMenu, DropdownItem} from 'vant';
   import Price from "./Price";
   import MathUtil from "../../utils/MathUtil";
 
   Vue.use(Tab).use(Tabs);
   Vue.use(Row).use(Col);
-
+  Vue.use(DropdownMenu).use(DropdownItem);
 
   export default {
     components: {
@@ -77,9 +81,19 @@
         option: null,
         ticker_list: [],
         ethPrice: {
-          percent: "-"
+          percent: "-",
+          last: "-",
         },
-        active: 0
+        active: 0,
+        selected: 'ETHCNY',
+        selectOption: [
+          {
+            text: 'ETH/CNY', value: "ETHCNY",
+          },
+          {
+            text: 'BTC/CNY', value: "BTCCNY"
+          },
+        ],
       };
     },
     mounted() {
@@ -91,6 +105,19 @@
 
     },
     methods: {
+      select() {
+        let _t = this;
+        let params = {
+          symbol: _t.selected,
+          range: 86400000,
+          limit: 1000,
+          prevTradeTime: 1566442961761
+        };
+
+        coinyeeUtils.kline(params).then(res => {
+          _t.option = res.option;
+        });
+      },
       onRefresh() {
         this.init();
         let ws = plus.webview.currentWebview();
@@ -108,10 +135,11 @@
         coinyeeUtils.tickers().then(res => {
           _t.ticker_list = res;
           for (let i = 0; i < _t.ticker_list.length; i++) {
-            if (_t.ticker_list[i].coin === 'ETH'
-              && _t.ticker_list[i].unit === 'CNY') {
-              _t.ethPrice = _t.ticker_list[i];
-              break;
+            if (_t.ticker_list[i].unit === 'CNY') {
+              if (_t.ticker_list[i].coin === 'ETH') {
+                _t.ethPrice = _t.ticker_list[i];
+                break;
+              }
             }
           }
         });
@@ -138,7 +166,9 @@
         }
       },
       formatNum(number) {
-        return Number(number).toFixed(2);
+        if (number !== '-') {
+          return Number(number).toFixed(2);
+        }
       },
     }
   }

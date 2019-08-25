@@ -26,15 +26,9 @@
       <van-goods-action-mini-btn icon="chat" @click="sorry">
         客服
       </van-goods-action-mini-btn>
-      <!--<van-goods-action-mini-btn icon="cart" @click="onClickCart">-->
-      <!--购物车-->
-      <!--</van-goods-action-mini-btn>-->
-      <!--<van-goods-action-big-btn @click="addToCart">-->
-      <!--加入购物车-->
-      <!--</van-goods-action-big-btn>-->
-      <van-goods-action-big-btn primary @click="createOrder">
+      <van-goods-action-button primary @click="createOrder">
         立即购买
-      </van-goods-action-big-btn>
+      </van-goods-action-button>
     </van-goods-action>
 
   </div>
@@ -52,14 +46,18 @@
     Toast,
     SwipeItem,
     GoodsAction,
-    GoodsActionBigBtn,
-    GoodsActionMiniBtn
+    GoodsActionButton
   } from "vant";
 
   import {fire} from "@/utils/envent.js";
   import {openWebview} from "@/utils/webview";
   import {request} from "@/utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
+
+  Vue
+    .use(GoodsAction)
+    .use(GoodsActionIcon)
+    .use(GoodsActionButton);
 
   export default {
     components: {
@@ -71,9 +69,6 @@
       [CellGroup.name]: CellGroup,
       [Swipe.name]: Swipe,
       [SwipeItem.name]: SwipeItem,
-      [GoodsAction.name]: GoodsAction,
-      [GoodsActionBigBtn.name]: GoodsActionBigBtn,
-      [GoodsActionMiniBtn.name]: GoodsActionMiniBtn
     },
     data() {
       return {

@@ -16,17 +16,17 @@
     </van-cell-group>
 
     <van-goods-action>
-      <van-goods-action-big-btn v-if="order.status===150||order.status===160"
+      <van-goods-action-button v-if="order.status===150||order.status===160"
                                 primary
                                 text="申请取消"
                                 @click="refund(orderId)"
       />
-      <van-goods-action-big-btn v-if="order.status===100"
+      <van-goods-action-button v-if="order.status===100"
                                 primary
                                 text="去转出"
                                 @click="gotoPay(orderId)"
       />
-      <van-goods-action-big-btn v-if="order.status===100"
+      <van-goods-action-button v-if="order.status===100"
                                 primary
                                 text="取消订单"
                                 @click="gotoPay(orderId)"
@@ -44,18 +44,20 @@
   } from "vant";
   import {
     GoodsAction,
-    GoodsActionBigBtn,
+    GoodsActionButton,
   } from 'vant';
 
-  Vue
-    .use(Dialog)
-    .use(GoodsAction)
-    .use(GoodsActionBigBtn);
+
   import {request} from "@/utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {openWebview} from "../../utils/webview";
   import OrderType from "../../utils/constants/OrderType";
   import TGCConfig from "../../utils/constants/tgcConfig";
+
+  Vue
+    .use(Dialog)
+    .use(GoodsAction)
+    .use(GoodsActionButton);
 
   export default {
     components: {

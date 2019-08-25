@@ -78,7 +78,7 @@
 </template>
 <script>
   import Vue from 'vue';
-  import {Actionsheet, Button, Cell, CellGroup, Field, NoticeBar, Popup, Slider, Toast, Dialog} from 'vant';
+  import {ActionSheet, Button, Cell, CellGroup, Field, NoticeBar, Popup, Slider, Toast, Dialog} from 'vant';
   import TGCConfig from "../../utils/constants/tgcConfig";
   import QrcodeVue from 'qrcode.vue'
   import {openWebview} from "../../utils/webview";
@@ -88,7 +88,7 @@
   import MathUtil from "../../utils/MathUtil";
   import RateUtil from "../../utils/web3Util/RateUtil";
 
-  Vue.use(Field).use(Popup).use(Button).use(CellGroup).use(Cell).use(NoticeBar).use(Toast).use(Actionsheet).use(Slider)
+  Vue.use(Field).use(Popup).use(Button).use(CellGroup).use(Cell).use(NoticeBar).use(Toast).use(ActionSheet).use(Slider)
     .use(Dialog);
 
   export default {
