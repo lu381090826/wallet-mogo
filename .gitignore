@@ -1,4 +1,5 @@
 .DS_Store
+*.iml
 node_modules/
 dist/www/
 dist/unpackage/release
