@@ -45,7 +45,6 @@ Vue.prototype.myCharitableWebView = function () {
       backgroundColor: "#ffa500",
       splitLine: {color: "#ffa500"},
       autoBackButton: true,
-      progress: {color: '#ff5c0a', height: "1%"}
     }
   })
 };

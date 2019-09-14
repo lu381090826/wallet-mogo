@@ -1,57 +1,59 @@
 <template>
   <div style="overflow-x: hidden;">
     <div class="top"></div>
-    <div>
-      <HomeHeader :config="config"
-                  :tg-trans="tgTrans"
-                  :token-balance="tokenBalance"
-                  :token-balance-r-m-b="tokenBalanceRMB"
-                  :trans="trans"
-                  :wallet-balance="walletBalance"
-                  :wallet-balance-r-m-b="walletBalanceRMB"/>
 
-    </div>
+    <HomeHeader :config="config"
+                :tg-trans="tgTrans"
+                :token-balance="tokenBalance"
+                :token-balance-r-m-b="tokenBalanceRMB"
+                :trans="trans"
+                :wallet-balance="walletBalance"
+                :wallet-balance-r-m-b="walletBalanceRMB"/>
+
+
     <div v-if="showVerifyIdcard" v-intervalclick="{func:gotoVerifyIdcard}">
       <van-notice-bar
         text="您未进行身份认证，为不影响体验，点击跳转认证。"
         left-icon="info-o"
-      />
+      ></van-notice-bar>
     </div>
-    <HeaderTool/>
 
-    <div class="blank-space"></div>
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <van-loading type="spinner" slot="pulling"></van-loading>
+      <van-loading type="spinner" slot="loosing"></van-loading>
+      <van-loading type="spinner" slot="loading"></van-loading>
 
-    <HeaderMiner/>
+      <HeaderTool/>
 
-    <div class="blank-space"></div>
+      <div class="blank-space"></div>
 
-    <HomeShop :goods="goods" :goods-list="goodsList"/>
+      <HeaderMiner/>
 
-    <div class="blank-space"></div>
+      <div class="blank-space"></div>
 
-    <Gongyi/>
+      <HomeShop :goods="goods" :goods-list="goodsList"/>
 
-    <div class="blank-space"></div>
+      <div class="blank-space"></div>
 
-    <van-popup v-model="showWalletConfig" position="right">
-      <div style="width: 200px;height: 1000px;padding: 5%">
-        <div style="margin-top: 10%;font-weight: bold;">选择地址</div>
-        <div style="margin-top: 20%">
-          <van-cell-group>
-            <van-cell v-for="(item,k) in walletList" :key="k" :title="item.walletName" clickable
-                      @click="set(item.walletAddress,item.walletName)" :label="subString(item.walletAddress)"
-                      :style="{backgroundColor: getColor(item.walletAddress)}"
-            >
-            </van-cell>
-          </van-cell-group>
-          <van-cell-group>
-            <van-button class="gotoImport button-blue" type="default" size="large"
-                        v-intervalclick="{func:gotoWalletConfig}">
-              地址管理
-            </van-button>
-          </van-cell-group>
-        </div>
-      </div>
+      <Gongyi/>
+
+      <div class="blank-space"></div>
+    </van-pull-refresh>
+
+    <van-popup v-model="showWalletConfig" position="bottom" style="height: 350px;" :round="true">
+      <div style="padding: 3%;font-size: 15px;background-color: lightgrey;color: gray">切换当前地址</div>
+      <van-cell-group>
+        <van-cell v-for="(item,k) in walletList"
+                  :key="k"
+                  :style="{backgroundColor: getColor(item.walletAddress)}"
+                  ﻿isLink
+                  @click="set(item.walletAddress,item.walletName)"
+        >
+          <img :src="getTokenImg(item.walletAddress)" width="45px" height="45px" slot="icon">
+          <div slot="title" class="wallet-list">{{item.walletName}}</div>
+          <div slot="label" class="wallet-list-label">{{formatAddr(item.walletAddress)}}</div>
+        </van-cell>
+      </van-cell-group>
     </van-popup>
 
   </div>
@@ -87,7 +89,10 @@
   import HeaderMiner from "./Home/HeaderMiner";
   import HeaderTool from "./Home/HeaderTool";
   import HomePop from "./Home/HomePop";
+  import {getAddressImg} from "../utils/web3Util/AddressImg";
+  import {PullRefresh} from 'vant';
 
+  Vue.use(PullRefresh);
   Vue.use(NoticeBar);
   Vue.use(Swipe).use(SwipeItem);
   Vue.use(Tabbar).use(TabbarItem)
@@ -114,12 +119,8 @@
         walletBalanceRMB: null,
         tokenBalanceRMB: null,
         showWalletConfig: false,
+        isLoading: false,
       }
-    },
-    mounted() {
-      let _t = this;
-      let ws = plus.webview.currentWebview();
-      ws.setPullToRefresh({support: true, style: 'circle', offset: '45px'}, _t.onRefresh);
     },
     created() {
       let t = this;
@@ -132,6 +133,13 @@
       });
     },
     methods: {
+      formatAddr(addr) {
+        let s = addr.toString();
+        return s.substring(0, 8) + "..." + s.substring(35, s.length)
+      },
+      getTokenImg(tokenAddress) {
+        return getAddressImg(tokenAddress)
+      },
       gotoWalletConfig() {
         openWebview(
           {
@@ -207,9 +215,8 @@
         this.walletBalanceRMB = null;
         _this.init();
 
-        let ws = plus.webview.currentWebview();
         setTimeout(() => {
-          ws.endPullToRefresh();
+          this.isLoading = false;
         }, 1000)
       },
       getWalletList() {
@@ -280,4 +287,11 @@
     background-color: #3a90e0;
   }
 
+  .wallet-list {
+    margin-left: 5%;
+  }
+
+  .wallet-list-label {
+    margin-left: 5%;
+  }
 </style>

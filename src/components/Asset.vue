@@ -30,7 +30,7 @@
           </van-col>
           <van-col span="10">
             <div class="asset-header-titile" v-intervalclick="{func:profit}">
-              <div class="titile-name">累计收益(TG)</div>
+              <div class="titile-name">累计矿(TG)</div>
               <div class="asset-number">
                 {{totalProfit}}
               </div>
@@ -199,7 +199,6 @@
               titleColor: "#ffffff",
               backgroundColor: "#fa5b21",
               autoBackButton: true,
-              progress: {color: '#ff5c0a', height: "1%"},
             },
             style: {render: true}
           })
@@ -239,7 +238,6 @@
           titleStyle: {
             titleText: "转出积分",
             autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"},
           }
         });
       },
@@ -292,8 +290,8 @@
           }
         });
 
-        request(TGCApiUrl.getProgitInfo, {walletAddress: _this.walletAddress}).then(function (res) {
-          _this.totalProfit = res.totalProfit;
+        request(TGCApiUrl.getProfitTotal, {walletAddress: _this.walletAddress}).then(function (res) {
+          _this.totalProfit = res;
         });
 
       },

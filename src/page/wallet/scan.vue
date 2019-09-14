@@ -50,7 +50,6 @@
             titleStyle: {
               titleText: "转出积分",
               autoBackButton: true,
-              progress: {color: '#ff5c0a', height: "1%"},
             }
           }
           , {}, {

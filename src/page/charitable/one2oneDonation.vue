@@ -188,7 +188,6 @@
             titleStyle: {
               titleText: "捐赠",
               autoBackButton: true,
-              progress: {color: '#ff5c0a', height: "1%"},
             }
 
           }, {}, {

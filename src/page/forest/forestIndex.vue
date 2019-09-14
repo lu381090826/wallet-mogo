@@ -1,162 +1,213 @@
 <template>
-  <div class="forest-body" ref="forestBody">
-    <div class="container">
-      <div class="blueSky" :style="{height:skyHeight}">
-        <ul>
-          <li v-for="(item,k) in cloudItems" :key="k"
-              :is="item.component"
-              :left="item.left"
-              :top="item.top"
-              :width="item.width"
-          >
-          </li>
-        </ul>
-        <div style="width: 70%">
-          <ul>
-            <li style="float: left" :is="item.component"
-                v-for="(item,k) in items" :key="k"
-                :weight="item.weight"
-                :x="item.x"
-                :y="item.y"
-                :animationDelay="item.animationDelay"
-                @reflash="reflash"
-            >
-            </li>
-          </ul>
+  <div class="home">
+    <ul class="coin-list">
+      <li class="coin-list-item" @click="collect(index)"
+          v-for="(item,index) in list"
+          :key="index">
+        <div class="coin-list-item-animate">
+          <p class="coin-list-item-img">{{item.number}}</p>
+          <p class="coin-list-item-name">{{item.title}}</p>
         </div>
-      </div>
-      <div class="grassLand">
-        <div class="my-collection" v-intervalclick="{func:gotoMycollect}">
-          <div style="color: #009e04;font-weight: bold">已收集：{{collectInfo.totalCollectTg}}Tg</div>
-          <div style="color: #009e04;font-size: 11px">采集的能量将发送到区块链地址：{{walletName}}</div>
-        </div>
+      </li>
+    </ul>
+    <div class="tree-box">
+      <img src="../../../static/forest/tree.png" class="tree-img"/>
+    </div>
+    <div class="grassLand">
+      <div class="my-collection" v-intervalclick="{func:gotoMycollect}">
+        <div style="color: white;font-weight: bold;font-size: 18px">已收集：{{collectInfo.totalCollectTg}}Tg</div>
+        <div style="color: white;font-size: 13px">采集的能量将发送到区块链地址：{{walletName}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Vue from "vue";
-  import Paopao from "./Paopao";
-  import ForestCloud from "./ForestCloud";
-  import {Button} from 'vant';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
-  import {openWebview, openWebviewFast} from "../../utils/webview";
-
-  Vue.use(Button);
+  import {isEmpty} from "../../utils/globalFunc";
+  import {openWebview} from "../../utils/webview";
 
   export default {
-    components: {
-      ForestCloud
-    },
     data() {
       return {
-        items: [],
-        clientHeight: '',
-        skyHeight: '',
-        cloudItems: [],
-        totalEnergy: 0,
+        list: [
+          {id: 0, title: "", number: "0.02TG"},
+          {id: 1, title: "", number: "0.02TG"},
+          {id: 2, title: "", number: "0.02TG"},
+          {id: 3, title: "", number: "0.02TG"},
+          {id: 4, title: "", number: "0.02TG"}
+        ],
         collectInfo: {},
         walletName: plus.storage.getItem('walletName'),
-      }
-    },
-    mounted() {
-      // 获取浏览器可视区域高度
-      this.clientHeight = `${document.documentElement.clientHeight}`          //document.body.clientWidth;
-      window.onresize = function temp() {
-        this.clientHeight = `${document.documentElement.clientHeight}`;
       };
-      this.skyHeight = (this.clientHeight - 160) + 'px';
-    },
-    watch: {
-      // 如果 `clientHeight` 发生改变，这个函数就会运行
-      clientHeight: function () {
-        // this.changeFixed(this.clientHeight)
-      }
     },
     methods: {
       gotoMycollect() {
-        openWebviewFast({
-          url: './forest.mycollection.html',
-          id: 'forest.mycollection',
-          title: '收集记录'
-        })
+        openWebview(
+          {
+            url: "./profit.index.html",
+            id: "profit.index",
+            needLoaded: true,
+            titleStyle: {
+              titleText: "持币矿",
+              titleColor: "#ffffff",
+              backgroundColor: "#fa5b21",
+              autoBackButton: true,
+            },
+            style: {render: true}
+          })
       },
-      append() {
-        //添加云
-        for (let i = 0; i < 2; i++) {
-          let left = Math.random() * 300;
-          let top = Math.random() * 20;
-          let width = Math.random() * 100;
-          let height = Math.random() * 50;
-          this.cloudItems.push({
-            'component': ForestCloud,
-            left: left + 'px',
-            top: top + '%',
-            width: width + 'px',
-          });
-        }
+      async collect(val) {
+        let _this = this;
+        request(TGCApiUrl.forestCollect, {
+          energy: 0.02,
+          walletAddress: plus.storage.getItem("walletAddress")
+        })
+          .then(res => {
+            console.log(res);
+            if (!isEmpty(res)) {
+              let dom = document.querySelectorAll(".coin-list-item")[val];
+              let tree = document.querySelector(".tree-img");
+              let left = tree.offsetLeft - dom.offsetLeft + tree.width / 2;
+              let top = tree.offsetTop - dom.offsetTop + tree.height / 2;
+              dom.style.animationIterationCount = "1";
+              let docEl = document.documentElement;
+              let clientWidth = docEl.clientWidth > 750 ? 750 : docEl.clientWidth;
+              let size = 100 * (clientWidth / 750);
+              dom.style.top = top / size + "rem";
+              dom.style.left = left / size + "rem";
+              dom.style.transform = "scale(0,0)";
+              dom.style.transitionDuration = "1.5s";
+              tree.classList.add("animate");
+              _this.collectInfo.totalCollectTg = Number(_this.collectInfo.totalCollectTg) + Number(0.02);
 
-        //添加泡泡
-        for (let i = 0; i < 5; i++) {
-          let weight = 0.02;
-          let xNum = Math.random() * 200;
-          let x = xNum > 301 ? 151 : xNum + 'px';
-          let yNum = Math.random() * 200;
-          let y = (yNum > this.skyHeight ? this.skyHeight - 150 : yNum) + 'px';
-          let animationDelay = Math.random();
-          this.items.push({
-            'component': Paopao,
-            'weight': weight,
-            'x': x,
-            'y': y,
-            'animationDelay': animationDelay + 's',
-          });
-        }
-      },
-      changeFixed(clientHeight) {
-        this.$refs.homePage.style.height = clientHeight + 'px';
-      },
-      reflash() {
-        let _t = this;
-        request(TGCApiUrl.forestCollectInfo).then(res => {
-          _t.collectInfo = res;
-        })
+              setTimeout(() => {
+                setTimeout(() => {
+                  tree.classList.remove("animate");
+                }, 500);
+              }, 1000);
+            }
+          })
       }
     },
-    created() {
-      this.append();
-      this.reflash()
+    async created() {
+      let _t = this;
+      await request(TGCApiUrl.forestCollectInfo).then(res => {
+        _t.collectInfo = res;
+      })
     }
-  }
+  };
 </script>
+<style lang="less" scoped>
+  @baseFontSize: 75; //基于视觉稿横屏尺寸/100得出的基准font-size
+  .px2rem(@name, @px) {
+      @{name}: @px / @baseFontSize * 1rem;
+  }
 
-<style>
-  .blueSky {
+  .home {
+    position: absolute;
     width: 100%;
-    background-image: -webkit-linear-gradient(top, rgb(196, 228, 253), rgb(255, 255, 255));
-    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background: url("../../../static/forest/back.png") no-repeat left top / 100% 100%;
+    .coin-list {
+      display: flex;
+      justify-content: space-between;
+      color: green;
+      margin: 3rem 0.8rem 0.8rem;
+      list-style-type: none;
+      &-item {
+        margin-top: 30%;
+        position: relative;
+        z-index: 1;
+        &-animate {
+          animation: updown 3.5s linear infinite alternate;
+        }
+        &-img {
+          line-height: 1rem;
+          text-align: center;
+          .px2rem(width, 200);
+          .px2rem(height, 200);
+          background: url("../../../static/forest/coin-1.png") no-repeat left top / 100% 100%;
+        }
+        &-name {
+          text-align: center;
+          font-size: 0.26rem;
+          margin: 0.1rem 0;
+        }
+      }
+      &-item:nth-child(1) {
+        left: 0;
+        top: 0;
+        .coin-list-item-animate {
+          animation-delay: 0.5s;
+        }
+      }
+      &-item:nth-child(2) {
+        top: -1rem;
+        .coin-list-item-animate {
+          animation-delay: 1s;
+        }
+      }
+      &-item:nth-child(3) {
+        top: -1rem;
+        .coin-list-item-animate {
+          animation-delay: 1.5s;
+        }
+      }
+      &-item:nth-child(4) {
+        top: -1rem;
+        .coin-list-item-animate {
+          animation-delay: 2s;
+        }
+      }
+      &-item:nth-child(5) {
+        top: 0;
+        .coin-list-item-animate {
+          animation-delay: 2.5s;
+        }
+      }
+    }
+    .tree-box {
+      text-align: center;
+      .tree-img {
+        .px2rem(width, 650);
+        .px2rem(width, 1050);
+        animation: updown 3.5s linear infinite alternate;
+        margin-top: 10%;
+      }
+      .animate {
+        animation: updown2 0.5s linear 1;
+      }
+    }
   }
 
   .grassLand {
-    width: 100%;
-    height: 160px;
-    background-image: -webkit-linear-gradient(top, rgb(255, 255, 255), rgb(148, 190, 89));
-  }
-
-  .container {
-    overflow: hidden;
-  }
-
-  .my-collection {
-    padding-top: 20%;
-    margin-left: 15%;
     text-align: center;
   }
 
-  .my-collection-button {
-    background-color: #00b004;
-    color: white;
+  @keyframes updown {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(0.2rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes updown2 {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(0.4rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
 </style>

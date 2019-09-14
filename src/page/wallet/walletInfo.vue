@@ -1,6 +1,9 @@
 <template>
   <div style="padding: 3%">
     <div class="box">
+      <div style="text-align: center;margin-top: 5%;margin-bottom: 5%">
+        <img :src="getTokenImg(walletAddress)" width="65px" height="65px">
+      </div>
       <div>
         <van-cell-group>
           <van-cell title="地址">
@@ -102,6 +105,7 @@
   import Web3Util from "../../utils/web3Util/Web3Util";
   import {Dialog} from 'vant';
   import {fire} from "../../utils/envent";
+  import {getAddressImg} from "../../utils/web3Util/AddressImg";
 
   Vue.use(Dialog);
   Vue.use(Popup);
@@ -128,6 +132,9 @@
       }
     },
     methods: {
+      getTokenImg(tokenAddress) {
+        return getAddressImg(tokenAddress)
+      },
       alterWalletName() {
         this.alterWalletNameShow = !this.alterWalletNameShow
       },

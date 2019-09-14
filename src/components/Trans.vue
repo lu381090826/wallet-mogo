@@ -29,27 +29,44 @@
     <div v-show="transList.length > 0">
       <van-tabs v-model="transActive">
         <van-tab title="转入">
-          <van-panel v-for="(item,i) in transList"
-                     v-if="item.to===walletAddress"
-                     :key="i"
-                     :title="transValue(item.value)"
-                     :desc="formatAddress(item.transactionHash)"
-                     :status="item.transactionHash===null?'处理中':'成功'"
-                     @click="gotoTransInfo(item.transactionHash)"
-          >
-          </van-panel>
+          <van-cell-group>
+            <van-cell v-for="(item,i) in transList"
+                      v-if="item.to===walletAddress"
+                      :key="i"
+                      @click="gotoTransInfo(item.transactionHash)"
+            >
+              <div slot>
+                {{item.transactionHash===null?'处理中':'成功'}}
+              </div>
+              <div slot="title">
+                {{transValue(item.value)}}
+              </div>
+              <div slot="label">
+                {{formatAddress(item.transactionHash)}}
+              </div>
+            </van-cell>
+          </van-cell-group>
+
         </van-tab>
 
         <van-tab title="转出">
-          <van-panel v-for="(item,i) in transList"
-                     v-if="item.from===walletAddress"
-                     :key="i"
-                     :title="transValue(item.value)"
-                     :desc="formatAddress(item.transactionHash)"
-                     :status="item.transactionHash===null?'处理中':'成功'"
-                     @click="gotoTransInfo(item.transactionHash)"
-          >
-          </van-panel>
+          <van-cell-group>
+            <van-cell v-for="(item,i) in transList"
+                      v-if="item.from===walletAddress"
+                      :key="i"
+                      @click="gotoTransInfo(item.transactionHash)"
+            >
+              <div slot>
+                {{item.transactionHash===null?'处理中':'成功'}}
+              </div>
+              <div slot="title">
+                {{transValue(item.value)}}
+              </div>
+              <div slot="label">
+                {{formatAddress(item.transactionHash)}}
+              </div>
+            </van-cell>
+          </van-cell-group>
         </van-tab>
       </van-tabs>
 
@@ -76,22 +93,21 @@
   import {Toast, Cell, CellGroup, Pagination, Icon, Row, Col, Tabbar, TabbarItem, Switch, Button} from 'vant';
   import {openWebview} from "../utils/webview";
   import {Tab, Tabs} from 'vant';
-  import {Panel} from 'vant';
+  import {CellGroup, Cell} from 'vant';
   import ethplorerUtils from "../utils/web3Util/ethplorerUtils";
 
-  Vue.use(Panel);
   Vue.use(Tab).use(Tabs);
   Vue.use(Cell)
-    .use(CellGroup)
-    .use(Icon)
-    .use(Row)
-    .use(Toast)
-    .use(Col)
-    .use(Tabbar)
-    .use(TabbarItem)
-    .use(Switch)
-    .use(Button)
-    .use(Pagination);
+     .use(CellGroup)
+     .use(Icon)
+     .use(Row)
+     .use(Toast)
+     .use(Col)
+     .use(Tabbar)
+     .use(TabbarItem)
+     .use(Switch)
+     .use(Button)
+     .use(Pagination);
 
   export default {
     data() {
@@ -157,7 +173,6 @@
           titleStyle: {
             titleText: "转出积分",
             autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"},
           }
         }, {}, {
           tokenAddress: _this.tokenAddress

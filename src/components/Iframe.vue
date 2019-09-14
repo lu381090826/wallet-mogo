@@ -6,6 +6,9 @@
 
 <script>
 
+  import {request} from "../utils/request";
+  import TGCApiUrl from "../utils/constants/TGCApiUrl";
+
   export default {
     data() {
       return {}
@@ -61,7 +64,6 @@
               titleColor: "#ffffff",
               backgroundColor: "#fa5b21",
               autoBackButton: true,
-              progress: {color: '#ff5c0a', height: "1%"},
             },
             style: {render: true}
           })

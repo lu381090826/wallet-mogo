@@ -67,6 +67,7 @@ export function openWebview(config, style = {}, extras = {}, callback = () => {
       {
         popGesture: "none",
         scrollIndicator: 'none',
+        progress: {color: '#1a6eff', height: "1%"},
         ...style
       },
       extras
@@ -142,6 +143,7 @@ export function openWebviewFast(config) {
       titleNView: navStyle,
       scrollIndicator: 'none',
       backButtonAutoControl: 'close',
+      progress: {color: '#1a6eff', height: "1%"},
     },
     "pop-in",
     200,

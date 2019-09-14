@@ -62,7 +62,6 @@
             titleColor: "#ffffff",
             backgroundColor: "#ffa500",
             splitLine: {color: "#ffa500"},
-            progress: {color: '#ff5c0a', height: "1%"},
           }
         });
       },

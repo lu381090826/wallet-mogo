@@ -41,7 +41,9 @@ const TGCApiUrl = {
   donationOne2oneGetInfo: '/donation/one2one/getInfo',
   donationCreateOrder: '/donation/order/createOrder',
   totalTGBalance: '/wallet/api/totalTgBalance',
-  getProgitInfo: '/profit/api/getProgitInfo',
+  getProfitInfo: '/profit/api/getProfitInfo',
+  getProfitTotal: '/profit/api/getProfitTotal',
+  drawProfit: '/profit/api/drawProfit',
   getShareUrl: "/common/api/getShareUrl",
   forestCollect: "/forset/api/collect",
   forestCollectInfo: "/forset/api/collectInfo",
@@ -53,6 +55,9 @@ const TGCApiUrl = {
   verifySendCodeMsg: "/verify/api/sendCodeMsg",
   verifyIdcard: "/verify/api/verifyIdcard",
   donationStepToTG: "/donation/step/stepToTG",
+  saveStep: "/donation/step/saveStep",
+  checkStep: "/donation/step/checkStep",
+  stepList: "/donation/step/stepList",
 };
 
 export default TGCApiUrl;

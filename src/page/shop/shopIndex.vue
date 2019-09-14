@@ -57,10 +57,7 @@
         if (isEmptyObject(ws)) {
           let embed = plus.webview.create(obj.url, obj.id, {
             height: '93%',
-            backButtonAutoControl: 'none',
-            titleNView: {
-              progress: {color: '#ff5c0a', height: "1px"}
-            },
+            backButtonAutoControl: 'none'
           });
           plus.webview.currentWebview().append(embed);
         } else {

@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-  import {openWebview} from "../../utils/webview";
+  import {openWebview, openWebviewFast} from "../../utils/webview";
 
   export default {
     name: 'HeaderTool',
@@ -64,7 +64,6 @@
           titleStyle: {
             titleText: "转出积分",
             autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"},
           }
         }, {}, {
           needReLoad: true,

@@ -91,14 +91,14 @@
         立即转出
       </van-button>
     </van-popup>
-    <van-actionsheet
+    <van-action-sheet
       cancel-text="取消"
       v-model="showWalletList"
       :actions="walletListActions"
       @select="onSelect"
       @cancel="onCancel"
     />
-    <van-actionsheet
+    <van-action-sheet
       cancel-text="取消"
       v-model="showTokenList"
       :actions="tokenListActions"

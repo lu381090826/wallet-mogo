@@ -5,8 +5,8 @@
       挖矿项目
     </div>
     <div class="area">
-      <van-swipe :autoplay="5000" indicator-color="black">
-        <van-swipe-item v-intervalclick="{func:profit}">
+      <van-swipe :autoplay="8000" indicator-color="black">
+        <van-swipe-item @click="profit">
           <van-row style="height: 80px">
             <van-col span="14">
               <div class="zhuant-title">持币矿</div>
@@ -20,7 +20,7 @@
           </van-row>
         </van-swipe-item>
 
-        <van-swipe-item v-intervalclick="{func:step}">
+        <van-swipe-item @click="step">
           <van-row style="height: 80px">
             <van-col span="14">
               <div class="zhuant-title">行走矿</div>
@@ -34,8 +34,8 @@
           </van-row>
         </van-swipe-item>
 
-        <van-swipe-item v-intervalclick="{func:forest}">
-          <van-row style="height: 80px">
+        <van-swipe-item @click="forest">
+          <van-row style="height: 80px" >
             <van-col span="14">
               <div class="zhuant-title">采集能量攒TG</div>
               <div class="zhuant-desc">采集能量攒TG</div>
@@ -77,7 +77,6 @@
               titleColor: "#ffffff",
               backgroundColor: "#fa5b21",
               autoBackButton: true,
-              progress: {color: '#ff5c0a', height: "1%"},
             },
             style: {render: true}
           })

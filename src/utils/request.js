@@ -1,14 +1,10 @@
 /**
  * http请求模块
  */
-import Vue from 'vue'
 import axios from 'axios'
-import {Dialog} from 'vant';
 import {openWebview} from "./webview";
 import cons from "./constants/Cons";
 import {gotoLogin} from "./globalTools";
-
-Vue.use(Dialog);
 
 export async function request(url, data = {}, baseURL = null) {
   const conf = {
@@ -39,25 +35,25 @@ export async function request(url, data = {}, baseURL = null) {
 
   return await axios(conf).then(res => {
     if (res.status === 401) {
-      Dialog.alert({
-        title: '提示',
-        message: '登录已失效，即将重新登录'
-      }).then(() => {
-        openWebview({
-          url: cons.loginViewUrl,
-          id: cons.loginViewId,
-          title: "",
-          noTitle: true,
-        }, {}, {},);
-        setTimeout(() => {
-          let wvs = plus.webview.all();
-          console.log(JSON.stringify(wvs))
-          for (let i = 0; i < wvs.length; i++) {
-            if (wvs[i].id === cons.loginViewId) continue;
-            wvs[i].close();
-          }
-        }, 300)
-      });
+      plus.nativeUI.confirm(
+        '登录已失效，即将重新登录', () => {
+          openWebview({
+            url: cons.loginViewUrl,
+            id: cons.loginViewId,
+            title: "",
+            noTitle: true,
+          }, {}, {},);
+          setTimeout(() => {
+            let wvs = plus.webview.all();
+            console.log(JSON.stringify(wvs))
+            for (let i = 0; i < wvs.length; i++) {
+              if (wvs[i].id === cons.loginViewId) {
+                continue;
+              }
+              wvs[i].close();
+            }
+          }, 300);
+        });
       return false;
     } else if (res.status !== 200) {
       plus.nativeUI.toast("出错了！(T＿T)");

@@ -4,7 +4,7 @@ import {request} from "../request";
 import TGCApiUrl from "../constants/TGCApiUrl";
 import {Toast} from 'vant';
 import {saveStepData} from "../globalTools";
-import {isEmpty} from "../globalFunc";
+import {isEmpty, isNotEmpty} from "../globalFunc";
 
 Vue.use(Toast);
 let NativeFun = {
@@ -27,42 +27,61 @@ let NativeFun = {
   //监听步数
   initSensorEventListener() {
     console.log("开始计算步数");
-    //初始化步数
-    if (isEmpty(localStorage.getItem("totalStep"))) {
-      localStorage.setItem("totalStep", Number(0));
-    }
-    if (isEmpty(localStorage.getItem("todayStep"))) {
-      localStorage.setItem("todayStep", Number(0));
-    }
-    if (isEmpty(localStorage.getItem("lastStepTime"))) {
-      let time = new Date().getTime();
-      localStorage.setItem("lastStepTime", time);
-    }
 
-    let SensorEventListener = plus.android.implements("android.hardware.SensorEventListener", {
-      onSensorChanged: function (event) {
-        let values = plus.android.getAttribute(event, "values");
-        saveStepData(parseInt(values[0]));
-      },
-      onAccuracyChanged: function (sensor, accuracy) {
+    //初始化步数
+    request(TGCApiUrl.checkStep).then(res => {
+      let localTotalStep = Number(localStorage.getItem("totalStep"));
+      let remoteTotalStep = Number(res.totalStep);
+      if (isNotEmpty(localTotalStep)) {
+        if (localTotalStep < remoteTotalStep) {
+          localStorage.setItem("totalStep", remoteTotalStep);
+        }
+      } else {
+        localStorage.setItem("totalStep", Number(0));
+      }
+
+      let localTodayStep= Number(localStorage.getItem("todayStep"));
+      let remoteTodayStep = Number(res.todayStep);
+      if (isNotEmpty(localTodayStep)) {
+        if (localTotalStep < remoteTodayStep) {
+          localStorage.setItem("todayStep", remoteTodayStep);
+        }
+      } else {
+        localStorage.setItem("todayStep", Number(0));
+      }
+
+      if (isEmpty(localStorage.getItem("lastStepTime"))) {
+        let time = new Date().getTime();
+        localStorage.setItem("lastStepTime", time);
+      }
+
+      let SensorEventListener = plus.android.implements("android.hardware.SensorEventListener", {
+        onSensorChanged: function (event) {
+          let values = plus.android.getAttribute(event, "values");
+          saveStepData(parseInt(values[0]));
+        },
+        onAccuracyChanged: function (sensor, accuracy) {
+        }
+      });
+
+      // 在这里真正注册Service服务
+      let main = plus.android.runtimeMainActivity();
+      let SensorManager = plus.android.importClass("android.hardware.SensorManager");
+      let sM = main.getSystemService(main.SENSOR_SERVICE);
+      let Sensor = plus.android.importClass("android.hardware.Sensor");
+      let countSensor = sM.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+      let detectorSensor = sM.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+      let stepSensor;
+      if (countSensor != null) {
+        stepSensor = 0;
+        sM.registerListener(SensorEventListener, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
+      } else if (detectorSensor != null) {
+        stepSensor = 1;
+        sM.registerListener(SensorEventListener, detectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
       }
     });
 
-    // 在这里真正注册Service服务
-    let main = plus.android.runtimeMainActivity();
-    let SensorManager = plus.android.importClass("android.hardware.SensorManager");
-    let sM = main.getSystemService(main.SENSOR_SERVICE);
-    let Sensor = plus.android.importClass("android.hardware.Sensor");
-    let countSensor = sM.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-    let detectorSensor = sM.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-    let stepSensor;
-    if (countSensor != null) {
-      stepSensor = 0;
-      sM.registerListener(SensorEventListener, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
-    } else if (detectorSensor != null) {
-      stepSensor = 1;
-      sM.registerListener(SensorEventListener, detectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
-    }
+
   }
 };
 

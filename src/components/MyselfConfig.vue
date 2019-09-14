@@ -38,6 +38,9 @@
       <van-cell title="认购TG" is-link icon="diamond-o" v-intervalclick="{func:butTG}">
       </van-cell>
 
+      <van-cell title="交易查询" is-link icon="fire-o" v-intervalclick="{func:transInfo}">
+      </van-cell>
+
       <van-cell title="检查更新" is-link icon="upgrade" v-intervalclick="{func:checkUpdate}">
       </van-cell>
 
@@ -117,7 +120,6 @@
             backgroundColor: "#ff6507",
             splitLine: {color: "#ff6507"},
             autoBackButton: true,
-            progress: {color: '#ff5c0a', height: "1%"}
           }
         }, {}, {needRefresh: true})
       },
@@ -126,6 +128,15 @@
           url: './wallet.buyTg.html',
           id: 'wallet.buyTg',
           title: '认购TG'
+        }, {}, {
+          needReLoad: true
+        })
+      },
+      transInfo() {
+        openWebview({
+          url: './wallet.transInfo.html',
+          id: 'wallet.transInfo',
+          title: '交易详情',
         }, {}, {
           needReLoad: true
         })

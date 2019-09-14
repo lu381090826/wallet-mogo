@@ -18,12 +18,12 @@
       <van-cell-group>
         <van-cell v-for="(item,k) in walletList"
                   :key="k"
-                  :title="item.walletName"
-                  :label="formatAddress(item.walletAddress)"
-                  clickable
-                  is-link
+                  ﻿isLink
                   @click="gotoWalletInfo(item.walletAddress,item.walletName)"
         >
+          <img :src="getTokenImg(item.walletAddress)" width="45px" height="45px" slot="icon">
+          <div slot="title" class="wallet-list">{{item.walletName}}</div>
+          <div slot="label" class="wallet-list-label">{{formatAddress(item.walletAddress)}}</div>
         </van-cell>
       </van-cell-group>
 
@@ -58,6 +58,7 @@
   import {Dialog} from 'vant';
   import {Popup} from 'vant';
   import {Field} from 'vant';
+  import {getAddressImg} from "../../utils/web3Util/AddressImg";
 
   Vue.use(Field);
   Vue.use(Popup);
@@ -92,6 +93,9 @@
       });
     },
     methods: {
+      getTokenImg(tokenAddress) {
+        return getAddressImg(tokenAddress)
+      },
       init() {
         let _this = this;
         request(TGCApiUrl.walletList).then(res => {
@@ -152,5 +156,13 @@
     margin-left: 3%;
     margin-bottom: 5%;
     color: white;
+  }
+
+  .wallet-list {
+    margin-left: 5%;
+  }
+
+  .wallet-list-label {
+    margin-left: 5%;
   }
 </style>

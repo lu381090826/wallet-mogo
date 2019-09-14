@@ -59,13 +59,13 @@
         </van-button>
       </div>
     </div>
-    <van-actionsheet
+    <van-action-sheet
       cancel-text="取消"
       v-model="showWalletList"
       :actions="walletListActions"
       @select="onSelect"
       @cancel="onCancel"
-    ></van-actionsheet>
+    ></van-action-sheet>
     <van-popup v-model="walletQcode" class="box" style="width: 150px">
       <qrcode-vue :value="tokenAddress" :size="150" style="margin-top: 3%" level="H"></qrcode-vue>
     </van-popup>

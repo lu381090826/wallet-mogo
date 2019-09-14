@@ -1,5 +1,5 @@
-import cons from "./constants/Cons";
-import {openWebview} from "./webview";
+import TGCApiUrl from "./constants/TGCApiUrl";
+import {request} from "./request";
 
 export function isToday(theDate) {
   let date = (new Date());    //当前时间
@@ -12,8 +12,9 @@ export function isToday(theDate) {
   }
 }
 
-export function saveStepData(totalStep) {
+let updateTime = new Date().getTime();
 
+export function saveStepData(totalStep) {
   let todayStep = localStorage.getItem("todayStep");
   let lastTime = localStorage.getItem("lastStepTime");
   if (isToday(lastTime)) {
@@ -22,7 +23,6 @@ export function saveStepData(totalStep) {
     //新的一天，步数置零
     todayStep = 0;
   }
-
   //判断是否第一次执行
   if (todayStep >= totalStep) {
     todayStep = 0;
@@ -32,4 +32,15 @@ export function saveStepData(totalStep) {
   let time = new Date().getTime();
   localStorage.setItem("lastStepTime", time);
 
+  console.log("saveStepDataTime");
+  console.log(time - lastTime);
+  if (time - lastTime > 100000) {
+    console.log('saveStep');
+    request(TGCApiUrl.saveStep, {
+      totalStep: totalStep,
+      todayStep: todayStep
+    }).then(res => {
+      updateTime = new Date().getTime();
+    });
+  }
 }
