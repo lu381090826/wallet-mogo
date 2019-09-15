@@ -89,7 +89,6 @@
         let _this = this;
 
         ethplorerUtils.get('/getTxInfo/' + tx).then(res => {
-          console.log(JSON.stringify(res))
           if (isNotEmpty(res.error)) {
             if (isNotEmpty(res.error.code) && res.error.code === 404) {
               _this.stateDesc = '暂未查到交易，请稍后再次查询。'

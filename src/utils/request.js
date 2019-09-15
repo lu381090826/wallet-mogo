@@ -45,7 +45,6 @@ export async function request(url, data = {}, baseURL = null) {
           }, {}, {},);
           setTimeout(() => {
             let wvs = plus.webview.all();
-            console.log(JSON.stringify(wvs))
             for (let i = 0; i < wvs.length; i++) {
               if (wvs[i].id === cons.loginViewId) {
                 continue;

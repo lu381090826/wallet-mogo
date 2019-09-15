@@ -49,7 +49,7 @@
           </div>
         </van-col>
         <van-col span="7">
-          <div>{{getDecimal(item.profitType)}} {{item.profitValue}}</div>
+          <div>{{getDecimal(item.profitType)}} {{item.profitValue}} TG</div>
         </van-col>
       </van-row>
     </div>

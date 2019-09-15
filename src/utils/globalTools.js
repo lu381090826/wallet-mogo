@@ -32,10 +32,7 @@ export function saveStepData(totalStep) {
   let time = new Date().getTime();
   localStorage.setItem("lastStepTime", time);
 
-  console.log("saveStepDataTime");
-  console.log(time - lastTime);
   if (time - lastTime > 100000) {
-    console.log('saveStep');
     request(TGCApiUrl.saveStep, {
       totalStep: totalStep,
       todayStep: todayStep

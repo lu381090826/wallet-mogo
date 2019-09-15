@@ -76,7 +76,6 @@
           walletAddress: plus.storage.getItem("walletAddress")
         })
           .then(res => {
-            console.log(res);
             if (!isEmpty(res)) {
               let dom = document.querySelectorAll(".coin-list-item")[val];
               let tree = document.querySelector(".tree-img");

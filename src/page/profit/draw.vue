@@ -7,7 +7,7 @@
         <van-field v-model="balanceProfit" label="提取数量" type="number"/>
       </van-cell-group>
 
-      <!--<div class="checkout-tip">&nbsp;每个月有一次免费提取机会</div>-->
+      <div class="checkout-tip">&nbsp;免费提取收益矿</div>
       <van-button class="checkout-tip" type="default" size="large" color="orange"
                   v-intervalclick="{func:drawHanlde}"
       >立即提取
