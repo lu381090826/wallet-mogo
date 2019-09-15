@@ -99,7 +99,7 @@
           if (res.success === null) {
             _this.transInfo.stateDesc = '交易还在处理中...';
           } else {
-            _this.transInfo.stateDesc = (res.success === true ? '成功' : '失败');
+            _this.transInfo.stateDesc = (res.success === true ? '成功' : '未确认');
           }
           _this.transInfo.time = timestampToDate(res.timestamp);
           if (isNotEmpty(_this.transInfo.operations)) {

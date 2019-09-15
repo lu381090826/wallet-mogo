@@ -6,7 +6,7 @@ let url;
 if (isNotEmpty(Vue.prototype.HOST)) {
   url = '/ethplorer'
 } else {
-  url = 'http://api.ethplorer.io/';
+  url = 'http://api.ethplorer.io';
 }
 let ethplorerUtils = {
   apiKey: 'ufega69104crcM90',

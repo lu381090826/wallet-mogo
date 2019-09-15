@@ -140,7 +140,7 @@
         this.showNo = true;
       },3000);
     },
-    created() {
+    async created() {
       let ws = plus.webview.currentWebview();
       if (isNotEmpty(ws.walletAddress)) {
         this.walletAddress = ws.walletAddress;
@@ -152,7 +152,7 @@
       } else {
         this.tokenAddress = null;
       }
-      this.getData();
+      await this.getData();
     },
     methods: {
       onRefresh() {
@@ -220,7 +220,6 @@
         let _t = this;
         let walletAddress = plus.storage.getItem("walletAddress");
         let tokenAddress = _t.tokenAddress;
-
         if (isNotEmpty(tokenAddress)) {
           ethplorerUtils.getTokenInfo(tokenAddress).then(res => {
             _t.tokenInfo = res;

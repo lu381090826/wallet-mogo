@@ -5,8 +5,9 @@
           v-for="(item,index) in list"
           :key="index">
         <div class="coin-list-item-animate">
-          <p class="coin-list-item-img">{{item.number}}</p>
-          <p class="coin-list-item-name">{{item.title}}</p>
+          <p class="coin-list-item-img">
+            {{item.number}}
+          </p>
         </div>
       </li>
     </ul>
@@ -15,18 +16,28 @@
     </div>
     <div class="grassLand">
       <div class="my-collection" v-intervalclick="{func:gotoMycollect}">
-        <div style="color: white;font-weight: bold;font-size: 18px">已收集：{{collectInfo.totalCollectTg}}Tg</div>
-        <div style="color: white;font-size: 13px">采集的能量将发送到区块链地址：{{walletName}}</div>
+        <van-row type="flex" justify="center">
+          <van-col span="12">今日收集</van-col>
+          <van-col span="12">{{collectInfo.todayCollectTg}}Tg</van-col>
+        </van-row>
+        <van-row type="flex" justify="center">
+          <van-col span="12">总共收集</van-col>
+          <van-col span="12">{{collectInfo.totalCollectTg}}Tg</van-col>
+        </van-row>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue';
   import {request} from "../../utils/request";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {isEmpty} from "../../utils/globalFunc";
   import {openWebview} from "../../utils/webview";
+  import {Row, Col} from 'vant';
+
+  Vue.use(Row).use(Col);
 
   export default {
     data() {
@@ -80,7 +91,8 @@
               dom.style.transform = "scale(0,0)";
               dom.style.transitionDuration = "1.5s";
               tree.classList.add("animate");
-              _this.collectInfo.totalCollectTg = Number(_this.collectInfo.totalCollectTg) + Number(0.02);
+              _this.collectInfo.totalCollectTg = (Number(_this.collectInfo.totalCollectTg) + Number(0.02)).toFixed(2);
+              _this.collectInfo.todayCollectTg = (Number(_this.collectInfo.todayCollectTg) + Number(0.02)).toFixed(2);
 
               setTimeout(() => {
                 setTimeout(() => {
@@ -125,7 +137,7 @@
           animation: updown 3.5s linear infinite alternate;
         }
         &-img {
-          line-height: 1rem;
+          line-height: 2rem;
           text-align: center;
           .px2rem(width, 200);
           .px2rem(height, 200);
@@ -175,7 +187,7 @@
         .px2rem(width, 650);
         .px2rem(width, 1050);
         animation: updown 3.5s linear infinite alternate;
-        margin-top: 10%;
+        margin-top: 5%;
       }
       .animate {
         animation: updown2 0.5s linear 1;
@@ -185,6 +197,7 @@
 
   .grassLand {
     text-align: center;
+    margin-top: -8%;
   }
 
   @keyframes updown {
@@ -209,5 +222,16 @@
     100% {
       transform: translateY(0);
     }
+  }
+
+  .my-collection {
+    width: 50%;
+    border: 1px solid green;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    padding: 2%;
+    margin-left: 25%;
   }
 </style>

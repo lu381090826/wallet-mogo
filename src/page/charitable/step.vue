@@ -159,7 +159,6 @@
       getStepLists() {
         let _this = this;
         request(TGCApiUrl.stepList).then(function (res) {
-          console.log(JSON.stringify(res))
           setTimeout(() => {
             _this.stepLists = res;
           }, 1000)

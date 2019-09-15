@@ -6,10 +6,10 @@
           <img src="../../assets/sa.png" width="40">
         </van-col>
         <van-col span="8" v-intervalclick="{func:send}">
-          <img src="../../assets/sk.png" width="41">
+          <img src="../../assets/sk.png" width="37">
         </van-col>
         <van-col span="8" v-intervalclick="{func:receive}">
-          <img src="../../assets/zz.png" width="37">
+          <img src="../../assets/zz.png" width="36">
         </van-col>
       </van-row>
     </div>
