@@ -16,7 +16,7 @@
       <van-cell title="Eth交易数" :label="transInfo.value"/>
       <div v-if="tokenInfo">
         <van-cell title="积分名称" :label="tokenInfo.name"/>
-        <van-cell title="交易积分个数" :label="operations.value/Math.pow(10,tokenInfo.decimals)"/>
+        <van-cell title="交易积分个数" :label="Number(operations.value)/Math.pow(10,Number(tokenInfo.decimals))"/>
       </div>
       <van-cell title="实际支付的矿工费(ETH)" :label="formatETH(transInfo.gasUsed)"/>
       <van-cell title="燃料限制" :label="formatETH(transInfo.gasLimit)"/>
@@ -80,13 +80,19 @@
       },
       formatETH(eth) {
         if (isNotEmpty(eth)) {
-          return web3Util.instance.utils.fromWei(web3Util.instance.utils.toBN(eth), 'gwei') + ''
+          return web3Util.instance.utils.fromWei(web3Util.instance.utils.toBN(eth), 'gwei').toString()
         }
         return 0;
       },
       queryData() {
         let tx = this.tx;
         let _this = this;
+
+        if (isEmpty(tx)) {
+          plus.nativeUI.alert("地址输入有误。");
+          return false;
+        }
+        plus.nativeUI.showWaiting();
 
         ethplorerUtils.get('/getTxInfo/' + tx).then(res => {
           if (isNotEmpty(res.error)) {
@@ -108,6 +114,8 @@
             _this.transInfo.to = operations.to;
             _this.transInfo.from = operations.from;
           }
+
+          plus.nativeUI.closeWaiting();
         });
       }
     },
