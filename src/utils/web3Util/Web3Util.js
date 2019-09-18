@@ -10,7 +10,7 @@ import {isEmpty} from "../globalFunc";
 //   web3.setProvider(new web3.providers.HttpProvider('https://mainnet.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
 // }
 
-let web3 = new Web3(Web3.givenProvider || 'wss://mainnet.infura.io/ws');
+let web3 = new Web3(Web3.givenProvider || 'wss://mainnet.infura.io/ws/v3/d25de4d32b0f48a6bc289cfc7d50d7fd');
 
 // web3.setProvider(new web3.providers.HttpProvider('https://mainnet.infura.io/v3/d25de4d32b0f48a6bc289cfc7d50d7fd'));
 

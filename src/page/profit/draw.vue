@@ -19,7 +19,7 @@
       <div style="padding: 3%;font-size: 15px;background-color: lightgrey;color: gray">请选择需要转入的地址</div>
       <van-cell-group>
         <van-cell v-for="(item,k) in walletList"
-                  :key="k" isLink>
+                  :key="k" isLink @click="doChange(item.walletAddress)">
           <img :src="getTokenImg(item.walletAddress)" width="45px" height="45px" slot="icon">
           <div slot="title" class="wallet-list">{{item.walletName}}</div>
           <div slot="label" class="wallet-list-label">{{formatAddr(item.walletAddress)}}</div>
@@ -58,7 +58,10 @@
     methods: {
       changeWallet() {
         this.showWalletList = true;
-
+      },
+      doChange(address) {
+        this.drawAddress = address;
+        this.showWalletList = false;
       },
       formatAddr(addr) {
         let s = addr.toString();

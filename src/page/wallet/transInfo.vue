@@ -18,14 +18,14 @@
         <van-cell title="积分名称" :label="tokenInfo.name"/>
         <van-cell title="交易积分个数" :label="Number(operations.value)/Math.pow(10,Number(tokenInfo.decimals))"/>
       </div>
-      <van-cell title="实际支付的矿工费(ETH)" :label="formatETH(transInfo.gasUsed)"/>
-      <van-cell title="燃料限制" :label="formatETH(transInfo.gasLimit)"/>
+      <van-cell title="实际支付的矿工费(ETH)" :label="gasUsed"/>
+      <van-cell title="燃料限制" :label="gasLimit"/>
     </van-cell-group>
   </div>
 </template>
 <script>
   import Vue from 'vue';
-  import {isEmpty, isNotEmpty} from "@/utils/globalFunc";
+  import {isEmpty, isNotEmpty} from "../../utils/globalFunc";
   import {Toast, Cell, CellGroup} from "vant";
   import web3Util from "../../utils/web3Util/Web3Util";
   import VueClipboard from 'vue-clipboard2'
@@ -46,7 +46,8 @@
         stateDesc: '正在处理...',
         errDescription: '',
         isLoading: false,
-        gasUsed: '-',
+        gasUsed: null,
+        gasLimit: null,
         transInfo: {
           stateDesc: '-',
         },
@@ -78,12 +79,6 @@
         }
         return hex;
       },
-      formatETH(eth) {
-        if (isNotEmpty(eth)) {
-          return web3Util.instance.utils.fromWei(web3Util.instance.utils.toBN(eth), 'gwei').toString()
-        }
-        return 0;
-      },
       queryData() {
         let tx = this.tx;
         let _this = this;
@@ -107,6 +102,16 @@
             _this.transInfo.stateDesc = (res.success === true ? '成功' : '未确认');
           }
           _this.transInfo.time = timestampToDate(res.timestamp);
+
+          setTimeout(() => {
+            _this.gasUsed = web3Util.instance.utils.fromWei(
+              web3Util.instance.utils.toBN(res.gasUsed).toString(),
+              'gwei');
+            _this.gasLimit = web3Util.instance.utils.fromWei(
+              web3Util.instance.utils.toBN(res.gasLimit).toString(),
+              'gwei');
+          }, 1500);
+
           if (isNotEmpty(_this.transInfo.operations)) {
             let operations = _this.transInfo.operations[0];
             _this.tokenInfo = operations.tokenInfo;

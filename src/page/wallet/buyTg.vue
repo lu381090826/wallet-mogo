@@ -32,7 +32,7 @@
                        @click="reflashRate"
                        disable>
             </van-field>
-            <van-field v-model="giveAmount" label="活动赠送(Eth)"
+            <van-field v-model="giveAmount" label="活动赠送约(Eth)"
                        v-show="giveAmountShow"
                        :readonly="true"
                        :disabled="true"

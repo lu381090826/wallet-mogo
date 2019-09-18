@@ -41,7 +41,11 @@
       </van-row>
     </div>
     <div style="padding: 3%">
-      <van-row justify="space-between" class="shouyi-row" v-for="(item,k) in profitList" :key="k">
+      <van-row justify="space-between" class="shouyi-row"
+               v-for="(item,k) in profitList"
+               :key="k"
+               @click="gotoTrans(item.blcokAddress)"
+      >
         <van-col span="17">
           <div class="shouyi-left">
             <div>{{item.profitTypeDesc}}</div>
@@ -65,6 +69,7 @@
   import {Popup} from 'vant';
   import {Field} from 'vant';
   import {openWebview} from "../../utils/webview";
+  import {isNotEmpty} from "../../utils/globalFunc";
 
   Vue.use(Field);
   Vue.use(Popup);
@@ -82,6 +87,18 @@
       }
     },
     methods: {
+      gotoTrans(tx) {
+        console.log(tx);
+        if (isNotEmpty(tx)) {
+          openWebview({
+            url: './wallet.transInfo.html',
+            id: 'wallet.transInfo',
+            title: '交易详情',
+          }, {}, {
+            tx: tx
+          });
+        }
+      },
       gotoDraw() {
         let balanceProfit = this.profitInfo.balanceProfit;
 
