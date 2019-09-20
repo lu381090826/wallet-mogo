@@ -5,9 +5,9 @@
       挖矿项目
     </div>
     <div class="area">
-      <van-swipe :autoplay="8000" indicator-color="black">
+      <van-swipe :autoplay="6000" indicator-color="black" >
         <van-swipe-item @click="profit">
-          <van-row style="height: 80px">
+          <van-row style="height: 80px" class="needsclick">
             <van-col span="14">
               <div class="zhuant-title">持币矿</div>
               <div class="zhuant-desc">持有TG涨收益</div>
@@ -21,7 +21,7 @@
         </van-swipe-item>
 
         <van-swipe-item @click="step">
-          <van-row style="height: 80px">
+          <van-row style="height: 80px" class="needsclick">
             <van-col span="14">
               <div class="zhuant-title">行走矿</div>
               <div class="zhuant-desc">行走步数换TG</div>
@@ -35,14 +35,14 @@
         </van-swipe-item>
 
         <van-swipe-item @click="forest">
-          <van-row style="height: 80px" >
+          <van-row style="height: 80px" class="needsclick">
             <van-col span="14">
               <div class="zhuant-title">采集能量攒TG</div>
               <div class="zhuant-desc">采集能量攒TG</div>
             </van-col>
             <van-col span="8">
               <div>
-                <img src="../../../static/forest/image/qiu.png" style="width: 48px;">
+                <img src="../../../static/forest/coin-1.png" style="width: 48px;">
                 <div style="margin-top: -38px;margin-left:10px;color: #008002">TG能量</div>
               </div>
             </van-col>

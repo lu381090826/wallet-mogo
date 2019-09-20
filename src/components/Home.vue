@@ -60,7 +60,6 @@
 </template>
 <script>
   import Vue from 'vue'
-  import Web3Util from "@/utils/web3Util/Web3Util";
   import {request} from "@/utils/request";
   import {
     Button,
@@ -91,6 +90,7 @@
   import HomePop from "./Home/HomePop";
   import {getAddressImg} from "../utils/web3Util/AddressImg";
   import {PullRefresh} from 'vant';
+  import ethplorerUtils from "../utils/web3Util/ethplorerUtils";
 
   Vue.use(PullRefresh);
   Vue.use(NoticeBar);
@@ -125,6 +125,7 @@
     created() {
       let t = this;
       this.init();
+
       window.addEventListener("init", function (event) {
         t.init();
       });
@@ -246,27 +247,30 @@
           _this.goods = res.getHot;
         });
 
-        request(TGCApiUrl.buyTgDollarRate).then(dollarRate => {
-          Web3Util.getBalance(_this.walletAddress).then(walletBalance => {
-            if (walletBalance.toString().length > 14) {
-              _this.walletBalance = walletBalance.toString().substring(0, 14);
-            } else {
-              _this.walletBalance = walletBalance
-            }
+        ethplorerUtils.getAddressInfo(_this.walletAddress).then(addInfo => {
+
+          let walletBalance = addInfo.ETH.balance;
+          if (walletBalance.toString().length > 14) {
+            _this.walletBalance = walletBalance.toString().substring(0, 14);
+          } else {
+            _this.walletBalance = walletBalance
+          }
+
+          _this.tokenBalance = addInfo.tgBalance;
+
+          request(TGCApiUrl.buyTgDollarRate).then(dollarRate => {
             if (Number(_this.walletBalance) !== 0) {
               rateUtil.ethToCNY(_this.walletBalance, dollarRate).then(res => {
                 _this.walletBalanceRMB = '≈' + res + '￥';
               })
             }
-          });
 
-          Web3Util.getBalance(_this.walletAddress, TGCConfig.tokenAddress).then(tokenBalance => {
-            _this.tokenBalance = tokenBalance;
             if (Number(_this.tokenBalance) !== 0) {
               _this.tokenBalanceRMB = '≈' + MathUtil.accMul(_this.tokenBalance, dollarRate).toFixed(2) + '￥';
             }
           });
-        });
+        })
+
       }
     }
   }
@@ -283,7 +287,7 @@
 
   .top {
     width: 100%;
-    padding-top: 10%;
+    padding-top: 5%;
     background-color: #3a90e0;
   }
 

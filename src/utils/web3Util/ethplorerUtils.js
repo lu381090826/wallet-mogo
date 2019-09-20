@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 import {isNotEmpty} from "../globalFunc";
+import MathUtil from "../MathUtil";
 //https://github.com/EverexIO/Ethplorer/wiki/Ethplorer-API
 let url;
 if (isNotEmpty(Vue.prototype.HOST)) {
@@ -23,11 +24,11 @@ let ethplorerUtils = {
 
       return res.data;
     })
-      .catch(error => {
-        plus.nativeUI.toast(error);
-        return Promise.reject(error);
-      }).finally(() => {
-        plus.nativeUI.closeWaiting();
+                      .catch(error => {
+                        plus.nativeUI.toast(error);
+                        return Promise.reject(error);
+                      }).finally(() => {
+          plus.nativeUI.closeWaiting();
         }
       );
   },
@@ -44,6 +45,26 @@ let ethplorerUtils = {
   async getTokenInfo(tokenAddress) {
     return await this.get('/getTokenInfo/' + tokenAddress).then(res => {
       return res;
+    });
+  },
+  async getAddressInfo(walletAddress, token = "") {
+    let param = {};
+    if (token) {
+      param = {token: token}
+    }
+    return await this.get('/getAddressInfo/' + walletAddress, param).then(addInfo => {
+      if (addInfo.tokens) {
+        let obj = addInfo.tokens.find(v => v.tokenInfo.address === "0x95ff62d03d45e29b20e497d0fd526d8d2d387804");
+        addInfo.tgBalance = MathUtil.numberDiv(
+          obj.balance,
+          Math.pow(10, obj.tokenInfo.decimals),
+          obj.tokenInfo.decimals);
+      } else {
+        addInfo.tgBalance = 0;
+      }
+
+
+      return addInfo;
     });
   }
 

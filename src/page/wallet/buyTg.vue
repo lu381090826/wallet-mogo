@@ -167,8 +167,10 @@
               res[i].subname = res[i].walletAddress.substring(0, 10) + '...';
               res[i].type = 'wallet'
             }
+
             _this.walletListActions = res;
             Toast.clear();
+
           });
         }
         this.showWalletList = !this.showWalletList;

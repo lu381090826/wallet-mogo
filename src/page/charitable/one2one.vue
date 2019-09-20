@@ -1,31 +1,39 @@
-<template>
+<template xmlns:width="http://www.w3.org/1999/xhtml">
   <div>
     <div class="car-list">
-      <van-card
+      <van-cell
         v-for="(item,k) in itemList"
         :key="k"
-        :price="item.receiveAmount"
-        :desc="item.donationOne2OneTypeDesc"
-        :title="item.name"
-        :thumb="item.smallImg"
-        currency="已筹（TG）"
         v-intervalclick="{func:toDonation,donationId:item.donationId}"
       >
-        <div slot="footer">
-          <van-button size="mini" class="button-orange">捐一笔</van-button>
+        <div slot>
+          已筹{{item.receiveAmount}} TG
         </div>
-      </van-card>
+        <div slot="icon">
+          <img :src="item.smallImg" width="100px">
+        </div>
+        <div slot="title" style="margin-left: 15%">
+          {{item.name}}
+        </div>
+        <div slot="label" style="margin-left: 15%">
+          {{item.donationOne2OneTypeDesc}}
+        </div>
+
+        <!--<div slot="footer">-->
+        <!--<van-button size="mini" class="button-orange">捐一笔</van-button>-->
+        <!--</div>-->
+      </van-cell>
     </div>
   </div>
 </template>
 <script>
   import Vue from "vue";
-  import {Card, Button} from 'vant';
+  import {Cell, Button} from 'vant';
   import {request} from "@/utils/request";
   import TGCApiUrl from "@/utils/constants/TGCApiUrl";
   import {openWebview} from "@/utils/webview";
 
-  Vue.use(Card).use(Button);
+  Vue.use(Cell).use(Button);
 
   export default {
     data() {
@@ -52,9 +60,8 @@
             backgroundColor: "#ffa500",
             splitLine: {color: "#ffa500"},
             autoBackButton: true,
-            buttons: [{type: 'share', float: 'right'}]
           }
-        }, {}, {
+        }, {statusbar: {background: '#ffa500'}}, {
           donationId: donationId
         });
       }

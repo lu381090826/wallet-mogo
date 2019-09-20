@@ -7,6 +7,11 @@
           <img src="../assets/gongyilan.png" width="70">
         </div>
       </van-row>
+      <van-row type="flex" justify="center">
+        <div style="color: #4d4e4f">
+          感恩链
+        </div>
+      </van-row>
 
       <div class="tg-field" style="margin-top: 15%"
            :style="{borderBottomColor:borderBottomColor.username}"

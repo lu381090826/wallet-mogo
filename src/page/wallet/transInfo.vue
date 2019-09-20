@@ -28,15 +28,15 @@
   import {isEmpty, isNotEmpty} from "../../utils/globalFunc";
   import {Toast, Cell, CellGroup} from "vant";
   import web3Util from "../../utils/web3Util/Web3Util";
-  import VueClipboard from 'vue-clipboard2'
   import ethplorerUtils from "../../utils/web3Util/ethplorerUtils";
   import {timestampToDate} from "../../utils/tools";
   import {Field} from 'vant';
   import {Button} from 'vant';
+  import VueClipboard from 'vue-clipboard2'
 
+  Vue.use(VueClipboard);
   Vue.use(Button);
   Vue.use(Field);
-  Vue.use(VueClipboard);
   Vue.use(Cell).use(CellGroup).use(Toast);
   export default {
     data() {

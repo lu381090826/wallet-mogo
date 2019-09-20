@@ -28,9 +28,8 @@ Vue.prototype.toDonation = function (donationId) {
       backgroundColor: "#ffa500",
       splitLine: {color: "#ffa500"},
       autoBackButton: true,
-      buttons: [{type: 'share', float: 'right'}]
     }
-  }, {}, {
+  }, {statusbar: {background: '#ffa500'}}, {
     donationId: donationId
   });
 };

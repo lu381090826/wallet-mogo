@@ -13,20 +13,19 @@
       </div>
       <div id="primarySchool-sum">
         <div class="item">
-          {{info.receiveAmount}}
-          <div class="unit">捐赠总额 (TG)</div>
+          {{balance}}
+          <div class="unit">ta的TG</div>
         </div>
         <div class="item">
-          {{info.donationPeopleNum}}
-          <div class="unit">捐赠人数</div>
+          {{num}}
+          <div class="unit">捐赠笔数</div>
         </div>
       </div>
-      <div class="primarySchool-text">
-        <div class="primarySchool-text-title">{{info.name}}的区块链地址</div>
+      <div class="primarySchool-text" @click="doCopy">
+        <div class="primarySchool-text-title">{{info.name}}的区块链捐赠地址
+          <van-icon name="records"></van-icon>
+        </div>
         <div class="primarySchool-text-desc">
-          <!--<router-link :to="{path:'/Wallet/Trans',query:{address:tokenAddress,walletAddress:info.blAddress}}">-->
-          <!---->
-          <!--</router-link>-->
           {{info.blAddress}}
         </div>
       </div>
@@ -90,45 +89,24 @@
 
       <div style="margin-bottom: 20%">
       </div>
-      <van-tabbar id="doDonation" v-model="selected">
-        <van-tabbar-item class="danbibutton" v-intervalclick="{func:pop}">单笔捐</van-tabbar-item>
-      </van-tabbar>
-
-      <van-popup v-model="showBase" position="bottom" class="pop-bottom">
-        <h3>输入捐赠积分</h3>
-        <div style="padding: 3%">
-          <van-button @click="sendAmount = '10'" plain>10TG</van-button>
-          <van-button @click="sendAmount = '50'" plain>50TG</van-button>
-          <van-button @click="sendAmount = '100'" plain>100TG</van-button>
-          <van-button @click="sendAmount = '150'" plain>150TG</van-button>
-        </div>
-        <van-field label="TG" v-model="sendAmount" placeholder="输入捐款金额"></van-field>
-        <van-button size="large" class="pop-button" v-intervalclick="{func:donation}">
-          下一步
-        </van-button>
-      </van-popup>
     </div>
   </div>
 </template>
 <script>
   import Vue from "vue";
   import {isEmptyObject} from "@/utils/globalFunc";
-  import {Tabbar, TabbarItem, Sku, Popup, Button, Field, Toast, Radio, RadioGroup, Cell} from 'vant';
+  import {Toast, Cell, Icon} from 'vant';
   import TGCConfig from "../../utils/constants/tgcConfig";
   import TGCApiUrl from "../../utils/constants/TGCApiUrl";
   import {request} from "../../utils/request";
-  import {openWebview} from "../../utils/webview";
-  import OrderType from "../../utils/constants/OrderType";
+  import VueClipboard from 'vue-clipboard2'
+  import Web3Util from "../../utils/web3Util/Web3Util";
+  import ethplorerUtils from "../../utils/web3Util/ethplorerUtils";
 
-  Vue.use(Popup)
-     .use(Sku)
-     .use(Tabbar)
-     .use(TabbarItem)
-     .use(Button)
-     .use(Field)
-     .use(Radio)
+  Vue.use(VueClipboard);
+  Vue.use(Toast)
      .use(Cell)
-     .use(RadioGroup);
+     .use(Icon);
   export default {
     name: 'charitable',
     data() {
@@ -139,6 +117,8 @@
         tokenAddress: TGCConfig.tokenAddress,
         showBase: false,
         sendAmount: "",
+        balance: "-",
+        num: "-",
       }
     },
     created: function () {
@@ -147,59 +127,27 @@
       let params = {
         one2OneId: ws.donationId,
       };
-
       request(TGCApiUrl.donationOne2oneGetInfo, params).then(function (res) {
         _this.info = res;
+
+        ethplorerUtils.getAddressInfo(res.blAddress).then(addInfo => {
+          _this.balance = addInfo.tgBalance;
+          _this.num = addInfo.countTxs;
+        })
       });
+
     },
     methods: {
-      onBuyClicked() {
-      },
-      onAddCartClicked() {
-      },
-      pop() {
-        this.showBase = true;
-        return false;
-      },
-      donation() {
-        if (Number(this.sendAmount) === 0) {
-          Toast('请填写捐款积分数');
-          return false;
-        }
-
+      doCopy() {
         let _this = this;
-        let receiveAddress = this.info.blAddress;
-        //创建订单
-        let donationInfo = _this.info;
-        let params = {
-          donationType: donationInfo.donationType,
-          donationId: donationInfo.donationId,
-          donationTitle: "捐助" + donationInfo.name,
-          blAddress: donationInfo.blAddress,
-          uid: plus.storage.getItem('uid'),
-          userName: "",
-          amount: _this.sendAmount,
-        };
-        request(TGCApiUrl.donationCreateOrder, params).then(function (res) {
-          openWebview({
-            url: './wallet.send.html',
-            id: 'wallet.send',
-            title: '捐赠',
-            titleStyle: {
-              titleText: "捐赠",
-              autoBackButton: true,
-            }
-
-          }, {}, {
-            receiveAddress: params.blAddress,
-            sendAmount: params.amount,
-            tokenAddress: TGCConfig.tokenAddress,
-            orderId: res,
-            orderType: OrderType.donation
-          });
-        })
-
-      }
+        _this.$copyText(_this.info.blAddress).then(function (e) {
+          Toast.success({
+            message: '复制成功',
+            position: 'bottom',
+          })
+        }, function (e) {
+        });
+      },
     }
   }
 </script>

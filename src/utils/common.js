@@ -1,6 +1,6 @@
 import Vue from 'vue';
 // 去除300ms延迟
-import FastClick from "fastclick";
+// import FastClick from "fastclick";
 import "./globalFunc";
 import {Toast} from 'vant';
 import cons from './constants/Cons'
@@ -20,13 +20,13 @@ Vue.prototype.HOST = process.env.prototypeHOST;
 
 let firstExitApp = false;
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
-    FastClick.attach(document.body);
-  },
-  false
-);
+// document.addEventListener(
+//   "DOMContentLoaded",
+//   function () {
+//     FastClick.attach(document.body);
+//   },
+//   false
+// );
 
 function plusReady() {
   // 自动关闭窗口 可根据具体逻辑自定义

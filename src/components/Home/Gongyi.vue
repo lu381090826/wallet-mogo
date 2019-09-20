@@ -13,7 +13,7 @@
               <span>让山区孩子温暖过冬</span>
             </div>
             <div class="box-de">
-              已有<span class="box-de-num">1,003</span>人捐助
+              <!--已有<span class="box-de-num">1,003</span>人捐助-->
             </div>
           </div>
         </van-col>
@@ -24,7 +24,7 @@
               <span>给无助病人带来希望</span>
             </div>
             <div class="box-de">
-              已有<span class="box-de-num">2,326</span>人捐助
+              <!--已有<span class="box-de-num">2,326</span>人捐助-->
             </div>
           </div>
         </van-col>
@@ -43,6 +43,8 @@
   </div>
 </template>
 <script>
+  import {openWebviewFast} from "../../utils/webview";
+
   export default {
     name: 'Gongyi',
     props: {},

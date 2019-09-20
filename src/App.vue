@@ -13,6 +13,7 @@
   import {isEmpty} from "./utils/globalFunc";
   import cons from "./utils/constants/Cons";
   import {openWebview} from "./utils/webview";
+  import {isIos} from "./utils/tools";
 
   export default {
     data() {
@@ -21,6 +22,11 @@
       }
     },
     beforeCreate() {
+      if(isIos()){
+        let w = plus.webview.currentWebview();
+        w.setStyle({statusbar: {background: "#3a90e0"}});
+      }
+
       let _this = this;
       console.log(":::::::::::::::::::::start::::::::::::::::::::::");
       if (isEmpty(plus.storage.getItem('uid')) || isEmpty(plus.storage.getItem('token'))) {
@@ -34,7 +40,8 @@
             const instance = new component();
             instance.$mount("#app");
             plus.webview.currentWebview().setStyle({
-              scrollIndicator: "none"
+              scrollIndicator: "none",
+              statusBarBackground: "#3a90e0",
             });
           } else {
             plus.storage.clear();

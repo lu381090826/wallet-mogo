@@ -21,7 +21,7 @@
   import {request} from "@/utils/request";
   import {openWebview, openWebviewFast, preLoad} from "@/utils/webview";
   import {isEmpty} from "@/utils/globalFunc";
-  import {isAndroid} from "../utils/tools";
+  import {isAndroid, isIos} from "../utils/tools";
 
   export default {
     components: {
@@ -80,6 +80,10 @@
     },
     methods: {
       append(obj) {
+        if (isIos()) {
+          let parent = plus.webview.currentWebview();
+          parent.setStyle({statusbar: {background: obj.color}});
+        }
         let ws = plus.webview.getWebviewById(obj.id);
         if (isEmpty(ws)) {
           let titleNView;
