@@ -81,6 +81,7 @@
     methods: {
       append(obj) {
         if (isIos()) {
+          console.log("is ios");
           let parent = plus.webview.currentWebview();
           parent.setStyle({statusbar: {background: obj.color}});
         }
