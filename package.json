@@ -15,7 +15,7 @@
     "docs:publish": "cd docs && ./deploy.sh"
   },
   "dependencies": {
-    "ajv": "^5.5.2",
+    "ajv": "^6.12.3",
     "axios": "^0.18.1",
     "bip39": "^2.5.0",
     "crypto": "^1.0.1",
